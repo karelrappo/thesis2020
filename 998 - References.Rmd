@@ -1,0 +1,20 @@
+---
+title: "References"
+bibliography: library.bib
+csl: apa5th.csl
+output: pdf_document
+ 
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+[@Coulombe2020]
+
+
+
+# References
+<div id="refs"></div>

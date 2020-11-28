@@ -1,0 +1,35 @@
+---
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+\graphicspath{ {./images/} }
+\linespread{1}\selectfont
+\vspace*{1.75 cm}
+\vspace{1.75 cm}
+\begin{centering}
+\includegraphics[width=5cm, height=7cm]{SSE_logo}
+\Large
+\textbf{Treasury Implied Volatility}
+\vspace{1.75 cm}
+\normalsize
+Review of Research Design \break
+\end{centering}
+\vspace{1 cm}
+\begin{flushleft}
+Authors:\break
+Karel Räppo \break
+Henry Enno Turu \break
+\vspace{1 cm}
+\vspace{1 cm}
+Supervisor:\break
+Boriss Silverstovss \break
+\end{flushleft}
+\vspace{5 cm}
+\vspace{1 cm}
+\begin{centering}
+Riga \break
+2020
+\end{centering}
+\linespread{1.6}\selectfont

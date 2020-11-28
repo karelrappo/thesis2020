@@ -1,0 +1,70 @@
+---
+title: "003 - Review of literature"
+author: "Karel Räpp, Henry Enno Turu"
+date: "28 11 2020"
+bibliography: library.bib
+csl: apa5th.csl
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message=FALSE)
+```
+
+# Review of Literature
+
+## Link between financial markets & real economy
+
+Forecasting the real economy has been a wide researched topic as it is crucial for effective policy making - nevertheless, there are many options in doing so, be it financial, fixed income or commodity markets.
+
+Firstly, to dig deeper into various variables that help to predict future macroeconomic conditions, it is essential to understand what is the mechanism that potentially enables using the financial markets for predicting (movements in) the real economy.  The base of it being one of the foundations of macroeconomic theory - Fischer theory, which states that the nominal interest rate is equal to the real interest rate and inflation. Hence, in the case of high interest rates and deflation, the outcome should be a recessionary period. Thus, the current stock/bond/commodity market prices include expectations about future performance & earnings - consequently on the aggregate level, the expectations can be generalized to the whole economy.  
+
+@Stock2003 reviewed over 93 working papers & articles and documented numerous variables (interest rates, term spreads, returns, exchange rates, etc.) that have been used for forecasting macroeconomy. Nevertheless, there is no strong agreement which can do so consistently, as per the conclusion made: ”Some asset prices have been useful predictors of inflation and/or output growth in some countries in some time periods” [@Stock2003, p. 822]. 
+
+## Volatilities as a measure for predicting GDP output
+As the studies about first moments of financial variables have become fairly obsolete, researchers have started focusing on another level - e.g. (implied) volatilities. @Fornari2019 use the countercyclicality of financial volatility to construct a prediction model and conclude that stock volatility can be used to predict business cycle. The conclusion is even stronger when combining volatility with term spread - in such a case, their proposed model would have predicted at least 3 of the last recessions. @Ferrara2014 continue the same path - they mix daily financial volatility with monthly industrial production and achieve significant results in predicting GDP; nevertheless their results are limited to the timeframe of Great Recession in 2008-2009.
+
+Similarly to stock prices, option prices reflect future expectations. Taking this into account, @David2014 continue to discover implications of at-the-money (ATM) implied volatility(IV). They find that a positive shock to stock and bonds ATM IV is followed by a decline in future rates and probability of deflation. Thus, there exists a  positive relationship between IV shock and possibility of recession.
+
+
+Building upon the aforementioned various research, @Cremers2017 have analyzed over 20 years of data to find out whether Treasury yield implied volatility can be used to predict different macroeconomic and financial measures such as growth & volatility of GDP, industrial production, employment. Using daily at-the-money option data from 1990 May until 2016 November for different treasury bonds and bills, they daily calculated (treasury) implied volatilities (YIV) using Black's model, which in essence is an adjusted model of the famous Black & Scholes model to value options on future contracts [@Black1976] - see equation 1.
+
+\begin{equation}\
+c = e^{-rT} + [FN(d_{1})-KN(d_{2})]
+\end{equation}
+
+where 
+
+\begin{equation}
+d_{1} = \frac{ ln (F/K) + 0.5 \sigma_{t}^{2}]}{\sqrt{\sigma T}}
+\end{equation}
+
+\begin{equation}
+d_{2} = d_{1} - \sqrt{\sigma T}
+\end{equation}
+
+The options are chosen on the basis of exercise price being closest to the price of the underlying bond future - i.e. then its closest to at-the-money. This is done because @Ederington1993 & [-@Ederington1996] argue that contracts that are closest to at-the-money possess a strong link between spot and future markets. Therefore, these options can be treated as they are options on the bond spot market itself. Furthermore, they argue that those options tend to be the most liquid ones. 
+
+After obtaining the daily time series of implied volatility, the authors simply average the daily time series to obtain monthly data, which is regressed with different macroeconomic & control variables.
+
+\begin{equation}
+\sum_{j=1}^{j=H} log(1+GDP_{i,t+j}) = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + Controls +\varepsilon_{t+H}
+\end{equation}
+
+
+The research concluded that specifically a 5-year Treasury note significantly predicts most of the aforementioned elements, even after controlling for many other predictors such as term spread, stock returns, stock market implied volatility.
+
+## Forecasting asymmetries
+
+In the fairly recent wave of research of forecasting, the problems and limitations regarding full-sample forecasting have become more prevalent. More specifically, it has been found that the business cycles have a statistically significant effect on the model’s predictive ability. Furthermore, through using state-dependent models, the effects of business cycle asymmetries can be evaluated on the forecasting performance of the model.
+
+For example, in the Handbook of Economics, @Chauvet2013 evaluate the accuracy of different models with regards to the performance during recessionary periods and expansionary periods using the classifications for US recessions and expansions from National Bureau of Economic Research (NBER). They conclude that for all different models tested, the GDP growth is significantly harder to forecast during recessions when compared to expansionary periods. Furthermore, based on the results they state that although the forecasting ability of some of the models is relatively good during expansions, most of them fail during recessions. 
+
+To further illustrate the importance of state-dependent regression, @Siliverstovs2020 have recently assessed forecasting performance of various dynamic factor models on hundreds of macroeconomic variables. The main finding is that both dynamic factor models and autoregression models (which is also used in the research by Cremers et al.) show dramatic improvements in forecast accuracy during recessionary periods. For example, one quarter ahead predictions show massive asymmetries - twice as many variables are accurately predicted in recessionary subsamples compared to expansionary. Hence, the measures are critically distorted and may lead to suboptimal decisions in terms of policy-making. 
+
+The results of their research suggest that specialiced models… rule rather than exception
+Therefore, there is reason to believe that the model introduced by Cremers & Fleckenstein & Gandhi might not offer significant information about the future during calm days. Arising from this, we replicate their models while accounting for the effects of different economic phases and see whether it still offers a robust outcome.
+
+\pagebreak
+
+# References
