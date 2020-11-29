@@ -25,16 +25,24 @@ header-includes:
 - \DeclareMathOperator{\logit}{logit}
 ---
 
+\pagenumbering{gobble}
 
 ```{r knitr.global_options, include=F}
 knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='images/', echo=FALSE, warning=FALSE, message=FALSE, tidy.opts=list(width.cutoff=60), tidy=TRUE)
 ```
 
-\pagenumbering{gobble}
+
 
 ```{r child = '001-title.Rmd'}
 ```
-
+\newpage
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\pagestyle{fancy}
+\pagenumbering{arabic}
+\setcounter{tocdepth}{3}
+\linespread{1}\selectfont
+\tableofcontents
 \newpage
 
 ```{r child = '002-introduction.Rmd'}

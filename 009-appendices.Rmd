@@ -47,7 +47,7 @@ library(zoo)
 
 ```{r Log Change for GDP, include=F}
 df <- df %>%
-  mutate(log_gdp=log(1+GDP))
+  mutate(log_gdp=log(1+GDP/100)*100)
 
 df <- df %>%
   arrange %>%
@@ -149,7 +149,7 @@ Notes: This table includes regression using GDP & YIV. Controls will be added du
 kbl(cbind(t(df_results)), booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
      pack_rows("Panel A: YIV",1,3, latex_align="c") %>%
-       footnote(general = "Preliminary regression output")
+       footnote(general = "Preliminary regression output. Initial data needs to be re-checked.")
 
 ```
 \newpage
