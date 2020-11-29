@@ -1,0 +1,35 @@
+---
+output: pdf_document
+---
+
+
+`
+
+\graphicspath{ {./images/} }
+\linespread{1.5}\selectfont
+\vspace*{1.75 cm}
+\begin{center}
+\includegraphics[width=5cm, height=7cm]{SSE_logo}
+
+\Large
+\textbf{State-dependent forecasting of macroeconomic real activity }\break
+\vspace{1 cm}
+\normalsize
+Research Design Description \break
+\end{center}
+\begin{flushleft}
+Authors:\break
+Karel Räppo\break
+Henry Enno Turu\break
+\vspace{1 cm}
+
+Supervisor:\break
+Boriss Silverstovss \break
+\end{flushleft}
+\vspace{2 cm}
+\begin{center}
+Riga \break
+2020
+\end{center}
+\linespread{1.5}\selectfont
+

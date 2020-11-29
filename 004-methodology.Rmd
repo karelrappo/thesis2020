@@ -1,0 +1,72 @@
+---
+title: "Untitled"
+author: "Karel Räpp, Henry Enno Turu"
+date: "29 11 2020"
+output: 
+  bookdown::pdf_document2:
+    toc: no
+csl: apa5th.csl
+bibliography: library.bib
+indent: yes
+fontsize: 12pt
+geometry: margin = 1in
+link-citations: yes
+linkcolor: blue
+urlcolor: blue
+header-includes:
+- \usepackage{placeins}
+- \usepackage{setspace}
+- \usepackage{chngcntr}
+- \usepackage{microtype}
+- \counterwithin{figure}{section}
+- \counterwithin{table}{section}
+- \usepackage{float}
+- \usepackage{amsmath}
+- \DeclareMathOperator{\logit}{logit}
+---
+
+
+# Methodology
+
+## Linear regressions
+The first part of our methodology consists of replicating the methodology conducted by @Cremers2017. In other words, we test whether the treasury implied volatility can be used to predict the future macroeconomic real activity.
+
+To quantify the predictive ability of the treasury implied volatility on macroeconomic real activity, we run an ordinary least squares (OLS) regression. In the first regression, we take the 5-year YIV and use it to predict the logarithmic values of year-on-year growth rate of the real GDP. In the equation, H is equal to the periods predicted - e.g. if H=4, it means that we are taking the rolling overlapping average of GDP growth over the 4 quarters. 
+
+\begin{equation}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + \varepsilon_{t+H}
+\end{equation}
+
+In addition, by using an autoregressive model, an additional regression with the lagged values of macroeconomic variables is run to see whether the predictive ability will improve. The number of lagged variables included is decided by the Akaike information criterion (AIC).
+
+We then proceed to include different control variables to the regression model such as term spreads, credit spreads, stock returns, stock market implied volatility.
+
+\begin{equation}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + Controls +\varepsilon_{t+H}
+\end{equation}
+
+Next, to determine the direction of the causality, we run a Vector Autoregressive model (VAR) Granger Causality test on every variable to make sure that e.g. YIV indeed granger-causes movements in GDP. 
+
+## Adjusting for different economic cycles
+
+In the second part of our research we build upon the research conducted by Cremers et. al. We test whether the model holds when accounting also for the possible business cycle performance asymmetries as suggested by @Siliverstovs2020
+We perform separate regressions on the subsamples i.e. forecasting performance during expansionary and recessionary periods. More specifically, we compare the root-mean-square-forecasting-error (RMSFE) of the predictive model during recession and expansion with full sample forecast to find out whether full sample forecast’s relative RMSFE forecasts are robust during the expansionary and recessionary subsamples (in other words, we check whether a distributional shift occurs during the recessionary and/or expansionary periods).
+
+## Macroeconomic Random Forest (MRF)
+As Machine Learning methods tackle successfully with nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty (Coulombe et al., 2020). As our research includes many different financial crises, we expect to find forecasting gains by utilizing Random Forest whose benefits were elaborated in review of literature.
+
+However, in our research, we use an algorithm developed by @Coulombe2020 named Macroeconomic Random Forest. This proposed model further develops off-the-shelf random forest with regards to two areas:
+**Statistical efficiency**
+**Interpretation**
+
+The general model (see Equation \@ref(eq:macrorf)) proposed by Coulombe (2020).The main difference between MRF and RF is that the latter is a restricted model ,where Xt=1
+
+\begin{equation}
+y_{t} = X_{t} \beta_{t} +\varepsilon_{t} (\#eq:macrorf)
+\end{equation}
+\begin{equation}
+\beta_{t}= F(S_{t})
+\end{equation}
+
+The author has provided us with an R-package^[Macroeconomic Random Forest R package can be downloaded form https://philippegouletcoulombe.com/code
+], which dramatically simplifies our research process and makes it more feasible for a Bachelor level thesis.

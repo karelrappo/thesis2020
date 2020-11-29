@@ -1,0 +1,74 @@
+---
+date: '`r format(Sys.Date(), "%d %B %Y")`'
+output: 
+  bookdown::pdf_document2:
+    toc: no
+geometry: margin = 1in
+fontsize: 12pt
+bibliography: library.bib
+csl: apa5th.csl
+link-citations: yes
+linkcolor: blue
+urlcolor: blue
+header-includes:
+- \usepackage{placeins}
+- \usepackage{fancyhdr}
+- \usepackage{setspace}
+- \usepackage{chngcntr}
+- \usepackage{microtype}
+- \counterwithin{figure}{section}
+- \counterwithin{table}{section}
+- \setlength{\parindent}{1em}
+- \doublespacing
+- \usepackage{float}
+- \usepackage{amsmath}
+- \DeclareMathOperator{\logit}{logit}
+---
+
+
+```{r knitr.global_options, include=F}
+knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='images/', echo=FALSE, warning=FALSE, message=FALSE, tidy.opts=list(width.cutoff=60), tidy=TRUE)
+```
+
+\pagenumbering{gobble}
+
+```{r child = '001-title.Rmd'}
+```
+
+\newpage
+
+```{r child = '002-introduction.Rmd'}
+```
+
+\FloatBarrier
+\newpage
+
+
+```{r child = '003-literature.Rmd'}
+```
+\FloatBarrier
+\newpage
+
+```{r child = '004-methodology.Rmd'}
+```
+\FloatBarrier
+\newpage
+
+```{r child = '005-data.Rmd'}
+```
+0\newpage
+\linespread{1.0}\selectfont
+```{r child = '009-appendices.Rmd'}
+```
+
+\FloatBarrier
+\newpage
+
+\linespread{1.0}\selectfont
+
+# References
+
+\setlength{\parindent}{0cm} 
+
+<div id="refs"></div>
+

@@ -1,0 +1,167 @@
+---
+title: "Appendices"
+date: "12.11-2020"
+output: 
+  bookdown::pdf_document2:
+    toc: no
+csl: apa5th.csl
+bibliography: library.bib
+indent: yes
+fontsize: 12pt
+geometry: margin = 1in
+link-citations: yes
+linkcolor: blue
+urlcolor: blue
+header-includes:
+- \usepackage{placeins}
+- \usepackage{setspace}
+- \usepackage{chngcntr}
+- \usepackage{microtype}
+- \counterwithin{figure}{section}
+- \counterwithin{table}{section}
+- \usepackage{float}
+- \usepackage{amsmath}
+- \DeclareMathOperator{\logit}{logit}
+---
+
+# Appendices
+```{r run libraries, include=F}
+library(stringr)
+library(tidyverse)
+library(summarytools)
+library(kableExtra)
+library(dynlm)
+library(stats)
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(data.table)
+library(MacroRF)
+require(data.table)
+library(zoo)
+```
+
+
+```{r Import Data, include=F}
+df <- read_csv("data/gdp_yiv.csv")
+dependent<- read_csv("data/dependent.csv")
+feds <- read_csv("data/feds.csv")
+```
+
+```{r Date formatting, include=F}
+#Re-format Date
+df$Date <- str_c(df$Date,"/01")
+df$Date <- as.Date(df$Date,format = "%Y/%m/%d")
+```
+
+```{r Log Change for GDP, include=F}
+no_lags <- 4 
+df <- df %>%
+  mutate(log_gdp=log(1+GDP))
+
+df <- df %>%
+  arrange %>%
+    mutate(H12=rollapply(log_gdp, 4,FUN=mean, na.rm = TRUE, fill = NA, align = "right" )) %>%
+      mutate(H18=rollapply(log_gdp, 6,FUN=mean, na.rm = TRUE, fill = NA, align = "right" )) %>%
+        mutate(H24=rollapply(log_gdp, 8,FUN=mean, na.rm = TRUE, fill = NA, align = "right" )) %>%
+          mutate(H30=rollapply(log_gdp, 10,FUN=mean, na.rm = TRUE, fill = NA, align = "right" ))
+```
+
+
+```{r Regression output to Dataframe, include=F}
+# define a function to get coefficients from linear regression
+  
+do_regression <- function(var)
+  { # var - the name of the variable to be regressed
+    res <- lm(as.formula(paste0(var, "~ YIV")), df) # run linear regression
+    coefs <- c("R-Squared"= summary(res)$r.squared*100, "Intercept" = summary(res)$coefficients[1], "Beta" = summary(res)$coefficients[2], "t-statistic" = summary(res)$coefficients[,3]) 
+  return(coefs)
+  }
+
+df_results <- as.data.frame(t(sapply(colnames(df)[5:7], do_regression)))
+#sapply : applies on "var3"(first YIV) ..."var23"(last)  the function do_lm
+#t() transposes
+
+df_results <- df_results %>%
+  round(2)
+```
+
+```{r Summary Statistics, include=F}
+
+statistics_GDP <- df %>%
+  select(GDP, YIV) %>%
+    descr(
+      transpose=TRUE,
+      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
+
+statistics_feds <- feds %>%
+  select (SVEN1F01) %>%
+    descr(
+      transpose=TRUE,
+      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
+
+statistics_dependent <- dependent %>%
+  select (EMP, IND, CON) %>%
+    descr(
+      transpose=TRUE,
+      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
+
+
+statistics <- t(cbind( t(statistics_GDP[nrow(statistics_GDP):1,]), t(statistics_dependent), t(statistics_feds)))
+
+```
+
+
+
+
+## Appendix A
+Notes: This table includes summary statistics for main variables used in our research. Statistics include mean, median, min, max, standard deviation, etc. In Panel A, blablaba. In Panel B, the regressors are listed. In Panel C, control variables are listed
+
+```{r Table summary, message = F, warnings = F, echo = F}
+
+kbl(cbind(statistics), booktabs = T,  longtable=T, align="c", digits=2, caption="Summary Statistics") %>%
+  kable_styling(latex_options = c("striped","repeat_header")) %>%
+    pack_rows("Panel A: YIV",1,1, latex_align="c") %>%
+      pack_rows("Panel B: Dependent Variables",2,5, latex_align="c") %>%
+        pack_rows("Panel C: Control Variables",6,6, latex_align="c") %>%
+          footnote(general = "Currently SVENF01 denotes interest rates that will be converted to changes in term spread. ",
+          number = c("Footnote 1; ", "Footnote 2; "),
+)
+
+  
+
+```
+\newpage
+
+
+## Appendix B. 
+Notes: This table includes regression using GDP & YIV, control variables & other stuff. The equation for the regression is the following:
+\begin{equation}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + Controls +\varepsilon_{t+H}
+\end{equation}
+
+```{r Table OLS, message = F, warnings = F,echo = F}
+kbl(cbind(t(df_results)), booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
+   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
+     pack_rows("Panel A: YIV",1,3, latex_align="c") %>%
+       footnote(general = "Reference?")
+
+```
+\newpage
+
+## Appendix C
+```{r GDP_YIV, message=F, warnings=F,echo = F, fig.cap="GDP Growth(%) vs 5-year Treasury Implied Volatility"}
+par(mar = c(5, 5, 3, 5))
+plot(df$Date, df$YIV, type = "l", xlab = "Date", ylab = "YIV (%)", col = "blue", main = "GDP growth vs YIV")
+par(new=TRUE)
+plot(df$Date, df$GDP, type = "l", xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "red", lty = 2)
+axis(side = 4)
+mtext("GDP growth(%)", side = 4, line = 3)
+legend("topleft", c("YIV", "GDP"),
+       col = c("blue", "red"), lty = c(1, 2))
+```
+
+
+
+
+

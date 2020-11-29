@@ -1,0 +1,50 @@
+---
+title: "data_cleaning"
+author: "Karel Räpp, Henry Enno Turu"
+date: "29 11 2020"
+output: 
+  bookdown::pdf_document2:
+    toc: no
+csl: apa5th.csl
+bibliography: library.bib
+indent: yes
+fontsize: 12pt
+geometry: margin = 1in
+link-citations: yes
+linkcolor: blue
+urlcolor: blue
+header-includes:
+- \usepackage{placeins}
+- \usepackage{setspace}
+- \usepackage{chngcntr}
+- \usepackage{microtype}
+- \counterwithin{figure}{section}
+- \counterwithin{table}{section}
+- \usepackage{float}
+- \usepackage{amsmath}
+- \DeclareMathOperator{\logit}{logit}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r Import Data}
+df <- read_csv("data/gdp_yiv.csv")
+dependent<- read_csv("data/dependent.csv") #Dependent variables
+feds <- read_csv("data/feds.csv") #fed rates dataset
+
+
+```
+
+```{r VIX}
+vixcurrent <- read_csv("data/vixcurrent.csv") #Current VIX methodology
+vixarchive <- read_csv("data/vixarchive.csv") #Current applied retrospectively
+
+vix <-rbind(vixarchive, vixcurrent)
+
+vix$Date <- as.Date(vix$Date, format="%d/%m/%Y")
+vix$'VIX Close' <- as.numeric('VIX Close')
+vix <- subset(vix, Date<=01/01/2016) #Daily data
+```
+
