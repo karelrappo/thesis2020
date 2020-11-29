@@ -5,7 +5,7 @@ date: "28 11 2020"
 output: 
   bookdown::pdf_document2:
     toc: no
-csl: apa5th.csl
+csl: apa.csl
 bibliography: library.bib
 indent: yes
 fontsize: 12pt

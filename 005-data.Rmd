@@ -5,7 +5,7 @@ date: "28 11 2020"
 output: 
   bookdown::pdf_document2:
     toc: no
-csl: apa5th.csl
+csl: apa.csl
 bibliography: library.bib
 indent: yes
 fontsize: 12pt
@@ -52,18 +52,19 @@ For the regression analysis, we (have) extract(ed) the following data:
   6. credit spreads
   7. stock returns
   8. stock market implied volatility
+  9. Housing Starts
 
 As mentioned in the review of literature, YIV is constructed using Black model & deriving implied volatility through option prices, time-to-maturity, etc. The data regarding options on treasury bond futures, however, is collected by CME and available only through accessing their database.
 
 Due to the data price being behind the paywall, we had to resort to other measures to access the data. Firstly, we have contacted prof. Cremers, Gandhi & Fleckenstein, who are ready to share their data with us if the CME group gives their consent. Nevertheless, we cannot rely solely on this possibility, and thus found an alternative.
 
-As researchers typically do not typically post underlying data with their research, various plot digitizers have seen an exponential increase in use. @Drevon2017 researched intercoder reliability, during which over 3500 data points were extracted with WebPlotDigitizer from 36 different graphs. Nevertheless, they controll the validity of the results and concluded that there was a near perfect correlation (r=0.989 with p-value <0.01) between extracted and actual data. Nevertheless, the limitations mentioned highlight coders previous experience with plot-digitizing tools.
+As researchers typically do not typically post underlying data with their research, various plot digitizers have seen an exponential increase in use. @Drevon2017 researched intercoder reliability, during which over 3500 data points were extracted with WebPlotDigitizer from 36 different graphs. Nevertheless, they controlled the validity of the results and concluded that there was a near perfect correlation (r=0.989 with p-value <0.01) between extracted and actual data. Nevertheless, the limitations mentioned highlight coders previous experience with plot-digitizing tools.
 
 Furthermore, @Burda2017 also highlight that systematic reviewers often tend to have data constraints which is why plot digitizers are of a great help. They estimated data using WebPlotDigitizer and conclude that the extraction done by different coders was consistent; nevertheless, in the case of continuous data (compared to event data), the distribution varied more. Whatsoever, the intreclass coefficient for both types of plots was over 95%.
 
 We also used the WebPlotDigitzer in our research and as validity test extracted GDP from the same graph as YIV time series & plotted it with actuals - see the graph below.
 
-```{r actualvsextracted , message=F, warnings=F,echo = F, fig.cap = "Actual GDP growth vs extracted GDP growth in % using WebPlotDigitizer"}
+```{r actualvsextracted, message=F, warnings=F,echo = F, fig.cap = "Actual GDP growth vs extracted GDP growth in % using WebPlotDigitizer"}
 par(mar = c(5, 5, 3, 5))
 plot(GDP_data$Date, GDP_data$Actual, type = "l", xlab = "Date", ylab = "Actual GDP Growth", col = "blue", main = "Actual GDP vs extracted GDP growth")
 par(new=TRUE)
@@ -73,5 +74,5 @@ legend("bottomleft", c("Actual", "Extracted"),
 ```
 
 
-The data regarding GDP year-on-year growth rate was extracted on a quarterly basis from @Alfred2020. Furthermore, the vintage 2019-12-20 was extracted as it coincided the best with the data used in the research paper by @Cremers2017. Other dependent variables (industrial prodction, non-farm payroll and consumption) were extracted from the same database but on a monthly basis. 
+The data regarding GDP year-on-year growth rate was extracted on a quarterly basis from @Alfred2020. Furthermore, the vintage 2019-12-20 was extracted as it coincided the best with the data used in the research paper by @Cremers2017. Other dependent variables (industrial production, non-farm payroll and consumption) & housing data was extracted from the same database but on a monthly basis. 
 The data for risk free rates that will be used in constructing term spreads was extracted from the dataset of The Federal Reserve Board working paper. [@Gurkaynak2011] 

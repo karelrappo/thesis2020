@@ -5,7 +5,7 @@ date: "29 11 2020"
 output: 
   bookdown::pdf_document2:
     toc: no
-csl: apa5th.csl
+csl: apa.csl
 bibliography: library.bib
 indent: yes
 fontsize: 12pt
@@ -27,24 +27,53 @@ header-includes:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(stringr)
+library(tidyverse)
+library(summarytools)
+library(kableExtra)
+library(dynlm)
+library(stats)
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(data.table)
+library(MacroRF)
+require(data.table)
+library(zoo)
 ```
 
-```{r Import Data}
+```{r Import Data, include=F}
 df <- read_csv("data/gdp_yiv.csv")
 dependent<- read_csv("data/dependent.csv") #Dependent variables
 feds <- read_csv("data/feds.csv") #fed rates dataset
-
-
 ```
 
-```{r VIX}
+```{r VIX, include=F}
 vixcurrent <- read_csv("data/vixcurrent.csv") #Current VIX methodology
 vixarchive <- read_csv("data/vixarchive.csv") #Current applied retrospectively
 
+vixcurrent$Date <- as.Date(vixcurrent$Date, format="%m/%d/%Y")
+vixarchive$Date <- as.Date(vixarchive$Date, format="%d.%m.%Y")
+
 vix <-rbind(vixarchive, vixcurrent)
 
-vix$Date <- as.Date(vix$Date, format="%d/%m/%Y")
-vix$'VIX Close' <- as.numeric('VIX Close')
-vix <- subset(vix, Date<=01/01/2016) #Daily data
+DATE1 <- c(as.Date("01/01/2016",format="%d/%m/%Y"))
+vix <- subset(vix, Date<=DATE1) #Daily data
+
+vix <- vix %>%
+  select(VIX='VIX Close', 'Date')
 ```
 
+
+```{r Housing, include=F}
+housng <- read_csv("data/HOUSNG.csv")
+housng$DATE <- as.Date(housng$DATE, format="%d.%m.%Y")
+
+```
+
+
+```{r Date formatting, include=F}
+#Re-format Date
+df$Date <- str_c(df$Date,"/01")
+df$Date <- as.Date(df$Date,format = "%Y/%m/%d")
+```
