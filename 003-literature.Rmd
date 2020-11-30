@@ -29,14 +29,14 @@ header-includes:
 
 # Review of literature
 ## Link between financial markets & real economy
-Firstly, to dig deeper into various variables that help to predict future macroeconomic conditions, it is essential to understand what is the mechanism that potentially enables using the financial markets for predicting (movements in) the real economy.  The base of it being one of the foundations of macroeconomic theory - Fischer theory, which states that the nominal interest rate is equal to the real interest rate and inflation. Hence, in the case of high interest rates and deflation, the outcome should be a recessionary period. Thus, the current stock/bond/commodity market prices include expectations about future performance & earnings - consequently on the aggregate level, the expectations can be generalized to the whole economy.  
+Firstly, to dig deeper into various variables that help to predict future macroeconomic conditions, it is essential to understand what is the mechanism that potentially enables using the financial markets for predicting (movements in) the real economy. The base of it being one of the foundations of macroeconomic theory - Fischer theory, according to which the nominal interest rate is equal to the real interest rate and inflation. Hence, in the case of high interest rates and deflation, the outcome should be a recessionary period. Thus, the current stock/bond/commodity market prices include expectations about future performance & earnings - consequently on the aggregate level, the expectations can be generalized to the whole economy.  
 
 ## Volatility as a predictor of GDP
-As the studies about first moments of financial variables have become fairly obsolete, researchers have started focusing on another level - e.g. (implied) volatilities. @Fornari2019 use the countercyclicality of financial volatility to construct a prediction model and conclude that stock volatility can be used to predict business cycle. The conclusion is even stronger when combining volatility with term spread - in such a case, their proposed model would have predicted at least 3 of the last recessions. @Ferrara2014 continue the same path - they mix daily financial volatility with monthly industrial production and achieve significant results in predicting GDP; nevertheless their results are limited to the timeframe of Great Recession in 2008-2009.
+As the studies about first moments of financial variables have become fairly obsolete, researchers have started focusing on another level - e.g. (implied) volatilities. @Fornari2019 use the countercyclicality of financial volatility to construct a prediction model and conclude that stock volatility is a significant variable in predicting business cycles. The conclusion is even stronger when combining volatility with term spread - in such a case, their proposed model would have predicted at least 3 of the last recessions. @Ferrara2014 continue the same path - they mix daily financial volatility with monthly industrial production and achieve significant results in predicting GDP; nevertheless their results are limited to the timeframe of Great Recession in 2008-2009.
 
 Similarly to stock prices, option prices reflect future expectations. Taking this into account, @David2014 continue to discover implications of at-the-money (ATM) implied volatility (IV). They find that a positive shock to stock and bonds ATM IV is followed by a decline in future rates and probability of deflation. Thus, there exists a positive relationship between IV shock and possibility of recession.
 
-Building upon the aforementioned various research, @Cremers2017 have analyzed over 20 years of data to find out whether Treasury yield implied volatility can be used to predict different macroeconomic and financial measures such as growth & volatility of GDP, industrial production, employment. Using daily at-the-money option data from 1990 May until 2016 November for different treasury bonds and bills, they daily calculated (treasury) implied volatilities (YIV) using Black’s model, which in essence is an adjusted model of the famous Black & Scholes model to value options on future contracts [@Black1976] - see equation \@ref(eq:black).
+Building upon the aforementioned various research, @Cremers2017 have analyzed over 20 years of data to find out whether Treasury yield implied volatility can be used to predict different macroeconomic and financial measures such as growth & volatility of GDP, industrial production, employment. Using daily at-the-money option data from 1990 May until 2016 November for different treasury bonds and bills, they calculated daily (treasury) implied volatilities (YIV) using Black’s model, which in essence is an adjusted model of the famous Black & Scholes model to value options on future contracts [@Black1976] - see equation \@ref(eq:black).
 
 
 \begin{equation}\
@@ -76,22 +76,24 @@ In an IMF working paper “Deus ex Machina? A Framework for Macro Forecasting wi
 * Predictor relevance
 * Non-linearity
 
-To combat some of these shortcomings, @Siliverstovs2020 assessed the forecasting performance of a dynamic factor model (DFM) against a benchmark autoregressive (AR) model. Furthermore, they also included the state-dependent subsamples to their research. The main finding is that there is a significant performance improvement in forecasting capability during the recessionary periods when using the dynamic factor model. Thus, it further illustrates the need for accounting the state-dependency and the importance of using more advanced models (especially during the recessionary periods) over simple autoregressive models to account for the shortcomings of simple OLS-based models.
+To combat some of these shortcomings, @Siliverstovs2020 assessed the forecasting performance of a dynamic factor model (DFM) compared to a simple autoregressive model. Furthermore, they also included the state-dependent subsamples to their research. The main finding is that there is a significant performance improvement in forecasting capability during the recessionary periods when using the dynamic factor model. Thus, it further illustrates the need for accounting the state-dependency and the importance of using more advanced models (especially during the recessionary periods) over simple autoregressive models to account for the shortcomings of simple OLS-based models.
 
 However, as brought out by @Bolhuis2020, while the DFM-s account for collinearity and dimensional shortcomings, they are still unable to account for the predictor relevance and non-linearity. This in turn increases the root mean square forecast errors (RMSFE) and thus, makes the predictions less accurate.
 
 A solution for this can be found through implementing machine learning (ML) models which have been increasingly taken into use also in applied economics research. Researches have been drawn more and more towards the ML methods in forecasting mainly due to its ability to take into account nonlinearity and its emphasis on out-of-sample forecasting to avoid overfitting. Furthermore, the ML methods have been found to have better performance with regards to the forecasting accuracy and robustness [@Carrasco2016]
 
 ## Random Forest 
-In our research we focus on a random forest based method as it requires little tuning. For example, one of the main problems regarding the models, overfitting, has shown to have little effect on the RF model [@Diaz2006].
-
-Random forest itself is a supervised learning method i.e. it predicts outputs based on existing input and output pairs. The concept of random forest in essence is relatively simple. It builds upon the decision trees i.e. random forest consists of multiple standalone decision trees.
-Figure 1 below depicts a single decision tree. The example here uses variables and makes a simple logical decision (yes/no) based on whether the variable’s value is bigger or smaller than the comparison variable. Through these kinds of logical iterations the decision tree arrives at the end value. Furthermore, the random forest then is an average of the individual decision trees.
+In the research, we focus on a random forest thanks to its ability to account for complex nonlinearities. Random forest itself is a supervised learning method i.e. it predicts outputs based on existing input and output pairs. The concept of random forest in essence is relatively simple. It builds upon the decision trees i.e. random forest consists of multiple standalone decision trees.
 
 \begin{figure}
 \includegraphics{trees}
-\caption{Example of a decision tree.}\label{fig1}
+\caption{Example of a decision tree. Figure extracted from Niculaescu, O. (2018).}
+\label{decisiontree}
 \end{figure}
+
+
+Figure \@ref(decisiontree) above depicts a single decision tree. The example here uses variables and makes a simple logical decision (yes/no) based on whether the variable’s value is bigger or smaller than the comparison variable. Through these kinds of logical iterations the decision tree arrives at the end value. Furthermore, the random forest then is an average of the individual decision trees.
+
 
 
 To take it together, our paper builds upon Fleckenstein et al while improving the methodology in 2 ways:

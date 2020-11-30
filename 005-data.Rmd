@@ -56,7 +56,7 @@ For the regression analysis, we (have) extract(ed) the following data:
 
 As mentioned in the review of literature, YIV is constructed using Black model & deriving implied volatility through option prices, time-to-maturity, etc. The data regarding options on treasury bond futures, however, is collected by CME and available only through accessing their database.
 
-Due to the data price being behind the paywall, we had to resort to other measures to access the data. Firstly, we have contacted prof. Cremers, Gandhi & Fleckenstein, who are ready to share their data with us if the CME group gives their consent. Nevertheless, we cannot rely solely on this possibility, and thus found an alternative.
+Due to the data being behind the paywall, we had to resort to other measures to access the data. Firstly, we have contacted prof. Cremers, Gandhi & Fleckenstein, who are ready to share their data with us if the CME group gives their consent. Nevertheless, we cannot rely solely on this possibility, and thus found an alternative.
 
 As researchers typically do not typically post underlying data with their research, various plot digitizers have seen an exponential increase in use. @Drevon2017 researched intercoder reliability, during which over 3500 data points were extracted with WebPlotDigitizer from 36 different graphs. Nevertheless, they controlled the validity of the results and concluded that there was a near perfect correlation (r=0.989 with p-value <0.01) between extracted and actual data. Nevertheless, the limitations mentioned highlight coders previous experience with plot-digitizing tools.
 

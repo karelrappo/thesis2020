@@ -45,7 +45,7 @@ library(zoo)
 ```
 
 
-```{r Log Change for GDP, include=F}
+```{r create_log, include=F}
 df <- df %>%
   mutate(log_gdp=log(1+GDP/100)*100)
 
@@ -58,7 +58,7 @@ df <- df %>%
 ```
 
 
-```{r Regression output to Dataframe, include=F}
+```{r reg_output, include=F}
 # define a function to get coefficients from linear regression
   
 do_regression <- function(var)
@@ -76,7 +76,7 @@ df_results <- df_results %>%
   round(2)
 ```
 
-```{r Summary Statistics, include=F}
+```{r bindtogether, include=F}
 #This chunk needs to be minimized by first combining data alltogether into one big dataset & looping function.
 statistics_GDP <- df %>%
   select(GDP, YIV) %>%
@@ -123,7 +123,7 @@ In Panel B, we have listed the main dependent variables which are used for predi
 In Panel C, different control variables are listed: SVEN1F01 - 1 year treasury bond par yield.
 
 
-```{r summarystat, message = F, warnings = F, echo = F}
+```{r, message = F, warnings = F, echo = F}
 
 kbl(cbind(statistics), booktabs = T,  longtable=T, align="c", digits=2, caption="Summary Statistics") %>%
   kable_styling(latex_options = c("striped","repeat_header")) %>%
