@@ -79,4 +79,3 @@ knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='images/', echo=FALSE
 \setlength{\parindent}{0cm} 
 
 <div id="refs"></div>
-
