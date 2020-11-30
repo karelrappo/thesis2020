@@ -123,7 +123,7 @@ In Panel B, we have listed the main dependent variables which are used for predi
 In Panel C, different control variables are listed: SVEN1F01 - 1 year treasury bond par yield.
 
 
-```{r, message = F, warnings = F, echo = F}
+```{r summarystat, message = F, warnings = F, echo = F}
 
 kbl(cbind(statistics), booktabs = T,  longtable=T, align="c", digits=2, caption="Summary Statistics") %>%
   kable_styling(latex_options = c("striped","repeat_header")) %>%

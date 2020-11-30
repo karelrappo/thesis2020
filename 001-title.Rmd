@@ -24,7 +24,7 @@ Henry Enno Turu\break
 \vspace{1 cm}
 
 Supervisor:\break
-Boriss Silverstovss \break
+Boriss Siliverstovs\break
 \end{flushleft}
 \vspace{2 cm}
 \begin{center}
