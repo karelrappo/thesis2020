@@ -44,7 +44,7 @@ In the second part of the research we build upon the research of @Cremers2017 in
 
 Firstly, to account for the state-dependency of forecast models, as shown to be relevant by @Chauvet2013 and @Siliverstovs2020, we conduct separate regression analysis for both recessionary periods and expansionary periods (classification of the US business cycles obtain from NBER).
 
-Secondly, we propose using machine learning models to account for the shortcomings of the simple OLS-based models. More specifically, the inability of simple OLS-based models to account for collinearity, dimensionality, predictor relevance and non-linearity [@Bolhuis2020]. More specifically, we propose using the random forest (RF) model tailored specifically for macroeconomic forecasting (MRF) as it is able to tackle the aforementioned problems - the MRF model is shown to significantly decrease the root mean square forecasting errors (RMSFE) while also being interpretable.
+Secondly, we propose using machine learning models to account for the shortcomings of the simple OLS-based models. More specifically, the inability of simple OLS-based models to account for collinearity, dimensionality, predictor relevance and non-linearity [@Bolhuis2020]. To elaborate, we apply the framework of a random forest (RF) model tailored specifically for macroeconomic forecasting (MRF) as it is able to tackle the aforementioned problems - the MRF model is shown to significantly decrease the root mean square forecasting errors (RMSFE) while also being interpretable.
   
 Thus, our research question consists of three sub-questions:
 

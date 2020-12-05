@@ -63,7 +63,7 @@ df <- df %>%
   
 do_regression <- function(var)
   { # var - the name of the variable to be regressed
-    res <- lm(as.formula(paste0(var, "~ YIV")), df) # run linear regression
+    res <- dynlm(as.formula(paste0(var, "~ YIV")), df) # run linear regression
     coefs <- c("R-Squared"= summary(res)$r.squared*100, "Intercept" = summary(res)$coefficients[1], "Beta" = summary(res)$coefficients[2], "t-statistic" = summary(res)$coefficients[,3]) 
   return(coefs)
   }
@@ -96,7 +96,7 @@ statistics_dependent <- dependent %>%
       transpose=TRUE,
       stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
 
-statistics_vix <- vix %>%
+statistics_vix <- vix_monthly %>%
   select(VIX) %>%
     descr(
       transpose=TRUE,

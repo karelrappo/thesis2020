@@ -44,11 +44,18 @@ library(zoo)
 
 ```{r Import Data, include=F}
 df <- read_csv("data/gdp_yiv.csv")
-dependent<- read_csv("data/dependent.csv") #Dependent variables
-feds <- read_csv("data/feds.csv") #fed rates dataset
-```
+df$Date <- as.Date(df$Date, format="%d.%m.%Y")
 
-```{r VIX, include=F}
+dependent<- read_csv("data/dependent.csv")#Dependent variables
+dependent$DATE <- as.Date(dependent$DATE, origin = "1899-12-30")
+
+feds <- read_csv("data/feds.csv") #fed rates dataset
+
+
+housng <- read_csv("data/HOUSNG.csv")
+housng$DATE <- as.Date(housng$DATE, format="%d.%m.%Y")
+
+
 vixcurrent <- read_csv("data/vixcurrent.csv") #Current VIX methodology
 vixarchive <- read_csv("data/vixarchive.csv") #Current applied retrospectively
 
@@ -62,18 +69,26 @@ vix <- subset(vix, Date<=DATE1) #Daily data
 
 vix <- vix %>%
   select(VIX='VIX Close', 'Date')
+
+vix <- vix %>%
+  mutate(month=month(Date)) %>%
+    mutate(year=year(Date))
+  
+vix_monthly <- aggregate(VIX ~ month + year, vix, mean)
+
+vix_monthly <- vix_monthly  %>%
+  mutate(DATE=as.Date(paste(year,month,"01", sep="/"))) %>%
+  select(-month, -year)
+
+#Bind together so everything in one place, e.g. one dataset for monthly data, one for quarterly
+monthly <- merge(housng, dependent, by="DATE")
+monthly <- merge(monthly, vix_monthly, by="DATE")
+
+
+
+
 ```
 
 
-```{r Housing, include=F}
-housng <- read_csv("data/HOUSNG.csv")
-housng$DATE <- as.Date(housng$DATE, format="%d.%m.%Y")
-
-```
 
 
-```{r Date formatting, include=F}
-#Re-format Date
-df$Date <- str_c(df$Date,"/01")
-df$Date <- as.Date(df$Date,format = "%Y/%m/%d")
-```
