@@ -41,18 +41,53 @@ library(zoo)
 
 ```{r create_log, include=F}
 
-df2$DATE <- as.Date(df2$DATE, origin = "1899-12-30")
+df2 <- read.csv("TIV_GDP.csv")
+df2$Date <- as.Date(df2$Date, origin = "1899-12-30")
 
-df2$CON = log(1+df2$CON/100)*100
 
 df2 <- df2 %>%
   arrange %>%
-    mutate(H12=rollapply(CON, 13, FUN = function(df2) mean(df2[-13], na.rm = TRUE), fill = NA, align = "right" )) %>%
-      mutate(H18=rollapply(CON, 19,FUN = function(df2) mean(df2[-19], na.rm = TRUE), fill = NA, align = "right" )) %>%
-        mutate(H24=rollapply(CON, 25,FUN = function(df2) mean(df2[-25], na.rm = TRUE), fill = NA, align = "right" )) %>%
-          mutate(H30=rollapply(CON, 31,FUN = function(df2) mean(df2[-31], na.rm = TRUE), fill = NA, align = "right" ))
+    mutate(H12=lead(rollapply(GDP, 13, FUN = function(df2) mean(df2[-13], na.rm = TRUE), fill = NA, align = "left" ))) %>%
+      mutate(H18=lead(rollapply(GDP, 19,FUN = function(df2) mean(df2[-19], na.rm = TRUE), fill = NA, align = "left" ))) %>%
+        mutate(H24=lead(rollapply(GDP, 25,FUN = function(df2) mean(df2[-25], na.rm = TRUE), fill = NA, align = "left" ))) %>%
+          mutate(H30=lead(rollapply(GDP, 31,FUN = function(df2) mean(df2[-31], na.rm = TRUE), fill = NA, align = "left" )))
 ```
 
+```{r}
+#create lags
+df2 <- df2 %>%
+  mutate(TIV_lag1=lag(TIV,1)) %>%
+  mutate(TIV_lag2=lag(TIV,2)) %>%
+  mutate(TIV_lag3=lag(TIV,3)) %>%
+  mutate(TIV_lag4=lag(TIV,4)) %>%
+  mutate(TIV_lag5=lag(TIV,5)) %>%
+  mutate(TIV_lag6=lag(TIV,6)) %>%
+  mutate(TIV_lag7=lag(TIV,7)) %>%
+  mutate(TIV_lag8=lag(TIV,8)) %>%
+  mutate(TIV_lag9=lag(TIV,9)) %>%
+  mutate(TIV_lag10=lag(TIV,10))
+
+TIV_graph <- ggplot(df2,aes(x=Date, y=TIV)) + geom_path()
+print(TIV_graph)
+```
+
+
+
+```{r lagsregression}
+summary(df2)
+
+do_regression <- function(var)
+  { # var - the name of the variable to be regressed
+    res <- dynlm(as.formula(paste0("H12 ~", var)), df2) # run linear regression
+    coefs <- c("R-Squared"= summary(res)$r.squared*100,"Beta" = summary(res)$coefficients[2], "P-value"= summary(res)$coefficients[,3])
+  return(coefs)
+  }
+
+output_lagsregression2 <- as.data.frame(t(sapply(colnames(df2)[9:17], do_regression)))
+
+
+barplot(output_lagsregression2$'R-Squared')
+```
 
 ```{r reg_output, include=F}
 # define a function to get coefficients from linear regression
