@@ -72,29 +72,23 @@ df <- df %>%
 # define a function to get coefficients from linear regression
 do_regression <- function(var)
   { # var - the name of the variable to be regressed
-    res <- dynlm(as.formula(paste0(var, "~ YIV+dum")), df) # run linear regression
+    res <- lm(as.formula(paste0(var, "~ YIV+dum")), df) # run linear regression
     coefs <- c("R-Squared"= summary(res)$r.squared*100,
-               "R-Squared (adj.)"=summary(res)$adj.r.squared*100, 
-               "Intercept" = summary(res)$coefficients[1], 
-               "Beta" = summary(res)$coefficients[,2], 
-               "t-statistic" = summary(res)$coefficients[2,3], 
-               "p-value"= summary(res)$coefficients[4],
-               "newey"=NeweyWest(res)[,2])
+               "Adjusted R2"=summary(res)$adj.r.squared*100, 
+               "Intercept" = summary(res)$coefficients[1,1], 
+               "Beta" = summary(res)$coefficients[-1,1], 
+               "t-stat" = summary(res)$coefficients[-1,3], 
+               "p-value" = summary(res)$coefficients[-1,4])
     
   return(coefs)
   }
 
-df_results <- as.data.frame(t(sapply(colnames(df)[4], do_regression)))
+df_results <- as.data.frame(t(sapply(colnames(df)[5:8], do_regression)))
 
 df_results <- df_results %>%
   round(2)
 
-df_results$'Significance'[df_results$'p-value' <= 0.01] <- "aaa"
-df_results$'Significance'[df_results$'p-value' <= 0.05] <- "aa"
-df_results$'Significance'[df_results$'p-value' <= 0.1] <- "a"
 
-df_results$'Significance' <- gsub("a", "*", df_results$'Significance')
-  
 ```
 
 
@@ -173,7 +167,7 @@ Notes: This table includes regression using GDP & YIV. Controls will be added du
 ```{r tableOLS, message = F, warnings = F,echo = F}
 kbl(cbind(t(df_results)), booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-     pack_rows("Panel A: YIV",1,7, latex_align="c") %>%
+     pack_rows("Panel A: YIV",1,9, latex_align="c") %>%
        footnote(general = "*** - p>0.01, ** - p>0.05, * - p>0.1")
 
 ```
