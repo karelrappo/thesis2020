@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  16 JAN 2021 16:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  16 JAN 2021 19:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -774,13 +774,13 @@ File: Subsample-regression_files/figure-latex/GDPvsYIV-1.pdf Graphic file (type
  pdf)
 <use Subsample-regression_files/figure-latex/GDPvsYIV-1.pdf>
 Package pdftex.def Info: Subsample-regression_files/figure-latex/GDPvsYIV-1.pdf
-  used on input line 183.
+  used on input line 184.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [3pdfTeX warning (ext4): destination with the same identifier (name{figure.1.1}
 ) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.187 \end{document}
+l.188 \end{document}
                      <./Subsample-regression_files/figure-latex/GDPvsYIV-1.pdf>
 ] (./Subsample-regression.aux)
 Package rerunfilecheck Info: File `Subsample-regression.out' has not changed.
@@ -790,10 +790,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 14047 strings out of 481331
- 210287 string characters out of 5916229
+ 14049 strings out of 481331
+ 210307 string characters out of 5916229
  567355 words of memory out of 5000000
- 30537 multiletter control sequences out of 15000+600000
+ 30539 multiletter control sequences out of 15000+600000
  459733 words of font info for 105 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  66i,11n,72p,348b,440s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -810,7 +810,7 @@ dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/henry/AppData/Roaming/TinyTeX/te
 xmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/henry/AppData/Roaming/TinyTe
 X/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/henry/AppData/Roaming/Tin
 yTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb>
-Output written on Subsample-regression.pdf (3 pages, 132444 bytes).
+Output written on Subsample-regression.pdf (3 pages, 132475 bytes).
 PDF statistics:
  94 PDF objects out of 1000 (max. 8388607)
  78 compressed objects within 1 object stream
