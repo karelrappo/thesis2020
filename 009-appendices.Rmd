@@ -40,6 +40,9 @@ library(MacroRF)
 require(data.table)
 library(zoo)
 library(sandwich)
+library(randomForest)
+library(caret)
+library(e1071)
 ```
 
 ```{r child = 'Dataclean.rmd'}
@@ -74,7 +77,7 @@ do_regression <- function(var)
                "Beta" = summary(res)$coefficients[-1,1], 
                "t-stat" = summary(res)$coefficients[-1,3], 
                "p-value"= summary(res)$coefficients[-1,4],
-               "RMSFE" = sqrt(mean(res$residuals^2)/res$df))
+               "RMSE" = sigma(res))
   return(coefs)
   }
 
@@ -184,8 +187,26 @@ mtext("GDP growth(%)", side = 4, line = 3)
 legend("topleft", c("YIV", "GDP"),
        col = c("blue", "red"), lty = c(1, 2))
 ```
+\newpage
+
+## Appendix D
+```{r randomforest, message=F, warnings=F,echo = F}
+trControl <- trainControl(method = "cv",
+    number = 10,
+    search = "grid")
+set.seed(1234)
+rf_default <- train(H12~.,
+    data = df,
+    na.action=na.omit,
+    method = "rf",
+    metric = "Rsquared",
+    trControl = trControl)
+# Print the results
+print(rf_default)
 
 
+
+```
 
 
 
