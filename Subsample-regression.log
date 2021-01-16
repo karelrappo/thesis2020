@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  16 JAN 2021 14:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  16 JAN 2021 16:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**Fucker.tex
-(./Fucker.tex
+**Subsample-regression.tex
+(./Subsample-regression.tex
 LaTeX2e <2020-10-01> patch level 2
 L3 programming layer <2020-12-07> xparse <2020-03-03> (c:/Users/henry/AppData/R
 oaming/TinyTeX/texmf-dist/tex/latex/base/article.cls
@@ -604,12 +604,12 @@ d-pdftex.def
 File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 \l__kernel_color_stack_int=\count300
 \l__pdf_internal_box=\box68
-) (./Fucker.aux
+) (./Subsample-regression.aux
 
 LaTeX Warning: Label `tab:summarystat' multiply defined.
 
 )
-\openout1 = `Fucker.aux'.
+\openout1 = `Subsample-regression.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 94.
 LaTeX Font Info:    ... okay on input line 94.
@@ -676,9 +676,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 94.
 LaTeX Info: Redefining \pageref on input line 94.
 LaTeX Info: Redefining \nameref on input line 94.
-(./Fucker.out) (./Fucker.out)
+(./Subsample-regression.out) (./Subsample-regression.out)
 \@outlinefile=\write3
-\openout3 = `Fucker.out'.
+\openout3 = `Subsample-regression.out'.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -768,33 +768,35 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 {c:/Users/henry/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdfte
 x.map}] [2]
-<Fucker_files/figure-latex/GDPvsYIV-1.pdf, id=44, 469.755pt x 325.215pt>
-File: Fucker_files/figure-latex/GDPvsYIV-1.pdf Graphic file (type pdf)
-<use Fucker_files/figure-latex/GDPvsYIV-1.pdf>
-Package pdftex.def Info: Fucker_files/figure-latex/GDPvsYIV-1.pdf  used on inpu
-t line 186.
+<Subsample-regression_files/figure-latex/GDPvsYIV-1.pdf, id=44, 469.755pt x 325
+.215pt>
+File: Subsample-regression_files/figure-latex/GDPvsYIV-1.pdf Graphic file (type
+ pdf)
+<use Subsample-regression_files/figure-latex/GDPvsYIV-1.pdf>
+Package pdftex.def Info: Subsample-regression_files/figure-latex/GDPvsYIV-1.pdf
+  used on input line 183.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [3pdfTeX warning (ext4): destination with the same identifier (name{figure.1.1}
 ) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.190 \end{document}
-                     <./Fucker_files/figure-latex/GDPvsYIV-1.pdf>] (./Fucker.au
-x)
-Package rerunfilecheck Info: File `Fucker.out' has not changed.
+l.187 \end{document}
+                     <./Subsample-regression_files/figure-latex/GDPvsYIV-1.pdf>
+] (./Subsample-regression.aux)
+Package rerunfilecheck Info: File `Subsample-regression.out' has not changed.
 (rerunfilecheck)             Checksum: 6F2AE24A3F008019E21174FF672FF6CA;428.
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 14053 strings out of 481331
- 210053 string characters out of 5916229
- 567277 words of memory out of 5000000
- 30543 multiletter control sequences out of 15000+600000
+ 14047 strings out of 481331
+ 210287 string characters out of 5916229
+ 567355 words of memory out of 5000000
+ 30537 multiletter control sequences out of 15000+600000
  459733 words of font info for 105 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 66i,11n,72p,334b,440s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 66i,11n,72p,348b,440s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.e
 nc}{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mat
 hit.enc}{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/l
@@ -808,7 +810,7 @@ dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/henry/AppData/Roaming/TinyTeX/te
 xmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/henry/AppData/Roaming/TinyTe
 X/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/henry/AppData/Roaming/Tin
 yTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb>
-Output written on Fucker.pdf (3 pages, 132664 bytes).
+Output written on Subsample-regression.pdf (3 pages, 132444 bytes).
 PDF statistics:
  94 PDF objects out of 1000 (max. 8388607)
  78 compressed objects within 1 object stream
