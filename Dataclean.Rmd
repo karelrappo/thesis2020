@@ -83,10 +83,6 @@ vix_monthly <- vix_monthly  %>%
 #Bind together so everything in one place, e.g. one dataset for monthly data, one for quarterly
 monthly <- merge(housng, dependent, by="DATE")
 monthly <- merge(monthly, vix_monthly, by="DATE")
-
-
-
-
 ```
 
 

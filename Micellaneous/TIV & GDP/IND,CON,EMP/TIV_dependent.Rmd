@@ -1,5 +1,5 @@
 ---
-title: "TIV"
+title: "IND"
 output: 
   bookdown::pdf_document2:
     toc: no
@@ -54,12 +54,49 @@ df2 <- df2 %>%
 ```
 
 
+
+```{r}
+#create lags
+df2 <- df2 %>%
+  mutate(TIV_lag1=lag(TIV,1)) %>%
+  mutate(TIV_lag2=lag(TIV,2)) %>%
+  mutate(TIV_lag3=lag(TIV,3)) %>%
+  mutate(TIV_lag4=lag(TIV,4)) %>%
+  mutate(TIV_lag5=lag(TIV,5)) %>%
+  mutate(TIV_lag6=lag(TIV,6)) %>%
+  mutate(TIV_lag7=lag(TIV,7)) %>%
+  mutate(TIV_lag8=lag(TIV,8)) %>%
+  mutate(TIV_lag9=lag(TIV,9)) %>%
+  mutate(TIV_lag10=lag(TIV,10))
+```
+
+
+
+```{r lagsregression}
+
+TIV_graph <- ggplot(df2,aes(x=DATE, y=TIV)) + geom_path()
+print(TIV_graph)
+
+do_regression <- function(var)
+  { # var - the name of the variable to be regressed
+    res <- dynlm(as.formula(paste0("H12 ~", var)), df2) # run linear regression
+    coefs <- c("R-Squared"= summary(res)$r.squared*100,"Beta" = summary(res)$coefficients[2], "P-value"= summary(res)$coefficients[,3])
+  return(coefs)
+  }
+
+output_lagsregression2 <- as.data.frame(t(sapply(colnames(df2)[10:17], do_regression)))
+
+barplot(output_lagsregression2$'R-Squared')
+```
+
+
+
 ```{r reg_output, include=F}
 # define a function to get coefficients from linear regression
   
 do_regression <- function(var)
   { # var - the name of the variable to be regressed
-    res <- dynlm(as.formula(paste0(var, "~ TIV")), df2) # run linear regression
+    res <- dynlm(as.formula(paste0(var, "~ IND")), df2) # run linear regression
     coefs <- c("R-Squared"= summary(res)$r.squared, "Intercept" = summary(res)$coefficients[1], "Beta" = summary(res)$coefficients[2], "t-statistic" = summary(res)$coefficients[,3]) 
   return(coefs)
   }
@@ -80,7 +117,7 @@ df_results <- df_results %>%
 ```{r tableOLS, message = F, warnings = F,echo = F}
 kbl(cbind(t(df_results)), booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-     pack_rows("Panel A: TIV",1,3, latex_align="c") %>%
+     pack_rows("Panel A: IND",1,3, latex_align="c") %>%
        footnote(general = "Preliminary regression output. Initial data needs to be re-checked.")
 
 ```
