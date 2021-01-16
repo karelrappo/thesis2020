@@ -39,6 +39,7 @@ library(data.table)
 library(MacroRF)
 require(data.table)
 library(zoo)
+library(sandwich)
 ```
 
 ```{r child = 'Dataclean.rmd'}
@@ -72,7 +73,8 @@ do_regression <- function(var)
                "Intercept" = summary(res)$coefficients[1], 
                "Beta" = summary(res)$coefficients[2], 
                "t-statistic" = summary(res)$coefficients[2,3], 
-               "p-value"= summary(res)$coefficients[4])
+               "p-value"= summary(res)$coefficients[4],
+               "newey"=NeweyWest(res)[2])
   return(coefs)
   }
 
