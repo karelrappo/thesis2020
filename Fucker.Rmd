@@ -84,7 +84,7 @@ do_regression <- function(var)
   return(coefs)
   }
 
-df_results <- as.data.frame(t(sapply(colnames(df)[5:9], do_regression)))
+df_results <- as.data.frame(t(sapply(colnames(df)[4], do_regression)))
 
 df_results <- df_results %>%
   round(2)
