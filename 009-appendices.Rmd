@@ -191,20 +191,29 @@ legend("topleft", c("YIV", "GDP"),
 
 ## Appendix D
 ```{r randomforest, message=F, warnings=F,echo = F}
-trControl <- trainControl(method = "cv",
-    number = 10,
-    search = "grid")
-set.seed(1234)
-rf_default <- train(H12~.,
-    data = df,
-    na.action=na.omit,
-    method = "rf",
-    metric = "Rsquared",
-    trControl = trControl)
-# Print the results
-print(rf_default)
+train <- df[,2:5]
+test <- df[1:15,2:5]
+#The Random Forest
+train[,1:4] <- sapply(train[,1:4], as.numeric) #Convert all predictors to numeric variables
+set.seed(131) #Set randomizing seed for replication study
 
-
+#The Random Forest Algorithm
+library(randomForest)
+gdp.rf <- randomForest(H12 ~ . -log_gdp -GDP
+, data=train, importance=TRUE,na.action=na.omit)
+print(gdp.rf)
+#Variable importance measure
+imp <- importance(gdp.rf, type = 1)
+round(imp, 3)
+varImpPlot(gdp.rf)
+#Prediction
+test[1:15,1:4] <- sapply(test[1:15,1:4], as.numeric)
+pred.rf <- predict(gdp.rf, newdata=test, n.ahead=15)
+pred.rf
+#RMSE
+RMSE(test$H12, pred.rf)
+ 
+#Peame mõtlema, mis periood ette ning mis variabled - see väga basic hetkel
 
 ```
 
