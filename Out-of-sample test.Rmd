@@ -58,127 +58,90 @@ df <- df %>%
     mutate(H30=rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" )) %>%
     mutate(H36=rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" ))
 
+dummy <- read.csv("Dummy.csv")
+
+df <- df %>%
+  mutate(dum = dummy$Reccession)
+
+df.expansionary <- subset(df, dum== 0)
+df.recessionary <- subset(df, dum== 1)
+
 ```
 
 
 
 
 ```{r reg_output, include=F}
-# define a function to get coefficients from linear regression
+# Out-of-sample regression
 do_regression <- function(var)
-  { # var - the name of the variable to be regressed
-    res <- dynlm(as.formula(paste0(var, "~ YIV")), df[1:40,]) # run linear regression
-    res2 <- predict(res, newdata = df[41:80,])
-    coefs <- cor(df[1:40,var], res2)^2 
-  print(coefs)
-    
-  }
+{ # var - the name of the variable to be regressed
+  res <- dynlm(as.formula(paste0(var, "~ YIV")), df[1:50,]) # run linear regression
+  predicted <- predict(res, df[51:99,], type = "response")
+  actual <- df[51:99, var]
+  results <- sqrt((predicted-actual)^2)
+  RMSFE <- sapply(results, mean, na.rm = TRUE)
+return(RMSFE)
+}
 
-df_results <- as.data.frame(t(sapply(colnames(df)[5:9], do_regression)))
+# In-sample regression
+do_regression2 <- function(var2)
+{ 
+  res2 <- dynlm(as.formula(paste0(var2, "~ YIV")), df[1:99,]) # run linear regression
+  predicted2 <- predict(res2, df[51:99,], type = "response")
+  actual2 <- df[51:99, var2]
+  results2 <- sqrt((predicted2-actual2)^2)
+  RMSFE2 <- sapply(results2, mean, na.rm = TRUE)
+return(RMSFE2)
+}
+
+# Out-of-sample expansionary regression
+do_regression3 <- function(var3)
+{ 
+  res3 <- dynlm(as.formula(paste0(var3, "~ YIV")), df.expansionary[1:50,]) # run linear regression
+  predicted3 <- predict(res3, df.expansionary[51:91,], type = "response")
+  actual3 <- df.expansionary[51:91, var3]
+  results3 <- sqrt((predicted3-actual3)^2)
+  RMSFE3 <- sapply(results3, mean, na.rm = TRUE)
+return(RMSFE3)
+}
+
+# Out-of-sample recessionary regression
+do_regression4 <- function(var4)
+{ 
+  res4 <- dynlm(as.formula(paste0(var4, "~ YIV")), df.recessionary[1:6,]) # run linear regression
+  predicted4 <- predict(res4, df.expansionary[6:12,], type = "response")
+  actual4 <- df.expansionary[6:12, var4]
+  results4 <- sqrt((predicted4-actual4)^2)
+  RMSFE4 <- sapply(results4, mean, na.rm = TRUE)
+return(RMSFE4)
+}
+
+
+df_results1 <- as.data.frame(t(sapply(colnames(df)[5:9], do_regression)))
+df_results2 <- as.data.frame(t(sapply(colnames(df)[5:9], do_regression2)))
+df_results3 <- as.data.frame(t(sapply(colnames(df)[5:9], do_regression3)))
+df_results4 <- as.data.frame(t(sapply(colnames(df)[5:9], do_regression4)))
+
+
+df_results <- rbind(df_results1, df_results2, df_results3, df_results4)
 
 df_results <- df_results %>%
   round(2)
-  
+
+colnames(df_results, do.NULL = FALSE)
+colnames(df_results) <- c("H12","H18","H24","H30","H36")
+rownames(df_results) <- c("Out-of-sample RMSFE", "In-sample RMSFE", "Out-of-sample expansionary RMSFE", "Out-of-sample recessionary RMSFE")
 
 ```
 
 
-
-
-
-```{r bindtogether, include=F}
-#This chunk needs to be minimized by first combining data alltogether into one big dataset & looping function.
-statistics_GDP <- df %>%
-  select(GDP, YIV) %>%
-    descr(
-      transpose=TRUE,
-      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
-
-statistics_feds <- feds %>%
-  select (SVEN1F01) %>%
-    descr(
-      transpose=TRUE,
-      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
-
-statistics_dependent <- dependent %>%
-  select (EMP, IND, CON) %>%
-    descr(
-      transpose=TRUE,
-      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
-
-statistics_vix <- vix_monthly %>%
-  select(VIX) %>%
-    descr(
-      transpose=TRUE,
-      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
-
-statistics_housng <- housng %>%
-  select(HOUSNG) %>%
-    descr(
-      transpose=TRUE,
-      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
-
-
-statistics <- t(cbind(t(statistics_GDP[nrow(statistics_GDP):1,]), t(statistics_dependent), t(statistics_feds) ,t(statistics_vix),t(statistics_housng)))
-
-```
-
-
-
-
-## Appendix A
-Notes: This table includes summary statistics for main variables used in our research. Statistics include mean, standard deviation,, min, 1st quartile, median, 3rd quartile, max & number of valid data points. 
-In Panel A, different YIV data is summarized. 
-In Panel B, we have listed the main dependent variables which are used for predictions. GDP denotes the year-on-year growth rate(quarterly data), CON denotes YOY consumption growth(monthly data), EMP describes YOY growth rate for non-farm payroll and lastly IND stands for Industrial production YOY growth (monthly data).
-In Panel C, different control variables are listed: SVEN1F01 - 1 year treasury bond par yield.
-
-
-```{r summarystat, message = F, warnings = F, echo = F}
-
-kbl(cbind(statistics), booktabs = T,  longtable=T, align="c", digits=2, caption="Summary Statistics") %>%
-  kable_styling(latex_options = c("striped","repeat_header")) %>%
-    pack_rows("Panel A: YIV",1,1, latex_align="c") %>%
-      pack_rows("Panel B: Dependent Variables",2,5, latex_align="c") %>%
-        pack_rows("Panel C: Control Variables",6,8, latex_align="c") %>%
-          footnote(general = "Additional control variables will be added upon construction. Furthermore, currently the frequency of the datasets differs for different variables but this will be addressed in the research process.", threeparttable=T)
-
-  
-
-```
-\newpage
-
-
-## Appendix B. 
-Notes: This table includes regression using GDP & YIV. Controls will be added during research process. The equation for the regression is the following:
-
-\begin{equation}
-\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + Controls +\varepsilon_{t+H}
-\end{equation}
+## Out-of-sample test. 
 
 ```{r tableOLS, message = F, warnings = F,echo = F}
-kbl(cbind(t(df_results)), booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
-   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-     pack_rows("Panel A: YIV",1,7, latex_align="c") %>%
-       footnote(general = "*** - p>0.01, ** - p>0.05, * - p>0.1")
-
+df_results %>%
+  kbl() %>%
+  kable_styling()
 ```
-\newpage
-
-## Appendix C
-```{r GDPvsYIV, message=F, warnings=F,echo = F, fig.cap="GDP Growth(%) vs 5-year Treasury Implied Volatility"}
-par(mar = c(5, 5, 3, 5))
-plot(df$Date, df$YIV, type = "l", xlab = "Date", ylab = "YIV (%)", col = "blue", main = "GDP growth vs YIV")
-par(new=TRUE)
-plot(df$Date, df$GDP, type = "l", xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "red", lty = 2)
-axis(side = 4)
-mtext("GDP growth(%)", side = 4, line = 3)
-legend("topleft", c("YIV", "GDP"),
-       col = c("blue", "red"), lty = c(1, 2))
-```
-
-
-
-
 
 
 

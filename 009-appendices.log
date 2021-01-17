@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  16 JAN 2021 19:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  17 JAN 2021 10:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -768,39 +768,38 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 {c:/Users/henry/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdfte
 x.map}] [2]
-<009-appendices_files/figure-latex/GDPvsYIV-1.pdf, id=44, 469.755pt x 325.215pt
+<009-appendices_files/figure-latex/GDPvsYIV-1.pdf, id=48, 469.755pt x 325.215pt
 >
 File: 009-appendices_files/figure-latex/GDPvsYIV-1.pdf Graphic file (type pdf)
 <use 009-appendices_files/figure-latex/GDPvsYIV-1.pdf>
 Package pdftex.def Info: 009-appendices_files/figure-latex/GDPvsYIV-1.pdf  used
- on input line 182.
+ on input line 180.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[3pdfTeX warning (ext4): destination with the same identifier (name{figure.1.1}
-) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.186 \end{document}
-                     <./009-appendices_files/figure-latex/GDPvsYIV-1.pdf>] (./0
-09-appendices.aux)
+[3 <./009-appendices_files/figure-latex/GDPvsYIV-1.pdf>]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
+86.
+(c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+) [4] (./009-appendices.aux)
 Package rerunfilecheck Info: File `009-appendices.out' has not changed.
-(rerunfilecheck)             Checksum: 6F2AE24A3F008019E21174FF672FF6CA;428.
+(rerunfilecheck)             Checksum: 795A42C6FAFAE1135D02722FC95228C6;538.
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 14045 strings out of 481331
- 210141 string characters out of 5916229
- 567363 words of memory out of 5000000
- 30535 multiletter control sequences out of 15000+600000
- 459733 words of font info for 105 fonts, out of 8000000 for 9000
+ 14091 strings out of 481331
+ 210883 string characters out of 5916229
+ 567326 words of memory out of 5000000
+ 30574 multiletter control sequences out of 15000+600000
+ 460051 words of font info for 106 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  66i,11n,72p,342b,440s stack positions out of 5000i,500n,10000p,200000b,80000s
-{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.e
-nc}{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mat
-hit.enc}{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/l
-m-mathex.enc}{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips
-/lm/lm-ec.enc}<c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/pu
+{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.e
+nc}{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.
+enc}{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ma
+thit.enc}{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/
+lm-mathex.enc}<c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/pu
 blic/lm/lmbx12.pfb><c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/typ
 e1/public/lm/lmex10.pfb><c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/font
 s/type1/public/lm/lmmi12.pfb><c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist
@@ -808,11 +807,12 @@ s/type1/public/lm/lmmi12.pfb><c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist
 dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/henry/AppData/Roaming/TinyTeX/te
 xmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/henry/AppData/Roaming/TinyTe
 X/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/henry/AppData/Roaming/Tin
-yTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb>
-Output written on 009-appendices.pdf (3 pages, 132682 bytes).
+yTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb><c:/Users/henry/AppData/Roamin
+g/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
+Output written on 009-appendices.pdf (4 pages, 159119 bytes).
 PDF statistics:
- 94 PDF objects out of 1000 (max. 8388607)
- 78 compressed objects within 1 object stream
- 16 named destinations out of 1000 (max. 500000)
- 30758 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 106 PDF objects out of 1000 (max. 8388607)
+ 88 compressed objects within 1 object stream
+ 18 named destinations out of 1000 (max. 500000)
+ 30766 words of extra memory for PDF output out of 35830 (max. 10000000)
 
