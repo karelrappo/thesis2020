@@ -42,10 +42,30 @@ library(zoo)
 library(sandwich)
 library(randomForest)
 library(caret)
-library(e1071)
+library(fbi)
+```
+
+
+```{r fredpoiss}
+start <- as.Date("01/03/1990", format="%d/%m/%Y")
+end <- as.Date("01/12/2015", format="%d/%m/%Y")
+
+yivgdp <- read_csv("data/gdp_yiv.csv")
+yivgdp$Date <- as.Date(yivgdp$Date, format="%d.%m.%Y")
+yivgdp <- yivgdp %>%
+  mutate(log_gdp=log(1+GDP/100)*100)
+
+
+fred_quarterly <- fredqd(date_start=start,date_end=end)
+fred_quarterly <- subset(fred_quarterly, select = -c(X91, X181, X183))
+
+variable_names <- as.vector(colnames(fred_quarterly[,-1]))
+
+dataset_overview <- describe_qd(variable_names, name.only = FALSE)
 ```
 
 ```{r child = 'Dataclean.rmd'}
+
 ```
 
 
