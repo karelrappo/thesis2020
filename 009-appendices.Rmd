@@ -43,26 +43,40 @@ library(sandwich)
 library(randomForest)
 library(caret)
 library(fbi)
+library(lmtest)
 ```
 
 
 ```{r fredpoiss}
 start <- as.Date("01/03/1990", format="%d/%m/%Y")
-end <- as.Date("01/12/2015", format="%d/%m/%Y")
+end <- as.Date("01/09/2015", format="%d/%m/%Y")
 
 yivgdp <- read_csv("data/gdp_yiv.csv")
 yivgdp$Date <- as.Date(yivgdp$Date, format="%d.%m.%Y")
 yivgdp <- yivgdp %>%
   mutate(log_gdp=log(1+GDP/100)*100)
 
+fred_quarterly <- read_csv("data/current.csv")
 
-fred_quarterly <- fredqd(date_start=start,date_end=end)
-fred_quarterly <- subset(fred_quarterly, select = -c(X91, X181, X183))
 
-variable_names <- as.vector(colnames(fred_quarterly[,-1]))
+fred_quarterly <- subset(fred_quarterly, select = -c(92, 182, 184))
+fred_quarterly <- fred_quarterly[-1:-2,]
+fred_quarterly$sasdate <- as.Date(fred_quarterly$sasdate, format="%m/%d/%Y")
+colnames(fred_quarterly)[1] <- "Date"
 
-dataset_overview <- describe_qd(variable_names, name.only = FALSE)
+fred_quarterly <- subset(fred_quarterly, Date >= start)
+fred_quarterly <- subset(fred_quarterly, Date <= end)
+
+rownames(fred_quarterly) <- seq(length=nrow(fred_quarterly))
+YIV <- yivgdp$YIV
+fred_quarterly <- fred_quarterly %>%
+  mutate(YIV)
+
+
 ```
+
+
+
 
 ```{r child = 'Dataclean.rmd'}
 
@@ -100,12 +114,13 @@ do_regression <- function(var)
                "p-value"= summary(res)$coefficients[-1,4],
                "RMSE" = sigma(res),
                "Newey"=NeweyWest(res)[-1,1])
+
   return(coefs)
   }
 
 simplefit <- lm(H12 ~ YIV, df)
 NeweyWest(simplefit)
-summary(simplefit)
+
 
 df_results <- as.data.frame(t(sapply(colnames(df)[5:9], do_regression)))
 
@@ -220,27 +235,27 @@ legend("topleft", c("YIV", "GDP"),
 
 ## Appendix D
 ```{r randomforest, message=F, warnings=F,echo = F}
-train <- df[,2:5]
-test <- df[1:15,2:5]
+train <- fred_quarterly[,2:200]
+test <- fred_quarterly[1:15,2:200]
 #The Random Forest
-train[,1:4] <- sapply(train[,1:4], as.numeric) #Convert all predictors to numeric variables
+train[,1:199] <- sapply(train[,1:199], as.numeric) #Convert all predictors to numeric variables
 set.seed(131) #Set randomizing seed for replication study
 
 #The Random Forest Algorithm
 library(randomForest)
-gdp.rf <- randomForest(H12 ~ . -log_gdp -GDP
-, data=train, importance=TRUE,na.action=na.omit)
+gdp.rf <- randomForest(X1 ~ .
+, data=train, importance=TRUE, na.action=na.omit)
 print(gdp.rf)
 #Variable importance measure
 imp <- importance(gdp.rf, type = 1)
 round(imp, 3)
 varImpPlot(gdp.rf)
 #Prediction
-test[1:15,1:4] <- sapply(test[1:15,1:4], as.numeric)
+test[1:15,1:199] <- sapply(test[1:15,1:199], as.numeric)
 pred.rf <- predict(gdp.rf, newdata=test, n.ahead=15)
 pred.rf
 #RMSE
-RMSE(test$H12, pred.rf)
+RMSE(test$X1, pred.rf)
  
 #Peame mõtlema, mis periood ette ning mis variabled - see väga basic hetkel
 
