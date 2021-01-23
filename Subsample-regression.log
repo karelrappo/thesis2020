@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  16 JAN 2021 19:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  20 JAN 2021 23:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -810,7 +810,7 @@ dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/henry/AppData/Roaming/TinyTeX/te
 xmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/henry/AppData/Roaming/TinyTe
 X/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/henry/AppData/Roaming/Tin
 yTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb>
-Output written on Subsample-regression.pdf (3 pages, 132475 bytes).
+Output written on Subsample-regression.pdf (3 pages, 132474 bytes).
 PDF statistics:
  94 PDF objects out of 1000 (max. 8388607)
  78 compressed objects within 1 object stream
