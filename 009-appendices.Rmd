@@ -58,20 +58,26 @@ yivgdp$Date <- as.Date(yivgdp$Date, format="%d.%m.%Y")
 yivgdp <- yivgdp %>%
   mutate(log_gdp=log(1+GDP/100)*100)
 
-fred_quarterly <- read_csv("data/current.csv")
+fred_quarterly.raw <- read_csv("data/current.csv")
+fred_quarterly.raw <- fred_quarterly.raw[-1:-2,]
+fred_quarterly.raw$sasdate <- as.Date(fred_quarterly.raw$sasdate, format="%m/%d/%Y")
+colnames(fred_quarterly.raw)[1] <- "Date"
+
+fred_quarterly.raw[2:ncol(fred_quarterly.raw)] <- log(fred_quarterly.raw[2:ncol(fred_quarterly.raw)])
+
+fred_quarterly.raw[2:ncol(fred_quarterly.raw)] <- fred_quarterly.raw[2:ncol(fred_quarterly.raw)] - lag(fred_quarterly.raw[2:ncol(fred_quarterly.raw)], 4)
+
+dataset <- subset(fred_quarterly.raw, select = -c(92, 182, 184))
 
 
-fred_quarterly <- subset(fred_quarterly, select = -c(92, 182, 184))
-fred_quarterly <- fred_quarterly[-1:-2,]
-fred_quarterly$sasdate <- as.Date(fred_quarterly$sasdate, format="%m/%d/%Y")
-colnames(fred_quarterly)[1] <- "Date"
 
-fred_quarterly <- subset(fred_quarterly, Date >= start)
-fred_quarterly <- subset(fred_quarterly, Date <= end)
+dataset<- subset(dataset, Date >= start)
+dataset <- subset(dataset, Date <= end)
 
-rownames(fred_quarterly) <- seq(length=nrow(fred_quarterly))
+rownames(dataset) <- seq(length=nrow(dataset))
 YIV <- yivgdp$YIV
-fred_quarterly <- fred_quarterly %>%
+
+dataset <- dataset %>%
   mutate(YIV)
 
 
@@ -202,11 +208,36 @@ statistics_housng <- housng %>%
 statistics <- t(cbind(t(statistics_GDP[nrow(statistics_GDP):1,]), t(statistics_dependent), t(statistics_feds) ,t(statistics_vix),t(statistics_housng)))
 
 ```
-
-
-
-
+\newpage
 ## Appendix A
+
+```{r reg_graphs, message = F, warnings = F, echo = F}
+
+regression.coefficients <- ggplot(df_results, aes(x=row.names(df_results), y=Beta))+ geom_bar(stat="identity", fill="steelblue")+theme_minimal()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5))
+                                                                                                                                                                          
+regression.fit <- ggplot(df_results, aes(x=row.names(df_results),y=df_results$'R-Squared')) + geom_bar(stat="identity", fill="steelblue")+ theme_minimal() + xlab("Quarters") + ylab("R-squared") + labs(title = "GDP R-squared") +  theme(plot.title = element_text(hjust = 0.5))
+regression.fit
+regression.coefficients
+
+```
+
+\newpage
+## Appendix B
+
+```{r GDPvsYIV, message=F, warnings=F, echo = F, fig.cap="GDP Growth(%) vs 5-year Treasury Implied Volatility"}
+par(mar = c(5, 5, 3, 5))
+plot(df$Date, df$YIV, type = "l", xlab = "Date", ylab = "YIV (%)", col = "blue", main = "GDP growth vs YIV")
+par(new=TRUE)
+plot(df$Date, df$GDP, type = "l", xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "red", lty = 2)
+axis(side = 4)
+mtext("GDP growth(%)", side = 4, line = 3)
+legend("topleft", c("YIV", "GDP"),
+       col = c("blue", "red"), lty = c(1, 2))
+```
+
+\newpage
+## Appendix C
+
 Notes: This table includes summary statistics for main variables used in our research. Statistics include mean, standard deviation,, min, 1st quartile, median, 3rd quartile, max & number of valid data points. 
 In Panel A, different YIV data is summarized. 
 In Panel B, we have listed the main dependent variables which are used for predictions. GDP denotes the year-on-year growth rate(quarterly data), CON denotes YOY consumption growth(monthly data), EMP describes YOY growth rate for non-farm payroll and lastly IND stands for Industrial production YOY growth (monthly data).
@@ -226,9 +257,8 @@ kbl(cbind(statistics), booktabs = T,  longtable=T, align="c", digits=2, caption=
 
 ```
 \newpage
+## Appendix D. 
 
-
-## Appendix B. 
 Notes: This table includes regression using GDP & YIV. Controls will be added during research process. The equation for the regression is the following:
 
 \begin{equation}
@@ -243,7 +273,8 @@ kbl(cbind(t(df_results)), booktabs = T, longtable=T, align="c", digits=2, captio
 
 ```
 \newpage
-## Appendix C. 
+## Appendix E. 
+
 Notes: This table includes regression using GDP & YIV. Controls will be added during research process. The equation for the regression is the following:
 
 \begin{equation}
@@ -259,21 +290,9 @@ kbl(cbind(t(df_results_dummy)), booktabs = T,longtable=T, align="c", digits=2, c
 ```
 \newpage
 
-## Appendix D
-```{r GDPvsYIV, message=F, warnings=F,echo = F, fig.cap="GDP Growth(%) vs 5-year Treasury Implied Volatility"}
-par(mar = c(5, 5, 3, 5))
-plot(df$Date, df$YIV, type = "l", xlab = "Date", ylab = "YIV (%)", col = "blue", main = "GDP growth vs YIV")
-par(new=TRUE)
-plot(df$Date, df$GDP, type = "l", xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "red", lty = 2)
-axis(side = 4)
-mtext("GDP growth(%)", side = 4, line = 3)
-legend("topleft", c("YIV", "GDP"),
-       col = c("blue", "red"), lty = c(1, 2))
-```
-\newpage
 
+## Appendix F
 
-## Appendix E
 ```{r randomforest, message=F, warnings=F,echo = F, include=F}
 train <- fred_quarterly[,2:200]
 test <- fred_quarterly[1:15,2:200]
@@ -301,16 +320,4 @@ RMSE(test$GDPC1, pred.rf)
 
 
 
-\newpage
 
-## Appendix F
-
-```{r message=F, warnings=F,echo = F}
-
-regression.coefficients <- ggplot(df_results, aes(x=row.names(df_results), y=Beta))+ geom_bar(stat="identity", fill="steelblue")+theme_minimal()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients")
-                                                                                                                                                                          
-regression.fit <- ggplot(df_results, aes(x=row.names(df_results),y=df_results$'R-Squared')) + geom_bar(stat="identity", fill="steelblue")+theme_minimal() + xlab("Quarters") + ylab("R-squared") + labs(title = "GDP R-squared")
-regression.fit
-regression.coefficients
-
-```
