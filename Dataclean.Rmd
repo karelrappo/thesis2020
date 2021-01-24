@@ -83,6 +83,14 @@ vix_monthly <- vix_monthly  %>%
 #Bind together so everything in one place, e.g. one dataset for monthly data, one for quarterly
 monthly <- merge(housng, dependent, by="DATE")
 monthly <- merge(monthly, vix_monthly, by="DATE")
+
+dummy <- read.csv("Dummy.csv")
+
+df <- df %>%
+  mutate(dum = dummy$Reccession)
+
+df.expansionary <- subset(df, dum== 0)
+df.recessionary <- subset(df, dum== 1)
 ```
 
 

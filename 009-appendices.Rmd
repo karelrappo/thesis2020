@@ -109,21 +109,19 @@ df <- df %>%
 do_regression <- function(var)
   { # var - the name of the variable to be regressed
     res <- lm(as.formula(paste0(var, "~ YIV")), df) # run linear regression
-    coefs <- c("R-Squared"= summary(res)$r.squared*100,
+    coefs <- c("Intercept" = summary(res)$coefficients[1,1],
+               "Beta" = summary(res)$coefficients[-1,1],
+               "Newey"=NeweyWest(res)[-1,1],
+               "R-Squared"= summary(res)$r.squared*100,
                "Adj. R2"=summary(res)$adj.r.squared*100, 
-               "Intercept" = summary(res)$coefficients[1,1], 
-               "Beta" = summary(res)$coefficients[-1,1], 
-               "t-stat" = summary(res)$coefficients[-1,3], 
                "p-value"= summary(res)$coefficients[-1,4],
                "RMSE" = sigma(res),
-               "Newey"=NeweyWest(res)[-1,1],
-               "Std"= summary(res)$coefficients[-1,2],
-               "Adj. Std" = coeftest(res, vcov=vcovHC(res, type ="HC1"))[-1, "Std. Error"])
+               "Std" = coeftest(res, vcov=vcovHC(res, type ="HC1"))[-1, "Std. Error"])
   return(coefs)
   }
 
 
-df_results <- as.data.frame(t(sapply(colnames(df)[5:9], do_regression)))
+df_results <- as.data.frame(t(sapply(colnames(df)[6:10], do_regression)))
 
 df_results <- df_results %>%
   round(2)
@@ -136,6 +134,31 @@ df_results$'Significance'[df_results$'p-value' > 0.1] <- "NA"
 
 
 df_results$'Significance' <- gsub("a", "*", df_results$'Significance')
+  
+```
+
+```{r reg_output_dummy, include=F}
+
+# define a function to get coefficients from linear regression
+do_regression2 <- function(var)
+  { # var - the name of the variable to be regressed
+    res <- lm(as.formula(paste0(var, "~ YIV +dum")), df) # run linear regression
+    coefs <- c("Intercept" = summary(res)$coefficients[1,1], 
+               "Beta" = summary(res)$coefficients[-1,1], 
+               "Newey"=NeweyWest(res)[-1,1],
+               "R-Squared"= summary(res)$r.squared*100,
+               "Adj. R2"=summary(res)$adj.r.squared*100,  
+               "p-value"= summary(res)$coefficients[-1,4],
+               "RMSE" = sigma(res),
+               "Std" = coeftest(res, vcov=vcovHC(res, type ="HC1"))[-1, "Std. Error"])
+  return(coefs)
+  }
+
+df_results_dummy <- as.data.frame(t(sapply(colnames(df)[6:10], do_regression2)))
+
+df_results_dummy <- df_results_dummy %>%
+  round(2)
+
   
 ```
 
@@ -215,13 +238,28 @@ Notes: This table includes regression using GDP & YIV. Controls will be added du
 ```{r tableOLS, message = F, warnings = F,echo = F}
 kbl(cbind(t(df_results)), booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-     pack_rows("Panel A: YIV",1,7, latex_align="c") %>%
-       footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1")
+     pack_rows("Panel A: YIV",1,9, latex_align="c") %>%
+       footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
+
+```
+\newpage
+## Appendix C. 
+Notes: This table includes regression using GDP & YIV. Controls will be added during research process. The equation for the regression is the following:
+
+\begin{equation}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + Dummy +\varepsilon_{t+H}
+\end{equation}
+
+```{r mingiOLS, message = F, warnings = F,echo = F}
+kbl(cbind(t(df_results_dummy)), booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
+   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
+     pack_rows("Panel A",1,1, latex_align="c") %>%
+       footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
 ```
 \newpage
 
-## Appendix C
+## Appendix D
 ```{r GDPvsYIV, message=F, warnings=F,echo = F, fig.cap="GDP Growth(%) vs 5-year Treasury Implied Volatility"}
 par(mar = c(5, 5, 3, 5))
 plot(df$Date, df$YIV, type = "l", xlab = "Date", ylab = "YIV (%)", col = "blue", main = "GDP growth vs YIV")
@@ -235,8 +273,8 @@ legend("topleft", c("YIV", "GDP"),
 \newpage
 
 
-## Appendix D
-```{r randomforest, message=F, warnings=F,echo = F}
+## Appendix E
+```{r randomforest, message=F, warnings=F,echo = F, include=F}
 train <- fred_quarterly[,2:200]
 test <- fred_quarterly[1:15,2:200]
 #The Random Forest
@@ -265,7 +303,7 @@ RMSE(test$GDPC1, pred.rf)
 
 \newpage
 
-## Appendix E
+## Appendix F
 
 ```{r message=F, warnings=F,echo = F}
 
