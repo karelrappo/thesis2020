@@ -64,13 +64,9 @@ fred_quarterly.raw$sasdate <- as.Date(fred_quarterly.raw$sasdate, format="%m/%d/
 colnames(fred_quarterly.raw)[1] <- "Date"
 
 fred_quarterly.raw[2:ncol(fred_quarterly.raw)] <- log(fred_quarterly.raw[2:ncol(fred_quarterly.raw)])
-
 fred_quarterly.raw[2:ncol(fred_quarterly.raw)] <- fred_quarterly.raw[2:ncol(fred_quarterly.raw)] - lag(fred_quarterly.raw[2:ncol(fred_quarterly.raw)], 4)
 
 dataset <- subset(fred_quarterly.raw, select = -c(92, 182, 184))
-
-
-
 dataset<- subset(dataset, Date >= start)
 dataset <- subset(dataset, Date <= end)
 
@@ -80,6 +76,11 @@ YIV <- yivgdp$YIV
 dataset <- dataset %>%
   mutate(YIV)
 
+
+# Import term rates
+DGS.raw <- read_csv("data/feds/DGS_combined.csv")
+DGS.clean<- subset(DGS.raw, DATE >= start)
+DGS.clean <- subset(DGS.clean, DATE <= end)
 
 
 ```
