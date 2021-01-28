@@ -39,6 +39,7 @@ library(data.table)
 library(MacroRF)
 require(data.table)
 library(zoo)
+library(rollRegres)
 library(sandwich)
 library(modelr)
 library(Metrics)
@@ -74,6 +75,13 @@ df.recessionary <- subset(df, dum== 1)
 
 
 ```{r reg_output, include=F}
+
+vitupea <-roll_regres(H36 ~ lag(YIV), df[1:90,], width=5L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
+predicted <- unlist(vitupea[3])
+predicted <- predicted[21:91]
+actual <- df[['H36']][21:91]
+RMSFE <-rmse(actual,predicted)
+RMSFE
 # Out-of-sample regression
 do_regression <- function(var)
 { # var - the name of the variable to be regressed
