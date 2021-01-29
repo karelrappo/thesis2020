@@ -1,0 +1,128 @@
+---
+title: "Appendices"
+date: "12.11-2020"
+output: 
+  bookdown::pdf_document2:
+    toc: no
+csl: apa.csl
+bibliography: library.bib
+indent: yes
+fontsize: 12pt
+geometry: margin = 1in
+link-citations: yes
+linkcolor: blue
+urlcolor: blue
+header-includes:
+- \usepackage{placeins}
+- \usepackage{setspace}
+- \usepackage{chngcntr}
+- \usepackage{microtype}
+- \counterwithin{figure}{section}
+- \counterwithin{table}{section}
+- \usepackage{float}
+- \usepackage{amsmath}
+- \DeclareMathOperator{\logit}{logit}
+---
+
+# Appendices
+```{r run libraries, include=F}
+library(stringr)
+library(tidyverse)
+library(summarytools)
+library(kableExtra)
+library(dynlm)
+library(stats)
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(data.table)
+library(MacroRF)
+require(data.table)
+library(zoo)
+library(rollRegres)
+library(sandwich)
+library(modelr)
+library(Metrics)
+library(mltools)
+```
+
+```{r child = 'Dataclean.rmd'}
+```
+
+
+```{r create_log, include=F}
+df <- df %>%
+  mutate(log_gdp=log(1+GDP/100)*100)
+
+df <- df %>%
+  arrange %>%
+    mutate(H3=rollapply(log_gdp,2,FUN = function(df) mean(df[-2], na.rm = TRUE), fill = NA, align = "left" )) %>%
+    mutate(H6=rollapply(log_gdp, 3,FUN = function(df) mean(df[-3], na.rm = TRUE), fill = NA, align = "left" )) %>%
+    mutate(H9=rollapply(log_gdp, 4,FUN = function(df) mean(df[-4], na.rm = TRUE), fill = NA, align = "left" )) %>%
+    mutate(H12=rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" )) %>%
+    mutate(H15=rollapply(log_gdp, 6,FUN = function(df) mean(df[-6], na.rm = TRUE), fill = NA, align = "left" )) %>%
+    mutate(H18=rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" )) %>%
+    mutate(H21=rollapply(log_gdp, 8,FUN = function(df) mean(df[-8], na.rm = TRUE), fill = NA, align = "left" )) %>%
+    mutate(H24=rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" )) %>%
+    mutate(H27=rollapply(log_gdp, 10,FUN = function(df) mean(df[-10], na.rm = TRUE), fill = NA, align = "left" )) %>%
+    mutate(H30=rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" )) %>%
+    mutate(H33=rollapply(log_gdp, 12,FUN = function(df) mean(df[-12], na.rm = TRUE), fill = NA, align = "left" )) %>%
+    mutate(H36=rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" ))
+
+
+dummy <- read.csv("Dummy.csv")
+
+df <- df %>%
+  mutate(dum = dummy$Reccession)
+
+df.expansionary <- subset(df, dum== 0)
+df.recessionary <- subset(df, dum== 1)
+
+```
+
+
+
+
+```{r reg_output, include=F}
+
+
+# Out-of-sample regression
+do_regression <- function(var)
+{ # var - the name of the variable to be regressed
+  res <-roll_regres(as.formula(paste0(var, "~ YIV")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
+  predicted <- unlist(res[4])
+  predicted <- predicted[21:91]
+  actual <- df[[var]][21:91]
+  RMSFE <- rmse(preds = predicted, actuals = actual)
+return(RMSFE)
+}
+
+
+
+
+df_results1 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression)))
+
+
+df_results <- rbind(df_results1)
+
+df_results <- df_results %>%
+  round(2)
+
+colnames(df_results, do.NULL = FALSE)
+colnames(df_results) <- c("H3","H6","H9","H12","H15","H18","H21","H24","H27","H30","H33","H36")
+rownames(df_results) <- c("Out-of-sample RMSFE")
+
+```
+
+
+## Out-of-sample test. 
+
+```{r tableOLS, message = F, warnings = F,echo = F}
+df_results %>%
+  kbl() %>%
+  kable_styling()
+```
+
+
+
+
