@@ -92,9 +92,6 @@ df <- df %>%
 df.expansionary <- subset(df, dum== 0)
 df.recessionary <- subset(df, dum== 1)
 
-dataset.clean <- dataset[ , apply(dataset, 2, function(x) !any(is.na(x)))]
-
-
 
 ```
 
