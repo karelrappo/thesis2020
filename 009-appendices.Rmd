@@ -51,7 +51,7 @@ library(lmtest)
 
 ```{r fredqd}
 start <- as.Date("01/03/1990", format="%d/%m/%Y")
-end <- as.Date("01/09/2015", format="%d/%m/%Y")
+end <- as.Date("01/10/2015", format="%d/%m/%Y")
 
 yivgdp <- read_csv("data/gdp_yiv.csv")
 yivgdp$Date <- as.Date(yivgdp$Date, format="%d.%m.%Y")
@@ -307,7 +307,7 @@ kbl(cbind(t(df_results_dummy)), booktabs = T,longtable=T, align="c", digits=2, c
 \newpage
 
 
-## Appendix F
+
 
 ```{r randomforest, message=F, warnings=F,echo = F, include=F}
 train <- dataset[,2:200]
@@ -333,6 +333,7 @@ pred.rf
 RMSE(test$GDPC1, pred.rf)
  
 ```
+
 
 
 

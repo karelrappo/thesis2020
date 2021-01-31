@@ -89,12 +89,16 @@ dummy <- read.csv("Dummy.csv")
 
 df <- df %>%
   mutate(dum = dummy$Reccession)
+  
+df$TRM <- DGS.clean$TRM0503
+  
 
 df.expansionary <- subset(df, dum== 0)
 df.recessionary <- subset(df, dum== 1)
 
 df <- df %>%
   mutate(lag_log_gdp = lag(log_gdp))
+
 
 ```
 
@@ -158,22 +162,32 @@ return(RMSFE)
 }
 
 
+do_regression5 <- function(var)
+{ # var - the name of the variable to be regressed
+  res <-roll_regres(as.formula(paste0(var, "~ TRM")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
+  predicted <- unlist(res[4])
+  predicted <- predicted[21:91]
+  actual <- df[[var]][21:91]
+  RMSFE <- rmse(preds = predicted, actuals = actual)
+return(RMSFE)
+}
 
 df_results1 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression)))
 df_results2 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression2)))
 df_results3 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression3)))
 df_results4 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression4)))
+df_results5 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression5)))
 
 
 
-df_results <- rbind(df_results1, df_results2, df_results3, df_results4)
+df_results <- rbind(df_results1, df_results2, df_results3, df_results4, df_results5)
 
 df_results <- df_results %>%
   round(2)
 
 colnames(df_results, do.NULL = FALSE)
 colnames(df_results) <- c("H3","H6","H9","H12","H15","H18","H21","H24","H27","H30","H33","H36")
-rownames(df_results) <- c("Out-of-sample RMSFE", "Recessionary", "Expansionary" ,"Naive")
+rownames(df_results) <- c("Out-of-sample RMSFE", "Recessionary", "Expansionary" ,"Naive", "TRM")
 
 ```
 

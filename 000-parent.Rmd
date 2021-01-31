@@ -75,11 +75,7 @@ knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='images/', echo=FALSE
 \linespread{1.0}\selectfont
 
 # References
-# Bibliography
-\setlength{\parindent}{-0.2in}
-\setlength{\leftskip}{0.2in}
-\setlength{\parskip}{8pt}
-\noindent
 
+\setlength{\parindent}{0cm} 
 
 <div id="refs"></div>
