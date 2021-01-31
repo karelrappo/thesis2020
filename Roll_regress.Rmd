@@ -45,6 +45,8 @@ library(modelr)
 library(Metrics)
 library(mltools)
 library(tibble)
+library(data.table)
+library(reshape2)
 ```
 
 ```{r child = 'Dataclean.rmd'}
@@ -109,13 +111,25 @@ DGS.clean <- DGS.clean %>%
   mutate(TRM1012 = DGS10-DGS1) %>%
   mutate(SRT03M = DGS3MO-lag(DGS3MO))
   
-df$TRM <- DGS.clean$TRM0503
+
+# Import credit rates, add frac=1 for month end. Data ends in 2010??
+moodys.raw <- read_csv("Data/moodys.csv")
+creditspreads<- subset(moodys.raw, DATE >= start & DATE <= end)
+creditspreads$AAA <- as.numeric(creditspreads$AAA)
+creditspreads$DBAA <- as.numeric(creditspreads$DBAA)
 
 df.expansionary <- subset(df, dum== 0)
 df.recessionary <- subset(df, dum== 1)
 
+df <- df %>%
+  mutate(creditspreads[-1]) %>%
+  mutate(DGS.clean[-1:-6])
+
+
+
+
 colnames(df)
-col_order <- c("Date", "GDP", "YIV", "dum", "log_gdp", "H3", "H6", "H9", "H12", "H15", "H18", "H21", "H24", "H27", "H30", "H33", "H36", "TRM")
+col_order <- c("Date", "GDP", "YIV", "dum", "log_gdp", "H3", "H6", "H9", "H12", "H15", "H18", "H21", "H24", "H27", "H30", "H33", "H36", "AAA", "DBAA", "TRM0503", "TRM0506", "TRM1003", "TRM1006","TRM1012", "SRT03M")
 df <- df[, col_order]
 
 ```
@@ -179,10 +193,31 @@ do_regression4 <- function(var)
 return(RMSFE)
 }
 
-
+# TRM1006 doesn't work in the regression for some reason
 do_regression5 <- function(var)
 { # var - the name of the variable to be regressed
-  res <-roll_regres(as.formula(paste0(var, "~ TRM")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
+  res <-roll_regres(as.formula(paste0(var, "~ TRM0503 + TRM0506 + TRM1003 + TRM1012")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
+  predicted <- unlist(res[4])
+  predicted <- predicted[21:91]
+  actual <- df[[var]][21:91]
+  RMSFE <- rmse(preds = predicted, actuals = actual)
+return(RMSFE)
+}
+
+# do_regression6 <- function(var)
+# { # var - the name of the variable to be regressed
+#   res <-roll_regres(as.formula(paste0(var, "~ SRT03M")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
+#   predicted <- unlist(res[4])
+#   predicted <- predicted[21:91]
+#   actual <- df[[var]][21:91]
+#   RMSFE <- rmse(preds = predicted, actuals = actual)
+# return(RMSFE)
+# }
+
+
+do_regression7 <- function(var)
+{ # var - the name of the variable to be regressed
+  res <-roll_regres(as.formula(paste0(var, "~ AAA + DBAA")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
   predicted <- unlist(res[4])
   predicted <- predicted[21:91]
   actual <- df[[var]][21:91]
@@ -195,17 +230,19 @@ df_results2 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression2)))
 df_results3 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression3)))
 df_results4 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression4)))
 df_results5 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression5)))
+#df_results6 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression6)))
+df_results7 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression7)))
 
 
 
-df_results <- rbind(df_results1, df_results2, df_results3, df_results4, df_results5)
+df_resultss <- rbind(df_results1, df_results2, df_results3, df_results4, df_results5, df_results7)
 
-df_results <- df_results %>%
+df_resultss <- df_resultss %>%
   round(2)
 
-colnames(df_results, do.NULL = FALSE)
-colnames(df_results) <- c("H3","H6","H9","H12","H15","H18","H21","H24","H27","H30","H33","H36")
-rownames(df_results) <- c("Out-of-sample RMSFE", "Recessionary", "Expansionary" ,"Naive", "TRM")
+colnames(df_resultss, do.NULL = FALSE)
+colnames(df_resultss) <- c("H3","H6","H9","H12","H15","H18","H21","H24","H27","H30","H33","H36")
+rownames(df_resultss) <- c("Out-of-sample RMSFE", "Recessionary", "Expansionary" ,"Naive", "TRM", "CRS")
 
 ```
 
@@ -213,10 +250,19 @@ rownames(df_results) <- c("Out-of-sample RMSFE", "Recessionary", "Expansionary" 
 ## Out-of-sample test. 
 
 ```{r tableOLS, message = F, warnings = F,echo = F}
-df_results %>%
+df_resultss %>%
   kbl() %>%
   kable_styling()
+
+df_results <- transpose(df_resultss)
+
+df_resultss2 <- melt(df_resultss)
+df_resultss2$rowid <- c("Out-of-sample RMSFE", "Recessionary", "Expansionary" ,"Naive", "TRM", "CRS")
+
+ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(color=factor(rowid)))
+
 ```
+
 
 
 
