@@ -54,20 +54,35 @@ library(mltools)
 df <- df %>%
   mutate(log_gdp=log(1+GDP/100)*100)
 
+# df <- df %>%
+#    arrange %>%
+#      mutate(H3=rollapply(log_gdp,2,FUN = function(df) mean(df[-2], na.rm = TRUE), fill = NA, align = "left" )) %>%
+#      mutate(H6=rollapply(log_gdp, 3,FUN = function(df) mean(df[-3], na.rm = TRUE), fill = NA, align = "left" )) %>%
+#      mutate(H9=rollapply(log_gdp, 4,FUN = function(df) mean(df[-4], na.rm = TRUE), fill = NA, align = "left" )) %>%
+#      mutate(H12=rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" )) %>%
+#      mutate(H15=rollapply(log_gdp, 6,FUN = function(df) mean(df[-6], na.rm = TRUE), fill = NA, align = "left" )) %>%
+#      mutate(H18=rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" )) %>%
+#      mutate(H21=rollapply(log_gdp, 8,FUN = function(df) mean(df[-8], na.rm = TRUE), fill = NA, align = "left" )) %>%
+#      mutate(H24=rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" )) %>%
+#      mutate(H27=rollapply(log_gdp, 10,FUN = function(df) mean(df[-10], na.rm = TRUE), fill = NA, align = "left" )) %>%
+#      mutate(H30=rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" )) %>%
+#      mutate(H33=rollapply(log_gdp, 12,FUN = function(df) mean(df[-12], na.rm = TRUE), fill = NA, align = "left" )) %>%
+#      mutate(H36=rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" ))
+
 df <- df %>%
-  arrange %>%
-    mutate(H3=rollapply(log_gdp,2,FUN = function(df) mean(df[-2], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H6=rollapply(log_gdp, 3,FUN = function(df) mean(df[-3], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H9=rollapply(log_gdp, 4,FUN = function(df) mean(df[-4], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H12=rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H15=rollapply(log_gdp, 6,FUN = function(df) mean(df[-6], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H18=rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H21=rollapply(log_gdp, 8,FUN = function(df) mean(df[-8], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H24=rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H27=rollapply(log_gdp, 10,FUN = function(df) mean(df[-10], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H30=rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H33=rollapply(log_gdp, 12,FUN = function(df) mean(df[-12], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H36=rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" ))
+   arrange %>%
+     mutate(H3=lead(log_gdp, n = 1L)) %>%
+     mutate(H6=lead(log_gdp, n = 2L)) %>%
+     mutate(H9=lead(log_gdp, n = 3L)) %>%
+     mutate(H12=lead(log_gdp, n = 4L)) %>%
+     mutate(H15=lead(log_gdp, n = 5L)) %>%
+     mutate(H18=lead(log_gdp, n = 6L)) %>%
+     mutate(H21=lead(log_gdp, n = 7L)) %>%
+     mutate(H24=lead(log_gdp, n = 8L)) %>%
+     mutate(H27=lead(log_gdp, n = 9L)) %>%
+     mutate(H30=lead(log_gdp, n = 10L)) %>%
+     mutate(H33=lead(log_gdp, n = 11L)) %>%
+     mutate(H36=lead(log_gdp, n = 12L))
 
 
 dummy <- read.csv("Dummy.csv")
@@ -78,12 +93,17 @@ df <- df %>%
 df.expansionary <- subset(df, dum== 0)
 df.recessionary <- subset(df, dum== 1)
 
+df <- df %>%
+  mutate(lag_log_gdp = lag(log_gdp))
+
 ```
 
 
 
 
 ```{r reg_output, include=F}
+
+
 
 
 # Out-of-sample regression
@@ -98,19 +118,62 @@ return(RMSFE)
 }
 
 
+# Out-of-sample regression
+do_regression2 <- function(var)
+{ # var - the name of the variable to be regressed
+  res <-roll_regres(as.formula(paste0(var, "~ YIV")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
+  predicted <- unlist(res[4])
+  predicted <- predicted[21:91]
+  actual <- df[[var]][21:91]
+  SE <- (predicted-actual)^2
+  SE <- SE[c(25,26,27,52,53,54,55,56,57)]
+  RMSFE <- sqrt(mean(SE))
+return(RMSFE)
+}
+
+
+# Out-of-sample regression
+do_regression3 <- function(var)
+{ # var - the name of the variable to be regressed
+  res <-roll_regres(as.formula(paste0(var, "~ YIV")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
+  predicted <- unlist(res[4])
+  predicted <- predicted[21:91]
+  actual <- df[[var]][21:91]
+  SE <- (predicted-actual)^2
+  SE <- SE[-c(25,26,27,52,53,54,55,56,57)]
+  RMSFE <- sqrt(mean(SE))
+return(RMSFE)
+}
+
+
+# Out-of-sample regression
+do_regression4 <- function(var)
+{ # var - the name of the variable to be regressed
+  res <-roll_regres(as.formula(paste0(var, "~ log_gdp")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
+  predicted <- unlist(res[4])
+  predicted <- predicted[21:91]
+  actual <- df[[var]][21:91]
+  RMSFE <- rmse(preds = predicted, actuals = actual)
+return(RMSFE)
+}
+
 
 
 df_results1 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression)))
+df_results2 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression2)))
+df_results3 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression3)))
+df_results4 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression4)))
 
 
-df_results <- rbind(df_results1)
+
+df_results <- rbind(df_results1, df_results2, df_results3, df_results4)
 
 df_results <- df_results %>%
   round(2)
 
 colnames(df_results, do.NULL = FALSE)
 colnames(df_results) <- c("H3","H6","H9","H12","H15","H18","H21","H24","H27","H30","H33","H36")
-rownames(df_results) <- c("Out-of-sample RMSFE")
+rownames(df_results) <- c("Out-of-sample RMSFE", "Recessionary", "Expansionary" ,"Naive")
 
 ```
 
