@@ -76,10 +76,22 @@ YIV <- yivgdp$YIV
 dataset <- dataset %>%
   mutate(YIV)
 
+# Import credit rates, add frac=1 for month end. Data ends in 2010??
+moodys.raw <- read_csv("Data/moodys.csv")
+creditspreads<- subset(moodys.raw, DATE >= start & DATE <= end)
+creditspreads$AAA <- as.numeric(creditspreads$AAA)
+creditspreads$DBAA <- as.numeric(creditspreads$DBAA)
+
+
+GZ.raw <- read_csv("Data/GZ_quarterly.csv")
+GZ.raw$date <- as.Date(as.yearqtr(GZ.raw$date, format = "%YQ%q"))
+GZ <- subset(GZ.raw, date >= start & date <=end)
+
+
+
 # Import term rates
-DGS.raw <- read_csv("data/feds/DGS_combined.csv")
-DGS.clean<- subset(DGS.raw, DATE >= start)
-DGS.clean <- subset(DGS.clean, DATE <= end)
+DGS.raw <- read_csv("Data/feds/DGS_combined.csv")
+DGS.clean<- subset(DGS.raw, DATE >= start & DATE <= end)
 
 DGS.clean$DGS3MO <- as.numeric(DGS.clean$DGS3MO)
 DGS.clean$DGS6MO <- as.numeric(DGS.clean$DGS6MO)
