@@ -51,7 +51,7 @@ library(lmtest)
 
 ```{r fredqd}
 start <- as.Date("01/03/1990", format="%d/%m/%Y")
-end <- as.Date("01/09/2015", format="%d/%m/%Y")
+end <- as.Date("01/10/2015", format="%d/%m/%Y")
 
 yivgdp <- read_csv("data/gdp_yiv.csv")
 yivgdp$Date <- as.Date(yivgdp$Date, format="%d.%m.%Y")
@@ -301,32 +301,7 @@ kbl(cbind(t(df_results_dummy)), booktabs = T,longtable=T, align="c", digits=2, c
 \newpage
 
 
-## Appendix F
 
-```{r randomforest, message=F, warnings=F,echo = F, include=F}
-train <- fred_quarterly[,2:200]
-test <- fred_quarterly[1:15,2:200]
-#The Random Forest
-train[,1:199] <- sapply(train[,1:199], as.numeric) #Convert all predictors to numeric variables
-set.seed(131) #Set randomizing seed for replication study
-
-#The Random Forest Algorithm
-library(randomForest)
-gdp.rf <- randomForest(GDPC1 ~ .
-, data=train, importance=TRUE, na.action=na.omit)
-print(gdp.rf)
-#Variable importance measure
-imp <- importance(gdp.rf, type = 1)
-round(imp, 3)
-varImpPlot(gdp.rf)
-#Prediction
-test[1:15,1:199] <- sapply(test[1:15,1:199], as.numeric)
-pred.rf <- predict(gdp.rf, newdata=test, n.ahead=15)
-pred.rf
-#RMSE
-RMSE(test$GDPC1, pred.rf)
- 
-```
 
 
 
