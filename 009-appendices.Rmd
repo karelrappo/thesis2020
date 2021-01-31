@@ -76,8 +76,14 @@ YIV <- yivgdp$YIV
 dataset <- dataset %>%
   mutate(YIV)
 
+# Import credit rates, add frac=1 for month end
+
+credit.raw <- read_csv("Data/GZ_quarterly.csv")
+credit.raw$date <- as.Date(as.yearqtr(credit.raw$date, format = "%YQ%q"))
+
+
 # Import term rates
-DGS.raw <- read_csv("data/feds/DGS_combined.csv")
+DGS.raw <- read_csv("Data/feds/DGS_combined.csv")
 DGS.clean<- subset(DGS.raw, DATE >= start)
 DGS.clean <- subset(DGS.clean, DATE <= end)
 
