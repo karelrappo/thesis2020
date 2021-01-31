@@ -304,8 +304,8 @@ kbl(cbind(t(df_results_dummy)), booktabs = T,longtable=T, align="c", digits=2, c
 ## Appendix F
 
 ```{r randomforest, message=F, warnings=F,echo = F, include=F}
-train <- fred_quarterly[,2:200]
-test <- fred_quarterly[1:15,2:200]
+train <- dataset[,2:200]
+test <- dataset[1:15,2:200]
 #The Random Forest
 train[,1:199] <- sapply(train[,1:199], as.numeric) #Convert all predictors to numeric variables
 set.seed(131) #Set randomizing seed for replication study
