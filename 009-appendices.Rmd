@@ -76,12 +76,21 @@ YIV <- yivgdp$YIV
 dataset <- dataset %>%
   mutate(YIV)
 
-
 # Import term rates
 DGS.raw <- read_csv("data/feds/DGS_combined.csv")
 DGS.clean<- subset(DGS.raw, DATE >= start)
 DGS.clean <- subset(DGS.clean, DATE <= end)
 
+DGS.clean$DGS3MO <- as.numeric(DGS.clean$DGS3MO)
+DGS.clean$DGS6MO <- as.numeric(DGS.clean$DGS6MO)
+
+DGS.clean <- DGS.clean %>%
+  mutate(TRM0503 = DGS5-DGS3MO) %>%
+  mutate(TRM0506 = DGS5-DGS6MO) %>%
+  mutate(TRM1003 = DGS10-DGS3MO) %>%
+  mutate(TRM1006 = DGS10-DGS6MO) %>%
+  mutate(TRM1012 = DGS10-DGS1) %>%
+  mutate(SRT03M = DGS3MO-lag(DGS3MO))
 
 ```
 
