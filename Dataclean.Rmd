@@ -40,22 +40,34 @@ library(data.table)
 library(MacroRF)
 require(data.table)
 library(zoo)
+
 ```
 
 ```{r Import Data, include=F}
-df <- read_csv("data/gdp_yiv.csv")
-df$Date <- as.Date(df$Date, format="%d.%m.%Y")
+start <- as.Date("01/03/1990", format="%d/%m/%Y")
+end <- as.Date("01/10/2015", format="%d/%m/%Y")
 
-dependent<- read_csv("data/dependent.csv")#Dependent variables
-dependent$DATE <- as.Date(dependent$DATE, origin = "1899-12-30")
+#Import extracted GDP and YIV
+dataset <- read_csv("data/gdp_yiv.csv")
+dataset$Date <- as.Date(dataset$Date, format="%d.%m.%Y")
 
-feds <- read_csv("data/feds.csv") #fed rates dataset
 
-
+#Import Housing data and convert to quarterly
 housng <- read_csv("data/HOUSNG.csv")
 housng$DATE <- as.Date(housng$DATE, format="%d.%m.%Y")
 
+housng_qrt <- housng %>%
+  group_by(quarter=paste(quarters(DATE), lubridate::year(DATE))) %>%
+  summarise(housng = sum(HOUSNG))
 
+housng_qrt$DATE <- as.Date(as.yearqtr(housng_qrt$quarter, format = "Q%q %Y"))
+housng_qrt <- housng_qrt %>%
+  select(-quarter) %>%
+  subset(DATE >= start & DATE <= end)
+
+
+
+# Import VIX anx convert to quarterly
 vixcurrent <- read_csv("data/vixcurrent.csv") #Current VIX methodology
 vixarchive <- read_csv("data/vixarchive.csv") #Current applied retrospectively
 
@@ -63,35 +75,83 @@ vixcurrent$Date <- as.Date(vixcurrent$Date, format="%m/%d/%Y")
 vixarchive$Date <- as.Date(vixarchive$Date, format="%d.%m.%Y")
 
 vix <-rbind(vixarchive, vixcurrent)
-
-DATE1 <- c(as.Date("01/01/2016",format="%d/%m/%Y"))
-vix <- subset(vix, Date<=DATE1) #Daily data
-
 vix <- vix %>%
-  select(VIX='VIX Close', 'Date')
-
-vix <- vix %>%
+  select(VIX='VIX Close', 'Date') %>%
   mutate(month=month(Date)) %>%
-    mutate(year=year(Date))
+  mutate(year=year(Date))
   
 vix_monthly <- aggregate(VIX ~ month + year, vix, mean)
 
-vix_monthly <- vix_monthly  %>%
+vix_qrt<- vix_monthly  %>%
   mutate(DATE=as.Date(paste(year,month,"01", sep="/"))) %>%
-  select(-month, -year)
+  select(-month, -year)  %>%
+  group_by(quarter = paste(quarters(DATE), lubridate::year(DATE))) %>%
+  summarise(VIX = mean(VIX)) 
 
-#Bind together so everything in one place, e.g. one dataset for monthly data, one for quarterly
-monthly <- merge(housng, dependent, by="DATE")
-monthly <- merge(monthly, vix_monthly, by="DATE")
 
+vix_qrt$DATE <- as.Date(as.yearqtr(vix_qrt$quarter, format = "Q%q %Y"))
+vix_qrt <- vix_qrt %>%
+  select(-quarter) %>%
+  subset(DATE >= start & DATE <= end)
+
+# Import credit rates, add frac=1 for month end. Data ends in 2010??
+moodys.raw <- read_csv("Data/moodys.csv")
+creditspreads<- subset(moodys.raw, DATE >= start & DATE <= end)
+creditspreads$AAA <- as.numeric(creditspreads$AAA)
+creditspreads$DBAA <- as.numeric(creditspreads$DBAA)
+
+
+GZ.raw <- read_csv("Data/GZ_quarterly.csv")
+GZ.raw$date <- as.Date(as.yearqtr(GZ.raw$date, format = "%YQ%q"))
+GZ <- subset(GZ.raw, date >= start & date <=end)
+
+# Import term rates
+DGS.raw <- read_csv("Data/feds/DGS_combined.csv")
+DGS.clean<- subset(DGS.raw, DATE >= start & DATE <= end)
+
+DGS.clean$DGS3MO <- as.numeric(DGS.clean$DGS3MO)
+DGS.clean$DGS6MO <- as.numeric(DGS.clean$DGS6MO)
+
+DGS.clean <- DGS.clean %>%
+  mutate(TRM0503 = DGS5-DGS3MO) %>%
+  mutate(TRM0506 = DGS5-DGS6MO) %>%
+  mutate(TRM1003 = DGS10-DGS3MO) %>%
+  mutate(TRM1006 = DGS10-DGS6MO) %>%
+  mutate(TRM1012 = DGS10-DGS1) %>%
+  mutate(SRT03M = DGS3MO-lag(DGS3MO))
+
+#Dependent variables
+dependent_monthly<- read_csv("data/dependent.csv")
+dependent_monthly$DATE <- as.Date(dependent_monthly$DATE, origin = "1899-12-30")
+
+dependent_qrt <- dependent_monthly %>%
+  group_by(quarter=paste(quarters(DATE), lubridate::year(DATE))) %>%
+  summarise_at(c("CON","EMP","IND"), sum)
+
+
+dependent_qrt$DATE <- as.Date(as.yearqtr(dependent_qrt$quarter, format = "Q%q %Y"))
+dependent_qrt <- dependent_qrt %>%
+  select(-quarter) %>%
+  subset(DATE >= start & DATE <= end)
+
+#Import NBER recessions and create subsets
 dummy <- read.csv("Dummy.csv")
 
-df <- df %>%
-  mutate(dum = dummy$Reccession)
+# combine
+dataset <- dataset %>%
+  mutate(DGS.clean[-1]) %>% 
+  mutate(creditspreads[-1]) %>%
+  mutate(dum=dummy$Reccession) %>%
+  mutate(dependent_qrt[-4]) %>%
+  mutate(vix_qrt[-2]) %>%
+  mutate(housng_qrt[-2])
 
-df.expansionary <- subset(df, dum== 0)
-df.recessionary <- subset(df, dum== 1)
+#Name differences with appendices
+df <- dataset 
 
+df.expansionary <- subset(dataset, dum== 0)
+df.recessionary <- subset(dataset, dum== 1)
+  
 
 ```
 

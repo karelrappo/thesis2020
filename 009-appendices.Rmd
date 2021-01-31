@@ -48,67 +48,6 @@ library(lmtest)
 
 
 
-
-```{r fredqd}
-start <- as.Date("01/03/1990", format="%d/%m/%Y")
-end <- as.Date("01/10/2015", format="%d/%m/%Y")
-
-yivgdp <- read_csv("data/gdp_yiv.csv")
-yivgdp$Date <- as.Date(yivgdp$Date, format="%d.%m.%Y")
-yivgdp <- yivgdp %>%
-  mutate(log_gdp=log(1+GDP/100)*100)
-
-fred_quarterly.raw <- read_csv("data/current.csv")
-fred_quarterly.raw <- fred_quarterly.raw[-1:-2,]
-fred_quarterly.raw$sasdate <- as.Date(fred_quarterly.raw$sasdate, format="%m/%d/%Y")
-colnames(fred_quarterly.raw)[1] <- "Date"
-
-fred_quarterly.raw[2:ncol(fred_quarterly.raw)] <- log(fred_quarterly.raw[2:ncol(fred_quarterly.raw)])
-fred_quarterly.raw[2:ncol(fred_quarterly.raw)] <- fred_quarterly.raw[2:ncol(fred_quarterly.raw)] - lag(fred_quarterly.raw[2:ncol(fred_quarterly.raw)], 4)
-
-dataset <- subset(fred_quarterly.raw, select = -c(92, 182, 184))
-dataset<- subset(dataset, Date >= start)
-dataset <- subset(dataset, Date <= end)
-
-rownames(dataset) <- seq(length=nrow(dataset))
-YIV <- yivgdp$YIV
-
-dataset <- dataset %>%
-  mutate(YIV)
-
-# Import credit rates, add frac=1 for month end. Data ends in 2010??
-moodys.raw <- read_csv("Data/moodys.csv")
-creditspreads<- subset(moodys.raw, DATE >= start & DATE <= end)
-creditspreads$AAA <- as.numeric(creditspreads$AAA)
-creditspreads$DBAA <- as.numeric(creditspreads$DBAA)
-
-
-GZ.raw <- read_csv("Data/GZ_quarterly.csv")
-GZ.raw$date <- as.Date(as.yearqtr(GZ.raw$date, format = "%YQ%q"))
-GZ <- subset(GZ.raw, date >= start & date <=end)
-
-
-
-# Import term rates
-DGS.raw <- read_csv("Data/feds/DGS_combined.csv")
-DGS.clean<- subset(DGS.raw, DATE >= start & DATE <= end)
-
-DGS.clean$DGS3MO <- as.numeric(DGS.clean$DGS3MO)
-DGS.clean$DGS6MO <- as.numeric(DGS.clean$DGS6MO)
-
-DGS.clean <- DGS.clean %>%
-  mutate(TRM0503 = DGS5-DGS3MO) %>%
-  mutate(TRM0506 = DGS5-DGS6MO) %>%
-  mutate(TRM1003 = DGS10-DGS3MO) %>%
-  mutate(TRM1006 = DGS10-DGS6MO) %>%
-  mutate(TRM1012 = DGS10-DGS1) %>%
-  mutate(SRT03M = DGS3MO-lag(DGS3MO))
-
-```
-
-
-
-
 ```{r child = 'Dataclean.rmd'}
 
 ```
@@ -202,32 +141,27 @@ statistics_GDP <- df %>%
       transpose=TRUE,
       stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
 
-statistics_feds <- feds %>%
-  select (SVEN1F01) %>%
-    descr(
-      transpose=TRUE,
-      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
 
-statistics_dependent <- dependent %>%
+statistics_dependent <- df %>%
   select (EMP, IND, CON) %>%
     descr(
       transpose=TRUE,
       stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
 
-statistics_vix <- vix_monthly %>%
+statistics_vix <- df %>%
   select(VIX) %>%
     descr(
       transpose=TRUE,
       stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
 
-statistics_housng <- housng %>%
-  select(HOUSNG) %>%
+statistics_housng <- df %>%
+  select(housng) %>%
     descr(
       transpose=TRUE,
       stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
 
 
-statistics <- t(cbind(t(statistics_GDP[nrow(statistics_GDP):1,]), t(statistics_dependent), t(statistics_feds) ,t(statistics_vix),t(statistics_housng)))
+statistics <- t(cbind(t(statistics_GDP[nrow(statistics_GDP):1,]), t(statistics_dependent) ,t(statistics_vix),t(statistics_housng)))
 
 ```
 \newpage
@@ -236,7 +170,7 @@ statistics <- t(cbind(t(statistics_GDP[nrow(statistics_GDP):1,]), t(statistics_d
 ```{r reg_graphs, message = F, warnings = F, echo = F}
 
 regression.coefficients <- ggplot(df_results, aes(x=row.names(df_results), y=Beta))+ geom_bar(stat="identity", fill="steelblue")+theme_minimal()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5))
-                                                                                                                                                                          
+                                                                                                                                                                      
 regression.fit <- ggplot(df_results, aes(x=row.names(df_results),y=df_results$'R-Squared')) + geom_bar(stat="identity", fill="steelblue")+ theme_minimal() + xlab("Quarters") + ylab("R-squared") + labs(title = "GDP R-squared") +  theme(plot.title = element_text(hjust = 0.5))
 regression.fit
 regression.coefficients
@@ -272,7 +206,7 @@ kbl(cbind(statistics), booktabs = T,  longtable=T, align="c", digits=2, caption=
   kable_styling(latex_options = c("striped","repeat_header")) %>%
     pack_rows("Panel A: YIV",1,1, latex_align="c") %>%
       pack_rows("Panel B: Dependent Variables",2,5, latex_align="c") %>%
-        pack_rows("Panel C: Control Variables",6,8, latex_align="c") %>%
+        pack_rows("Panel C: Control Variables",6,7, latex_align="c") %>%
           footnote(general = "Additional control variables will be added upon construction. Furthermore, currently the frequency of the datasets differs for different variables but this will be addressed in the research process.", threeparttable=T)
 
   
@@ -316,28 +250,28 @@ kbl(cbind(t(df_results_dummy)), booktabs = T,longtable=T, align="c", digits=2, c
 
 
 ```{r randomforest, message=F, warnings=F,echo = F, include=F}
-train <- dataset[,2:200]
-test <- dataset[1:15,2:200]
-#The Random Forest
-train[,1:199] <- sapply(train[,1:199], as.numeric) #Convert all predictors to numeric variables
-set.seed(131) #Set randomizing seed for replication study
-
-#The Random Forest Algorithm
-library(randomForest)
-gdp.rf <- randomForest(GDPC1 ~ .
-, data=train, importance=TRUE, na.action=na.omit)
-print(gdp.rf)
-#Variable importance measure
-imp <- importance(gdp.rf, type = 1)
-round(imp, 3)
-varImpPlot(gdp.rf)
-#Prediction
-test[1:15,1:199] <- sapply(test[1:15,1:199], as.numeric)
-pred.rf <- predict(gdp.rf, newdata=test, n.ahead=15)
-pred.rf
-#RMSE
-RMSE(test$GDPC1, pred.rf)
- 
+# train <- dataset[,2:22]
+# test <- dataset[1:15,2:22]
+# #The Random Forest
+# train[,1:14] <- sapply(train[,1:14], as.numeric) #Convert all predictors to numeric variables
+# set.seed(131) #Set randomizing seed for replication study
+# 
+# #The Random Forest Algorithm
+# library(randomForest)
+# gdp.rf <- randomForest(GDPC1 ~ .
+# , data=train, importance=TRUE, na.action=na.omit)
+# print(gdp.rf)
+# #Variable importance measure
+# imp <- importance(gdp.rf, type = 1)
+# round(imp, 3)
+# varImpPlot(gdp.rf)
+# #Prediction
+# test[1:15,1:114] <- sapply(test[1:15,1:114], as.numeric)
+# pred.rf <- predict(gdp.rf, newdata=test, n.ahead=15)
+# pred.rf
+# #RMSE
+# RMSE(test$GDPC1, pred.rf)
+#  
 ```
 
 
