@@ -57,20 +57,6 @@ library(reshape2)
 df <- df %>%
   mutate(log_gdp=log(1+GDP/100)*100)
 
-# df <- df %>%
-#    arrange %>%
-#      mutate(H3=rollapply(log_gdp,2,FUN = function(df) mean(df[-2], na.rm = TRUE), fill = NA, align = "left" )) %>%
-#      mutate(H6=rollapply(log_gdp, 3,FUN = function(df) mean(df[-3], na.rm = TRUE), fill = NA, align = "left" )) %>%
-#      mutate(H9=rollapply(log_gdp, 4,FUN = function(df) mean(df[-4], na.rm = TRUE), fill = NA, align = "left" )) %>%
-#      mutate(H12=rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" )) %>%
-#      mutate(H15=rollapply(log_gdp, 6,FUN = function(df) mean(df[-6], na.rm = TRUE), fill = NA, align = "left" )) %>%
-#      mutate(H18=rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" )) %>%
-#      mutate(H21=rollapply(log_gdp, 8,FUN = function(df) mean(df[-8], na.rm = TRUE), fill = NA, align = "left" )) %>%
-#      mutate(H24=rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" )) %>%
-#      mutate(H27=rollapply(log_gdp, 10,FUN = function(df) mean(df[-10], na.rm = TRUE), fill = NA, align = "left" )) %>%
-#      mutate(H30=rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" )) %>%
-#      mutate(H33=rollapply(log_gdp, 12,FUN = function(df) mean(df[-12], na.rm = TRUE), fill = NA, align = "left" )) %>%
-#      mutate(H36=rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" ))
 
 df <- df %>%
    arrange %>%
@@ -138,9 +124,6 @@ df <- df[, col_order]
 
 
 ```{r reg_output, include=F}
-
-
-
 
 # Out-of-sample regression
 do_regression <- function(var)
