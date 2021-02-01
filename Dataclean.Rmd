@@ -156,14 +156,14 @@ dataset <- dataset %>%
     mutate(H24=rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" )) %>%
     mutate(H30=rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" )) %>%
     mutate(H36=rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" ))
-  
-
 
 #Name differences with appendices
 df <- dataset 
 df.expansionary <- subset(dataset, dum== 0)
 df.recessionary <- subset(dataset, dum== 1)
-  
+
+#drop unnecessary shit for work proccesses
+rm(list=setdiff(ls(), c("dataset", "df","df.expansionary", "df.recessionary")))
 
 ```
 

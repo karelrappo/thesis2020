@@ -44,6 +44,8 @@ library(randomForest)
 library(caret)
 library(fbi)
 library(lmtest)
+library(purrr)
+library(broom)
 ```
 
 
@@ -51,6 +53,77 @@ library(lmtest)
 
 ```
 
+```{r}
+
+#pmst peaks tegema mitmetasandilise, hetkel on ainult siis nö nende erinevate H12,H18 jne kaupa. Siia peaks nüüd ühe taseme veel juurde ehitama, mis defineeriks mudelisisu, a la common regression. Siis dummy regression jne. + tuleks mõelda how newey includeda
+
+unnested <- df %>%
+  select(YIV, H12, H18, H24, H30, H36) %>%
+  gather(Var,Value, -YIV) %>%
+  nest(data=c(YIV,Value)) %>%
+  mutate(model = map(data, ~lm(YIV ~ Value, data = .)),
+         tidied = map(model, tidy),
+         glanced = map(model, glance),
+         augmented = map(model, augment),
+         neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
+  select(-model, -data)
+
+
+#testisin ka neweyt aga tra see miskipärast ei mõjuta coeffitsienti, idk kas me tegime selles esialgsel regressioonis valesti siis v :D  
+newey <- df %>%
+  select(YIV, H12, H18, H24, H30, H36) %>%
+  gather(Var,Value, -YIV) %>%
+  nest(data=c(YIV,Value)) %>%
+  mutate(model = map(data, ~lm(YIV ~ Value, data = .)),
+         neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
+  select(-model, -data) %>%
+  unnest(cols = c(mingimuu)) %>%
+  filter( term != "(Intercept)") %>%
+  select(-term) 
+
+
+#main results from regression
+main <- df %>%
+  select(YIV, H12, H18, H24, H30, H36) %>%
+  gather(Var,Value, -YIV) %>%
+  nest(data=c(YIV,Value)) %>%
+  mutate(model = map(data, ~lm(YIV ~ Value, data = .)),
+         tidied = map(model, tidy)) %>%
+  select(-model, -data) %>%
+  unnest(cols = c(tidied)) %>%
+  filter( term != "(Intercept)") %>%
+  select(-term) 
+ 
+#more specific results such as r-squared
+additional <- df %>%
+  select(YIV, H12, H18, H24, H30, H36) %>%
+  gather(Var,Value, -YIV) %>%
+  nest(data=c(YIV,Value)) %>%
+  mutate(model = map(data, ~lm(YIV ~ Value, data = .)),
+         glanced = map(model, glance)) %>%
+  select(-model, -data) %>% 
+  unnest(cols = c(glanced)) %>%
+  select(-df, -AIC, -BIC, -deviance, -nobs, -df.residual, -logLik)
+
+
+#bunch of shit including all the predictions vs actuals
+exact <- df %>%
+  select(YIV, H12, H18, H24, H30, H36) %>%
+  gather(Var,Value, -YIV) %>%
+  nest(data=c(YIV,Value)) %>%
+  mutate(model = map(data, ~lm(YIV ~ Value, data = .)),
+         augmented = map(model, augment)) %>%
+  select(-model, -data) %>% 
+  unnest(cols = c(augmented))
+
+#combine. Ma eeldan, et see sigma on RMSE.Def: sigma the square root of the estimated variance of the residuals
+results <- main %>%
+  mutate(additional) %>%
+  column_to_rownames(var = "Var") %>%
+  round(2) %>%
+  rename(RMSE=sigma)
+
+```
 
 
 ```{r, include=F}
@@ -69,7 +142,6 @@ do_regression <- function(var)
                "Std" = coeftest(res, vcov=vcovHC(res, type ="HC1"))[-1, "Std. Error"])
   return(coefs)
   }
-
 
 df_results <- as.data.frame(t(sapply(colnames(df)[24:28], do_regression)))
 
@@ -189,7 +261,7 @@ df_results %>%
   t()%>%
   kbl(booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-  pack_rows("Panel A: YIV",1,9, latex_align="c") %>%
+  pack_rows("Panel A: YIV",1,1, latex_align="c") %>%
   footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
 ```
