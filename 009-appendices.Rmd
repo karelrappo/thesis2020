@@ -44,94 +44,89 @@ library(randomForest)
 library(caret)
 library(fbi)
 library(lmtest)
+library(purrr)
+library(broom)
 ```
-
-
-
-
-```{r fredqd}
-start <- as.Date("01/03/1990", format="%d/%m/%Y")
-end <- as.Date("01/10/2015", format="%d/%m/%Y")
-
-yivgdp <- read_csv("data/gdp_yiv.csv")
-yivgdp$Date <- as.Date(yivgdp$Date, format="%d.%m.%Y")
-yivgdp <- yivgdp %>%
-  mutate(log_gdp=log(1+GDP/100)*100)
-
-fred_quarterly.raw <- read_csv("data/current.csv")
-fred_quarterly.raw <- fred_quarterly.raw[-1:-2,]
-fred_quarterly.raw$sasdate <- as.Date(fred_quarterly.raw$sasdate, format="%m/%d/%Y")
-colnames(fred_quarterly.raw)[1] <- "Date"
-
-fred_quarterly.raw[2:ncol(fred_quarterly.raw)] <- log(fred_quarterly.raw[2:ncol(fred_quarterly.raw)])
-fred_quarterly.raw[2:ncol(fred_quarterly.raw)] <- fred_quarterly.raw[2:ncol(fred_quarterly.raw)] - lag(fred_quarterly.raw[2:ncol(fred_quarterly.raw)], 4)
-
-dataset <- subset(fred_quarterly.raw, select = -c(92, 182, 184))
-dataset<- subset(dataset, Date >= start)
-dataset <- subset(dataset, Date <= end)
-
-rownames(dataset) <- seq(length=nrow(dataset))
-YIV <- yivgdp$YIV
-
-dataset <- dataset %>%
-  mutate(YIV)
-
-# Import credit rates, add frac=1 for month end. Data ends in 2010??
-moodys.raw <- read_csv("Data/moodys.csv")
-creditspreads<- subset(moodys.raw, DATE >= start & DATE <= end)
-creditspreads$AAA <- as.numeric(creditspreads$AAA)
-creditspreads$DBAA <- as.numeric(creditspreads$DBAA)
-
-
-GZ.raw <- read_csv("Data/GZ_quarterly.csv")
-GZ.raw$date <- as.Date(as.yearqtr(GZ.raw$date, format = "%YQ%q"))
-GZ <- subset(GZ.raw, date >= start & date <=end)
-
-
-
-# Import term rates
-DGS.raw <- read_csv("Data/feds/DGS_combined.csv")
-DGS.clean<- subset(DGS.raw, DATE >= start & DATE <= end)
-
-DGS.clean$DGS3MO <- as.numeric(DGS.clean$DGS3MO)
-DGS.clean$DGS6MO <- as.numeric(DGS.clean$DGS6MO)
-
-DGS.clean <- DGS.clean %>%
-  mutate(TRM0503 = DGS5-DGS3MO) %>%
-  mutate(TRM0506 = DGS5-DGS6MO) %>%
-  mutate(TRM1003 = DGS10-DGS3MO) %>%
-  mutate(TRM1006 = DGS10-DGS6MO) %>%
-  mutate(TRM1012 = DGS10-DGS1) %>%
-  mutate(SRT03M = DGS3MO-lag(DGS3MO))
-
-```
-
-
 
 
 ```{r child = 'Dataclean.rmd'}
 
 ```
 
+```{r}
 
-```{r create_log, include=F}
-df <- df %>%
-  mutate(log_gdp=log(1+GDP/100)*100)
+#pmst peaks tegema mitmetasandilise, hetkel on ainult siis nö nende erinevate H12,H18 jne kaupa. Siia peaks nüüd ühe taseme veel juurde ehitama, mis defineeriks mudelisisu, a la common regression. Siis dummy regression jne. + tuleks mõelda how newey includeda
 
-df <- df %>%
-  arrange %>%
-    mutate(H12=rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H18=rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H24=rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H30=rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H36=rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" ))
+unnested <- df %>%
+  select(YIV, H12, H18, H24, H30, H36) %>%
+  gather(Var,Value, -YIV) %>%
+  nest(data=c(YIV,Value)) %>%
+  mutate(model = map(data, ~lm(YIV ~ Value, data = .)),
+         tidied = map(model, tidy),
+         glanced = map(model, glance),
+         augmented = map(model, augment),
+         neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
+  select(-model, -data)
+
+
+#testisin ka neweyt aga tra see miskipärast ei mõjuta coeffitsienti, idk kas me tegime selles esialgsel regressioonis valesti siis v :D  
+newey <- df %>%
+  select(YIV, H12, H18, H24, H30, H36) %>%
+  gather(Var,Value, -YIV) %>%
+  nest(data=c(YIV,Value)) %>%
+  mutate(model = map(data, ~lm(YIV ~ Value, data = .)),
+         neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
+  select(-model, -data) %>%
+  unnest(cols = c(mingimuu)) %>%
+  filter( term != "(Intercept)") %>%
+  select(-term) 
+
+
+#main results from regression
+main <- df %>%
+  select(YIV, H12, H18, H24, H30, H36) %>%
+  gather(Var,Value, -YIV) %>%
+  nest(data=c(YIV,Value)) %>%
+  mutate(model = map(data, ~lm(YIV ~ Value, data = .)),
+         tidied = map(model, tidy)) %>%
+  select(-model, -data) %>%
+  unnest(cols = c(tidied)) %>%
+  filter( term != "(Intercept)") %>%
+  select(-term) 
+ 
+#more specific results such as r-squared
+additional <- df %>%
+  select(YIV, H12, H18, H24, H30, H36) %>%
+  gather(Var,Value, -YIV) %>%
+  nest(data=c(YIV,Value)) %>%
+  mutate(model = map(data, ~lm(YIV ~ Value, data = .)),
+         glanced = map(model, glance)) %>%
+  select(-model, -data) %>% 
+  unnest(cols = c(glanced)) %>%
+  select(-df, -AIC, -BIC, -deviance, -nobs, -df.residual, -logLik)
+
+
+#bunch of shit including all the predictions vs actuals
+exact <- df %>%
+  select(YIV, H12, H18, H24, H30, H36) %>%
+  gather(Var,Value, -YIV) %>%
+  nest(data=c(YIV,Value)) %>%
+  mutate(model = map(data, ~lm(YIV ~ Value, data = .)),
+         augmented = map(model, augment)) %>%
+  select(-model, -data) %>% 
+  unnest(cols = c(augmented))
+
+#combine. Ma eeldan, et see sigma on RMSE.Def: sigma the square root of the estimated variance of the residuals
+results <- main %>%
+  mutate(additional) %>%
+  column_to_rownames(var = "Var") %>%
+  round(2) %>%
+  rename(RMSE=sigma)
 
 ```
 
 
-
-
-```{r reg_output, include=F}
+```{r, include=F}
 
 # define a function to get coefficients from linear regression
 do_regression <- function(var)
@@ -148,8 +143,7 @@ do_regression <- function(var)
   return(coefs)
   }
 
-
-df_results <- as.data.frame(t(sapply(colnames(df)[6:10], do_regression)))
+df_results <- as.data.frame(t(sapply(colnames(df)[24:28], do_regression)))
 
 df_results <- df_results %>%
   round(2)
@@ -165,7 +159,7 @@ df_results$'Significance' <- gsub("a", "*", df_results$'Significance')
   
 ```
 
-```{r reg_output_dummy, include=F}
+```{r, include=F}
 
 # define a function to get coefficients from linear regression
 do_regression2 <- function(var)
@@ -182,7 +176,7 @@ do_regression2 <- function(var)
   return(coefs)
   }
 
-df_results_dummy <- as.data.frame(t(sapply(colnames(df)[6:10], do_regression2)))
+df_results_dummy <- as.data.frame(t(sapply(colnames(df)[24:28], do_regression2)))
 
 df_results_dummy <- df_results_dummy %>%
   round(2)
@@ -192,42 +186,17 @@ df_results_dummy <- df_results_dummy %>%
 
 
 
+```{r, include=F}
+order <- c("GDP", "YIV", "EMP", "CON")
+statistics <- df %>%
+  select(-Date, -log_gdp, -H12, -H18, -H24, -H30, -H36, - dum)%>%
+  descr(
+    transpose = TRUE,
+    stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
 
-
-```{r bindtogether, include=F}
-#This chunk needs to be minimized by first combining data alltogether into one big dataset & looping function.
-statistics_GDP <- df %>%
-  select(GDP, YIV) %>%
-    descr(
-      transpose=TRUE,
-      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
-
-statistics_feds <- feds %>%
-  select (SVEN1F01) %>%
-    descr(
-      transpose=TRUE,
-      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
-
-statistics_dependent <- dependent %>%
-  select (EMP, IND, CON) %>%
-    descr(
-      transpose=TRUE,
-      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
-
-statistics_vix <- vix_monthly %>%
-  select(VIX) %>%
-    descr(
-      transpose=TRUE,
-      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
-
-statistics_housng <- housng %>%
-  select(HOUSNG) %>%
-    descr(
-      transpose=TRUE,
-      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
-
-
-statistics <- t(cbind(t(statistics_GDP[nrow(statistics_GDP):1,]), t(statistics_dependent), t(statistics_feds) ,t(statistics_vix),t(statistics_housng)))
+statistics <- statistics %>%
+  mutate(Variable=rownames(statistics)) %>%
+  relocate(Variable)
 
 ```
 \newpage
@@ -236,7 +205,7 @@ statistics <- t(cbind(t(statistics_GDP[nrow(statistics_GDP):1,]), t(statistics_d
 ```{r reg_graphs, message = F, warnings = F, echo = F}
 
 regression.coefficients <- ggplot(df_results, aes(x=row.names(df_results), y=Beta))+ geom_bar(stat="identity", fill="steelblue")+theme_minimal()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5))
-                                                                                                                                                                          
+                                                                                                                                                                      
 regression.fit <- ggplot(df_results, aes(x=row.names(df_results),y=df_results$'R-Squared')) + geom_bar(stat="identity", fill="steelblue")+ theme_minimal() + xlab("Quarters") + ylab("R-squared") + labs(title = "GDP R-squared") +  theme(plot.title = element_text(hjust = 0.5))
 regression.fit
 regression.coefficients
@@ -267,13 +236,13 @@ In Panel C, different control variables are listed: SVEN1F01 - 1 year treasury b
 
 
 ```{r summarystat, message = F, warnings = F, echo = F}
-
-kbl(cbind(statistics), booktabs = T,  longtable=T, align="c", digits=2, caption="Summary Statistics") %>%
+statistics %>%
+  kbl(booktabs = T,  longtable=T, align="c", digits=2, caption="Summary Statistics") %>%
   kable_styling(latex_options = c("striped","repeat_header")) %>%
-    pack_rows("Panel A: YIV",1,1, latex_align="c") %>%
-      pack_rows("Panel B: Dependent Variables",2,5, latex_align="c") %>%
-        pack_rows("Panel C: Control Variables",6,8, latex_align="c") %>%
-          footnote(general = "Additional control variables will be added upon construction. Furthermore, currently the frequency of the datasets differs for different variables but this will be addressed in the research process.", threeparttable=T)
+  group_rows("Panel A: YIV",1,1, latex_align="c") %>%
+  group_rows("Panel B: Dependent Variables",2,5, latex_align="c") %>%
+  group_rows("Panel C: Control Variables",6,7, latex_align="c") %>%
+  footnote(general = "Additional control variables will be added upon construction. Furthermore, currently the frequency of the datasets differs for different variables but this will be addressed in the research process.", threeparttable=T)
 
   
 
@@ -288,10 +257,12 @@ Notes: This table includes regression using GDP & YIV. Controls will be added du
 \end{equation}
 
 ```{r tableOLS, message = F, warnings = F,echo = F}
-kbl(cbind(t(df_results)), booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
-   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-     pack_rows("Panel A: YIV",1,9, latex_align="c") %>%
-       footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
+df_results %>%
+  t()%>%
+  kbl(booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
+  kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
+  pack_rows("Panel A: YIV",1,1, latex_align="c") %>%
+  footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
 ```
 \newpage
@@ -304,7 +275,9 @@ Notes: This table includes regression using GDP & YIV. Controls will be added du
 \end{equation}
 
 ```{r mingiOLS, message = F, warnings = F,echo = F}
-kbl(cbind(t(df_results_dummy)), booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
+df_results_dummy %>%
+  t() %>%
+  kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
      pack_rows("Panel A",1,1, latex_align="c") %>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
@@ -316,28 +289,28 @@ kbl(cbind(t(df_results_dummy)), booktabs = T,longtable=T, align="c", digits=2, c
 
 
 ```{r randomforest, message=F, warnings=F,echo = F, include=F}
-train <- dataset[,2:200]
-test <- dataset[1:15,2:200]
-#The Random Forest
-train[,1:199] <- sapply(train[,1:199], as.numeric) #Convert all predictors to numeric variables
-set.seed(131) #Set randomizing seed for replication study
-
-#The Random Forest Algorithm
-library(randomForest)
-gdp.rf <- randomForest(GDPC1 ~ .
-, data=train, importance=TRUE, na.action=na.omit)
-print(gdp.rf)
-#Variable importance measure
-imp <- importance(gdp.rf, type = 1)
-round(imp, 3)
-varImpPlot(gdp.rf)
-#Prediction
-test[1:15,1:199] <- sapply(test[1:15,1:199], as.numeric)
-pred.rf <- predict(gdp.rf, newdata=test, n.ahead=15)
-pred.rf
-#RMSE
-RMSE(test$GDPC1, pred.rf)
- 
+# train <- dataset[,2:22]
+# test <- dataset[1:15,2:22]
+# #The Random Forest
+# train[,1:14] <- sapply(train[,1:14], as.numeric) #Convert all predictors to numeric variables
+# set.seed(131) #Set randomizing seed for replication study
+# 
+# #The Random Forest Algorithm
+# library(randomForest)
+# gdp.rf <- randomForest(GDPC1 ~ .
+# , data=train, importance=TRUE, na.action=na.omit)
+# print(gdp.rf)
+# #Variable importance measure
+# imp <- importance(gdp.rf, type = 1)
+# round(imp, 3)
+# varImpPlot(gdp.rf)
+# #Prediction
+# test[1:15,1:114] <- sapply(test[1:15,1:114], as.numeric)
+# pred.rf <- predict(gdp.rf, newdata=test, n.ahead=15)
+# pred.rf
+# #RMSE
+# RMSE(test$GDPC1, pred.rf)
+#  
 ```
 
 
