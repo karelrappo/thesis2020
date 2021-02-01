@@ -66,7 +66,6 @@ housng_qrt <- housng_qrt %>%
   subset(DATE >= start & DATE <= end)
 
 
-
 # Import VIX anx convert to quarterly
 vixcurrent <- read_csv("data/vixcurrent.csv") #Current VIX methodology
 vixarchive <- read_csv("data/vixarchive.csv") #Current applied retrospectively
@@ -144,11 +143,24 @@ dataset <- dataset %>%
   mutate(dum=dummy$Reccession) %>%
   mutate(dependent_qrt[-4]) %>%
   mutate(vix_qrt[-2]) %>%
-  mutate(housng_qrt[-2])
+  mutate(housng_qrt[-2]) %>%
+  mutate(log_gdp=log(1+GDP/100)*100) %>%
+  relocate(Date, YIV, GDP, CON, EMP, IND)
+
+
+#Create rolling averages
+dataset <- dataset %>%
+  arrange %>%
+    mutate(H12=rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" )) %>%
+    mutate(H18=rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" )) %>%
+    mutate(H24=rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" )) %>%
+    mutate(H30=rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" )) %>%
+    mutate(H36=rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" ))
+  
+
 
 #Name differences with appendices
 df <- dataset 
-
 df.expansionary <- subset(dataset, dum== 0)
 df.recessionary <- subset(dataset, dum== 1)
   

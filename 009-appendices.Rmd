@@ -47,30 +47,13 @@ library(lmtest)
 ```
 
 
-
 ```{r child = 'Dataclean.rmd'}
 
 ```
 
 
-```{r create_log, include=F}
-df <- df %>%
-  mutate(log_gdp=log(1+GDP/100)*100)
 
-df <- df %>%
-  arrange %>%
-    mutate(H12=rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H18=rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H24=rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H30=rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H36=rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" ))
-
-```
-
-
-
-
-```{r reg_output, include=F}
+```{r, include=F}
 
 # define a function to get coefficients from linear regression
 do_regression <- function(var)
@@ -88,7 +71,7 @@ do_regression <- function(var)
   }
 
 
-df_results <- as.data.frame(t(sapply(colnames(df)[6:10], do_regression)))
+df_results <- as.data.frame(t(sapply(colnames(df)[24:28], do_regression)))
 
 df_results <- df_results %>%
   round(2)
@@ -104,7 +87,7 @@ df_results$'Significance' <- gsub("a", "*", df_results$'Significance')
   
 ```
 
-```{r reg_output_dummy, include=F}
+```{r, include=F}
 
 # define a function to get coefficients from linear regression
 do_regression2 <- function(var)
@@ -121,7 +104,7 @@ do_regression2 <- function(var)
   return(coefs)
   }
 
-df_results_dummy <- as.data.frame(t(sapply(colnames(df)[6:10], do_regression2)))
+df_results_dummy <- as.data.frame(t(sapply(colnames(df)[24:28], do_regression2)))
 
 df_results_dummy <- df_results_dummy %>%
   round(2)
@@ -131,37 +114,17 @@ df_results_dummy <- df_results_dummy %>%
 
 
 
+```{r, include=F}
+order <- c("GDP", "YIV", "EMP", "CON")
+statistics <- df %>%
+  select(-Date, -log_gdp, -H12, -H18, -H24, -H30, -H36, - dum)%>%
+  descr(
+    transpose = TRUE,
+    stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
 
-
-```{r bindtogether, include=F}
-#This chunk needs to be minimized by first combining data alltogether into one big dataset & looping function.
-statistics_GDP <- df %>%
-  select(GDP, YIV) %>%
-    descr(
-      transpose=TRUE,
-      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
-
-
-statistics_dependent <- df %>%
-  select (EMP, IND, CON) %>%
-    descr(
-      transpose=TRUE,
-      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
-
-statistics_vix <- df %>%
-  select(VIX) %>%
-    descr(
-      transpose=TRUE,
-      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
-
-statistics_housng <- df %>%
-  select(housng) %>%
-    descr(
-      transpose=TRUE,
-      stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
-
-
-statistics <- t(cbind(t(statistics_GDP[nrow(statistics_GDP):1,]), t(statistics_dependent) ,t(statistics_vix),t(statistics_housng)))
+statistics <- statistics %>%
+  mutate(Variable=rownames(statistics)) %>%
+  relocate(Variable)
 
 ```
 \newpage
@@ -201,13 +164,13 @@ In Panel C, different control variables are listed: SVEN1F01 - 1 year treasury b
 
 
 ```{r summarystat, message = F, warnings = F, echo = F}
-
-kbl(cbind(statistics), booktabs = T,  longtable=T, align="c", digits=2, caption="Summary Statistics") %>%
+statistics %>%
+  kbl(booktabs = T,  longtable=T, align="c", digits=2, caption="Summary Statistics") %>%
   kable_styling(latex_options = c("striped","repeat_header")) %>%
-    pack_rows("Panel A: YIV",1,1, latex_align="c") %>%
-      pack_rows("Panel B: Dependent Variables",2,5, latex_align="c") %>%
-        pack_rows("Panel C: Control Variables",6,7, latex_align="c") %>%
-          footnote(general = "Additional control variables will be added upon construction. Furthermore, currently the frequency of the datasets differs for different variables but this will be addressed in the research process.", threeparttable=T)
+  group_rows("Panel A: YIV",1,1, latex_align="c") %>%
+  group_rows("Panel B: Dependent Variables",2,5, latex_align="c") %>%
+  group_rows("Panel C: Control Variables",6,7, latex_align="c") %>%
+  footnote(general = "Additional control variables will be added upon construction. Furthermore, currently the frequency of the datasets differs for different variables but this will be addressed in the research process.", threeparttable=T)
 
   
 
@@ -222,10 +185,12 @@ Notes: This table includes regression using GDP & YIV. Controls will be added du
 \end{equation}
 
 ```{r tableOLS, message = F, warnings = F,echo = F}
-kbl(cbind(t(df_results)), booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
-   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-     pack_rows("Panel A: YIV",1,9, latex_align="c") %>%
-       footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
+df_results %>%
+  t()%>%
+  kbl(booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
+  kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
+  pack_rows("Panel A: YIV",1,9, latex_align="c") %>%
+  footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
 ```
 \newpage
@@ -238,7 +203,9 @@ Notes: This table includes regression using GDP & YIV. Controls will be added du
 \end{equation}
 
 ```{r mingiOLS, message = F, warnings = F,echo = F}
-kbl(cbind(t(df_results_dummy)), booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
+df_results_dummy %>%
+  t() %>%
+  kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
      pack_rows("Panel A",1,1, latex_align="c") %>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
