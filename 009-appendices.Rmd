@@ -61,7 +61,7 @@ unnested <- df %>%
   select(YIV, H12, H18, H24, H30, H36) %>%
   gather(Var,Value, -YIV) %>%
   nest(data=c(YIV,Value)) %>%
-  mutate(model = map(data, ~lm(YIV ~ Value, data = .)),
+  mutate(model = map(data, ~lm(Value ~ YIV, data = .)),
          tidied = map(model, tidy),
          glanced = map(model, glance),
          augmented = map(model, augment),
@@ -74,7 +74,7 @@ newey <- df %>%
   select(YIV, H12, H18, H24, H30, H36) %>%
   gather(Var,Value, -YIV) %>%
   nest(data=c(YIV,Value)) %>%
-  mutate(model = map(data, ~lm(YIV ~ Value, data = .)),
+  mutate(model = map(data, ~lm(Value ~ YIV, data = .)),
          neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
   select(-model, -data) %>%
   unnest(cols = c(neweywest)) %>%
@@ -87,7 +87,7 @@ main <- df %>%
   select(YIV, H12, H18, H24, H30, H36) %>%
   gather(Var,Value, -YIV) %>%
   nest(data=c(YIV,Value)) %>%
-  mutate(model = map(data, ~lm(YIV ~ Value, data = .)),
+  mutate(model = map(data, ~lm(Value ~ YIV, data = .)),
          tidied = map(model, tidy)) %>%
   select(-model, -data) %>%
   unnest(cols = c(tidied)) %>%
@@ -99,7 +99,7 @@ additional <- df %>%
   select(YIV, H12, H18, H24, H30, H36) %>%
   gather(Var,Value, -YIV) %>%
   nest(data=c(YIV,Value)) %>%
-  mutate(model = map(data, ~lm(YIV ~ Value, data = .)),
+  mutate(model = map(data, ~lm(Value ~ YIV, data = .)),
          glanced = map(model, glance)) %>%
   select(-model, -data) %>% 
   unnest(cols = c(glanced)) %>%
@@ -111,7 +111,7 @@ exact <- df %>%
   select(YIV, H12, H18, H24, H30, H36) %>%
   gather(Var,Value, -YIV) %>%
   nest(data=c(YIV,Value)) %>%
-  mutate(model = map(data, ~lm(YIV ~ Value, data = .)),
+  mutate(model = map(data, ~lm(Value ~ YIV, data = .)),
          augmented = map(model, augment)) %>%
   select(-model, -data) %>% 
   unnest(cols = c(augmented))
@@ -156,7 +156,6 @@ df_results$'Significance'[df_results$'p-value' > 0.1] <- "NA"
 
 
 df_results$'Significance' <- gsub("a", "*", df_results$'Significance')
-  
 ```
 
 ```{r, include=F}
@@ -204,9 +203,9 @@ statistics <- statistics %>%
 
 ```{r reg_graphs, message = F, warnings = F, echo = F}
 
-regression.coefficients <- ggplot(df_results, aes(x=row.names(df_results), y=Beta))+ geom_bar(stat="identity", fill="steelblue")+theme_minimal()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5))
+regression.coefficients <- ggplot(results, aes(x=row.names(results), y=estimate))+ geom_bar(stat="identity", fill="steelblue")+theme_minimal()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5))
                                                                                                                                                                       
-regression.fit <- ggplot(df_results, aes(x=row.names(df_results),y=df_results$'R-Squared')) + geom_bar(stat="identity", fill="steelblue")+ theme_minimal() + xlab("Quarters") + ylab("R-squared") + labs(title = "GDP R-squared") +  theme(plot.title = element_text(hjust = 0.5))
+regression.fit <- ggplot(results, aes(x=row.names(results),y=r.squared)) + geom_bar(stat="identity", fill="steelblue")+ theme_minimal() + xlab("Quarters") + ylab("R-squared") + labs(title = "GDP R-squared") +  theme(plot.title = element_text(hjust = 0.5))
 regression.fit
 regression.coefficients
 
