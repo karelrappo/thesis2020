@@ -134,7 +134,7 @@ dependent_qrt <- dependent_qrt %>%
   subset(DATE >= start & DATE <= end)
 
 #Import NBER recessions and create subsets
-dummy <- read.csv("Dummy.csv")
+dummy <- read.csv("data/Dummy.csv")
 
 # combine
 dataset <- dataset %>%

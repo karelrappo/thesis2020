@@ -77,7 +77,7 @@ newey <- df %>%
   mutate(model = map(data, ~lm(YIV ~ Value, data = .)),
          neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
   select(-model, -data) %>%
-  unnest(cols = c(mingimuu)) %>%
+  unnest(cols = c(neweywest)) %>%
   filter( term != "(Intercept)") %>%
   select(-term) 
 
