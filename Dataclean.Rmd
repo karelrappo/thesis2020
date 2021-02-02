@@ -155,7 +155,20 @@ dataset <- dataset %>%
     mutate(H18=rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" )) %>%
     mutate(H24=rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" )) %>%
     mutate(H30=rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H36=rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" ))
+    mutate(H36=rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" )) %>%
+    mutate(F3=lead(log_gdp, n = 1L)) %>%
+    mutate(F6=lead(log_gdp, n = 2L)) %>%
+    mutate(F9=lead(log_gdp, n = 3L)) %>%
+    mutate(F12=lead(log_gdp, n = 4L)) %>%
+    mutate(F15=lead(log_gdp, n = 5L)) %>%
+    mutate(F18=lead(log_gdp, n = 6L)) %>%
+    mutate(F21=lead(log_gdp, n = 7L)) %>%
+    mutate(F24=lead(log_gdp, n = 8L)) %>%
+    mutate(F27=lead(log_gdp, n = 9L)) %>%
+    mutate(F30=lead(log_gdp, n = 10L)) %>%
+    mutate(F33=lead(log_gdp, n = 11L)) %>%
+    mutate(F36=lead(log_gdp, n = 12L))
+
 
 #Name differences with appendices
 df <- dataset 

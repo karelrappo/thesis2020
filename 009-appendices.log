@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  2 FEB 2021 12:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  2 FEB 2021 15:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -793,7 +793,7 @@ File: 009-appendices_files/figure-latex/reg_graphs-1.pdf Graphic file (type pdf
 )
 <use 009-appendices_files/figure-latex/reg_graphs-1.pdf>
 Package pdftex.def Info: 009-appendices_files/figure-latex/reg_graphs-1.pdf  us
-ed on input line 222.
+ed on input line 204.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <009-appendices_files/figure-latex/reg_graphs-2.pdf, id=45, 469.755pt x 325.215
 pt>
@@ -801,45 +801,48 @@ File: 009-appendices_files/figure-latex/reg_graphs-2.pdf Graphic file (type pdf
 )
 <use 009-appendices_files/figure-latex/reg_graphs-2.pdf>
 Package pdftex.def Info: 009-appendices_files/figure-latex/reg_graphs-2.pdf  us
-ed on input line 222.
+ed on input line 204.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (17.62366pt too wide) in paragraph at lines 222--223
-[][]
+Underfull \hbox (badness 10000) in paragraph at lines 204--205
+[]
  []
 
-[3 <./009-appendices_files/figure-latex/reg_graphs-1.pdf>] [4 <./009-appendices
-_files/figure-latex/reg_graphs-2.pdf>]
+[3]
+Overfull \vbox (24.54839pt too high) has occurred while \output is active []
+
+[4 <./009-appendices_files/figure-latex/reg_graphs-1.pdf> <./009-appendices_fil
+es/figure-latex/reg_graphs-2.pdf>]
 <009-appendices_files/figure-latex/GDPvsYIV-1.pdf, id=65, 469.755pt x 325.215pt
 >
 File: 009-appendices_files/figure-latex/GDPvsYIV-1.pdf Graphic file (type pdf)
 <use 009-appendices_files/figure-latex/GDPvsYIV-1.pdf>
 Package pdftex.def Info: 009-appendices_files/figure-latex/GDPvsYIV-1.pdf  used
- on input line 231.
+ on input line 213.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [5pdfTeX warning (ext4): destination with the same identifier (name{figure.1.1}
 ) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.235 \newpage
+l.217 \newpage
                <./009-appendices_files/figure-latex/GDPvsYIV-1.pdf>]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 264.
+(Font)              <12> on input line 246.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 264.
+(Font)              <8> on input line 246.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 264.
-[6]
-Overfull \hbox (37.21083pt too wide) in alignment at lines 324--324
+(Font)              <6> on input line 246.
+[6] [7]
+Overfull \hbox (37.21083pt too wide) in alignment at lines 316--316
  [] [] [] [] [] [] 
  []
 
-[7]
-Overfull \hbox (37.21083pt too wide) in alignment at lines 358--358
+[8]
+Overfull \hbox (37.21083pt too wide) in alignment at lines 350--350
  [] [] [] [] [] [] 
  []
 
-[8] (./009-appendices.aux)
+[9] (./009-appendices.aux)
 Package rerunfilecheck Info: File `009-appendices.out' has not changed.
 (rerunfilecheck)             Checksum: 76015A7F0DA2E737159F4504F8269D97;653.
 
@@ -847,13 +850,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 14585 strings out of 481331
- 218783 string characters out of 5916229
- 590732 words of memory out of 5000000
+ 14588 strings out of 481331
+ 218809 string characters out of 5916229
+ 603732 words of memory out of 5000000
  31049 multiletter control sequences out of 15000+600000
- 460597 words of font info for 107 fonts, out of 8000000 for 9000
+ 460688 words of font info for 108 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 66i,11n,72p,342b,440s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 66i,11n,72p,426b,470s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.e
 nc}{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mat
 hit.enc}{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/l
@@ -870,10 +873,10 @@ yTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb><c:/Users/henry/AppData/Roamin
 g/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb><c:/Users/henry/AppData/R
 oaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb><c:/Users/henry/AppD
 ata/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on 009-appendices.pdf (8 pages, 220524 bytes).
+Output written on 009-appendices.pdf (9 pages, 222128 bytes).
 PDF statistics:
- 155 PDF objects out of 1000 (max. 8388607)
- 126 compressed objects within 2 object streams
- 27 named destinations out of 1000 (max. 500000)
+ 159 PDF objects out of 1000 (max. 8388607)
+ 129 compressed objects within 2 object streams
+ 28 named destinations out of 1000 (max. 500000)
  30784 words of extra memory for PDF output out of 35830 (max. 10000000)
 

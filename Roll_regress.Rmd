@@ -55,10 +55,6 @@ library(reshape2)
 
 ```{r create_log, include=F}
 df <- df %>%
-  mutate(log_gdp=log(1+GDP/100)*100)
-
-
-df <- df %>%
    arrange %>%
      mutate(H3=lead(log_gdp, n = 1L)) %>%
      mutate(H6=lead(log_gdp, n = 2L)) %>%
@@ -72,51 +68,6 @@ df <- df %>%
      mutate(H30=lead(log_gdp, n = 10L)) %>%
      mutate(H33=lead(log_gdp, n = 11L)) %>%
      mutate(H36=lead(log_gdp, n = 12L))
-
-
-dummy <- read.csv("Dummy.csv")
-df <- df %>%
-  mutate(dum = dummy$Reccession)
-
-start <- as.Date("01/03/1990", format="%d/%m/%Y")
-end <- as.Date("01/10/2015", format="%d/%m/%Y")
-
-DGS.raw <- read_csv("data/feds/DGS_combined.csv")
-DGS.clean<- subset(DGS.raw, DATE >= start)
-DGS.clean <- subset(DGS.clean, DATE <= end)
-
-
-DGS.clean$DGS3MO <- as.numeric(DGS.clean$DGS3MO)
-DGS.clean$DGS6MO <- as.numeric(DGS.clean$DGS6MO)
-
-DGS.clean <- DGS.clean %>%
-  mutate(TRM0503 = DGS5-DGS3MO) %>%
-  mutate(TRM0506 = DGS5-DGS6MO) %>%
-  mutate(TRM1003 = DGS10-DGS3MO) %>%
-  mutate(TRM1006 = DGS10-DGS6MO) %>%
-  mutate(TRM1012 = DGS10-DGS1) %>%
-  mutate(SRT03M = DGS3MO-lag(DGS3MO))
-  
-
-# Import credit rates, add frac=1 for month end. Data ends in 2010??
-moodys.raw <- read_csv("Data/moodys.csv")
-creditspreads<- subset(moodys.raw, DATE >= start & DATE <= end)
-creditspreads$AAA <- as.numeric(creditspreads$AAA)
-creditspreads$DBAA <- as.numeric(creditspreads$DBAA)
-
-df.expansionary <- subset(df, dum== 0)
-df.recessionary <- subset(df, dum== 1)
-
-df <- df %>%
-  mutate(creditspreads[-1]) %>%
-  mutate(DGS.clean[-1:-6])
-
-
-
-
-colnames(df)
-col_order <- c("Date", "GDP", "YIV", "dum", "log_gdp", "H3", "H6", "H9", "H12", "H15", "H18", "H21", "H24", "H27", "H30", "H33", "H36", "AAA", "DBAA", "TRM0503", "TRM0506", "TRM1003", "TRM1006","TRM1012", "SRT03M")
-df <- df[, col_order]
 
 ```
 

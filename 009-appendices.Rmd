@@ -68,95 +68,62 @@ unnested <- df %>%
          neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
   select(-model, -data)
 
-
-#testisin ka neweyt aga tra see miskipärast ei mõjuta coeffitsienti, idk kas me tegime selles esialgsel regressioonis valesti siis v :D  
-newey <- df %>%
-  select(YIV, H12, H18, H24, H30, H36) %>%
-  gather(Var,Value, -YIV) %>%
-  nest(data=c(YIV,Value)) %>%
-  mutate(model = map(data, ~lm(Value ~ YIV, data = .)),
-         neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
-  select(-model, -data) %>%
-  unnest(cols = c(neweywest)) %>%
-  filter( term != "(Intercept)") %>%
-  select(-term) 
-
-
-#main results from regression
-main <- df %>%
-  select(YIV, H12, H18, H24, H30, H36) %>%
-  gather(Var,Value, -YIV) %>%
-  nest(data=c(YIV,Value)) %>%
-  mutate(model = map(data, ~lm(Value ~ YIV, data = .)),
-         tidied = map(model, tidy)) %>%
-  select(-model, -data) %>%
+ 
+ results <- unnested %>%
+  select(-augmented, -neweywest) %>%
+  unnest(cols = c(glanced)) %>%
+  select(-df, -AIC, -BIC, -deviance, -nobs, -df.residual, -logLik, -statistic, -p.value) %>%
   unnest(cols = c(tidied)) %>%
   filter( term != "(Intercept)") %>%
-  select(-term) 
- 
-#more specific results such as r-squared
-additional <- df %>%
-  select(YIV, H12, H18, H24, H30, H36) %>%
-  gather(Var,Value, -YIV) %>%
-  nest(data=c(YIV,Value)) %>%
-  mutate(model = map(data, ~lm(Value ~ YIV, data = .)),
-         glanced = map(model, glance)) %>%
-  select(-model, -data) %>% 
-  unnest(cols = c(glanced)) %>%
-  select(-df, -AIC, -BIC, -deviance, -nobs, -df.residual, -logLik)
-
-
-#bunch of shit including all the predictions vs actuals
-exact <- df %>%
-  select(YIV, H12, H18, H24, H30, H36) %>%
-  gather(Var,Value, -YIV) %>%
-  nest(data=c(YIV,Value)) %>%
-  mutate(model = map(data, ~lm(Value ~ YIV, data = .)),
-         augmented = map(model, augment)) %>%
-  select(-model, -data) %>% 
-  unnest(cols = c(augmented))
-
-#combine. Ma eeldan, et see sigma on RMSE.Def: sigma the square root of the estimated variance of the residuals
-results <- main %>%
-  mutate(additional) %>%
+  select(-term, -statistic) %>%
   column_to_rownames(var = "Var") %>%
   round(2) %>%
   rename(RMSE=sigma)
+results$'Significance'[results$'p.value' >= 0] <- "aaa"
+results$'Significance'[results$'p.value' > 0.01] <- "aa"
+results$'Significance'[results$'p.value' > 0.05] <- "a"
+results$'Significance'[results$'p.value' > 0.1] <- "NA"
+results$'Significance' <- gsub("a", "*", results$'Significance')
+ 
+ 
 
+# #testisin ka neweyt aga tra see miskipärast ei mõjuta coeffitsienti, idk kas me tegime selles esialgsel regressioonis valesti siis v :D  
+ newey <- df %>%
+   select(YIV, H12, H18, H24, H30, H36) %>%
+   gather(Var,Value, -YIV) %>%
+   nest(data=c(YIV,Value)) %>%
+   mutate(model = map(data, ~lm(Value ~ YIV, data = .)),
+          neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
+   select(-model, -data) %>%
+   unnest(cols = c(neweywest)) %>%
+   filter( term != "(Intercept)") %>%
+   select(-term) 
+
+
+#bunch of shit including all the predictions vs actuals
+ exact <- df %>%
+   select(YIV, H12, H18, H24, H30, H36) %>%
+   gather(Var,Value, -YIV) %>%
+   nest(data=c(YIV,Value)) %>%
+   mutate(model = map(data, ~lm(Value ~ YIV, data = .)),
+          augmented = map(model, augment)) %>%
+   select(-model, -data) %>% 
+   unnest(cols = c(augmented))
 ```
+
+
 
 
 ```{r, include=F}
 
-# define a function to get coefficients from linear regression
-do_regression <- function(var)
-  { # var - the name of the variable to be regressed
-    res <- lm(as.formula(paste0(var, "~ YIV")), df) # run linear regression
-    coefs <- c("Intercept" = summary(res)$coefficients[1,1],
-               "Beta" = summary(res)$coefficients[-1,1],
-               "Newey"=NeweyWest(res)[-1,1],
-               "R-Squared"= summary(res)$r.squared*100,
-               "Adj. R2"=summary(res)$adj.r.squared*100, 
-               "p-value"= summary(res)$coefficients[-1,4],
-               "RMSE" = sigma(res),
-               "Std" = coeftest(res, vcov=vcovHC(res, type ="HC1"))[-1, "Std. Error"])
-  return(coefs)
-  }
 
-df_results <- as.data.frame(t(sapply(colnames(df)[24:28], do_regression)))
-
-df_results <- df_results %>%
-  round(2)
-
-df_results$'Significance'[df_results$'p-value' >= 0] <- "aaa"
-df_results$'Significance'[df_results$'p-value' > 0.01] <- "aa"
-df_results$'Significance'[df_results$'p-value' > 0.05] <- "a"
-df_results$'Significance'[df_results$'p-value' > 0.1] <- "NA"
-
-
-
-df_results$'Significance' <- gsub("a", "*", df_results$'Significance')
+  
 ```
+
+
+
+
+
 
 ```{r, include=F}
 
@@ -256,7 +223,7 @@ Notes: This table includes regression using GDP & YIV. Controls will be added du
 \end{equation}
 
 ```{r tableOLS, message = F, warnings = F,echo = F}
-df_results %>%
+results %>%
   t()%>%
   kbl(booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
