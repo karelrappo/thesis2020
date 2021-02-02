@@ -163,7 +163,7 @@ df.expansionary <- subset(dataset, dum== 0)
 df.recessionary <- subset(dataset, dum== 1)
 
 #drop unnecessary shit for work proccesses
-rm(list=setdiff(ls(), c("dataset", "df","df.expansionary", "df.recessionary")))
+rm(list=setdiff(ls(), c("df")))
 
 ```
 
