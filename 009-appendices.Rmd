@@ -57,68 +57,48 @@ library(broom)
 
 #pmst peaks tegema mitmetasandilise, hetkel on ainult siis nö nende erinevate H12,H18 jne kaupa. Siia peaks nüüd ühe taseme veel juurde ehitama, mis defineeriks mudelisisu, a la common regression. Siis dummy regression jne. + tuleks mõelda how newey includeda
 
-unnested <- df %>%
-  select(YIV, H12, H18, H24, H30, H36) %>%
-  gather(Var,Value, -YIV) %>%
-  nest(data=c(YIV,Value)) %>%
-  mutate(model = map(data, ~lm(Value ~ YIV, data = .)),
+mudelid <- c("YIV","dum", "DGS10", "DGS1")
+x <- 1
+df_total <- data.frame()
+
+for (element in mudelid)
+  {
+  unnestedx <- df %>%
+  select(H12, H18, H24, H30, H36, mudelid[1:x]) %>%
+  gather(Var,Value,  -mudelid[1:x]) %>%
+  nest(data=c(Value,  mudelid[1:x])) %>%
+  mutate(model = map(data, ~lm(Value ~ ., data = .)),
          tidied = map(model, tidy),
          glanced = map(model, glance),
          augmented = map(model, augment),
          neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
   select(-model, -data)
-
- 
- results <- unnested %>%
-  select(-augmented, -neweywest) %>%
-  unnest(cols = c(glanced)) %>%
-  select(-df, -AIC, -BIC, -deviance, -nobs, -df.residual, -logLik, -statistic, -p.value) %>%
-  unnest(cols = c(tidied)) %>%
-  filter( term != "(Intercept)") %>%
-  select(-term, -statistic) %>%
-  column_to_rownames(var = "Var") %>%
-  round(2) %>%
-  rename(RMSE=sigma)
-results$'Significance'[results$'p.value' >= 0] <- "aaa"
-results$'Significance'[results$'p.value' > 0.01] <- "aa"
-results$'Significance'[results$'p.value' > 0.05] <- "a"
-results$'Significance'[results$'p.value' > 0.1] <- "NA"
-results$'Significance' <- gsub("a", "*", results$'Significance')
- 
- 
-
-# #testisin ka neweyt aga tra see miskipärast ei mõjuta coeffitsienti, idk kas me tegime selles esialgsel regressioonis valesti siis v :D  
- newey <- df %>%
-   select(YIV, H12, H18, H24, H30, H36) %>%
-   gather(Var,Value, -YIV) %>%
-   nest(data=c(YIV,Value)) %>%
-   mutate(model = map(data, ~lm(Value ~ YIV, data = .)),
-          neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
-   select(-model, -data) %>%
-   unnest(cols = c(neweywest)) %>%
-   filter( term != "(Intercept)") %>%
-   select(-term) 
-
-
-#bunch of shit including all the predictions vs actuals
- exact <- df %>%
-   select(YIV, H12, H18, H24, H30, H36) %>%
-   gather(Var,Value, -YIV) %>%
-   nest(data=c(YIV,Value)) %>%
-   mutate(model = map(data, ~lm(Value ~ YIV, data = .)),
-          augmented = map(model, augment)) %>%
-   select(-model, -data) %>% 
-   unnest(cols = c(augmented))
-```
-
-
-
-
-```{r, include=F}
-
-
   
+  df_total <- rbind(df_total, data.frame(unnestedx))
+  x <- x+1
+  remove(unnestedx)
+}
+
+regr_results <- function(a){
+  results <- df_total[c(a:(a+4)),] %>%
+    select(-augmented,-neweywest) %>%
+    unnest(cols = c(glanced)) %>%
+    select(-df, -AIC, -BIC, -deviance, -nobs, -df.residual, -logLik, -statistic, -p.value) %>%
+    unnest(cols = c(tidied)) %>%
+    filter( term != "(Intercept)") %>%
+    select(-term, -statistic) %>%
+    column_to_rownames(var = "Var") %>%
+    round(2) %>%
+    rename(RMSE=sigma)
+  results$'Significance'[results$'p.value' >= 0] <- "aaa"
+  results$'Significance'[results$'p.value' > 0.01] <- "aa"
+  results$'Significance'[results$'p.value' > 0.05] <- "a"
+  results$'Significance'[results$'p.value' > 0.1] <- "NA"
+  results$'Significance' <- gsub("a", "*", results$'Significance')
+return(results)
+}
 ```
+
 
 
 
@@ -169,10 +149,11 @@ statistics <- statistics %>%
 ## Appendix A
 
 ```{r reg_graphs, message = F, warnings = F, echo = F}
+results1 <- regr_results(a=1)
 
-regression.coefficients <- ggplot(results, aes(x=row.names(results), y=estimate))+ geom_bar(stat="identity", fill="steelblue")+theme_minimal()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5))
+regression.coefficients <- ggplot(results1, aes(x=row.names(results1), y=estimate))+ geom_bar(stat="identity", fill="steelblue")+theme_minimal()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5))
                                                                                                                                                                       
-regression.fit <- ggplot(results, aes(x=row.names(results),y=r.squared)) + geom_bar(stat="identity", fill="steelblue")+ theme_minimal() + xlab("Quarters") + ylab("R-squared") + labs(title = "GDP R-squared") +  theme(plot.title = element_text(hjust = 0.5))
+regression.fit <- ggplot(results1, aes(x=row.names(results1),y=r.squared)) + geom_bar(stat="identity", fill="steelblue")+ theme_minimal() + xlab("Quarters") + ylab("R-squared") + labs(title = "GDP R-squared") +  theme(plot.title = element_text(hjust = 0.5))
 regression.fit
 regression.coefficients
 
@@ -223,7 +204,7 @@ Notes: This table includes regression using GDP & YIV. Controls will be added du
 \end{equation}
 
 ```{r tableOLS, message = F, warnings = F,echo = F}
-results %>%
+results1 %>%
   t()%>%
   kbl(booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
@@ -241,7 +222,8 @@ Notes: This table includes regression using GDP & YIV. Controls will be added du
 \end{equation}
 
 ```{r mingiOLS, message = F, warnings = F,echo = F}
-df_results_dummy %>%
+
+df_results_dummy  %>%
   t() %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
