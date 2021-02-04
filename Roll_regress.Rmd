@@ -1,80 +1,4 @@
----
-title: "Appendices"
-date: "12.11-2020"
-output: 
-  bookdown::pdf_document2:
-    toc: no
-csl: apa.csl
-bibliography: library.bib
-indent: yes
-fontsize: 12pt
-geometry: margin = 1in
-link-citations: yes
-linkcolor: blue
-urlcolor: blue
-header-includes:
-- \usepackage{placeins}
-- \usepackage{setspace}
-- \usepackage{chngcntr}
-- \usepackage{microtype}
-- \counterwithin{figure}{section}
-- \counterwithin{table}{section}
-- \usepackage{float}
-- \usepackage{amsmath}
-- \DeclareMathOperator{\logit}{logit}
----
-
-# Appendices
-```{r run libraries, include=F}
-library(stringr)
-library(tidyverse)
-library(summarytools)
-library(kableExtra)
-library(dynlm)
-library(stats)
-library(readr)
-library(dplyr)
-library(ggplot2)
-library(data.table)
-library(MacroRF)
-require(data.table)
-library(zoo)
-library(rollRegres)
-library(sandwich)
-library(modelr)
-library(Metrics)
-library(mltools)
-library(tibble)
-library(data.table)
-library(reshape2)
-```
-
-```{r child = 'Dataclean.rmd'}
-```
-
-
-```{r create_log, include=F}
-df <- df %>%
-   arrange %>%
-     mutate(H3=lead(log_gdp, n = 1L)) %>%
-     mutate(H6=lead(log_gdp, n = 2L)) %>%
-     mutate(H9=lead(log_gdp, n = 3L)) %>%
-     mutate(H12=lead(log_gdp, n = 4L)) %>%
-     mutate(H15=lead(log_gdp, n = 5L)) %>%
-     mutate(H18=lead(log_gdp, n = 6L)) %>%
-     mutate(H21=lead(log_gdp, n = 7L)) %>%
-     mutate(H24=lead(log_gdp, n = 8L)) %>%
-     mutate(H27=lead(log_gdp, n = 9L)) %>%
-     mutate(H30=lead(log_gdp, n = 10L)) %>%
-     mutate(H33=lead(log_gdp, n = 11L)) %>%
-     mutate(H36=lead(log_gdp, n = 12L))
-
-```
-
-
-
-
-```{r reg_output, include=F}
+```{r regs, include=F}
 
 # Out-of-sample regression
 do_regression <- function(var)
@@ -159,13 +83,13 @@ do_regression7 <- function(var)
 return(RMSFE)
 }
 
-df_results1 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression)))
-df_results2 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression2)))
-df_results3 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression3)))
-df_results4 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression4)))
-df_results5 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression5)))
+df_results1 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression)))
+df_results2 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression2)))
+df_results3 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression3)))
+df_results4 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression4)))
+df_results5 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression5)))
 #df_results6 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression6)))
-df_results7 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression7)))
+df_results7 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression7)))
 
 
 
@@ -180,22 +104,6 @@ rownames(df_resultss) <- c("Out-of-sample RMSFE", "Recessionary", "Expansionary"
 
 ```
 
-
-## Out-of-sample test. 
-
-```{r tableOLS, message = F, warnings = F,echo = F}
-df_resultss %>%
-  kbl() %>%
-  kable_styling()
-
-df_results <- transpose(df_resultss)
-
-df_resultss2 <- melt(df_resultss)
-df_resultss2$rowid <- c("Out-of-sample RMSFE", "Recessionary", "Expansionary" ,"Naive", "TRM", "CRS")
-
-ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(color=factor(rowid)))
-
-```
 
 
 

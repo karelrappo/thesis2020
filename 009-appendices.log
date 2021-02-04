@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  3 FEB 2021 13:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  4 FEB 2021 12:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -787,7 +787,7 @@ LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <12> not available
 
 {c:/Users/henry/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdfte
 x.map}] [2]
-<009-appendices_files/figure-latex/reg_graphs-1.pdf, id=44, 469.755pt x 325.215
+<009-appendices_files/figure-latex/reg_graphs-1.pdf, id=48, 469.755pt x 325.215
 pt>
 File: 009-appendices_files/figure-latex/reg_graphs-1.pdf Graphic file (type pdf
 )
@@ -795,7 +795,7 @@ File: 009-appendices_files/figure-latex/reg_graphs-1.pdf Graphic file (type pdf
 Package pdftex.def Info: 009-appendices_files/figure-latex/reg_graphs-1.pdf  us
 ed on input line 192.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-<009-appendices_files/figure-latex/reg_graphs-2.pdf, id=45, 469.755pt x 325.215
+<009-appendices_files/figure-latex/reg_graphs-2.pdf, id=49, 469.755pt x 325.215
 pt>
 File: 009-appendices_files/figure-latex/reg_graphs-2.pdf Graphic file (type pdf
 )
@@ -813,7 +813,7 @@ Overfull \vbox (24.54839pt too high) has occurred while \output is active []
 
 [4 <./009-appendices_files/figure-latex/reg_graphs-1.pdf> <./009-appendices_fil
 es/figure-latex/reg_graphs-2.pdf>]
-<009-appendices_files/figure-latex/GDPvsYIV-1.pdf, id=65, 469.755pt x 325.215pt
+<009-appendices_files/figure-latex/GDPvsYIV-1.pdf, id=69, 469.755pt x 325.215pt
 >
 File: 009-appendices_files/figure-latex/GDPvsYIV-1.pdf Graphic file (type pdf)
 <use 009-appendices_files/figure-latex/GDPvsYIV-1.pdf>
@@ -842,18 +842,32 @@ Overfull \hbox (37.21083pt too wide) in alignment at lines 338--338
  [] [] [] [] [] [] 
  []
 
-[9] (./009-appendices.aux)
+[9]
+Overfull \hbox (60.0839pt too wide) in paragraph at lines 346--363
+ [][] 
+ []
+
+<009-appendices_files/figure-latex/roll_regress-1.pdf, id=113, 469.755pt x 325.
+215pt>
+File: 009-appendices_files/figure-latex/roll_regress-1.pdf Graphic file (type p
+df)
+<use 009-appendices_files/figure-latex/roll_regress-1.pdf>
+Package pdftex.def Info: 009-appendices_files/figure-latex/roll_regress-1.pdf  
+used on input line 365.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+[10 <./009-appendices_files/figure-latex/roll_regress-1.pdf>] (./009-appendices
+.aux)
 Package rerunfilecheck Info: File `009-appendices.out' has not changed.
-(rerunfilecheck)             Checksum: 76015A7F0DA2E737159F4504F8269D97;653.
+(rerunfilecheck)             Checksum: 23DDB1A83939477D7B3E4B159B940F3E;768.
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 14588 strings out of 481331
- 218809 string characters out of 5916229
- 603732 words of memory out of 5000000
- 31049 multiletter control sequences out of 15000+600000
+ 14600 strings out of 481331
+ 219200 string characters out of 5916229
+ 603775 words of memory out of 5000000
+ 31057 multiletter control sequences out of 15000+600000
  460688 words of font info for 108 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  66i,11n,72p,428b,470s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -873,10 +887,10 @@ yTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb><c:/Users/henry/AppData/Roamin
 g/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb><c:/Users/henry/AppData/R
 oaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb><c:/Users/henry/AppD
 ata/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on 009-appendices.pdf (9 pages, 222372 bytes).
+Output written on 009-appendices.pdf (10 pages, 228906 bytes).
 PDF statistics:
- 159 PDF objects out of 1000 (max. 8388607)
- 129 compressed objects within 2 object streams
- 28 named destinations out of 1000 (max. 500000)
- 30784 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 175 PDF objects out of 1000 (max. 8388607)
+ 142 compressed objects within 2 object streams
+ 31 named destinations out of 1000 (max. 500000)
+ 30797 words of extra memory for PDF output out of 35830 (max. 10000000)
 

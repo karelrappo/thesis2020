@@ -35,7 +35,6 @@ library(stats)
 library(readr)
 library(dplyr)
 library(ggplot2)
-library(data.table)
 library(MacroRF)
 require(data.table)
 library(zoo)
@@ -46,6 +45,12 @@ library(fbi)
 library(lmtest)
 library(purrr)
 library(broom)
+library(rollRegres)
+library(modelr)
+library(Metrics)
+library(mltools)
+library(tibble)
+library(reshape2)
 ```
 
 
@@ -100,6 +105,9 @@ return(results)
 ```
 
 
+```{r child = 'roll_regress.rmd'}
+
+```
 
 
 
@@ -232,8 +240,22 @@ df_results_dummy  %>%
 
 ```
 \newpage
+## Appendix F. 
 
+```{r roll_regress, message = F, warnings = F,echo = F}
+df_resultss %>%
+  kbl() %>%
+  kable_styling()
 
+df_results <- transpose(df_resultss)
+
+df_resultss2 <- melt(df_resultss)
+df_resultss2$rowid <- c("Out-of-sample RMSFE", "Recessionary", "Expansionary" ,"Naive", "TRM", "CRS")
+
+ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(color=factor(rowid)))
+
+```
+\newpage
 
 
 ```{r randomforest, message=F, warnings=F,echo = F, include=F}
