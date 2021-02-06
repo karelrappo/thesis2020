@@ -62,7 +62,7 @@ library(reshape2)
 
 #pmst peaks tegema mitmetasandilise, hetkel on ainult siis nö nende erinevate H12,H18 jne kaupa. Siia peaks nüüd ühe taseme veel juurde ehitama, mis defineeriks mudelisisu, a la common regression. Siis dummy regression jne. + tuleks mõelda how newey includeda
 
-mudelid <- c("YIV","dum", "DGS10", "DGS1")
+mudelid <- c("YIV","dum","DGS1", "DGS10", "DGS5", "DGS3MO", "TRM0503","TRM0506","TRM1003","TRM1006","TRM1012", "SRT03M", "AAA", "DBAA", "VIX", "housng")
 x <- 1
 df_total <- data.frame()
 
@@ -84,60 +84,38 @@ for (element in mudelid)
   remove(unnestedx)
 }
 
+
 regr_results <- function(a){
-  results <- df_total[c(a:(a+4)),] %>%
-    select(-augmented,-neweywest) %>%
+  results1 <- df_total[c(a:(a+4)),] %>%
+    select(-augmented,-neweywest, -glanced) %>%
+    unnest(cols = c(tidied)) %>%
+    select(-statistic, -p.value) %>%
+    pivot_longer(cols=-c(1:2), names_to = "mdeea", values_to = "Delay") %>%
+    mutate(x = paste(term,mdeea,sep = "_"))%>%
+    select(-c(2:3)) %>%
+    pivot_wider(names_from = Var, values_from = Delay) %>%
+    column_to_rownames(var = "x")
+
+  results2 <- df_total[c(a:(a+4)),] %>%
+    select(-augmented,-neweywest, -tidied) %>%
     unnest(cols = c(glanced)) %>%
     select(-df, -AIC, -BIC, -deviance, -nobs, -df.residual, -logLik, -statistic, -p.value) %>%
-    unnest(cols = c(tidied)) %>%
-    filter( term != "(Intercept)") %>%
-    select(-term, -statistic) %>%
-    column_to_rownames(var = "Var") %>%
-    round(2) %>%
-    rename(RMSE=sigma)
-  results$'Significance'[results$'p.value' >= 0] <- "aaa"
-  results$'Significance'[results$'p.value' > 0.01] <- "aa"
-  results$'Significance'[results$'p.value' > 0.05] <- "a"
-  results$'Significance'[results$'p.value' > 0.1] <- "NA"
-  results$'Significance' <- gsub("a", "*", results$'Significance')
+    column_to_rownames(var = "Var")
+  results2 <- as.data.frame(t(results2))
+
+  results <- rbind(results1, results2)
+  remove(results1, results2)
+  rownames(results)[rownames(results) == "sigma"] <- "RMSE"
+  
 return(results)
 }
+
 ```
 
 
 ```{r child = 'roll_regress.rmd'}
 
 ```
-
-
-
-
-
-```{r, include=F}
-
-# define a function to get coefficients from linear regression
-do_regression2 <- function(var)
-  { # var - the name of the variable to be regressed
-    res <- lm(as.formula(paste0(var, "~ YIV +dum")), df) # run linear regression
-    coefs <- c("Intercept" = summary(res)$coefficients[1,1], 
-               "Beta" = summary(res)$coefficients[-1,1], 
-               "Newey"=NeweyWest(res)[-1,1],
-               "R-Squared"= summary(res)$r.squared*100,
-               "Adj. R2"=summary(res)$adj.r.squared*100,  
-               "p-value"= summary(res)$coefficients[-1,4],
-               "RMSE" = sigma(res),
-               "Std" = coeftest(res, vcov=vcovHC(res, type ="HC1"))[-1, "Std. Error"])
-  return(coefs)
-  }
-
-df_results_dummy <- as.data.frame(t(sapply(colnames(df)[24:28], do_regression2)))
-
-df_results_dummy <- df_results_dummy %>%
-  round(2)
-
-  
-```
-
 
 
 ```{r, include=F}
@@ -159,11 +137,13 @@ statistics <- statistics %>%
 ```{r reg_graphs, message = F, warnings = F, echo = F}
 results1 <- regr_results(a=1)
 
-regression.coefficients <- ggplot(results1, aes(x=row.names(results1), y=estimate))+ geom_bar(stat="identity", fill="steelblue")+theme_minimal()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5))
-                                                                                                                                                                      
-regression.fit <- ggplot(results1, aes(x=row.names(results1),y=r.squared)) + geom_bar(stat="identity", fill="steelblue")+ theme_minimal() + xlab("Quarters") + ylab("R-squared") + labs(title = "GDP R-squared") +  theme(plot.title = element_text(hjust = 0.5))
+regression.coefficients <- ggplot(as.data.frame(t(results1)), aes(x=row.names(as.data.frame(t(results1))), y=YIV_estimate))+ geom_bar(stat="identity", fill="steelblue")+theme_minimal()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5))
+
+regression.fit <- ggplot(as.data.frame(t(results1)), aes(x=row.names(as.data.frame(t(results1))),y=r.squared)) + geom_bar(stat="identity", fill="steelblue")+ theme_minimal() + xlab("Quarters") + ylab("R-squared") + labs(title = "GDP R-squared") +  theme(plot.title = element_text(hjust = 0.5))
+
 regression.fit
 regression.coefficients
+
 
 ```
 
@@ -213,7 +193,6 @@ Notes: This table includes regression using GDP & YIV. Controls will be added du
 
 ```{r tableOLS, message = F, warnings = F,echo = F}
 results1 %>%
-  t()%>%
   kbl(booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
   pack_rows("Panel A: YIV",1,1, latex_align="c") %>%
@@ -230,9 +209,9 @@ Notes: This table includes regression using GDP & YIV. Controls will be added du
 \end{equation}
 
 ```{r mingiOLS, message = F, warnings = F,echo = F}
+df_results_d <- regr_results(a=6)
 
-df_results_dummy  %>%
-  t() %>%
+df_results_d  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
      pack_rows("Panel A",1,1, latex_align="c") %>%
