@@ -218,8 +218,29 @@ df_results_d  %>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
 ```
+
 \newpage
 ## Appendix F. 
+
+Notes: This table includes regression using GDP & YIV and controls.
+
+\begin{equation}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + Dummy +\varepsilon_{t+H}
+\end{equation}
+
+```{r mingiuusOLS, message = F, warnings = F,echo = F}
+df_results_all <- regr_results(a=76)
+
+df_results_all  %>%
+  kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
+   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
+     pack_rows("Panel A",1,1, latex_align="c") %>%
+       footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
+
+```
+
+\newpage
+## Appendix G. 
 
 ```{r roll_regress, message = F, warnings = F,echo = F}
 df_resultss %>%
