@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  7 FEB 2021 14:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  7 FEB 2021 18:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -389,74 +389,56 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 \Gm@layoutvoffset=\dimen160
 \Gm@dimlist=\toks25
 )
-(c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fancyvrb/fancyvrb.
-sty
-Package: fancyvrb 2020/05/03 v3.6 verbatim text (tvz,hv)
-\FV@CodeLineNo=\count278
-\FV@InFile=\read2
-\FV@TabBox=\box49
-\c@FancyVerbLine=\count279
-\FV@StepNumber=\count280
-\FV@OutFile=\write3
-) (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/framed/framed.st
-y
-Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
-\OuterFrameSep=\skip54
-\fb@frw=\dimen161
-\fb@frh=\dimen162
-\FrameRule=\dimen163
-\FrameSep=\dimen164
-)
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/longtable.st
 y
 Package: longtable 2020/01/07 v4.13 Multi-page Table package (DPC)
-\LTleft=\skip55
-\LTright=\skip56
-\LTpre=\skip57
-\LTpost=\skip58
-\LTchunksize=\count281
-\LTcapwidth=\dimen165
-\LT@head=\box50
-\LT@firsthead=\box51
-\LT@foot=\box52
-\LT@lastfoot=\box53
-\LT@cols=\count282
-\LT@rows=\count283
-\c@LT@tables=\count284
-\c@LT@chunks=\count285
+\LTleft=\skip54
+\LTright=\skip55
+\LTpre=\skip56
+\LTpost=\skip57
+\LTchunksize=\count278
+\LTcapwidth=\dimen161
+\LT@head=\box49
+\LT@firsthead=\box50
+\LT@foot=\box51
+\LT@lastfoot=\box52
+\LT@cols=\count279
+\LT@rows=\count280
+\c@LT@tables=\count281
+\c@LT@chunks=\count282
 \LT@p@ftn=\toks26
 )
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.
 sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen166
-\lightrulewidth=\dimen167
-\cmidrulewidth=\dimen168
-\belowrulesep=\dimen169
-\belowbottomsep=\dimen170
-\aboverulesep=\dimen171
-\abovetopsep=\dimen172
-\cmidrulesep=\dimen173
-\cmidrulekern=\dimen174
-\defaultaddspace=\dimen175
-\@cmidla=\count286
-\@cmidlb=\count287
-\@aboverulesep=\dimen176
-\@belowrulesep=\dimen177
-\@thisruleclass=\count288
-\@lastruleclass=\count289
-\@thisrulewidth=\dimen178
+\heavyrulewidth=\dimen162
+\lightrulewidth=\dimen163
+\cmidrulewidth=\dimen164
+\belowrulesep=\dimen165
+\belowbottomsep=\dimen166
+\aboverulesep=\dimen167
+\abovetopsep=\dimen168
+\cmidrulesep=\dimen169
+\cmidrulekern=\dimen170
+\defaultaddspace=\dimen171
+\@cmidla=\count283
+\@cmidlb=\count284
+\@aboverulesep=\dimen172
+\@belowrulesep=\dimen173
+\@thisruleclass=\count285
+\@lastruleclass=\count286
+\@thisrulewidth=\dimen174
 )
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.
 sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count290
+\etb@tempcnta=\count287
 )
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/mdwtools/footnote.
 sty
 Package: footnote 1997/01/28 1.13 Save footnotes around boxes
-\fn@notes=\box54
-\fn@width=\dimen179
+\fn@notes=\box53
+\fn@width=\dimen175
 )
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.
 sty
@@ -474,8 +456,8 @@ File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 105.
 )
-\Gin@req@height=\dimen180
-\Gin@req@width=\dimen181
+\Gin@req@height=\dimen176
+\Gin@req@width=\dimen177
 )
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/grffile/grffile.st
 y
@@ -499,35 +481,35 @@ Package chngcntr Info: \counterwithout already defined.
 (chngcntr)             Quitting chngcntr on input line 21.
 ) (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count291
+\c@float@type=\count288
 \float@exts=\toks27
-\float@box=\box55
+\float@box=\box54
 \@float@everytoks=\toks28
-\@floatcapt=\box56
+\@floatcapt=\box55
 ) (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/array.sty
 Package: array 2020/10/01 v2.5c Tabular extension package (FMi)
-\col@sep=\dimen182
-\ar@mcellbox=\box57
-\extrarowheight=\dimen183
+\col@sep=\dimen178
+\ar@mcellbox=\box56
+\extrarowheight=\dimen179
 \NC@list=\toks29
-\extratabsurround=\skip59
-\backup@length=\skip60
-\ar@cellbox=\box58
+\extratabsurround=\skip58
+\backup@length=\skip59
+\ar@cellbox=\box57
 )
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/multirow/multirow.
 sty
 Package: multirow 2019/05/31 v2.5 Span multiple rows of a table
-\multirow@colwidth=\skip61
-\multirow@cntb=\count292
-\multirow@dima=\skip62
-\bigstrutjot=\dimen184
+\multirow@colwidth=\skip60
+\multirow@cntb=\count289
+\multirow@dima=\skip61
+\bigstrutjot=\dimen180
 )
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.st
 y
-\wrapoverhang=\dimen185
-\WF@size=\dimen186
-\c@WF@wrappedlines=\count293
-\WF@box=\box59
+\wrapoverhang=\dimen181
+\WF@size=\dimen182
+\c@WF@wrappedlines=\count290
+\WF@box=\box58
 \WF@everypar=\toks30
 Package: wrapfig 2003/01/31  v 3.6
 )
@@ -535,7 +517,7 @@ Package: wrapfig 2003/01/31  v 3.6
 sty
 Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
 \everycr=\toks31
-\minrowclearance=\skip63
+\minrowclearance=\skip62
 )
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscap
 e.sty
@@ -552,38 +534,38 @@ Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/varwidth/varwidth.
 sty
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
-\@vwid@box=\box60
-\sift@deathcycles=\count294
-\@vwid@loff=\dimen187
-\@vwid@roff=\dimen188
+\@vwid@box=\box59
+\sift@deathcycles=\count291
+\@vwid@loff=\dimen183
+\@vwid@roff=\dimen184
 )
-\c@taburow=\count295
-\tabu@nbcols=\count296
-\tabu@cnt=\count297
-\tabu@Xcol=\count298
-\tabu@alloc=\count299
-\tabu@nested=\count300
-\tabu@target=\dimen189
-\tabu@spreadtarget=\dimen190
-\tabu@naturalX=\dimen191
-\tabucolX=\dimen192
-\tabu@Xsum=\dimen193
-\extrarowdepth=\dimen194
-\abovetabulinesep=\dimen195
-\belowtabulinesep=\dimen196
-\tabustrutrule=\dimen197
+\c@taburow=\count292
+\tabu@nbcols=\count293
+\tabu@cnt=\count294
+\tabu@Xcol=\count295
+\tabu@alloc=\count296
+\tabu@nested=\count297
+\tabu@target=\dimen185
+\tabu@spreadtarget=\dimen186
+\tabu@naturalX=\dimen187
+\tabucolX=\dimen188
+\tabu@Xsum=\dimen189
+\extrarowdepth=\dimen190
+\abovetabulinesep=\dimen191
+\belowtabulinesep=\dimen192
+\tabustrutrule=\dimen193
 \tabu@thebody=\toks32
 \tabu@footnotes=\toks33
-\tabu@box=\box61
-\tabu@arstrutbox=\box62
-\tabu@hleads=\box63
-\tabu@vleads=\box64
-\tabu@cellskip=\skip64
+\tabu@box=\box60
+\tabu@arstrutbox=\box61
+\tabu@hleads=\box62
+\tabu@vleads=\box63
+\tabu@cellskip=\skip63
 )
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttable/thr
 eeparttable.sty
 Package: threeparttable 2003/06/13  v 3.0
-\@tempboxb=\box65
+\@tempboxb=\box64
 )
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttablex/th
 reeparttablex.sty
@@ -597,31 +579,31 @@ Package: environ 2014/05/04 v0.3 A new way to define environments
 ces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 ))
-\TPTL@width=\skip65
+\TPTL@width=\skip64
 ) (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ulem/ulem.sty
-\UL@box=\box66
-\UL@hyphenbox=\box67
-\UL@skip=\skip66
+\UL@box=\box65
+\UL@hyphenbox=\box66
+\UL@skip=\skip65
 \UL@hook=\toks34
-\UL@height=\dimen198
-\UL@pe=\count301
-\UL@pixel=\dimen199
-\ULC@box=\box68
+\UL@height=\dimen194
+\UL@pe=\count298
+\UL@pixel=\dimen195
+\ULC@box=\box67
 Package: ulem 2019/11/18
-\ULdepth=\dimen256
+\ULdepth=\dimen196
 )
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/makecell/makecell.
 sty
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
-\rotheadsize=\dimen257
-\c@nlinenum=\count302
+\rotheadsize=\dimen197
+\c@nlinenum=\count299
 \TeXr@lab=\toks35
 )
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backen
 d-pdftex.def
 File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
-\l__kernel_color_stack_int=\count303
-\l__pdf_internal_box=\box69
+\l__kernel_color_stack_int=\count300
+\l__pdf_internal_box=\box68
 ) (./009-appendices.aux
 
 LaTeX Warning: Label `tab:summarystat' multiply defined.
@@ -629,32 +611,32 @@ LaTeX Warning: Label `tab:summarystat' multiply defined.
 )
 \openout1 = `009-appendices.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Info: Redefining \microtypecontext on input line 134.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Info: Redefining \microtypecontext on input line 94.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 134.
+LaTeX Info: Redefining \showhyphens on input line 94.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -675,7 +657,7 @@ df-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring ON on input line 134.
+Package hyperref Info: Link coloring ON on input line 94.
 
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.s
 ty
@@ -689,14 +671,14 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count304
+\c@section@level=\count301
 )
-LaTeX Info: Redefining \ref on input line 134.
-LaTeX Info: Redefining \pageref on input line 134.
-LaTeX Info: Redefining \nameref on input line 134.
+LaTeX Info: Redefining \ref on input line 94.
+LaTeX Info: Redefining \pageref on input line 94.
+LaTeX Info: Redefining \nameref on input line 94.
 (./009-appendices.out) (./009-appendices.out)
-\@outlinefile=\write4
-\openout4 = `009-appendices.out'.
+\@outlinefile=\write3
+\openout3 = `009-appendices.out'.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -732,34 +714,34 @@ LaTeX Info: Redefining \nameref on input line 134.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
-36.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 9
+6.
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
-36.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 9
+6.
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-136.
+96.
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-136.
+96.
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 136.
+(Font)              <14.4> on input line 96.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 136.
+(Font)              <10> on input line 96.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 136.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 136
-.
+(Font)              <7> on input line 96.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 96.
+
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
@@ -767,8 +749,8 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 fg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 136
-.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 96.
+
 (c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
@@ -776,346 +758,338 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 fg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
-41.
-(c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <12> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 144.
-[1
-
-{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdfte
-x.map}] [2]
-<009-appendices_files/figure-latex/reg_graphs-1.pdf, id=52, 469.755pt x 325.215
+<009-appendices_files/figure-latex/reg_graphs-1.pdf, id=36, 469.755pt x 325.215
 pt>
 File: 009-appendices_files/figure-latex/reg_graphs-1.pdf Graphic file (type pdf
 )
 <use 009-appendices_files/figure-latex/reg_graphs-1.pdf>
 Package pdftex.def Info: 009-appendices_files/figure-latex/reg_graphs-1.pdf  us
-ed on input line 199.
+ed on input line 103.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-<009-appendices_files/figure-latex/reg_graphs-2.pdf, id=53, 469.755pt x 325.215
+<009-appendices_files/figure-latex/reg_graphs-2.pdf, id=37, 469.755pt x 325.215
 pt>
 File: 009-appendices_files/figure-latex/reg_graphs-2.pdf Graphic file (type pdf
 )
 <use 009-appendices_files/figure-latex/reg_graphs-2.pdf>
 Package pdftex.def Info: 009-appendices_files/figure-latex/reg_graphs-2.pdf  us
-ed on input line 199.
+ed on input line 103.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 199--200
+Underfull \hbox (badness 10000) in paragraph at lines 103--104
 []
  []
 
-[3]
-Overfull \vbox (24.54839pt too high) has occurred while \output is active []
+[1
 
-[4 <./009-appendices_files/figure-latex/reg_graphs-1.pdf> <./009-appendices_fil
+{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdfte
+x.map}] [2]
+Overfull \vbox (54.43173pt too high) has occurred while \output is active []
+
+[3 <./009-appendices_files/figure-latex/reg_graphs-1.pdf> <./009-appendices_fil
 es/figure-latex/reg_graphs-2.pdf>]
-<009-appendices_files/figure-latex/GDPvsYIV-1.pdf, id=73, 469.755pt x 325.215pt
+<009-appendices_files/figure-latex/GDPvsYIV-1.pdf, id=66, 469.755pt x 325.215pt
 >
 File: 009-appendices_files/figure-latex/GDPvsYIV-1.pdf Graphic file (type pdf)
 <use 009-appendices_files/figure-latex/GDPvsYIV-1.pdf>
 Package pdftex.def Info: 009-appendices_files/figure-latex/GDPvsYIV-1.pdf  used
- on input line 208.
+ on input line 112.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[5pdfTeX warning (ext4): destination with the same identifier (name{figure.1.1}
+[4pdfTeX warning (ext4): destination with the same identifier (name{figure.1.1}
 ) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.212 \newpage
+l.116 \newpage
                <./009-appendices_files/figure-latex/GDPvsYIV-1.pdf>]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 241.
+(Font)              <12> on input line 145.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 241.
+(Font)              <8> on input line 145.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 241.
-[6] [7]
-Overfull \hbox (10.21306pt too wide) in paragraph at lines 313--313
+(Font)              <6> on input line 145.
+[5] [6]
+Overfull \hbox (10.21306pt too wide) in paragraph at lines 222--222
 \T1/lmr/m/n/12 (-20) cept)_estimate|  
  []
 
 
-Overfull \hbox (38.2546pt too wide) in paragraph at lines 313--313
+Overfull \hbox (38.2546pt too wide) in paragraph at lines 222--222
 []\T1/lmr/m/n/12 (-20) (Intercept)_std.error|  
  []
 
 
-Overfull \hbox (30.82162pt too wide) in paragraph at lines 313--313
+Overfull \hbox (30.82162pt too wide) in paragraph at lines 222--222
 []\T1/lmr/m/n/12 (-20) (Intercept)_p.value|  
  []
 
 
-Overfull \hbox (5.60779pt too wide) in paragraph at lines 313--313
+Overfull \hbox (5.60779pt too wide) in paragraph at lines 222--222
 []\T1/lmr/m/n/12 (-20) YIV_estimate|  
  []
 
 
-Overfull \hbox (6.24742pt too wide) in paragraph at lines 313--313
+Overfull \hbox (6.24742pt too wide) in paragraph at lines 222--222
 []\T1/lmr/m/n/12 (-20) YIV_std.error|  
  []
 
 
-Overfull \hbox (37.21083pt too wide) in alignment at lines 313--313
+Overfull \hbox (37.21083pt too wide) in alignment at lines 222--222
+ [] [] [] [] [] [] 
+ []
+
+[7]
+Overfull \hbox (10.21306pt too wide) in paragraph at lines 256--256
+\T1/lmr/m/n/12 (-20) cept)_estimate|  
+ []
+
+
+Overfull \hbox (38.2546pt too wide) in paragraph at lines 256--256
+[]\T1/lmr/m/n/12 (-20) (Intercept)_std.error|  
+ []
+
+
+Overfull \hbox (30.82162pt too wide) in paragraph at lines 256--256
+[]\T1/lmr/m/n/12 (-20) (Intercept)_p.value|  
+ []
+
+
+Overfull \hbox (5.60779pt too wide) in paragraph at lines 256--256
+[]\T1/lmr/m/n/12 (-20) YIV_estimate|  
+ []
+
+
+Overfull \hbox (6.24742pt too wide) in paragraph at lines 256--256
+[]\T1/lmr/m/n/12 (-20) YIV_std.error|  
+ []
+
+
+Overfull \hbox (7.01567pt too wide) in paragraph at lines 256--256
+[]\T1/lmr/m/n/12 (-20) dum_estimate|  
+ []
+
+
+Overfull \hbox (7.6553pt too wide) in paragraph at lines 256--256
+[]\T1/lmr/m/n/12 (-20) dum_std.error|  
+ []
+
+
+Overfull \hbox (37.21083pt too wide) in alignment at lines 256--256
  [] [] [] [] [] [] 
  []
 
 [8]
-Overfull \hbox (10.21306pt too wide) in paragraph at lines 347--347
+Overfull \hbox (10.21306pt too wide) in paragraph at lines 321--321
 \T1/lmr/m/n/12 (-20) cept)_estimate|  
  []
 
 
-Overfull \hbox (38.2546pt too wide) in paragraph at lines 347--347
+Overfull \hbox (38.2546pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) (Intercept)_std.error|  
  []
 
 
-Overfull \hbox (30.82162pt too wide) in paragraph at lines 347--347
+Overfull \hbox (30.82162pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) (Intercept)_p.value|  
  []
 
 
-Overfull \hbox (5.60779pt too wide) in paragraph at lines 347--347
+Overfull \hbox (5.60779pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) YIV_estimate|  
  []
 
 
-Overfull \hbox (6.24742pt too wide) in paragraph at lines 347--347
+Overfull \hbox (6.24742pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) YIV_std.error|  
  []
 
 
-Overfull \hbox (7.01567pt too wide) in paragraph at lines 347--347
+Overfull \hbox (7.01567pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) dum_estimate|  
  []
 
 
-Overfull \hbox (7.6553pt too wide) in paragraph at lines 347--347
+Overfull \hbox (7.6553pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) dum_std.error|  
  []
 
 
-Overfull \hbox (37.21083pt too wide) in alignment at lines 347--347
- [] [] [] [] [] [] 
- []
-
-[9]
-Overfull \hbox (10.21306pt too wide) in paragraph at lines 412--412
-\T1/lmr/m/n/12 (-20) cept)_estimate|  
- []
-
-
-Overfull \hbox (38.2546pt too wide) in paragraph at lines 412--412
-[]\T1/lmr/m/n/12 (-20) (Intercept)_std.error|  
- []
-
-
-Overfull \hbox (30.82162pt too wide) in paragraph at lines 412--412
-[]\T1/lmr/m/n/12 (-20) (Intercept)_p.value|  
- []
-
-
-Overfull \hbox (5.60779pt too wide) in paragraph at lines 412--412
-[]\T1/lmr/m/n/12 (-20) YIV_estimate|  
- []
-
-
-Overfull \hbox (6.24742pt too wide) in paragraph at lines 412--412
-[]\T1/lmr/m/n/12 (-20) YIV_std.error|  
- []
-
-
-Overfull \hbox (7.01567pt too wide) in paragraph at lines 412--412
-[]\T1/lmr/m/n/12 (-20) dum_estimate|  
- []
-
-
-Overfull \hbox (7.6553pt too wide) in paragraph at lines 412--412
-[]\T1/lmr/m/n/12 (-20) dum_std.error|  
- []
-
-
-Overfull \hbox (14.6087pt too wide) in paragraph at lines 412--412
+Overfull \hbox (14.6087pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) DGS1_estimate|  
  []
 
 
-Overfull \hbox (15.24834pt too wide) in paragraph at lines 412--412
+Overfull \hbox (15.24834pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) DGS1_std.error|  
  []
 
 
-Overfull \hbox (7.81537pt too wide) in paragraph at lines 412--412
+Overfull \hbox (7.81537pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) DGS1_p.value|  
  []
 
 
-Overfull \hbox (20.3662pt too wide) in paragraph at lines 412--412
+Overfull \hbox (20.3662pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) DGS10_estimate|  
  []
 
 
-Overfull \hbox (21.00583pt too wide) in paragraph at lines 412--412
+Overfull \hbox (21.00583pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) DGS10_std.error|  
  []
 
 
-Overfull \hbox (13.57286pt too wide) in paragraph at lines 412--412
+Overfull \hbox (13.57286pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) DGS10_p.value|  
  []
 
 
-Overfull \hbox (14.6087pt too wide) in paragraph at lines 412--412
+Overfull \hbox (14.6087pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) DGS5_estimate|  
  []
 
 
-Overfull \hbox (15.24834pt too wide) in paragraph at lines 412--412
+Overfull \hbox (15.24834pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) DGS5_std.error|  
  []
 
 
-Overfull \hbox (7.81537pt too wide) in paragraph at lines 412--412
+Overfull \hbox (7.81537pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) DGS5_p.value|  
  []
 
 
-Overfull \hbox (34.11658pt too wide) in paragraph at lines 412--412
+Overfull \hbox (34.11658pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) DGS3MO_estimate|  
  []
 
 
-Overfull \hbox (34.75621pt too wide) in paragraph at lines 412--412
+Overfull \hbox (34.75621pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) DGS3MO_std.error|  
  []
 
 
-Overfull \hbox (27.32324pt too wide) in paragraph at lines 412--412
+Overfull \hbox (27.32324pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) DGS3MO_p.value|  
  []
 
 
-Overfull \hbox (34.5736pt too wide) in paragraph at lines 412--412
+Overfull \hbox (34.5736pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) TRM0506_estimate|  
  []
 
 
-Overfull \hbox (35.21323pt too wide) in paragraph at lines 412--412
+Overfull \hbox (35.21323pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) TRM0506_std.error|  
  []
 
 
-Overfull \hbox (27.78026pt too wide) in paragraph at lines 412--412
+Overfull \hbox (27.78026pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) TRM0506_p.value|  
  []
 
 
-Overfull \hbox (28.89987pt too wide) in paragraph at lines 412--412
+Overfull \hbox (28.89987pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) SRT03M_estimate|  
  []
 
 
-Overfull \hbox (29.5395pt too wide) in paragraph at lines 412--412
+Overfull \hbox (29.5395pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) SRT03M_std.error|  
  []
 
 
-Overfull \hbox (22.10654pt too wide) in paragraph at lines 412--412
+Overfull \hbox (22.10654pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) SRT03M_p.value|  
  []
 
 
-Overfull \hbox (10.08542pt too wide) in paragraph at lines 412--412
+Overfull \hbox (10.08542pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) AAA_estimate|  
  []
 
 
-Overfull \hbox (10.72505pt too wide) in paragraph at lines 412--412
+Overfull \hbox (10.72505pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) AAA_std.error|  
  []
 
 
-Overfull \hbox (3.29208pt too wide) in paragraph at lines 412--412
+Overfull \hbox (3.29208pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) AAA_p.value|  
  []
 
 
-Overfull \hbox (18.83743pt too wide) in paragraph at lines 412--412
+Overfull \hbox (18.83743pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) DBAA_estimate|  
  []
 
 
-Overfull \hbox (19.47707pt too wide) in paragraph at lines 412--412
+Overfull \hbox (19.47707pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) DBAA_std.error|  
  []
 
 
-Overfull \hbox (12.0441pt too wide) in paragraph at lines 412--412
+Overfull \hbox (12.0441pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) DBAA_p.value|  
  []
 
 
-Overfull \hbox (5.60779pt too wide) in paragraph at lines 412--412
+Overfull \hbox (5.60779pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) VIX_estimate|  
  []
 
 
-Overfull \hbox (6.24742pt too wide) in paragraph at lines 412--412
+Overfull \hbox (6.24742pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) VIX_std.error|  
  []
 
 
-Overfull \hbox (19.8739pt too wide) in paragraph at lines 412--412
+Overfull \hbox (19.8739pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) housng_estimate|  
  []
 
 
-Overfull \hbox (20.51353pt too wide) in paragraph at lines 412--412
+Overfull \hbox (20.51353pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) housng_std.error|  
  []
 
 
-Overfull \hbox (13.08057pt too wide) in paragraph at lines 412--412
+Overfull \hbox (13.08057pt too wide) in paragraph at lines 321--321
 []\T1/lmr/m/n/12 (-20) housng_p.value|  
  []
 
 
-Overfull \hbox (37.21083pt too wide) in alignment at lines 412--412
+Overfull \hbox (37.21083pt too wide) in alignment at lines 321--321
  [] [] [] [] [] [] 
  []
 
-[10] [11]
-Overfull \hbox (60.0839pt too wide) in paragraph at lines 421--438
+[9] [10]
+Overfull \hbox (60.0839pt too wide) in paragraph at lines 330--347
  [][] 
  []
 
-<009-appendices_files/figure-latex/roll_regress-1.pdf, id=128, 469.755pt x 325.
+<009-appendices_files/figure-latex/roll_regress-1.pdf, id=121, 469.755pt x 325.
 215pt>
 File: 009-appendices_files/figure-latex/roll_regress-1.pdf Graphic file (type p
 df)
 <use 009-appendices_files/figure-latex/roll_regress-1.pdf>
 Package pdftex.def Info: 009-appendices_files/figure-latex/roll_regress-1.pdf  
-used on input line 440.
+used on input line 349.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[12 <./009-appendices_files/figure-latex/roll_regress-1.pdf>] (./009-appendices
+[11 <./009-appendices_files/figure-latex/roll_regress-1.pdf>] (./009-appendices
 .aux)
 Package rerunfilecheck Info: File `009-appendices.out' has not changed.
-(rerunfilecheck)             Checksum: A011FB1EA0434E2A1B9849DA3590B72E;883.
+(rerunfilecheck)             Checksum: 847205A8854604BF4764F705147427E1;883.
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 14674 strings out of 481331
- 219951 string characters out of 5916229
- 608950 words of memory out of 5000000
- 31121 multiletter control sequences out of 15000+600000
- 460870 words of font info for 110 fonts, out of 8000000 for 9000
+ 14172 strings out of 481331
+ 212197 string characters out of 5916229
+ 598792 words of memory out of 5000000
+ 30631 multiletter control sequences out of 15000+600000
+ 460097 words of font info for 109 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 66i,11n,72p,638b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 66i,11n,72p,342b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.e
 nc}{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mat
 hit.enc}{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/l
@@ -1128,14 +1102,11 @@ s/type1/public/lm/lmmi12.pfb><c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist
 dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/henry/AppData/Roaming/TinyTeX/te
 xmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/henry/AppData/Roaming/TinyTe
 X/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/henry/AppData/Roaming/Tin
-yTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb><c:/Users/henry/AppData/Roamin
-g/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb><c:/Users/henry/AppData/R
-oaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb><c:/Users/henry/AppD
-ata/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on 009-appendices.pdf (12 pages, 231810 bytes).
+yTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb>
+Output written on 009-appendices.pdf (11 pages, 156321 bytes).
 PDF statistics:
- 193 PDF objects out of 1000 (max. 8388607)
- 158 compressed objects within 2 object streams
- 37 named destinations out of 1000 (max. 500000)
+ 174 PDF objects out of 1000 (max. 8388607)
+ 143 compressed objects within 2 object streams
+ 36 named destinations out of 1000 (max. 500000)
  30805 words of extra memory for PDF output out of 35830 (max. 10000000)
 

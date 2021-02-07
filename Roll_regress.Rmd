@@ -99,7 +99,7 @@ df_resultss <- df_resultss %>%
   round(2)
 
 colnames(df_resultss, do.NULL = FALSE)
-colnames(df_resultss) <- c("H3","H6","H9","H12","H15","H18","H21","H24","H27","H30","H33","H36")
+colnames(df_resultss) <- c("H1","H2","H3","H4","H5","H6","H7","H8","H9","H10","H11","H12")
 rownames(df_resultss) <- c("Out-of-sample RMSFE", "Recessionary", "Expansionary" ,"Naive", "TRM", "CRS")
 
 ```
