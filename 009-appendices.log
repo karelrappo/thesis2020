@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  4 FEB 2021 12:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  7 FEB 2021 12:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -793,7 +793,7 @@ File: 009-appendices_files/figure-latex/reg_graphs-1.pdf Graphic file (type pdf
 )
 <use 009-appendices_files/figure-latex/reg_graphs-1.pdf>
 Package pdftex.def Info: 009-appendices_files/figure-latex/reg_graphs-1.pdf  us
-ed on input line 192.
+ed on input line 199.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 <009-appendices_files/figure-latex/reg_graphs-2.pdf, id=49, 469.755pt x 325.215
 pt>
@@ -801,10 +801,10 @@ File: 009-appendices_files/figure-latex/reg_graphs-2.pdf Graphic file (type pdf
 )
 <use 009-appendices_files/figure-latex/reg_graphs-2.pdf>
 Package pdftex.def Info: 009-appendices_files/figure-latex/reg_graphs-2.pdf  us
-ed on input line 192.
+ed on input line 199.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 192--193
+Underfull \hbox (badness 10000) in paragraph at lines 199--200
 []
  []
 
@@ -818,32 +818,92 @@ es/figure-latex/reg_graphs-2.pdf>]
 File: 009-appendices_files/figure-latex/GDPvsYIV-1.pdf Graphic file (type pdf)
 <use 009-appendices_files/figure-latex/GDPvsYIV-1.pdf>
 Package pdftex.def Info: 009-appendices_files/figure-latex/GDPvsYIV-1.pdf  used
- on input line 201.
+ on input line 208.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [5pdfTeX warning (ext4): destination with the same identifier (name{figure.1.1}
 ) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.205 \newpage
+l.212 \newpage
                <./009-appendices_files/figure-latex/GDPvsYIV-1.pdf>]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 234.
+(Font)              <12> on input line 241.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 234.
+(Font)              <8> on input line 241.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 234.
+(Font)              <6> on input line 241.
 [6] [7]
-Overfull \hbox (37.21083pt too wide) in alignment at lines 304--304
+Overfull \hbox (10.21306pt too wide) in paragraph at lines 313--313
+\T1/lmr/m/n/12 (-20) cept)_estimate|  
+ []
+
+
+Overfull \hbox (38.2546pt too wide) in paragraph at lines 313--313
+[]\T1/lmr/m/n/12 (-20) (Intercept)_std.error|  
+ []
+
+
+Overfull \hbox (30.82162pt too wide) in paragraph at lines 313--313
+[]\T1/lmr/m/n/12 (-20) (Intercept)_p.value|  
+ []
+
+
+Overfull \hbox (5.60779pt too wide) in paragraph at lines 313--313
+[]\T1/lmr/m/n/12 (-20) YIV_estimate|  
+ []
+
+
+Overfull \hbox (6.24742pt too wide) in paragraph at lines 313--313
+[]\T1/lmr/m/n/12 (-20) YIV_std.error|  
+ []
+
+
+Overfull \hbox (37.21083pt too wide) in alignment at lines 313--313
  [] [] [] [] [] [] 
  []
 
 [8]
-Overfull \hbox (37.21083pt too wide) in alignment at lines 338--338
+Overfull \hbox (10.21306pt too wide) in paragraph at lines 347--347
+\T1/lmr/m/n/12 (-20) cept)_estimate|  
+ []
+
+
+Overfull \hbox (38.2546pt too wide) in paragraph at lines 347--347
+[]\T1/lmr/m/n/12 (-20) (Intercept)_std.error|  
+ []
+
+
+Overfull \hbox (30.82162pt too wide) in paragraph at lines 347--347
+[]\T1/lmr/m/n/12 (-20) (Intercept)_p.value|  
+ []
+
+
+Overfull \hbox (5.60779pt too wide) in paragraph at lines 347--347
+[]\T1/lmr/m/n/12 (-20) YIV_estimate|  
+ []
+
+
+Overfull \hbox (6.24742pt too wide) in paragraph at lines 347--347
+[]\T1/lmr/m/n/12 (-20) YIV_std.error|  
+ []
+
+
+Overfull \hbox (7.01567pt too wide) in paragraph at lines 347--347
+[]\T1/lmr/m/n/12 (-20) dum_estimate|  
+ []
+
+
+Overfull \hbox (7.6553pt too wide) in paragraph at lines 347--347
+[]\T1/lmr/m/n/12 (-20) dum_std.error|  
+ []
+
+
+Overfull \hbox (37.21083pt too wide) in alignment at lines 347--347
  [] [] [] [] [] [] 
  []
 
 [9]
-Overfull \hbox (60.0839pt too wide) in paragraph at lines 346--363
+Overfull \hbox (60.0839pt too wide) in paragraph at lines 355--372
  [][] 
  []
 
@@ -853,7 +913,7 @@ File: 009-appendices_files/figure-latex/roll_regress-1.pdf Graphic file (type p
 df)
 <use 009-appendices_files/figure-latex/roll_regress-1.pdf>
 Package pdftex.def Info: 009-appendices_files/figure-latex/roll_regress-1.pdf  
-used on input line 365.
+used on input line 374.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [10 <./009-appendices_files/figure-latex/roll_regress-1.pdf>] (./009-appendices
 .aux)
@@ -864,13 +924,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 14600 strings out of 481331
- 219200 string characters out of 5916229
+ 14602 strings out of 481331
+ 219220 string characters out of 5916229
  603775 words of memory out of 5000000
  31057 multiletter control sequences out of 15000+600000
- 460688 words of font info for 108 fonts, out of 8000000 for 9000
+ 460779 words of font info for 109 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 66i,11n,72p,428b,470s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 66i,11n,72p,638b,470s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.e
 nc}{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mat
 hit.enc}{c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/l
@@ -887,7 +947,7 @@ yTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb><c:/Users/henry/AppData/Roamin
 g/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb><c:/Users/henry/AppData/R
 oaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb><c:/Users/henry/AppD
 ata/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on 009-appendices.pdf (10 pages, 228906 bytes).
+Output written on 009-appendices.pdf (10 pages, 228937 bytes).
 PDF statistics:
  175 PDF objects out of 1000 (max. 8388607)
  142 compressed objects within 2 object streams

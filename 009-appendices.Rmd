@@ -87,9 +87,9 @@ for (element in mudelid)
 
 regr_results <- function(a){
   results1 <- df_total[c(a:(a+4)),] %>%
-    select(-augmented,-neweywest, -glanced) %>%
-    unnest(cols = c(tidied)) %>%
-    select(-statistic, -p.value) %>%
+    select(-augmented,-tidied, -glanced) %>%
+    unnest(cols = c(neweywest)) %>%
+    select(-statistic) %>%
     pivot_longer(cols=-c(1:2), names_to = "mdeea", values_to = "Delay") %>%
     mutate(x = paste(term,mdeea,sep = "_"))%>%
     select(-c(2:3)) %>%
