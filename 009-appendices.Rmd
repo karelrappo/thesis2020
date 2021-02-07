@@ -198,6 +198,7 @@ Notes: This table depicts the output of regression with YIV as only independent 
 \end{equation}
 
 ```{r tableOLS, message = F, warnings = F,echo = F}
+results1 <- regr_results(a=1)
 results1 %>%
   kbl(booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
