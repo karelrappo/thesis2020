@@ -31,29 +31,51 @@ header-includes:
 ## Linear regressions
 The first part of our methodology consists of replicating the methodology conducted by @Cremers2017. In other words, we test whether the treasury implied volatility can be used to predict the future macroeconomic real activity.
 
-To quantify the predictability of macroeconomic real activity using the treasury implied volatility, we run an ordinary least squares (OLS) regression. In the first regression, we take the 5-year YIV and use it to predict the logarithmic values of year-on-year growth rate of the real GDP. In the equation, H is equal to the periods predicted - e.g. if H=4, it means that we are taking the rolling overlapping average of GDP growth over the 4 quarters. 
+To quantify the predictability of macroeconomic real activity using the treasury implied volatility, we run an ordinary least squares (OLS) regression. In the first regression, we take the 5-year YIV and use it to predict the forward-looking GDP growth. To specify, GDP i,t+j refers to  logarithmic values of year-on-year quarterly growth rate of the real GDP. H is equal to the periods predicted - e.g. if H=4, it means that we are taking the rolling overlapping average of GDP growth over the 4 quarters. 
 
 \begin{equation}
-\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + \varepsilon_{t+H}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + \varepsilon_{t+H}
 \end{equation}
 
-In addition, by using an autoregressive model, an additional regression with the lagged values of macroeconomic variables is run to see whether the predictive ability will improve. The number of lagged variables included is decided by the Akaike information criterion (AIC).
+In the linear models, we compare the predictive ability of YIV within different time periods (H=1,2,3,..,12). Furthermore, to validate YIVs predictive ability, we construct different models(including autoregressive models) by adding in lags & various financial and economical control variables  to see whether the significance of our main variable persists. The control variables include term spreads, credit spreads, stock market implied volatility(VIX), number of new residential construction starts (HOUSNG). In order to enable the comparison of the variables ,we standardize all of the independent variables so the mean is equal  to 1 & standard deviation to 0. Furthermore, all of our reported coefficients as well as standard errors are adjusted for heteroskedasticity and also autocorrelation (HAC) - to do so, we use the Newey-West methodology with automatic bandwidth selection process. Nevertheless, it is important to mention that the errors are not calculated manually, instead the R package ‘sandwich’ will be used (add a reference).
 
-We then proceed to include different control variables to the regression model such as term spreads, credit spreads, stock returns, stock market implied volatility.
 
 \begin{equation}
-\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + Controls +\varepsilon_{t+H}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Controls +\varepsilon_{t+H}
 \end{equation}
 
 Next, to determine the direction of the causality, we run a Vector Autoregressive model (VAR) Granger Causality test on every variable to make sure that e.g. YIV indeed granger-causes movements in GDP. 
+
+We also check whether there exist any asymmetries regarding economic cycles - i.e. if YIV exerts a bigger/smaller effect on GDP when the current state is a recession or an expansion. To do so, we introduce a model with a dummy variable that is equal to 1(0) during a recessionary(expansionary) period. The business cycle dating (i.e. recessionary and expansionary periods) for the US economy is taken from the National Bureau of Economic Research (NBER).
+
+\begin{equation}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Dummy +\varepsilon_{t+H}
+\end{equation}
 
 ## Adjusting for different economic cycles
 
 In the second part of our research we build upon the research conducted by Cremers et. al. We test whether the model holds when accounting also for the possible business cycle performance asymmetries as suggested by @Siliverstovs2020.
 We perform separate regressions on the subsamples i.e. forecasting performance during expansionary and recessionary periods. More specifically, we compare the root-mean-square-forecasting-error (RMSFE) of the predictive model during recession and expansion with full sample forecast to find out whether full sample forecast’s relative RMSFE forecasts are robust during the expansionary and recessionary subsamples (in other words, we check whether a distributional shift occurs during the recessionary and/or expansionary periods).
 
-## Macroeconomic Random Forest (MRF)
-As Machine Learning methods successfully tackle nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty (Coulombe et al., 2020). As our research includes many different financial crises, we expect to find forecasting gains by utilizing Random Forest whose benefits were elaborated in review of literature.
+## (Macroeconomic) Random Forest
+As Machine Learning methods successfully tackle nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty (Coulombe et al., 2020). As our research includes many different financial crises, we expect to find forecasting gains by utilizing Random Forest method.
+
+In our research, we focus specifically on a random forest based method because it requires little tuning. For example, one of the main problems regarding the models, overfitting, has shown to have little effect on the RF model (Diaz-Uriatre and Alvarez de Andres, 2006).
+
+Random forest itself is an ensemble based supervised learning method i.e. it predicts outputs based on existing input and output pairs. The concept of random forest in essence is relatively simple - as the name suggests there are two main elements behind it. First is the randomness part - random forest uses bootstrap aggregation (bagging) to construct random samples of the initial dataset, which helps to avoid overfitting. Furthermore, the randomness is also included in variable selection, which will be described later on.
+Secondly, forest, which refers to the aggregation. To elaborate, in those random samples (trees), it uses a decision tree to reach a conclusion. Through these kinds of logical iterations the decision tree arrives at the end value.  Finally, the conclusion of the final model is reached by aggregating and averaging the output of individual decision trees.
+
+To illustrate the process in algorithmical terms: 
+
+1) Through bootstrap aggregation we create a sample set out of the pre-defined training data.
+2) Then the model randomly selects  x number variables amongst the total set X. 
+3) Subsequently, the best variable and splitting criterion is selected, on the basis of which the current node is splitted into two sub-nodes. More specifically, the choice is so made on the basis of mean squared errors  - which are minimized at each split
+4) This process is repeated until each terminal node reaches minimum size (by default 5).
+5) The output is achieved by averaging the estimation of each tree in the model 
+
+\begin{equation}
+RMSE = \sum_{i=1}^{n}(y_{i}-\gamma)^2
+\end{equation}
 
 However, in our research, we use an algorithm developed by @Coulombe2020 named Macroeconomic Random Forest. His proposed model further develops off-the-shelf random forest with regards to two areas:
 

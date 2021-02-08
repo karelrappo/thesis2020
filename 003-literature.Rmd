@@ -49,16 +49,24 @@ where
 d_{1} = \frac{ln (F/K) + 0.5\sigma_{t}^{2}]}{\sqrt{\sigma T}} && d_{2} = d_{1} - \sqrt{\sigma T}
  \end{align}
 
+C refers to the price of a call option, F is the price of the underlying future, T is the time to expiration, sigma the volatility of the underlying asset, r is the interest rate. Using the formula and deriving sigma, one can compute the (treasury) implied volatility.
+
+
 The options are chosen on the basis of exercise price being closest to the price of the underlying bond future - i.e. then its closest to at-the-money. This is done because @Ederington1993 & [-@Ederington1996] argue that contracts that are closest to at-the-money possess a strong link between spot and future markets. Therefore, these options can be treated as they are options on the bond spot market itself. Furthermore, they argue that those options tend to be the most liquid ones.
 
 After obtaining the daily time series of implied volatility, the authors simply average the daily time series to obtain monthly data, which is regressed with different macroeconomic & control variables.
 
 
 \begin{equation}
-\sum_{j=1}^{j=H} log(1+GDP_{i,t+j}) = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + Controls +\varepsilon_{t+H}
+\sum_{j=1}^{j=H} log(1+GDP_{i,t+j}) = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Controls +\varepsilon_{t+H}
 \end{equation}
 
-The authors possess the data for different maturities (1,5,10,30 years). The research concluded that specifically a 5-year Treasury note significantly predicts most of the aforementioned elements, even after controlling for many other predictors such as term spread, stock returns, stock market implied volatility. This is so as @Brandt2007 find that the price discovery tends to mostly happen in  contracts with maturity of 5-year, both for cash and future markets.
+So, for example, in the main regression described by the formula above, the authors analyze the effect on GDP. In this case, GDP refers to quarterly year-on-year growth rate. It is important to notice that they use the average annualized growth rate that is obtained by dividing the sum of quarterly growth rates with the number of quarters forecasted H.
+
+To validate YIV ability to forecast GDP growth, several control variables such as term spreads, credit spreads, stock market volatility, housing starts, etc. are included in the model. The selection of housing starts (amount of residential property construction projects started) selection is justified in a research by Ewing and Wang (2005) who find that economic cycles are positively correlated with housing starts. In addition, Cesa-Bianchi, Pesaran, and Rebucci (2018) offer a multi-country overview on the connection of realized stock market volatility and real output growth, where they report significant correlation between the two. Even though the authors do not directly use VIX as a measure for volatility, the comovement of VIX and their constructed realized volatility measure is very similar, having correlation over 90%. Moreover, Term spreads have been a key element connected to forecasting recession, which is also verified by Ang, Piazzesi, and Wei (2005). To complement, Wright (2006) advances the findings further and reports higher performance in forecasting GDP with term spreads and federal funds rates together.  Lastly, Gilchrist and Zakrajsek (2012) construct a corporate bond credit spread index which is a significant predictor of macroeconomic activity for different variables & time-horizons.
+
+
+Even though tThe authors possess the data for different maturities (1,5,10,30 years). Nevertheless, the research concluded that specifically a 5-year Treasury note significantly predicts most of the aforementioned elements, even after controlling for many other predictors named before such as term spread, stock returns, stock market implied volatility. This is so as @Brandt2007 find that the price discovery tends to mostly happen in  contracts with maturity of 5-year, both for cash and future markets.
 
 ## Forecasting asymmetries
 In the fairly recent wave of research of forecasting, the problems and limitations regarding full-sample forecasting have become more prevalent. More specifically, it has been found that the business cycles have a statistically significant effect on the model’s predictive ability. Furthermore, through using state-dependent models, the effects of business cycle asymmetries can be evaluated on the forecasting performance of the model.
@@ -82,19 +90,6 @@ However, as brought out by @Bolhuis2020, while the DFM-s account for collinearit
 
 A solution for this can be found through implementing machine learning (ML) models which have been increasingly taken into use also in applied economics research. Researches have been drawn more and more towards the ML methods in forecasting mainly due to its ability to take into account nonlinearity and its emphasis on out-of-sample forecasting to avoid overfitting. Furthermore, the ML methods have been found to have better performance with regards to the forecasting accuracy and robustness [@Carrasco2016]
 
-## Random Forest 
-In the research, we focus on a random forest thanks to its ability to account for complex nonlinearities. Random forest itself is a supervised learning method i.e. it predicts outputs based on existing input and output pairs. The concept of random forest in essence is relatively simple. It builds upon the decision trees i.e. random forest consists of multiple standalone decision trees.
-
-\begin{figure}
-\includegraphics{trees}
-\caption{Example of a decision tree. Figure extracted from Niculaescu, O. (2018).}
-\label{decisiontree}
-\end{figure}
-
-
-Figure \@ref(decisiontree) above depicts a single decision tree. The example here uses variables and makes a simple logical decision (yes/no) based on whether the variable’s value is bigger or smaller than the comparison variable. Through these kinds of logical iterations the decision tree arrives at the end value. Furthermore, the random forest then is an average of the individual decision trees.
-
-
 
 To take it together, our paper builds upon Fleckenstein et al while improving the methodology in 2 ways:
 
@@ -107,4 +102,4 @@ Proceedingly, our hypotheses are the following:
 
 ***Hypothesis 2.*** Due to the business-cycle related asymmetries, the model based on the full-sample forecasts is inefficient in predicting during turbulent time periods.
 
-***Hypothesis 3.*** Using the RF model, it is possible to significantly reduce the RMFSE of the forecast thanks to its ability to take into account collinearity, predictor relevance and non-linearity while also maintaining the interpretability.
+***Hypothesis 3.*** Using machine learning methods, it is possible to significantly reduce the RMFSE of the forecast thanks to its ability to take into account collinearity, predictor relevance and non-linearity while also maintaining the interpretability.
