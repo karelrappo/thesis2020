@@ -60,35 +60,24 @@ library(reshape2)
 
 ```{r model, include=FALSE}
 
-#pmst peaks tegema mitmetasandilise, hetkel on ainult siis nö nende erinevate H12,H18 jne kaupa. Siia peaks nüüd ühe taseme veel juurde ehitama, mis defineeriks mudelisisu, a la common regression. Siis dummy regression jne. + tuleks mõelda how newey includeda
-
-
-
-mudelid <- c("YIV","dum", "DGS1", "DGS10", "DGS5", "DGS3MO", "TRM0503","TRM0506","TRM1003","TRM1006","TRM1012", "SRT03M", "AAA", "DBAA", "VIX", "housng")
-x <- 1
-df_total <- data.frame()
-
-for (element in mudelid)
+regrs <- function(mudelid)
   {
-  unnestedx <- df %>%
-  select(H4, H6, H8, H10, H12, mudelid[1:x]) %>%
-  gather(Var,Value,  -mudelid[1:x]) %>%
-  nest(data=c(Value,  mudelid[1:x])) %>%
+  df_total <- df %>%
+  select(H4, H6, H8, H10, H12, mudelid) %>%
+  gather(Var,Value,  -mudelid) %>%
+  nest(data=c(Value,  mudelid)) %>%
   mutate(model = map(data, ~lm(Value ~ ., data = .)),
          tidied = map(model, tidy),
          glanced = map(model, glance),
          augmented = map(model, augment),
          neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
   select(-model, -data)
-  
-  df_total <- rbind(df_total, data.frame(unnestedx))
-  x <- x+1
-  remove(unnestedx)
+return(df_total)
 }
 
 
 regr_results <- function(a){
-  results1 <- df_total[c(a:(a+4)),] %>%
+  results1 <- a %>%
     select(-augmented,-tidied, -glanced) %>%
     unnest(cols = c(neweywest)) %>%
     select(-statistic) %>%
@@ -98,7 +87,7 @@ regr_results <- function(a){
     pivot_wider(names_from = Var, values_from = Delay) %>%
     column_to_rownames(var = "x")
 
-  results2 <- df_total[c(a:(a+4)),] %>%
+  results2 <- a %>%
     select(-augmented,-neweywest, -tidied) %>%
     unnest(cols = c(glanced)) %>%
     select(-df, -AIC, -BIC, -deviance, -nobs, -df.residual, -logLik, -statistic, -p.value) %>%
@@ -137,10 +126,9 @@ statistics <- statistics %>%
 ## Appendix A
 
 ```{r reg_graphs, message = F, warnings = F, echo = F}
-results1 <- regr_results(a=1)
+regr1 <- regrs(mudelid=c("YIV"))
+results1 <- regr_results(a=regr1)
 results1 <- as.data.frame(t(results1))
-#results1 <- results1[c("H4", "H6", "H8", "H10", "H12"),]
-
 
 
 regression.coefficients <- ggplot(results1, aes(x=row.names(results1), y=YIV_estimate))+ geom_bar(stat="identity", fill="steelblue")+theme_minimal()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5)) + scale_x_discrete(limits=c("H4", "H6", "H8", "H10", "H12"))
@@ -149,8 +137,6 @@ regression.fit <- ggplot(results1, aes(x=row.names(results1),y=r.squared)) + geo
 
 regression.fit
 regression.coefficients
-
-
 ```
 
 \newpage
@@ -191,14 +177,16 @@ statistics %>%
 \newpage
 ## Appendix D. 
 
-Notes: This table depicts the output of regression with YIV as only independent variable. 
+Notes: This table depicts the output of regression with YIV as independent variable. The equation for the regression is following:
 
 \begin{equation}
 \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} +\varepsilon_{t+H}
 \end{equation}
 
-```{r tableOLS, message = F, warnings = F,echo = F}
-results1 <- regr_results(a=1)
+```{r OLS1, message = F, warnings = F,echo = F}
+regr1 <- regrs(mudelid=c("YIV"))
+results1 <- regr_results(a=regr1)
+
 results1 %>%
   kbl(booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
@@ -209,16 +197,17 @@ results1 %>%
 \newpage
 ## Appendix E. 
 
-Notes: This table includes regression using GDP & YIV. Controls will be added during research process. The equation for the regression is the following:
+Notes: YIV and dummy as independent variables. The equation for the regression is following:
 
 \begin{equation}
 \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + Dummy +\varepsilon_{t+H}
 \end{equation}
 
-```{r mingiOLS, message = F, warnings = F,echo = F}
-df_results_d <- regr_results(a=6)
+```{r OLS2, message = F, warnings = F,echo = F}
+regr2 <- regrs(mudelid=c("YIV", "dum"))
+results2 <- regr_results(a=regr2)
 
-df_results_d  %>%
+results2  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
      pack_rows("Panel A",1,1, latex_align="c") %>%
@@ -229,16 +218,80 @@ df_results_d  %>%
 \newpage
 ## Appendix F. 
 
-Notes: This table includes regression using GDP & YIV and controls.
+Notes: This table includes regression using YIV and GDP lags. The equation for the regression is following:
 
 \begin{equation}
-\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + Dummy +\varepsilon_{t+H}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + lag[log(1+GDP_{i,t+j})] +\varepsilon_{t+H}
 \end{equation}
 
-```{r mingiuusOLS, message = F, warnings = F,echo = F}
-df_results_all <- regr_results(a=76)
+```{r OLS3, message = F, warnings = F,echo = F}
+# lag_selection1 <- lm(log_gdp ~ lag4, df)
+# lag_selection2 <- lm(log_gdp ~ lag4+lag6, df)
+# lag_selection3 <- lm(log_gdp ~ lag4+lag6+lag8, df)
+# lag_selection4 <- lm(log_gdp ~ lag4+lag6+lag8+lag10, df)
+# lag_selection5 <- lm(log_gdp ~ lag4+lag6+lag8+lag10+lag12, df)
+# lag_selection6 <- lm(log_gdp ~ lag4+lag6+lag8+lag10+lag12+lag14, df)
+# lag_selection7 <- lm(log_gdp ~ lag4+lag6+lag8+lag10+lag12+lag14+lag16, df)
+# 
+# extractAIC(lag_selection1)
+# extractAIC(lag_selection2)
+# extractAIC(lag_selection3)
+# extractAIC(lag_selection4)
+# 
+# BIC(lag_selection1)
+# BIC(lag_selection2)
+# BIC(lag_selection3)
+# BIC(lag_selection4)
+# BIC(lag_selection5)
+# BIC(lag_selection6)
+# BIC(lag_selection7)
 
-df_results_all  %>%
+
+regr3 <- regrs(mudelid=c("YIV", "lag4", "lag6"))
+results3 <- regr_results(a=regr3)
+
+results3  %>%
+  kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
+   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
+     pack_rows("Panel A",1,1, latex_align="c") %>%
+       footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
+
+```
+\newpage
+## Appendix G. 
+
+Notes: This table includes regression using GDP lags and controls. The equation for the regression is following:
+
+\begin{equation}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + lag[log(1+GDP_{i,t+j})] +\varepsilon_{t+H}
+\end{equation}
+
+```{r OLS4, message = F, warnings = F,echo = F}
+regr4 <- regrs(mudelid=c("lag4", "lag6", "lag8", "lag10", "lag12", "DGS1", "DGS10", "DGS5", "DGS3MO", "TRM0503","TRM0506","TRM1003","TRM1006","TRM1012", "SRT03M", "AAA", "DBAA", "VIX", "housng"))
+results4 <- regr_results(a=regr4)
+
+results4  %>%
+  kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
+   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
+     pack_rows("Panel A",1,1, latex_align="c") %>%
+       footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
+
+```
+
+\newpage
+## Appendix H. 
+
+Notes: YIV, dummy, GDP lags and controls as independent variables. The equation for the regression is following:
+
+\begin{equation}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + lag[log(1+GDP_{i,t+j})] +\varepsilon_{t+H}
+\end{equation}
+
+```{r OLS5, message = F, warnings = F,echo = F}
+regr5 <- regrs(mudelid=c("YIV", "dum", "lag4", "lag6", "lag8", "lag10", "lag12", "DGS1", "DGS10", "DGS5", "DGS3MO", "TRM0503","TRM0506","TRM1003","TRM1006","TRM1012", "SRT03M", "AAA", "DBAA", "VIX", "housng"))
+results5 <- regr_results(a=regr5)
+
+results5  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
      pack_rows("Panel A",1,1, latex_align="c") %>%
@@ -247,10 +300,8 @@ df_results_all  %>%
 ```
 
 
-
-
 \newpage
-## Appendix H. 
+## Appendix I. 
 
 ```{r roll_regress, message = F, warnings = F,echo = F}
 df_resultss %>%
@@ -292,26 +343,8 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(
 # RMSE(test$GDPC1, pred.rf)
 #  
 ```
-\newpage
 
-## APPENDIX I. DATA ACQUISITION
 
-As researchers typically do not typically post underlying data with their research, various plot digitizers have seen an exponential increase in use. @Drevon2017 researched intercoder reliability, during which over 3500 data points were extracted with WebPlotDigitizer from 36 different graphs. Nevertheless, they controlled the validity of the results and concluded that there was a near perfect correlation (r=0.989 with p-value <0.01) between extracted and actual data. Nevertheless, the limitations mentioned highlight coders previous experience with plot-digitizing tools.
-
-Furthermore, @Burda2017 also highlight that systematic reviewers often tend to have data constraints which is why plot digitizers are of a great help. They estimated data using WebPlotDigitizer and conclude that the extraction done by different coders was consistent; nevertheless, in the case of continuous data (compared to event data), the distribution varied more. Whatsoever, the intreclass coefficient for both types of plots was over 95%.
-
-We also used the WebPlotDigitzer in our research and as validity test extracted GDP from the same graph as YIV time series & plotted it with actuals - see the graph below.
-
-```{r actualvsextracted, message=F, warnings=F,echo = F, fig.cap = "Actual GDP growth vs extracted GDP growth in % using WebPlotDigitizer"}
-GDP_data <- read_csv("data/actualvsplot.csv")
-
-par(mar = c(5, 5, 3, 5))
-plot(GDP_data$Date, GDP_data$Actual, type = "l", xlab = "Date", ylab = "Actual GDP Growth", col = "blue", main = "Actual GDP vs extracted GDP growth")
-par(new=TRUE)
-plot(GDP_data$Date, GDP_data$Extracted, type = "l", xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "red", lty = 2)
-legend("bottomleft", c("Actual", "Extracted"),
-       col = c("blue", "red"), lty = c(1, 2))
-```
 
 
 
