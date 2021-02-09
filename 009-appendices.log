@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  9 FEB 2021 23:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.13)  10 FEB 2021 00:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -809,597 +809,520 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <6> on input line 150.
 [4] [5]
-Overfull \hbox (10.21306pt too wide) in paragraph at lines 236--236
+Overfull \hbox (10.21306pt too wide) in paragraph at lines 231--231
 \T1/lmr/m/n/12 (-20) cept)_estimate|  
  []
 
 
-Overfull \hbox (38.2546pt too wide) in paragraph at lines 236--236
+Overfull \hbox (38.2546pt too wide) in paragraph at lines 231--231
 []\T1/lmr/m/n/12 (-20) (Intercept)_std.error|  
  []
 
 
-Overfull \hbox (30.82162pt too wide) in paragraph at lines 236--236
+Overfull \hbox (30.82162pt too wide) in paragraph at lines 231--231
 []\T1/lmr/m/n/12 (-20) (Intercept)_p.value|  
  []
 
 
-Overfull \hbox (5.60779pt too wide) in paragraph at lines 236--236
+Overfull \hbox (5.60779pt too wide) in paragraph at lines 231--231
 []\T1/lmr/m/n/12 (-20) YIV_estimate|  
  []
 
 
-Overfull \hbox (6.24742pt too wide) in paragraph at lines 236--236
+Overfull \hbox (6.24742pt too wide) in paragraph at lines 231--231
 []\T1/lmr/m/n/12 (-20) YIV_std.error|  
  []
 
 
-Overfull \hbox (37.21083pt too wide) in alignment at lines 236--236
+Overfull \hbox (37.21083pt too wide) in alignment at lines 231--231
  [] [] [] [] [] [] 
  []
 
 [6]
-Overfull \hbox (10.21306pt too wide) in paragraph at lines 275--275
+Overfull \hbox (10.21306pt too wide) in paragraph at lines 270--270
 \T1/lmr/m/n/12 (-20) cept)_estimate|  
  []
 
 
-Overfull \hbox (38.2546pt too wide) in paragraph at lines 275--275
+Overfull \hbox (38.2546pt too wide) in paragraph at lines 270--270
 []\T1/lmr/m/n/12 (-20) (Intercept)_std.error|  
  []
 
 
-Overfull \hbox (30.82162pt too wide) in paragraph at lines 275--275
+Overfull \hbox (30.82162pt too wide) in paragraph at lines 270--270
 []\T1/lmr/m/n/12 (-20) (Intercept)_p.value|  
  []
 
 
-Overfull \hbox (5.60779pt too wide) in paragraph at lines 275--275
+Overfull \hbox (5.60779pt too wide) in paragraph at lines 270--270
 []\T1/lmr/m/n/12 (-20) YIV_estimate|  
  []
 
 
-Overfull \hbox (6.24742pt too wide) in paragraph at lines 275--275
+Overfull \hbox (6.24742pt too wide) in paragraph at lines 270--270
 []\T1/lmr/m/n/12 (-20) YIV_std.error|  
  []
 
 
-Overfull \hbox (7.01567pt too wide) in paragraph at lines 275--275
+Overfull \hbox (7.01567pt too wide) in paragraph at lines 270--270
 []\T1/lmr/m/n/12 (-20) dum_estimate|  
  []
 
 
-Overfull \hbox (7.6553pt too wide) in paragraph at lines 275--275
+Overfull \hbox (7.6553pt too wide) in paragraph at lines 270--270
 []\T1/lmr/m/n/12 (-20) dum_std.error|  
  []
 
 
-Overfull \hbox (37.21083pt too wide) in alignment at lines 275--275
+Overfull \hbox (37.21083pt too wide) in alignment at lines 270--270
  [] [] [] [] [] [] 
  []
 
 [7]
-Overfull \hbox (10.21306pt too wide) in paragraph at lines 318--318
+Overfull \hbox (10.21306pt too wide) in paragraph at lines 345--345
 \T1/lmr/m/n/12 (-20) cept)_estimate|  
  []
 
 
-Overfull \hbox (38.2546pt too wide) in paragraph at lines 318--318
+Overfull \hbox (38.2546pt too wide) in paragraph at lines 345--345
 []\T1/lmr/m/n/12 (-20) (Intercept)_std.error|  
  []
 
 
-Overfull \hbox (30.82162pt too wide) in paragraph at lines 318--318
+Overfull \hbox (30.82162pt too wide) in paragraph at lines 345--345
 []\T1/lmr/m/n/12 (-20) (Intercept)_p.value|  
  []
 
 
-Overfull \hbox (5.60779pt too wide) in paragraph at lines 318--318
+Overfull \hbox (5.60779pt too wide) in paragraph at lines 345--345
 []\T1/lmr/m/n/12 (-20) YIV_estimate|  
  []
 
 
-Overfull \hbox (6.24742pt too wide) in paragraph at lines 318--318
+Overfull \hbox (6.24742pt too wide) in paragraph at lines 345--345
 []\T1/lmr/m/n/12 (-20) YIV_std.error|  
  []
 
 
-Overfull \hbox (5.09584pt too wide) in paragraph at lines 318--318
-[]\T1/lmr/m/n/12 (-20) lag4_estimate|  
+Overfull \hbox (5.09584pt too wide) in paragraph at lines 345--345
+[]\T1/lmr/m/n/12 (-20) lag1_estimate|  
  []
 
 
-Overfull \hbox (5.73547pt too wide) in paragraph at lines 318--318
-[]\T1/lmr/m/n/12 (-20) lag4_std.error|  
+Overfull \hbox (5.73547pt too wide) in paragraph at lines 345--345
+[]\T1/lmr/m/n/12 (-20) lag1_std.error|  
  []
 
 
-Overfull \hbox (5.09584pt too wide) in paragraph at lines 318--318
-[]\T1/lmr/m/n/12 (-20) lag6_estimate|  
+Overfull \hbox (5.09584pt too wide) in paragraph at lines 345--345
+[]\T1/lmr/m/n/12 (-20) lag2_estimate|  
  []
 
 
-Overfull \hbox (5.73547pt too wide) in paragraph at lines 318--318
-[]\T1/lmr/m/n/12 (-20) lag6_std.error|  
+Overfull \hbox (5.73547pt too wide) in paragraph at lines 345--345
+[]\T1/lmr/m/n/12 (-20) lag2_std.error|  
  []
 
 
-Overfull \hbox (37.21083pt too wide) in alignment at lines 318--318
+Overfull \hbox (37.21083pt too wide) in alignment at lines 345--345
  [] [] [] [] [] [] 
  []
 
+
+Overfull \vbox (60.85022pt too high) has occurred while \output is active []
+
 [8]
-Overfull \hbox (10.21306pt too wide) in paragraph at lines 396--396
+Overfull \hbox (10.21306pt too wide) in paragraph at lines 414--414
 \T1/lmr/m/n/12 (-20) cept)_estimate|  
  []
 
 
-Overfull \hbox (38.2546pt too wide) in paragraph at lines 396--396
+Overfull \hbox (38.2546pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) (Intercept)_std.error|  
  []
 
 
-Overfull \hbox (30.82162pt too wide) in paragraph at lines 396--396
+Overfull \hbox (30.82162pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) (Intercept)_p.value|  
  []
 
 
-Overfull \hbox (5.09584pt too wide) in paragraph at lines 396--396
-[]\T1/lmr/m/n/12 (-20) lag4_estimate|  
+Overfull \hbox (5.09584pt too wide) in paragraph at lines 414--414
+[]\T1/lmr/m/n/12 (-20) lag1_estimate|  
  []
 
 
-Overfull \hbox (5.73547pt too wide) in paragraph at lines 396--396
-[]\T1/lmr/m/n/12 (-20) lag4_std.error|  
+Overfull \hbox (5.73547pt too wide) in paragraph at lines 414--414
+[]\T1/lmr/m/n/12 (-20) lag1_std.error|  
  []
 
 
-Overfull \hbox (5.09584pt too wide) in paragraph at lines 396--396
-[]\T1/lmr/m/n/12 (-20) lag6_estimate|  
+Overfull \hbox (5.09584pt too wide) in paragraph at lines 414--414
+[]\T1/lmr/m/n/12 (-20) lag2_estimate|  
  []
 
 
-Overfull \hbox (5.73547pt too wide) in paragraph at lines 396--396
-[]\T1/lmr/m/n/12 (-20) lag6_std.error|  
+Overfull \hbox (5.73547pt too wide) in paragraph at lines 414--414
+[]\T1/lmr/m/n/12 (-20) lag2_std.error|  
  []
 
 
-Overfull \hbox (5.09584pt too wide) in paragraph at lines 396--396
-[]\T1/lmr/m/n/12 (-20) lag8_estimate|  
- []
-
-
-Overfull \hbox (5.73547pt too wide) in paragraph at lines 396--396
-[]\T1/lmr/m/n/12 (-20) lag8_std.error|  
- []
-
-
-Overfull \hbox (10.85333pt too wide) in paragraph at lines 396--396
-[]\T1/lmr/m/n/12 (-20) lag10_estimate|  
- []
-
-
-Overfull \hbox (11.49297pt too wide) in paragraph at lines 396--396
-[]\T1/lmr/m/n/12 (-20) lag10_std.error|  
- []
-
-
-Overfull \hbox (4.06pt too wide) in paragraph at lines 396--396
-[]\T1/lmr/m/n/12 (-20) lag10_p.value|  
- []
-
-
-Overfull \hbox (10.85333pt too wide) in paragraph at lines 396--396
-[]\T1/lmr/m/n/12 (-20) lag12_estimate|  
- []
-
-
-Overfull \hbox (11.49297pt too wide) in paragraph at lines 396--396
-[]\T1/lmr/m/n/12 (-20) lag12_std.error|  
- []
-
-
-Overfull \hbox (4.06pt too wide) in paragraph at lines 396--396
-[]\T1/lmr/m/n/12 (-20) lag12_p.value|  
- []
-
-
-Overfull \hbox (14.6087pt too wide) in paragraph at lines 396--396
+Overfull \hbox (14.6087pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) DGS1_estimate|  
  []
 
 
-Overfull \hbox (15.24834pt too wide) in paragraph at lines 396--396
+Overfull \hbox (15.24834pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) DGS1_std.error|  
  []
 
 
-Overfull \hbox (7.81537pt too wide) in paragraph at lines 396--396
+Overfull \hbox (7.81537pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) DGS1_p.value|  
  []
 
 
-Overfull \hbox (20.3662pt too wide) in paragraph at lines 396--396
+Overfull \hbox (20.3662pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) DGS10_estimate|  
  []
 
 
-Overfull \hbox (21.00583pt too wide) in paragraph at lines 396--396
+Overfull \hbox (21.00583pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) DGS10_std.error|  
  []
 
 
-Overfull \hbox (13.57286pt too wide) in paragraph at lines 396--396
+Overfull \hbox (13.57286pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) DGS10_p.value|  
  []
 
 
-Overfull \hbox (14.6087pt too wide) in paragraph at lines 396--396
+Overfull \hbox (14.6087pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) DGS5_estimate|  
  []
 
 
-Overfull \hbox (15.24834pt too wide) in paragraph at lines 396--396
+Overfull \hbox (15.24834pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) DGS5_std.error|  
  []
 
 
-Overfull \hbox (7.81537pt too wide) in paragraph at lines 396--396
+Overfull \hbox (7.81537pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) DGS5_p.value|  
  []
 
 
-Overfull \hbox (34.11658pt too wide) in paragraph at lines 396--396
+Overfull \hbox (34.11658pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) DGS3MO_estimate|  
  []
 
 
-Overfull \hbox (34.75621pt too wide) in paragraph at lines 396--396
+Overfull \hbox (34.75621pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) DGS3MO_std.error|  
  []
 
 
-Overfull \hbox (27.32324pt too wide) in paragraph at lines 396--396
+Overfull \hbox (27.32324pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) DGS3MO_p.value|  
  []
 
 
-Overfull \hbox (34.5736pt too wide) in paragraph at lines 396--396
+Overfull \hbox (34.5736pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) TRM0506_estimate|  
  []
 
 
-Overfull \hbox (35.21323pt too wide) in paragraph at lines 396--396
+Overfull \hbox (35.21323pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) TRM0506_std.error|  
  []
 
 
-Overfull \hbox (27.78026pt too wide) in paragraph at lines 396--396
+Overfull \hbox (27.78026pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) TRM0506_p.value|  
  []
 
 
-Overfull \hbox (28.89987pt too wide) in paragraph at lines 396--396
+Overfull \hbox (28.89987pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) SRT03M_estimate|  
  []
 
 
-Overfull \hbox (29.5395pt too wide) in paragraph at lines 396--396
+Overfull \hbox (29.5395pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) SRT03M_std.error|  
  []
 
 
-Overfull \hbox (22.10654pt too wide) in paragraph at lines 396--396
+Overfull \hbox (22.10654pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) SRT03M_p.value|  
  []
 
 
-Overfull \hbox (10.08542pt too wide) in paragraph at lines 396--396
+Overfull \hbox (10.08542pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) AAA_estimate|  
  []
 
 
-Overfull \hbox (10.72505pt too wide) in paragraph at lines 396--396
+Overfull \hbox (10.72505pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) AAA_std.error|  
  []
 
 
-Overfull \hbox (3.29208pt too wide) in paragraph at lines 396--396
+Overfull \hbox (3.29208pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) AAA_p.value|  
  []
 
 
-Overfull \hbox (18.83743pt too wide) in paragraph at lines 396--396
+Overfull \hbox (18.83743pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) DBAA_estimate|  
  []
 
 
-Overfull \hbox (19.47707pt too wide) in paragraph at lines 396--396
+Overfull \hbox (19.47707pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) DBAA_std.error|  
  []
 
 
-Overfull \hbox (12.0441pt too wide) in paragraph at lines 396--396
+Overfull \hbox (12.0441pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) DBAA_p.value|  
  []
 
 
-Overfull \hbox (5.60779pt too wide) in paragraph at lines 396--396
+Overfull \hbox (5.60779pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) VIX_estimate|  
  []
 
 
-Overfull \hbox (6.24742pt too wide) in paragraph at lines 396--396
+Overfull \hbox (6.24742pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) VIX_std.error|  
  []
 
 
-Overfull \hbox (19.8739pt too wide) in paragraph at lines 396--396
+Overfull \hbox (19.8739pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) housng_estimate|  
  []
 
 
-Overfull \hbox (20.51353pt too wide) in paragraph at lines 396--396
+Overfull \hbox (20.51353pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) housng_std.error|  
  []
 
 
-Overfull \hbox (13.08057pt too wide) in paragraph at lines 396--396
+Overfull \hbox (13.08057pt too wide) in paragraph at lines 414--414
 []\T1/lmr/m/n/12 (-20) housng_p.value|  
  []
 
 
-Overfull \hbox (37.21083pt too wide) in alignment at lines 396--396
+Overfull \hbox (37.21083pt too wide) in alignment at lines 414--414
  [] [] [] [] [] [] 
  []
 
 [9] [10]
-Overfull \hbox (10.21306pt too wide) in paragraph at lines 481--481
+Overfull \hbox (10.21306pt too wide) in paragraph at lines 490--490
 \T1/lmr/m/n/12 (-20) cept)_estimate|  
  []
 
 
-Overfull \hbox (38.2546pt too wide) in paragraph at lines 481--481
+Overfull \hbox (38.2546pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) (Intercept)_std.error|  
  []
 
 
-Overfull \hbox (30.82162pt too wide) in paragraph at lines 481--481
+Overfull \hbox (30.82162pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) (Intercept)_p.value|  
  []
 
 
-Overfull \hbox (5.60779pt too wide) in paragraph at lines 481--481
+Overfull \hbox (5.60779pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) YIV_estimate|  
  []
 
 
-Overfull \hbox (6.24742pt too wide) in paragraph at lines 481--481
+Overfull \hbox (6.24742pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) YIV_std.error|  
  []
 
 
-Overfull \hbox (7.01567pt too wide) in paragraph at lines 481--481
+Overfull \hbox (7.01567pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) dum_estimate|  
  []
 
 
-Overfull \hbox (7.6553pt too wide) in paragraph at lines 481--481
+Overfull \hbox (7.6553pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) dum_std.error|  
  []
 
 
-Overfull \hbox (5.09584pt too wide) in paragraph at lines 481--481
-[]\T1/lmr/m/n/12 (-20) lag4_estimate|  
+Overfull \hbox (5.09584pt too wide) in paragraph at lines 490--490
+[]\T1/lmr/m/n/12 (-20) lag1_estimate|  
  []
 
 
-Overfull \hbox (5.73547pt too wide) in paragraph at lines 481--481
-[]\T1/lmr/m/n/12 (-20) lag4_std.error|  
+Overfull \hbox (5.73547pt too wide) in paragraph at lines 490--490
+[]\T1/lmr/m/n/12 (-20) lag1_std.error|  
  []
 
 
-Overfull \hbox (5.09584pt too wide) in paragraph at lines 481--481
-[]\T1/lmr/m/n/12 (-20) lag6_estimate|  
+Overfull \hbox (5.09584pt too wide) in paragraph at lines 490--490
+[]\T1/lmr/m/n/12 (-20) lag2_estimate|  
  []
 
 
-Overfull \hbox (5.73547pt too wide) in paragraph at lines 481--481
-[]\T1/lmr/m/n/12 (-20) lag6_std.error|  
+Overfull \hbox (5.73547pt too wide) in paragraph at lines 490--490
+[]\T1/lmr/m/n/12 (-20) lag2_std.error|  
  []
 
 
-Overfull \hbox (5.09584pt too wide) in paragraph at lines 481--481
-[]\T1/lmr/m/n/12 (-20) lag8_estimate|  
- []
-
-
-Overfull \hbox (5.73547pt too wide) in paragraph at lines 481--481
-[]\T1/lmr/m/n/12 (-20) lag8_std.error|  
- []
-
-
-Overfull \hbox (10.85333pt too wide) in paragraph at lines 481--481
-[]\T1/lmr/m/n/12 (-20) lag10_estimate|  
- []
-
-
-Overfull \hbox (11.49297pt too wide) in paragraph at lines 481--481
-[]\T1/lmr/m/n/12 (-20) lag10_std.error|  
- []
-
-
-Overfull \hbox (4.06pt too wide) in paragraph at lines 481--481
-[]\T1/lmr/m/n/12 (-20) lag10_p.value|  
- []
-
-
-Overfull \hbox (10.85333pt too wide) in paragraph at lines 481--481
-[]\T1/lmr/m/n/12 (-20) lag12_estimate|  
- []
-
-
-Overfull \hbox (11.49297pt too wide) in paragraph at lines 481--481
-[]\T1/lmr/m/n/12 (-20) lag12_std.error|  
- []
-
-
-Overfull \hbox (4.06pt too wide) in paragraph at lines 481--481
-[]\T1/lmr/m/n/12 (-20) lag12_p.value|  
- []
-
-
-Overfull \hbox (14.6087pt too wide) in paragraph at lines 481--481
+Overfull \hbox (14.6087pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) DGS1_estimate|  
  []
 
 
-Overfull \hbox (15.24834pt too wide) in paragraph at lines 481--481
+Overfull \hbox (15.24834pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) DGS1_std.error|  
  []
 
 
-Overfull \hbox (7.81537pt too wide) in paragraph at lines 481--481
+Overfull \hbox (7.81537pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) DGS1_p.value|  
  []
 
 
-Overfull \hbox (20.3662pt too wide) in paragraph at lines 481--481
+Overfull \hbox (20.3662pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) DGS10_estimate|  
  []
 
 
-Overfull \hbox (21.00583pt too wide) in paragraph at lines 481--481
+Overfull \hbox (21.00583pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) DGS10_std.error|  
  []
 
 
-Overfull \hbox (13.57286pt too wide) in paragraph at lines 481--481
+Overfull \hbox (13.57286pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) DGS10_p.value|  
  []
 
 
-Overfull \hbox (14.6087pt too wide) in paragraph at lines 481--481
+Overfull \hbox (14.6087pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) DGS5_estimate|  
  []
 
 
-Overfull \hbox (15.24834pt too wide) in paragraph at lines 481--481
+Overfull \hbox (15.24834pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) DGS5_std.error|  
  []
 
 
-Overfull \hbox (7.81537pt too wide) in paragraph at lines 481--481
+Overfull \hbox (7.81537pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) DGS5_p.value|  
  []
 
 
-Overfull \hbox (34.11658pt too wide) in paragraph at lines 481--481
+Overfull \hbox (34.11658pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) DGS3MO_estimate|  
  []
 
 
-Overfull \hbox (34.75621pt too wide) in paragraph at lines 481--481
+Overfull \hbox (34.75621pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) DGS3MO_std.error|  
  []
 
 
-Overfull \hbox (27.32324pt too wide) in paragraph at lines 481--481
+Overfull \hbox (27.32324pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) DGS3MO_p.value|  
  []
 
 
-Overfull \hbox (34.5736pt too wide) in paragraph at lines 481--481
+Overfull \hbox (34.5736pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) TRM0506_estimate|  
  []
 
 
-Overfull \hbox (35.21323pt too wide) in paragraph at lines 481--481
+Overfull \hbox (35.21323pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) TRM0506_std.error|  
  []
 
 
-Overfull \hbox (27.78026pt too wide) in paragraph at lines 481--481
+Overfull \hbox (27.78026pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) TRM0506_p.value|  
  []
 
 
-Overfull \hbox (28.89987pt too wide) in paragraph at lines 481--481
+Overfull \hbox (28.89987pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) SRT03M_estimate|  
  []
 
 
-Overfull \hbox (29.5395pt too wide) in paragraph at lines 481--481
+Overfull \hbox (29.5395pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) SRT03M_std.error|  
  []
 
 
-Overfull \hbox (22.10654pt too wide) in paragraph at lines 481--481
+Overfull \hbox (22.10654pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) SRT03M_p.value|  
  []
 
 
-Overfull \hbox (10.08542pt too wide) in paragraph at lines 481--481
+Overfull \hbox (10.08542pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) AAA_estimate|  
  []
 
 
-Overfull \hbox (10.72505pt too wide) in paragraph at lines 481--481
+Overfull \hbox (10.72505pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) AAA_std.error|  
  []
 
 
-Overfull \hbox (3.29208pt too wide) in paragraph at lines 481--481
+Overfull \hbox (3.29208pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) AAA_p.value|  
  []
 
 
-Overfull \hbox (18.83743pt too wide) in paragraph at lines 481--481
+Overfull \hbox (18.83743pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) DBAA_estimate|  
  []
 
 
-Overfull \hbox (19.47707pt too wide) in paragraph at lines 481--481
+Overfull \hbox (19.47707pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) DBAA_std.error|  
  []
 
 
-Overfull \hbox (12.0441pt too wide) in paragraph at lines 481--481
+Overfull \hbox (12.0441pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) DBAA_p.value|  
  []
 
 
-Overfull \hbox (5.60779pt too wide) in paragraph at lines 481--481
+Overfull \hbox (5.60779pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) VIX_estimate|  
  []
 
 
-Overfull \hbox (6.24742pt too wide) in paragraph at lines 481--481
+Overfull \hbox (6.24742pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) VIX_std.error|  
  []
 
 
-Overfull \hbox (19.8739pt too wide) in paragraph at lines 481--481
+Overfull \hbox (19.8739pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) housng_estimate|  
  []
 
 
-Overfull \hbox (20.51353pt too wide) in paragraph at lines 481--481
+Overfull \hbox (20.51353pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) housng_std.error|  
  []
 
 
-Overfull \hbox (13.08057pt too wide) in paragraph at lines 481--481
+Overfull \hbox (13.08057pt too wide) in paragraph at lines 490--490
 []\T1/lmr/m/n/12 (-20) housng_p.value|  
  []
 
 
-Overfull \hbox (37.21083pt too wide) in alignment at lines 481--481
+Overfull \hbox (37.21083pt too wide) in alignment at lines 490--490
  [] [] [] [] [] [] 
  []
 
 [11] [12]
-Overfull \hbox (60.0839pt too wide) in paragraph at lines 490--507
+Overfull \hbox (60.0839pt too wide) in paragraph at lines 499--516
  [][] 
  []
 
@@ -1409,7 +1332,7 @@ File: 009-appendices_files/figure-latex/roll_regress-1.pdf Graphic file (type p
 df)
 <use 009-appendices_files/figure-latex/roll_regress-1.pdf>
 Package pdftex.def Info: 009-appendices_files/figure-latex/roll_regress-1.pdf  
-used on input line 509.
+used on input line 518.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [13 <./009-appendices_files/figure-latex/roll_regress-1.pdf>] (./009-appendices
 .aux)
@@ -1420,11 +1343,11 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 14269 strings out of 481331
- 213451 string characters out of 5916229
- 616140 words of memory out of 5000000
- 30709 multiletter control sequences out of 15000+600000
- 460597 words of font info for 112 fonts, out of 8000000 for 9000
+ 14249 strings out of 481331
+ 213249 string characters out of 5916229
+ 606140 words of memory out of 5000000
+ 30691 multiletter control sequences out of 15000+600000
+ 460506 words of font info for 111 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  66i,11n,72p,342b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.e
@@ -1441,7 +1364,7 @@ xmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/henry/AppData/Roaming/TinyTe
 X/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/henry/AppData/Roaming/Tin
 yTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb><c:/Users/henry/AppData/Roamin
 g/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
-Output written on 009-appendices.pdf (13 pages, 185228 bytes).
+Output written on 009-appendices.pdf (13 pages, 186520 bytes).
 PDF statistics:
  205 PDF objects out of 1000 (max. 8388607)
  171 compressed objects within 2 object streams

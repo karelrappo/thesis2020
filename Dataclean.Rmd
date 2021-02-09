@@ -179,15 +179,10 @@ df.recessionary <- subset(dataset, dum== 1)
 rm(list=setdiff(ls(), c("df")))
 
 df <- df %>%
-  mutate(lag4=lag(log_gdp, n = 4L)) %>%
-  mutate(lag6=lag(log_gdp, n = 6L)) %>%
-  mutate(lag8=lag(log_gdp, n = 8L)) %>%
-  mutate(lag10=lag(log_gdp, n = 10L)) %>%
-  mutate(lag12=lag(log_gdp, n = 12L)) %>%
-  mutate(lag14=lag(log_gdp, n = 14L)) %>%
-  mutate(lag16=lag(log_gdp, n = 16L)) %>%
-  mutate(lag18=lag(log_gdp, n = 18L)) %>%
-  mutate(lag20=lag(log_gdp, n = 20L))
+  mutate(lag1=lag(log_gdp, n = 1L)) %>%
+  mutate(lag2=lag(log_gdp, n = 2L)) %>%
+  mutate(lag3=lag(log_gdp, n = 3L)) %>%
+  mutate(lag4=lag(log_gdp, n = 4L))
 
 df <- df %>%
   mutate_if(is.numeric, scale)
