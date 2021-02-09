@@ -37,7 +37,7 @@ To quantify the predictability of macroeconomic real activity using the treasury
 \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + \varepsilon_{t+H}
 \end{equation}
 
-In the linear models, we compare the predictive ability of YIV within different time periods (H=1,2,3,..,12). Furthermore, to validate YIVs predictive ability, we construct different models(including autoregressive models) by adding in lags & various financial and economical control variables  to see whether the significance of our main variable persists. The control variables include term spreads, credit spreads, stock market implied volatility(VIX), number of new residential construction starts (HOUSNG). In order to enable the comparison of the variables ,we standardize all of the independent variables so the mean is equal  to 1 & standard deviation to 0. Furthermore, all of our reported coefficients as well as standard errors are adjusted for heteroskedasticity and also autocorrelation (HAC) - to do so, we use the Newey-West methodology with automatic bandwidth selection process. Nevertheless, it is important to mention that the errors are not calculated manually, instead the R package ‘sandwich’ will be used (add a reference).
+In the linear models, we compare the predictive ability of YIV within different time periods (H=1,2,3,..,12). Furthermore, to validate YIVs predictive ability, we construct different models(including autoregressive models) by adding in GDP lags and various financial and economical control variables  to see whether the significance of our main variable persists. The control variables include term spreads, credit spreads, stock market implied volatility(VIX), number of new residential construction starts (HOUSNG). In order to enable the comparison of the variables ,we standardize all of the independent variables so the mean is equal  to 1 and standard deviation to 0. Furthermore, all of our reported coefficients as well as standard errors are adjusted for heteroskedasticity and also autocorrelation (HAC) - to do so, we use the Newey-West methodology with automatic bandwidth selection process. Nevertheless, it is important to mention that the errors are not calculated manually, instead the R package ‘sandwich’ will be used (add a reference).
 
 
 \begin{equation}
@@ -52,13 +52,26 @@ We also check whether there exist any asymmetries regarding economic cycles - i.
 \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Dummy +\varepsilon_{t+H}
 \end{equation}
 
-## Adjusting for different economic cycles
+## Out-of-sample validation
+
+After having done the regression with YIV, subsample dummy and controls as independent variables, we proceed with conducting an out-of-sample test to validate the robustness of the model. To evaluate the robustness of the out-of-sample forecast we use the root mean square forecasting error (RMSFE). 
+
+To calculate the full model RMSFE we first have to obtain square forecasting errors (SFE). For that we construct a predictive model with a 5-year rolling estimation window. Thus, we use the previous 20 quarters to predict the next H quarters (note: here H denotest lead values not rolling averages). From that regression we obtain the predicted values and through incorporating the actual values we can then compute the SFE-s. Having the SFE-s, we take the mean from the values and then take the square root.
+
+## Out of sample validation for different economic cycles
 
 In the second part of our research we build upon the research conducted by Cremers et. al. We test whether the model holds when accounting also for the possible business cycle performance asymmetries as suggested by @Siliverstovs2020.
-We perform separate regressions on the subsamples i.e. forecasting performance during expansionary and recessionary periods. More specifically, we compare the root-mean-square-forecasting-error (RMSFE) of the predictive model during recession and expansion with full sample forecast to find out whether full sample forecast’s relative RMSFE forecasts are robust during the expansionary and recessionary subsamples (in other words, we check whether a distributional shift occurs during the recessionary and/or expansionary periods).
+
+More specifically, we compare the root-mean-square-forecasting-error (RMSFE) of the predictive model during recession and expansion with full sample forecast to find out whether full sample forecast’s RMSFE forecasts are robust during the expansionary and recessionary subsamples (in other words, we check whether a distributional shift occurs during the recessionary and/or expansionary periods).
+
+To calculate the  recessionary subsample RMSFE, we first obtain SFE-s through doing the full regression as described before, however, in calculating RMSFE we take only the SFE-s related to recessions (according to NBER classification). Based on those recessionary SFE-s we calculated the RMSFE. Similarly, in expansionary-only RMSFE calculation we excluded those recessionary SFE-s. 
+
+To offer a better comparison of the models forecasting performance, we assess the sub-models with expansionary & recessionary data points compared to benchmark model by calculating RMSFE.
+In the case of the formula having a value smaller than 1 indicates that the subset model does have a superior performance over the fullsample model.
+
 
 ## (Macroeconomic) Random Forest
-As Machine Learning methods successfully tackle nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty (Coulombe et al., 2020). As our research includes many different financial crises, we expect to find forecasting gains by utilizing Random Forest method.
+As Machine Learning methods successfully tackle nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty (Coulombe et al., 2020). As our research includes many different economic crises, we expect to find forecasting gains by utilizing Random Forest method.
 
 In our research, we focus specifically on a random forest based method because it requires little tuning. For example, one of the main problems regarding the models, overfitting, has shown to have little effect on the RF model (Diaz-Uriatre and Alvarez de Andres, 2006).
 
