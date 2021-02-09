@@ -194,7 +194,7 @@ results1 %>%
   pack_rows("Panel A: YIV",1,1, latex_align="c") %>%
   footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
-#grangertest(log_gdp ~ YIV, order=3, df)
+#grangertest(log_gdp ~ YIV, order=1, df)
 ```
 \newpage
 ## Appendix E. 
