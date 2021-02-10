@@ -166,6 +166,7 @@ In Panel C, different control variables are listed: SVEN1F01 - 1 year treasury b
 ```{r summarystat, message = F, warnings = F, echo = F}
 
 statistics %>%
+  select(-N.Valid) %>%
   arrange(match(Variable, c("YIV", "GDP", "CON", "EMP", "IND")), desc(Mean)) %>%
   kbl(booktabs = T,  longtable=T, align="c", digits=2, caption="Summary Statistics") %>%
   kable_styling(latex_options = c("striped","repeat_header")) %>%
