@@ -46,7 +46,7 @@ In the linear models, we compare the predictive ability of YIV within different 
 
 Next, to determine the direction of the causality, we run a Vector Autoregressive model (VAR) Granger Causality test on every variable to make sure that e.g. YIV indeed granger-causes movements in GDP. 
 
-We also check whether there exist any asymmetries regarding economic cycles - i.e. if YIV exerts a bigger/smaller effect on GDP when the current state is a recession or an expansion. To do so, we introduce a model with a dummy variable that is equal to 1(0) during a recessionary(expansionary) period. The business cycle dating (i.e. recessionary and expansionary periods) for the US economy is taken from the National Bureau of Economic Research (NBER).
+We also check whether there exist any asymmetries regarding economic cycles - i.e. if YIV exerts a bigger/smaller effect on GDP when the current state is a recession or an expansion. To do so, we introduce a model with a dummy variable that is equal to 1(0) during a recessionary(expansionary) period. The business cycle dating (i.e. recessionary and expansionary periods) for the US economy is taken from the National Bureau of Economic Research (NBER)^[https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions].
 
 \begin{equation}
 \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Dummy +\varepsilon_{t+H}
@@ -56,7 +56,15 @@ We also check whether there exist any asymmetries regarding economic cycles - i.
 
 After having done the regression with YIV, subsample dummy and controls as independent variables, we proceed with conducting an out-of-sample test to validate the robustness of the model. To evaluate the robustness of the out-of-sample forecast we use the root mean square forecasting error (RMSFE). 
 
-To calculate the full model RMSFE we first have to obtain square forecasting errors (SFE). For that we construct a predictive model with a 5-year rolling estimation window. Thus, we use the previous 20 quarters to predict the next H quarters (note: here H denotest lead values not rolling averages). From that regression we obtain the predicted values and through incorporating the actual values we can then compute the SFE-s. Having the SFE-s, we take the mean from the values and then take the square root.
+
+\begin{equation}
+\begin{split}
+SFE = \sum_{j=1}^{j=H}(log(GDP_{i,t+j}) - log(\widetilde{GDP}_{i,t+j})^2 \\
+RMSFE =  \sqrt{mean(SFE)}
+\end{split}
+\end{equation}
+
+To calculate the full model RMSFE we first have to obtain square forecasting errors (SFE). For that we construct a predictive model with a 5-year rolling estimation window. Thus, we use the previous 20 quarters to predict the next H quarters (note: here H denotes lead values not rolling averages). From that regression we obtain the predicted values and through incorporating the actual values we can then compute the SFE-s. Having the SFE-s, we take the mean from the values and then take the square root.
 
 ## Out of sample validation for different economic cycles
 
@@ -64,16 +72,20 @@ In the second part of our research we build upon the research conducted by Creme
 
 More specifically, we compare the root-mean-square-forecasting-error (RMSFE) of the predictive model during recession and expansion with full sample forecast to find out whether full sample forecast’s RMSFE forecasts are robust during the expansionary and recessionary subsamples (in other words, we check whether a distributional shift occurs during the recessionary and/or expansionary periods).
 
-To calculate the  recessionary subsample RMSFE, we first obtain SFE-s through doing the full regression as described before, however, in calculating RMSFE we take only the SFE-s related to recessions (according to NBER classification). Based on those recessionary SFE-s we calculated the RMSFE. Similarly, in expansionary-only RMSFE calculation we excluded those recessionary SFE-s. 
+To calculate the  recessionary subsample RMSFE, we first obtain SFE-s through doing the full regression as described before, however, in calculating RMSFE we take only the SFE-s related to recessions (according to NBER classification). Based on those recessionary SFE-s we calculated the RMSFE. Similarly, in expansionary-only RMSFE calculation we excluded those recessionary SFE-s.
+
+\begin{equation}
+rRMSFE = \frac{RMSFE_{subset}}{RMSFE_{full}}
+\end{equation}
 
 To offer a better comparison of the models forecasting performance, we assess the sub-models with expansionary & recessionary data points compared to benchmark model by calculating RMSFE.
 In the case of the formula having a value smaller than 1 indicates that the subset model does have a superior performance over the fullsample model.
 
 
 ## (Macroeconomic) Random Forest
-As Machine Learning methods successfully tackle nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty (Coulombe et al., 2020). As our research includes many different economic crises, we expect to find forecasting gains by utilizing Random Forest method.
+As Machine Learning (ML) methods successfully tackle nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty @Coulombe2020a. As our research includes many different economic crises, we expect to find forecasting gains by utilizing the Random Forest method.
 
-In our research, we focus specifically on a random forest based method because it requires little tuning. For example, one of the main problems regarding the models, overfitting, has shown to have little effect on the RF model (Diaz-Uriatre and Alvarez de Andres, 2006).
+In our research, we focus specifically on a random forest based method because it requires little tuning compared to other ML methods. For example, one of the main problems regarding the models, overfitting, has shown to have little effect on the RF model [@Diaz2006].
 
 Random forest itself is an ensemble based supervised learning method i.e. it predicts outputs based on existing input and output pairs. The concept of random forest in essence is relatively simple - as the name suggests there are two main elements behind it. First is the randomness part - random forest uses bootstrap aggregation (bagging) to construct random samples of the initial dataset, which helps to avoid overfitting. Furthermore, the randomness is also included in variable selection, which will be described later on.
 Secondly, forest, which refers to the aggregation. To elaborate, in those random samples (trees), it uses a decision tree to reach a conclusion. Through these kinds of logical iterations the decision tree arrives at the end value.  Finally, the conclusion of the final model is reached by aggregating and averaging the output of individual decision trees.
@@ -87,7 +99,7 @@ To illustrate the process in algorithmical terms:
 5) The output is achieved by averaging the estimation of each tree in the model 
 
 \begin{equation}
-RMSE = \sum_{i=1}^{n}(y_{i}-\gamma)^2
+RMSE = \frac{1}{n} \sum_{i=1}^{n}(y_{i}-\gamma)^2
 \end{equation}
 
 However, in our research, we use an algorithm developed by @Coulombe2020 named Macroeconomic Random Forest. His proposed model further develops off-the-shelf random forest with regards to two areas:
