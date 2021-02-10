@@ -15,7 +15,7 @@ output: pdf_document
 \textbf{State-dependent forecasting of macroeconomic real activity }\break
 \vspace{1 cm}
 \normalsize
-Research Design Description \break
+Review of Research Findings \break
 \end{center}
 \begin{flushleft}
 Authors:\break

@@ -1,0 +1,41 @@
+---
+title: "Results"
+author: "Karel Räpp, Henry Enno Turu"
+date: "29 11 2020"
+output: 
+  bookdown::pdf_document2:
+    toc: no
+csl: apa.csl
+bibliography: library.bib
+indent: yes
+fontsize: 12pt
+geometry: margin = 1in
+link-citations: yes
+linkcolor: blue
+urlcolor: blue
+header-includes:
+- \usepackage{placeins}
+- \usepackage{setspace}
+- \usepackage{chngcntr}
+- \usepackage{microtype}
+- \counterwithin{figure}{section}
+- \counterwithin{table}{section}
+- \usepackage{float}
+- \usepackage{amsmath}
+- \DeclareMathOperator{\logit}{logit}
+---
+
+
+# Results
+
+## Linear regressions
+We first begin by regressing YIV to GDP growth throughout different rolling periods - i.e. 4, 6, 8, 10 and 12 quarter GDP growth rolling averages (the regression formula and summary can be seen in appendix D). As it can be seen, YIV’s coefficients are significant throughout the prediction periods within 1% confidence level. The model’s R-squared gradually decreases from 39% in predicting ahead GDP growth 4 quarters’ rolling averages to 19% in predicting ahead 12 quarters’ rolling averages. The RMSE of the model increases from 0.78 to 0.9 with respect to the same prediction periods. To ensure that YIV predicts GDP growth and not the other way around, we run the Granger causality test by which we indeed conclude that YIV granger-caused GDP growth.
+
+Next, we add a dummy variable representing recessionary periods (according to the NBER classification) i.e. the dummy takes a value of 1 during recession and 0 during expansion (appendix E). As it can be seen from the table, the dummy’s coefficient is negative and significant at 1% confidence level throughout all predicted timespans. Furthermore, adding the dummy improved R-squared significantly - 61% in predicting ahead GDP growth 4 quarters’ rolling averages when compared to 39% of respective YIV only model. The latter indicates that there is a structural break in data during recessions and that full model predictions during recessionary periods can result in poor prediction accuracy.
+
+Next, we construct a model with YIV and two lagged GDP growth values (i.e. GDP growth 1 and 2 quarters ago) chosen through AIC information criteria (appendix F). Additionally, we also constructed a model with two lagged GDP growth values and controls as regressors (appendix G).
+
+Finally, we included all the aforementioned independent variables to one regression equation (appendix H). 
+
+Lastly, we constructed out-of-sample regressions to compute RMSFE-s of full-sample and subsample models (results can be seen in appendix I). For the out-of-sample regressions we used 5 year rolling windows and predicted ahead 1 to 12 quarters. As it can be seen, the RMSFE values during recessionary periods are significantly higher when compared to expansionary periods.
+## Out of Sample

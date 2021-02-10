@@ -65,6 +65,11 @@ knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='images/', echo=FALSE
 ```{r child = '005-data.Rmd'}
 ```
 \newpage
+\FloatBarrier
+```{r child = '006-Results.Rmd'}
+```
+
+\newpage
 \linespread{1.0}\selectfont
 ```{r child = '009-appendices.Rmd'}
 ```
