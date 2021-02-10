@@ -127,7 +127,7 @@ statistics <- statistics %>%
 
 ## Appendix A
 
-```{r reg_graphs, message = F, warnings = F, echo = F}
+```{r reg_graphs, message = F, warnings = F, echo = F, fig.height=3, fig.width=6}
 regr1 <- regrs(mudelid=c("YIV"))
 results1 <- regr_results(a=regr1)
 results1 <- as.data.frame(t(results1))
