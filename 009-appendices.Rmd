@@ -22,6 +22,7 @@ header-includes:
 - \usepackage{float}
 - \usepackage{amsmath}
 - \DeclareMathOperator{\logit}{logit}
+
 ---
 
 # Appendices
@@ -176,6 +177,8 @@ statistics %>%
   footnote(general = "The variables are shown prior to the standardization process.", threeparttable=T)
 ```
 \newpage
+
+
 ## Appendix D. 
 
 Notes: This table depicts the output of regression with YIV as independent variable. The equation for the regression is following:
@@ -191,7 +194,6 @@ results1 <- regr_results(a=regr1)
 results1 %>%
   kbl(booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-  pack_rows("Panel A: YIV",1,1, latex_align="c") %>%
   footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
 #grangertest(log_gdp ~ YIV, order=1, df)
@@ -212,7 +214,6 @@ results2 <- regr_results(a=regr2)
 results2  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-     pack_rows("Panel A",1,1, latex_align="c") %>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
 ```
@@ -249,7 +250,6 @@ results3 <- regr_results(a=regr3)
 results3  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-     pack_rows("Panel A",1,1, latex_align="c") %>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
 ```
@@ -269,7 +269,6 @@ results4 <- regr_results(a=regr4)
 results4  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-     pack_rows("Panel A",1,1, latex_align="c") %>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
 ```
@@ -290,7 +289,6 @@ results5 <- regr_results(a=regr5)
 results5  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-     pack_rows("Panel A",1,1, latex_align="c") %>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
 ```
