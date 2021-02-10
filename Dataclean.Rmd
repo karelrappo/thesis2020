@@ -98,11 +98,15 @@ moodys.raw <- read_csv("Data/moodys.csv")
 creditspreads<- subset(moodys.raw, DATE >= start & DATE <= end)
 creditspreads$AAA <- as.numeric(creditspreads$AAA)
 creditspreads$DBAA <- as.numeric(creditspreads$DBAA)
+creditspreads <- creditspreads %>%
+  mutate(baa_aaa=DBAA-AAA)
 
 
 GZ.raw <- read_csv("Data/GZ_quarterly.csv")
-GZ.raw$date <- as.Date(as.yearqtr(GZ.raw$date, format = "%YQ%q"))
-GZ <- subset(GZ.raw, date >= start & date <=end)
+GZ.raw$Date <- as.Date(as.yearqtr(GZ.raw$date, format = "%YQ%q"))
+GZ <- subset(GZ.raw, Date >= start & Date <=end)
+GZ <- GZ %>%
+  select(Date, gz_spr)
 
 # Import term rates
 DGS.raw <- read_csv("Data/feds/DGS_combined.csv")
@@ -118,6 +122,18 @@ DGS.clean <- DGS.clean %>%
   mutate(TRM1006 = DGS10-DGS6MO) %>%
   mutate(TRM1012 = DGS10-DGS1) %>%
   mutate(SRT03M = DGS3MO-lag(DGS3MO))
+
+#SPY
+spy <- read_csv("data/SPY.csv")
+spy <- spy %>%
+  select(Date, Close) %>%
+  group_by(quarter=paste(quarters(Date), lubridate::year(Date))) %>%
+  summarise_at(c("Close"), sum)
+spy$Date <- as.Date(as.yearqtr(spy$quarter, format = "Q%q %Y"))
+spy <- spy%>%
+  select(-quarter) %>%
+  subset(Date >= start & Date <= end) %>%
+  rename(spy=Close)
 
 #Dependent variables
 dependent_monthly<- read_csv("data/dependent.csv")
@@ -145,8 +161,9 @@ dataset <- dataset %>%
   mutate(vix_qrt[-2]) %>%
   mutate(housng_qrt[-2]) %>%
   mutate(log_gdp=log(1+GDP/100)*100) %>%
+  left_join(GZ) %>% 
+  left_join(spy) %>%
   relocate(Date, YIV, GDP, CON, EMP, IND)
-
 
 #Create rolling averages
 dataset <- dataset %>%
