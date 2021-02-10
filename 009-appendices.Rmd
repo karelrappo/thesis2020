@@ -49,6 +49,7 @@ library(rollRegres)
 library(modelr)
 library(Metrics)
 library(mltools)
+library(forcats)
 library(tibble)
 library(reshape2)
 library(lmtest)
@@ -112,8 +113,7 @@ return(results)
 
 ```{r, include=F}
 order <- c("GDP", "YIV", "EMP", "CON")
-statistics <- df %>%
-  select(-Date, -log_gdp, -H4, -H6, -H8, -H10, -H12, - dum)%>%
+statistics <- df_summary %>%
   descr(
     transpose = TRUE,
     stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
@@ -164,16 +164,15 @@ In Panel C, different control variables are listed: SVEN1F01 - 1 year treasury b
 
 
 ```{r summarystat, message = F, warnings = F, echo = F}
+
 statistics %>%
+  arrange(match(Variable, c("YIV", "GDP", "CON", "EMP", "IND")), desc(Mean)) %>%
   kbl(booktabs = T,  longtable=T, align="c", digits=2, caption="Summary Statistics") %>%
   kable_styling(latex_options = c("striped","repeat_header")) %>%
   group_rows("Panel A: YIV",1,1, latex_align="c") %>%
   group_rows("Panel B: Dependent Variables",2,5, latex_align="c") %>%
-  group_rows("Panel C: Control Variables",6,7, latex_align="c") %>%
-  footnote(general = "Additional control variables will be added upon construction. Furthermore, currently the frequency of the datasets differs for different variables but this will be addressed in the research process.", threeparttable=T)
-
-  
-
+  group_rows("Panel C: Control Variables",6,18, latex_align="c") %>%
+  footnote(general = "The variables are shown prior to the standardization process.", threeparttable=T)
 ```
 \newpage
 ## Appendix D. 

@@ -60,7 +60,7 @@ Due to the data price being behind the paywall, we had to resort to other measur
 
 
 
-The data regarding GDP year-on-year growth rate was extracted on a quarterly basis from A@Alfred2020. Furthermore, the vintage 2019-12-20 was extracted as it coincided the best with the data used in the research paper by @Cremers2017. Other dependent variables (industrial production, non-farm payroll and consumption) were extracted from the same database but on a monthly basis.
+The data regarding GDP year-on-year growth rate was extracted on a quarterly basis from @Alfred2020. Furthermore, the vintage 2019-12-20 was extracted as it coincided the best with the data used in the research paper by @Cremers2017. Other dependent variables (industrial production, non-farm payroll and consumption) were extracted from the same database but on a monthly basis.
  In addition, most of the data for constructing control variables were also extracted from the Fred database, such as:
  
 * Quarterly risk free rates (Treasury constant maturity rates for 3 month, 6 months, 1 year, 5 year and 10 year) 
@@ -69,9 +69,9 @@ The data regarding GDP year-on-year growth rate was extracted on a quarterly bas
   * Moody’s seasoned BAA corporate bond
 * Quarterly housing (new residential property construction) starts
 
-In addition to individual corporate bonds yields, we have also added corporate bond credit spread index by Gilchrist and Zakrajsek (2012), which was obtained from the official replication dataset   OPENCSR. As per authors, the index Lastly, the daily data for stock market implied volatility (VIX) is taken from CBOE, which is later aggregated into quarterly data. The monthly SPY historical data is obtained from Yahoo Finance, which again is aggregated into quarterly data.
+In addition to individual corporate bonds yields, we have also added corporate bond credit spread index by Gilchrist and Zakrajsek (2012), which was obtained from the official replication dataset   OPENCSR[@GZdata]. As per authors, the index Lastly, the daily data for stock market implied volatility (VIX) is taken from CBOE, which is later aggregated into quarterly data [@vix]. The monthly SPY historical data is obtained from Yahoo Finance, which again is aggregated into quarterly data [@spy].
 
-We use the risk free rates to compute different term spreads which is defined as the difference 
+We use the risk free rates to compute different term spreads which is defined as the difference
 
 * between 10 year and 12 month treasury constant maturity rate (variable TRM1012). 
 * between 10 year and 6 month treasury constant maturity rate (variable TRM1006).
@@ -79,6 +79,5 @@ We use the risk free rates to compute different term spreads which is defined as
 * between 5 year and 6 month treasury constant maturity rate (variable TRM0506)
 * between 5 year and 3 month treasury constant maturity rate (variable TRM0503)
 
-
-Furthermore, we construct changes in the short rate that is defined as the change in the rate of treasury 3 month note (SRT03M). In addition to the credit spread index(CRSZGI) and individual corporate yields, we calculate yield spread between AAA and BAA corporate bonds, defined as baa_aaa. 
+Furthermore, we construct changes in the short rate that is defined as the change in the rate of treasury 3 month note (SRT03M). In addition to the credit spread index(CRSZGI) and individual corporate yields, we calculate yield spread between AAA and BAA corporate bonds, defined as baa_aaa. All the used variables prior to standardization can be seen in Table \@ref(tab:summarystat)
 

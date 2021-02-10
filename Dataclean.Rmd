@@ -40,7 +40,6 @@ library(data.table)
 library(MacroRF)
 require(data.table)
 library(zoo)
-
 ```
 
 ```{r Import Data, include=F}
@@ -200,6 +199,10 @@ df <- df %>%
   mutate(lag2=lag(log_gdp, n = 2L)) %>%
   mutate(lag3=lag(log_gdp, n = 3L)) %>%
   mutate(lag4=lag(log_gdp, n = 4L))
+
+
+df_summary <- df %>%
+  select("YIV", "GDP", "CON", "EMP", "IND", "spy", "VIX","DBAA","AAA","baa_aaa","gz_spr", "housng" , "SRT03M", "TRM1003", "TRM1006", "TRM1012", "TRM0503", "TRM0506")
 
 df <- df %>%
   mutate_if(is.numeric, scale)
