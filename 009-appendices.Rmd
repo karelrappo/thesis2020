@@ -78,7 +78,7 @@ regrs <- function(mudelid)
 return(df_total)
 }
 
-
+# siit kaotasin ära intercept selle filteriga
 regr_results <- function(a){
   results1 <- a %>%
     select(-augmented,-tidied, -glanced) %>%
@@ -86,9 +86,11 @@ regr_results <- function(a){
     select(-statistic) %>%
     pivot_longer(cols=-c(1:2), names_to = "mdeea", values_to = "Delay") %>%
     mutate(x = paste(term,mdeea,sep = "_"))%>%
+    filter(!grepl('Intercept', term)) %>%
     select(-c(2:3)) %>%
     pivot_wider(names_from = Var, values_from = Delay) %>%
     column_to_rownames(var = "x")
+    
 
   results2 <- a %>%
     select(-augmented,-neweywest, -tidied) %>%
