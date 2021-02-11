@@ -230,20 +230,20 @@ Notes: This table includes regression using YIV and GDP lags. The equation for t
 \end{equation}
 
 ```{r OLS3, message = F, warnings = F,echo = F}
-lag_selection1 <- lm(log_gdp ~ lag1, df)
-lag_selection2 <- lm(log_gdp ~ lag1+lag2, df)
-lag_selection3 <- lm(log_gdp ~ lag1+lag2+lag3, df)
-lag_selection4 <- lm(log_gdp ~ lag1+lag2+lag3+lag4, df)
-
-extractAIC(lag_selection1)
-extractAIC(lag_selection2)
-extractAIC(lag_selection3)
-extractAIC(lag_selection4)
-
-BIC(lag_selection1)
-BIC(lag_selection2)
-BIC(lag_selection3)
-BIC(lag_selection4)
+# lag_selection1 <- lm(log_gdp ~ lag1, df)
+# lag_selection2 <- lm(log_gdp ~ lag1+lag2, df)
+# lag_selection3 <- lm(log_gdp ~ lag1+lag2+lag3, df)
+# lag_selection4 <- lm(log_gdp ~ lag1+lag2+lag3+lag4, df)
+# 
+# extractAIC(lag_selection1)
+# extractAIC(lag_selection2)
+# extractAIC(lag_selection3)
+# extractAIC(lag_selection4)
+# 
+# BIC(lag_selection1)
+# BIC(lag_selection2)
+# BIC(lag_selection3)
+# BIC(lag_selection4)
 
 
 regr3 <- regrs(mudelid=c("YIV", "lag1", "lag2"))
