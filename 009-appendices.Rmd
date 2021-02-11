@@ -96,13 +96,13 @@ regr_results <- function(a){
   results2 <- a %>%
     select(-augmented,-neweywest, -tidied) %>%
     unnest(cols = c(glanced)) %>%
-    select(-df, -AIC, -BIC, -deviance, -nobs, -df.residual, -logLik, -statistic, -p.value) %>%
+    select(-df, -AIC, -BIC, -deviance, -nobs, -df.residual, -logLik, -statistic, -p.value, -sigma) %>%
     column_to_rownames(var = "Var")
   results2 <- as.data.frame(t(results2))
 
   results <- rbind(results1, results2)
   remove(results1, results2)
-  rownames(results)[rownames(results) == "sigma"] <- "RMSE"
+  #rownames(results)[rownames(results) == "sigma"] <- "RMSE"
   
 return(results)
 }
