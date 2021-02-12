@@ -197,6 +197,7 @@ results1 <- regr_results(a=regr1)
 results1 %>%
   kbl(booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
+     column_spec(1:1, width="2in")%>%
   footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
 #grangertest(log_gdp ~ YIV, order=1, df)
@@ -217,6 +218,7 @@ results2 <- regr_results(a=regr2)
 results2  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
+     column_spec(1:1, width="2in")%>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
 model2 <- lm(log_gdp ~ YIV + dum + YIV*dum, df)
@@ -255,6 +257,8 @@ results3 <- regr_results(a=regr3)
 results3  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
+     column_spec(1:1, width="2in")%>%
+
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 model3 <- lm(log_gdp ~ YIV + lag1 + lag2, df)
 ols_vif_tol(model3)
@@ -276,6 +280,7 @@ results4 <- regr_results(a=regr4)
 results4  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
+   column_spec(1:1, width="2in")%>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
 model4 <- lm(log_gdp ~ lag1 + lag2 + DGS1 + TRM1012 + SRT03M + baa_aaa + VIX + housng + gz_spr + spy_logreturn, df)
@@ -298,6 +303,7 @@ results5 <- regr_results(a=regr5)
 results5  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
+    column_spec(1:1, width="2in")%>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
 model5 <- lm(log_gdp ~ YIV + dum + YIV*dum + lag2 + DGS1 + TRM1012 + SRT03M + baa_aaa + VIX + housng + gz_spr + spy_logreturn, df)

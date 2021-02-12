@@ -82,26 +82,41 @@ To offer a better comparison of the models forecasting performance, we assess th
 In the case of the formula having a value smaller than 1 indicates that the subset model does have a superior performance over the fullsample model.
 
 
-## (Macroeconomic) Random Forest
-As Machine Learning (ML) methods successfully tackle nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty @Coulombe2020a. As our research includes many different economic crises, we expect to find forecasting gains by utilizing the Random Forest method.
+## Machine learning methods
+As Machine Learning (ML) methods successfully tackle nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty @Coulombe2020a. As our research includes many different economic crises, we expect to find forecasting gains by utilizing the Macroeconomic Random Forest method. In our research, we focus specifically on a (modified) random forest based method due to its advantages over other ML methods, which will be discussed in the following paragraphs.
 
-In our research, we focus specifically on a random forest based method because it requires little tuning compared to other ML methods. For example, one of the main problems regarding the models, overfitting, has shown to have little effect on the RF model [@Diaz2006].
+### Decision Trees
+In order to dig deeper into the methodology of random forest, it is crucial to understand one of its core elements - decision trees. Decision tree is a rather straightforward non-parametric algorithm that can be used for both regressions and classifications. The name ‘decision tree’ derives from the fact that the algorithm is built in a tree-like structure - it recursively splits the whole sample into subsets by following predefined criteria. In our case when the dependent variable is continuous, reducing variance is used as the selection criteria. 
+Thus, the algorithm takes the whole dataset and picks the variables that possess the biggest influence on the dependent variable, splitting the dataset further until stopping criteria is met; so it arrives at the leaf node where the decision is made. The stopping criteria are hyper-parameters defined by the user such as maximum depth, minimum leaf size (no of observations in the leaf node), minimum number of samples, etc [@Zhang2019]. 
 
-Random forest itself is an ensemble based supervised learning method i.e. it predicts outputs based on existing input and output pairs. The concept of random forest in essence is relatively simple - as the name suggests there are two main elements behind it. First is the randomness part - random forest uses bootstrap aggregation (bagging) to construct random samples of the initial dataset, which helps to avoid overfitting. Furthermore, the randomness is also included in variable selection, which will be described later on.
-Secondly, forest, which refers to the aggregation. To elaborate, in those random samples (trees), it uses a decision tree to reach a conclusion. Through these kinds of logical iterations the decision tree arrives at the end value.  Finally, the conclusion of the final model is reached by aggregating and averaging the output of individual decision trees.
+As decision trees are non-parametric, it means that no strong assumptions about the underlying data and its form is made, which in return enables capturing different forms such as non-linearities in the data. However, this makes them subject to overfitting - it might be the case that the algorithm might start capturing random movements (noise) instead of actual meaningful patterns. There are three main ways to tackle this 
 
-To illustrate the process in algorithmical terms: 
+1) Tuning the hyperparameters
+2) Pruning - growing the full tree and then eliminating decision nodes so that the general accuracy preserves
+3) Random forest
 
-1) Through bootstrap aggregation we create a sample set out of the pre-defined training data.
+### Random Forest
+
+Decision Trees are not a robust method as the results are extremely dependent on the dataset, even a small change in the initial training data can yield different outcomes. This is the very reason why Random Forest was proposed by @Breiman2001. Random forest itself is an ensemble based supervised learning method. As the name suggests there are two main elements behind it. 
+
+First is the randomness part - random forest uses bootstrap aggregation (bagging) to construct random samples of the initial dataset. Furthermore, the randomness is also included in variable selection - it randomly selects variables used for splitting at each node.
+Secondly, forest, which refers to the aggregation. The conclusion of the final model is reached by aggregating and averaging the output of individual decision trees. These two elements help to tackle overfitting as RF randomly creates a high number of combinations on the basis of which to create splits, which reduces the correlations betweens samples [@Zhang2019]. Hence, the final outcome is much more robust & less likely to be subject to overfitting.
+
+To take this process together in algorithmical terms: 
+
+1) Through bootstrap aggregation a sample set out of the predefined training data is created.
 2) Then the model randomly selects  x number variables amongst the total set X. 
-3) Subsequently, the best variable and splitting criterion is selected, on the basis of which the current node is splitted into two sub-nodes. More specifically, the choice is so made on the basis of mean squared errors  - which are minimized at each split
-4) This process is repeated until each terminal node reaches minimum size (by default 5).
-5) The output is achieved by averaging the estimation of each tree in the model 
+3) Subsequently, the best variable and splitting criterion is selected, on the basis of which the current node is splitted into two sub-nodes. 4) More specifically, the choice is  made on the basis of mean squared error (MSE)  - MSE is minimized at each split.
+5) This process is repeated until each terminal node reaches minimum size (by default 5).
+6) The output is achieved by averaging the estimation of each tree in the model.
+
 
 \begin{equation}
-RMSE = \frac{1}{n} \sum_{i=1}^{n}(y_{i}-\gamma)^2
+MSE = \frac{1}{n} \sum_{i=1}^{n}(y_{i}-\gamma)^2
 \end{equation}
 
+
+### Macroeconomic Random Forest
 However, in our research, we use an algorithm developed by @Coulombe2020 named Macroeconomic Random Forest. His proposed model further develops off-the-shelf random forest with regards to two areas:
 
 * **Statistical efficiency** - due to the nature of random forest approximation, achieving smooth linear relationships takes many splits which in case of a smaller time series can result in the loss of degrees of freedom which in turn increases the error terms. MRF, however, includes a linear component which can capture these less complex relationships with less splits, saving the degrees of freedom for more complicated sequences.
@@ -116,6 +131,8 @@ y_{t} = X_{t} \beta_{t} +\varepsilon_{t} (\#eq:macrorf)
 \begin{equation}
 \beta_{t}= F(S_{t})
 \end{equation}
+
+Where F(St) describes the function of random forest, beta is the outcome of random forest predictions and X the linear part used for interpretation of MRF. 
 
 The author has provided us with an R-package^[Macroeconomic Random Forest R package can be downloaded form https://philippegouletcoulombe.com/code
 ], which dramatically simplifies our research process and makes it more feasible for a Bachelor level thesis.
