@@ -54,6 +54,7 @@ library(forcats)
 library(tibble)
 library(reshape2)
 library(lmtest)
+library(olsrr)
 ```
 
 
@@ -95,13 +96,13 @@ regr_results <- function(a){
   results2 <- a %>%
     select(-augmented,-neweywest, -tidied) %>%
     unnest(cols = c(glanced)) %>%
-    select(-df, -AIC, -BIC, -deviance, -nobs, -df.residual, -logLik, -statistic, -p.value) %>%
+    select(-df, -AIC, -BIC, -deviance, -nobs, -df.residual, -logLik, -statistic, -p.value, -sigma) %>%
     column_to_rownames(var = "Var")
   results2 <- as.data.frame(t(results2))
 
   results <- rbind(results1, results2)
   remove(results1, results2)
-  rownames(results)[rownames(results) == "sigma"] <- "RMSE"
+  #rownames(results)[rownames(results) == "sigma"] <- "RMSE"
   
 return(results)
 }
@@ -218,6 +219,8 @@ results2  %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
+model2 <- lm(log_gdp ~ YIV + dum + YIV*dum, df)
+ols_vif_tol(model2)
 ```
 
 \newpage
@@ -230,20 +233,20 @@ Notes: This table includes regression using YIV and GDP lags. The equation for t
 \end{equation}
 
 ```{r OLS3, message = F, warnings = F,echo = F}
-lag_selection1 <- lm(log_gdp ~ lag1, df)
-lag_selection2 <- lm(log_gdp ~ lag1+lag2, df)
-lag_selection3 <- lm(log_gdp ~ lag1+lag2+lag3, df)
-lag_selection4 <- lm(log_gdp ~ lag1+lag2+lag3+lag4, df)
-
-extractAIC(lag_selection1)
-extractAIC(lag_selection2)
-extractAIC(lag_selection3)
-extractAIC(lag_selection4)
-
-BIC(lag_selection1)
-BIC(lag_selection2)
-BIC(lag_selection3)
-BIC(lag_selection4)
+# lag_selection1 <- lm(log_gdp ~ lag1, df)
+# lag_selection2 <- lm(log_gdp ~ lag1+lag2, df)
+# lag_selection3 <- lm(log_gdp ~ lag1+lag2+lag3, df)
+# lag_selection4 <- lm(log_gdp ~ lag1+lag2+lag3+lag4, df)
+# 
+# extractAIC(lag_selection1)
+# extractAIC(lag_selection2)
+# extractAIC(lag_selection3)
+# extractAIC(lag_selection4)
+# 
+# BIC(lag_selection1)
+# BIC(lag_selection2)
+# BIC(lag_selection3)
+# BIC(lag_selection4)
 
 
 regr3 <- regrs(mudelid=c("YIV", "lag1", "lag2"))
@@ -253,6 +256,8 @@ results3  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
+model3 <- lm(log_gdp ~ YIV + lag1 + lag2, df)
+ols_vif_tol(model3)
 
 ```
 \newpage
@@ -265,7 +270,7 @@ Notes: This table includes regression using GDP lags and controls. The equation 
 \end{equation}
 
 ```{r OLS4, message = F, warnings = F,echo = F}
-regr4 <- regrs(mudelid=c("lag1", "lag2", "DGS1", "DGS10", "DGS5", "DGS3MO", "TRM0503","TRM0506","TRM1003","TRM1006","TRM1012", "SRT03M", "AAA", "DBAA", "VIX", "housng"))
+regr4 <- regrs(mudelid=c("lag1", "lag2", "DGS1","TRM1012", "SRT03M", "baa_aaa", "VIX", "housng", "gz_spr", "spy_logreturn"))
 results4 <- regr_results(a=regr4)
 
 results4  %>%
@@ -273,6 +278,8 @@ results4  %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
+model4 <- lm(log_gdp ~ lag1 + lag2 + DGS1 + TRM1012 + SRT03M + baa_aaa + VIX + housng + gz_spr + spy_logreturn, df)
+ols_vif_tol(model4)
 ```
 
 \newpage
@@ -285,13 +292,21 @@ Notes: YIV, dummy, GDP lags and controls as independent variables. The equation 
 \end{equation}
 
 ```{r OLS5, message = F, warnings = F,echo = F}
-regr5 <- regrs(mudelid=c("YIV", "dum", "lag1", "lag2", "DGS1", "DGS10", "DGS5", "DGS3MO", "TRM0503","TRM0506","TRM1003","TRM1006","TRM1012", "SRT03M", "AAA", "DBAA", "VIX", "housng"))
+regr5 <- regrs(mudelid=c("YIV", "dum", "lag1", "lag2", "DGS1", "TRM1012", "SRT03M", "baa_aaa", "VIX", "housng", "gz_spr", "spy_logreturn"))
 results5 <- regr_results(a=regr5)
 
 results5  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
+
+model5 <- lm(log_gdp ~ YIV + dum + YIV*dum + lag2 + DGS1 + TRM1012 + SRT03M + baa_aaa + VIX + housng + gz_spr + spy_logreturn, df)
+ols_vif_tol(model5)
+
+# model6 <- lm(log_gdp ~  YIV + dum + YIV*dum + lag1 + lag2 + DGS1 + TRM1012 + SRT03M + baa_aaa + VIX + housng + gz_spr + spy_logreturn, df)
+# ols_step_forward_p(model6)
+# ols_step_best_subset(model6)
+# ols_step_all_possible(model6)
 
 ```
 
