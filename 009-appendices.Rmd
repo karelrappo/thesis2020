@@ -333,7 +333,7 @@ df_resultss %>%
 df_results <- transpose(df_resultss)
 
 df_resultss2 <- melt(df_resultss)
-df_resultss2$rowid <- c("Out-of-sample RMSFE", "Recessionary", "Expansionary" ,"Naive", "TRM", "CRS")
+df_resultss2$rowid <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", "Naive_Recessionary", "Naive_Expansionary", "TRM", "CRS")
 
 ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(color=factor(rowid)))
 
