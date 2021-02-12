@@ -54,7 +54,7 @@ return(RMSFE)
 # TRM1006 doesn't work in the regression for some reason
 do_regression5 <- function(var)
 { # var - the name of the variable to be regressed
-  res <-roll_regres(as.formula(paste0(var, "~ TRM0503 + TRM0506 + TRM1003 + TRM1012")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
+  res <-roll_regres(as.formula(paste0(var, "~ TRM1012")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
   predicted <- unlist(res[4])
   predicted <- predicted[21:91]
   actual <- df[[var]][21:91]
@@ -75,7 +75,7 @@ return(RMSFE)
 
 do_regression7 <- function(var)
 { # var - the name of the variable to be regressed
-  res <-roll_regres(as.formula(paste0(var, "~ AAA + DBAA")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
+  res <-roll_regres(as.formula(paste0(var, "~ baa_aaa")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
   predicted <- unlist(res[4])
   predicted <- predicted[21:91]
   actual <- df[[var]][21:91]
@@ -83,13 +83,13 @@ do_regression7 <- function(var)
 return(RMSFE)
 }
 
-df_results1 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression)))
-df_results2 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression2)))
-df_results3 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression3)))
-df_results4 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression4)))
-df_results5 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression5)))
+df_results1 <- as.data.frame(t(sapply(colnames(df)[32:43], do_regression)))
+df_results2 <- as.data.frame(t(sapply(colnames(df)[32:43], do_regression2)))
+df_results3 <- as.data.frame(t(sapply(colnames(df)[32:43], do_regression3)))
+df_results4 <- as.data.frame(t(sapply(colnames(df)[32:43], do_regression4)))
+df_results5 <- as.data.frame(t(sapply(colnames(df)[32:43], do_regression5)))
 #df_results6 <- as.data.frame(t(sapply(colnames(df)[6:17], do_regression6)))
-df_results7 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression7)))
+df_results7 <- as.data.frame(t(sapply(colnames(df)[32:43], do_regression7)))
 
 
 
