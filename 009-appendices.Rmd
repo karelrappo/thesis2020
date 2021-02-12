@@ -300,9 +300,12 @@ results5  %>%
 ## Appendix I. 
 
 ```{r roll_regress, message = F, warnings = F,echo = F}
+rownames(df_resultss)[rownames(df_resultss)=='Out-of-sample RMSFE'] <- "OOS RMSFE"
 df_resultss %>%
-  kbl() %>%
-  kable_styling()
+  kbl(longtable=T, booktabs=T) %>%
+  kable_styling() %>%
+  footnote(general = "OOS refers to Out-of-sample")
+
 
 df_results <- transpose(df_resultss)
 
