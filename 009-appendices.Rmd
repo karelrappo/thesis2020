@@ -55,6 +55,7 @@ library(tibble)
 library(reshape2)
 library(lmtest)
 library(olsrr)
+library(pracma)
 ```
 
 
@@ -162,9 +163,9 @@ legend("topleft", c("YIV", "GDP"),
 ## Appendix C
 
 Notes: This table includes summary statistics for main variables used in our research. Statistics include mean, standard deviation,, min, 1st quartile, median, 3rd quartile, max & number of valid data points. 
-In Panel A, different YIV data is summarized. 
+In Panel A, YIV data is summarized. 
 In Panel B, we have listed the main dependent variables which are used for predictions. GDP denotes the year-on-year growth rate(quarterly data), CON denotes YOY consumption growth(monthly data), EMP describes YOY growth rate for non-farm payroll and lastly IND stands for Industrial production YOY growth (monthly data).
-In Panel C, different control variables are listed: SVEN1F01 - 1 year treasury bond par yield.
+In Panel C, different control variables are listed: 
 
 
 ```{r summarystat, message = F, warnings = F, echo = F}
@@ -187,7 +188,7 @@ statistics %>%
 Notes: This table depicts the output of regression with YIV as independent variable. The equation for the regression is following:
 
 \begin{equation}
-\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} +\varepsilon_{t+H}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} +\varepsilon_{t+H}
 \end{equation}
 
 ```{r OLS1, message = F, warnings = F,echo = F}
@@ -208,7 +209,7 @@ results1 %>%
 Notes: YIV and dummy as independent variables. The equation for the regression is following:
 
 \begin{equation}
-\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + Dummy +\varepsilon_{t+H}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Dummy +\varepsilon_{t+H}
 \end{equation}
 
 ```{r OLS2, message = F, warnings = F,echo = F}
@@ -320,6 +321,7 @@ ols_vif_tol(model5)
 \newpage
 ## Appendix I. 
 
+
 ```{r roll_regress, message = F, warnings = F,echo = F}
 rownames(df_resultss)[rownames(df_resultss)=='Out-of-sample RMSFE'] <- "OOS RMSFE"
 df_resultss %>%
@@ -337,6 +339,25 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(
 
 ```
 \newpage
+## Appendix J. 
+
+```{r MRF, message = F, warnings = F,echo = F}
+#RMSE Subject to oos period and variable numbers
+
+MRF.data <- df %>%
+  select(-Date) %>%
+  relocate(GDP)%>% 
+  as.matrix()
+
+mrf.output=MRF(data=MRF.data,y.pos=1,x.pos=2:3,S.pos=2:23,oos.pos=75:103)
+
+predicted <- as_tibble(mrf.output$pred)
+predicted <- predicted %>%
+  mutate(GDP = df[75:103,]$GDP)
+
+RMSE<-rmse(preds=predicted$value,actuals=predicted$GDP)
+
+```
 
 
 ```{r randomforest, message=F, warnings=F,echo = F, include=F}
