@@ -1,0 +1,51 @@
+```{r regs, include=F}
+
+
+out_of_samp <- function(var1, var2, var3){
+    mycontrol <- trainControl(method = "timeslice",
+                            initialWindow = 20,
+                            horizon = 1,
+                            fixedWindow = TRUE, 
+                            savePredictions = TRUE)
+    myfit <- train(as.formula(paste0(var1, "~", var2)),
+                   data = df[1:sum(!is.na(df[var1])),],
+                   method = "lm",
+                   trControl = mycontrol)
+    dff <- myfit$pred
+    SE <- (dff$pred-dff$obs)^2
+    if (var3 == 5){
+      SE <- SE[c(25,26,27,52,53,54,55,56,57)]
+    }
+    if (var3 == 6){
+      SE <- SE[-c(25,26,27,52,53,54,55,56,57)]
+    }
+    RMSFE <- sqrt(mean(SE))
+  return(RMSFE)
+} 
+
+
+df_results1 <- as.data.frame(t(mapply(out_of_samp, colnames(df)[32:43], "YIV", 4)))
+df_results2 <- as.data.frame(t(mapply(out_of_samp, colnames(df)[32:43], "YIV", 5)))
+df_results3 <- as.data.frame(t(mapply(out_of_samp, colnames(df)[32:43], "YIV", 6)))
+df_results4 <- as.data.frame(t(mapply(out_of_samp, colnames(df)[32:43], "log_gdp", 4)))
+df_results5 <- as.data.frame(t(mapply(out_of_samp, colnames(df)[32:43], "TRM0503 + TRM0506 + TRM1003 + TRM1006 + TRM1012", 4)))
+df_results6 <- as.data.frame(t(mapply(out_of_samp, colnames(df)[32:43], "AAA + DBAA + baa_aaa", 4)))
+
+
+df_resultss <- rbind(df_results1, df_results2, df_results3, df_results4, df_results5, df_results6)
+
+df_resultss <- df_resultss %>%
+  round(2)
+
+colnames(df_resultss, do.NULL = FALSE)
+colnames(df_resultss) <- c("H1","H2","H3","H4","H5","H6","H7","H8","H9","H10","H11","H12")
+rownames(df_resultss) <- c("Out-of-sample RMSFE", "Recessionary", "Expansionary" ,"Naive", "TRM", "CRS")
+
+
+```
+
+
+
+
+
+
