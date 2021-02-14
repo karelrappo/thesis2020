@@ -172,7 +172,7 @@ In Panel C, different control variables are listed:
 
 statistics %>%
   select(-N.Valid) %>%
-  arrange(match(Variable, c("YIV", "GDP")), desc(Mean)) %>%
+  arrange(match(Variable, c("YIV", "GDP","AAA","DBAA","baa_aaa")), desc(Mean)) %>%
   kbl(booktabs = T,  longtable=T, align="c", digits=2, caption="Summary Statistics") %>%
   kable_styling(latex_options = c("striped","repeat_header")) %>%
   group_rows("Panel A: YIV & GDP",1,2, latex_align="c") %>%
@@ -348,11 +348,11 @@ MRF.data <- df %>%
   relocate(GDP, YIV, dum)%>% 
   as.matrix()
 
-mrf.output=MRF(data=MRF.data,y.pos=1,x.pos=2:3,S.pos=2:20,oos.pos=75:103)
+mrf.output=MRF(data=MRF.data,y.pos=1,x.pos=2:5,S.pos=2:20,oos.pos=90:103)
 
 predicted <- as_tibble(mrf.output$pred)
 predicted <- predicted %>%
-  mutate(GDP = df[75:103,]$GDP)
+  mutate(GDP = df[90:103,]$GDP)
 
 RMSE<-rmse(preds=predicted$value,actuals=predicted$GDP)
 
