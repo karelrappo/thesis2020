@@ -136,19 +136,6 @@ spy <- spy%>%
   select(-quarter, -Close) %>%
   subset(Date >= start & Date <= end)
 
-#Dependent variables
-dependent_monthly<- read_csv("data/dependent.csv")
-dependent_monthly$DATE <- as.Date(dependent_monthly$DATE, origin = "1899-12-30")
-
-dependent_qrt <- dependent_monthly %>%
-  group_by(quarter=paste(quarters(DATE), lubridate::year(DATE))) %>%
-  summarise_at(c("CON","EMP","IND"), sum)
-
-
-dependent_qrt$DATE <- as.Date(as.yearqtr(dependent_qrt$quarter, format = "Q%q %Y"))
-dependent_qrt <- dependent_qrt %>%
-  select(-quarter) %>%
-  subset(DATE >= start & DATE <= end)
 
 #Import NBER recessions and create subsets
 dummy <- read.csv("data/Dummy.csv")
@@ -158,21 +145,20 @@ dataset <- dataset %>%
   mutate(DGS.clean[-1]) %>% 
   mutate(creditspreads[-1]) %>%
   mutate(dum=dummy$Reccession) %>%
-  mutate(dependent_qrt[-4]) %>%
   mutate(vix_qrt[-2]) %>%
   mutate(housng_qrt[-2]) %>%
   mutate(log_gdp=log(1+GDP/100)*100) %>%
   left_join(GZ) %>% 
   left_join(spy) %>%
-  relocate(Date, YIV, GDP, CON, EMP, IND)
+  relocate(Date, YIV, GDP)
 
 
 #For summary statistics
 df_summary <- dataset %>%
-  select("YIV", "GDP", "CON", "EMP", "IND", "spy_logreturn","VIX","DBAA","AAA","baa_aaa","gz_spr", "housng" , "SRT03M", "TRM1003", "TRM1006", "TRM1012", "TRM0503", "TRM0506")
+  select("YIV", "GDP", "spy_logreturn","VIX","DBAA","AAA","baa_aaa","gz_spr", "housng" , "SRT03M", "TRM1003", "TRM1006", "TRM1012", "TRM0503", "TRM0506")
 
 #standardize only independent + spy(since log) <-- SISESTA SIIA NEED MIDA POLE VAJA STANDARDIZEDA
-standardizable_var <- setdiff(ls(dataset), c("GDP", "CON", "EMP", "IND","spy_logreturn", "dum", "Date","log_gdp"))
+standardizable_var <- setdiff(ls(dataset), c("GDP","spy_logreturn", "dum", "Date","log_gdp"))
 
 dataset <- dataset %>%
   mutate_at(standardizable_var, scale)

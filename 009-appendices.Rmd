@@ -117,7 +117,7 @@ return(results)
 
 
 ```{r, include=F}
-order <- c("GDP", "YIV", "EMP", "CON")
+order <- c("GDP", "YIV")
 statistics <- df_summary %>%
   descr(
     transpose = TRUE,
@@ -172,12 +172,11 @@ In Panel C, different control variables are listed:
 
 statistics %>%
   select(-N.Valid) %>%
-  arrange(match(Variable, c("YIV", "GDP", "CON", "EMP", "IND")), desc(Mean)) %>%
+  arrange(match(Variable, c("YIV", "GDP")), desc(Mean)) %>%
   kbl(booktabs = T,  longtable=T, align="c", digits=2, caption="Summary Statistics") %>%
   kable_styling(latex_options = c("striped","repeat_header")) %>%
-  group_rows("Panel A: YIV",1,1, latex_align="c") %>%
-  group_rows("Panel B: Dependent Variables",2,5, latex_align="c") %>%
-  group_rows("Panel C: Control Variables",6,18, latex_align="c") %>%
+  group_rows("Panel A: YIV & GDP",1,2, latex_align="c") %>%
+  group_rows("Panel B: Control Variables",3,15, latex_align="c") %>%
   footnote(general = "The variables are shown prior to the standardization process.", threeparttable=T)
 ```
 \newpage
@@ -346,10 +345,10 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(
 
 MRF.data <- df %>%
   select(-Date) %>%
-  relocate(GDP)%>% 
+  relocate(GDP, YIV, dum)%>% 
   as.matrix()
 
-mrf.output=MRF(data=MRF.data,y.pos=1,x.pos=2:3,S.pos=2:23,oos.pos=75:103)
+mrf.output=MRF(data=MRF.data,y.pos=1,x.pos=2:3,S.pos=2:20,oos.pos=75:103)
 
 predicted <- as_tibble(mrf.output$pred)
 predicted <- predicted %>%
