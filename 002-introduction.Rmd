@@ -36,7 +36,7 @@ Forecasting the real economy has been a widely researched topic as it is crucial
   
 Stock & Watson (2003) reviewed over 93 working papers & articles and documented numerous variables (interest rates, term spreads, returns, exchange rates, etc.) that have been used for forecasting macroeconomy. Nevertheless, there is no strong agreement which can do so consistently, as per the conclusion made: ”Some asset prices have been useful predictors of inflation and/or output growth in some countries in some time periods” [@Stock2003, p. 822]. Furthermore, even less variables are there that can predict macroeconomic real activity through longer time periods (i.e. time periods of over a year). 
 
-However, in a work by @Cremers2017, they tackle the topic of predicting the macroeconomic real activity through the treasury implied volatility (YIV) that is derived from options on treasury bond futures of different maturity periods. Furthermore, they focus on predicting the periods of 12-36 months ahead and find that the YIV is able to predict the GDP growth successfully during these periods. Furthermore, they show that YIV is able to predict also consistently industrial production, consumption, and employment. 
+In a recent work by @Cremers2017, they approach predicting macroeconomic real activity through the treasury implied volatility (YIV) which is derived from options on treasury bond futures of different maturity periods. Furthermore, they show that YIV is able to predict also consistently industrial production, consumption, and employment. 
 
 Thus, the first part of our research aims to replicate the research by @Cremers2017 - predicting GDP growth using YIV.
 

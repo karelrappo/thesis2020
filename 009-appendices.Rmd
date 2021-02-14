@@ -297,15 +297,23 @@ df_resultss2$rowid <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", 
 ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(color=factor(rowid)))
 
 ```
+
 \newpage
 ## Appendix I 
 
 
-```{r MRF, message = F, warnings = F,echo = F}
-#RMSE Subject to oos period and variable numbers
+```{r, fig.cap="Generalized Time-varying parameters of Macroeconomic Random Forest"}
+knitr::include_graphics("images/MRF-1.pdf")
+
+```
+
+
+Note: These are just preliminary results. Will be edited.
+
+```{r MRF, include=F, message = F, warnings = F,echo = F}
 
 MRF.data <- df %>%
-  select(-Date) %>%
+  select(-Date, -log_gdp) %>%
   relocate(GDP, YIV, dum)%>% 
   as.matrix()
 
@@ -316,8 +324,9 @@ predicted <- predicted %>%
   mutate(GDP = df[90:103,]$GDP)
 
 RMSE<-rmse(preds=predicted$value,actuals=predicted$GDP)
-
 ```
+
+
 
 
 ```{r randomforest, message=F, warnings=F,echo = F, include=F}
