@@ -86,7 +86,7 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE
 \endgroup
 
 \newpage
-\linespread{1.0}\selectfont
+
 
 ```{r child = '009-appendices.Rmd'}
 ```
