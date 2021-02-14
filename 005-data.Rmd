@@ -40,11 +40,7 @@ library(knitr)
 For the regression analysis, we have extracted the following data:
 
 * Quarterly 5-year Treasury Implied Volatility 
-* Dependent Variables:
-  1. Quarterly GDP year-on-year growth rate
-  2. Monthly industrial production
-  3. Monthly non-farm payroll
-  4. Monthly consumption
+* Quarterly GDP year-on-year growth rate
 * Control Variables
   5. US treasury interest rates to construct term spreads
   6. credit spreads
@@ -60,8 +56,7 @@ Due to the data price being behind the paywall, we had to resort to other measur
 
 
 
-The data regarding GDP year-on-year growth rate was extracted on a quarterly basis from @Alfred2020. Furthermore, the vintage 2019-12-20 was extracted as it coincided the best with the data used in the research paper by @Cremers2017. Other dependent variables (industrial production, non-farm payroll and consumption) were extracted from the same database but on a monthly basis.
- In addition, most of the data for constructing control variables were also extracted from the Fred database, such as:
+The data regarding GDP year-on-year growth rate was extracted on a quarterly basis from @Alfred2020. Furthermore, the vintage 2019-12-20 was extracted as it coincided the best with the data used in the research paper by @Cremers2017. In addition, most of the data for constructing control variables were also extracted from the Fred database, such as:
  
 * Quarterly risk free rates (Treasury constant maturity rates for 3 month, 6 months, 1 year, 5 year and 10 year) 
 * Quarterly corporate bond yields
