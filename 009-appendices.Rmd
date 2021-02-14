@@ -22,8 +22,6 @@ header-includes:
 - \usepackage{float}
 - \usepackage{amsmath}
 - \DeclareMathOperator{\logit}{logit}
-- \newcommand{\blandscape}{\begin{landscape}}
-- \newcommand{\elandscape}{\end{landscape}}
 ---
 
 # Appendices
@@ -49,15 +47,16 @@ library(purrr)
 library(broom)
 library(rollRegres)
 library(modelr)
-library(Metrics)
-library(mltools)
 library(forcats)
 library(tibble)
+library(Metrics)
+library(mltools)
 library(reshape2)
 library(lmtest)
 library(olsrr)
 library(pracma)
 source("Import.R")
+source("oos.R")
 ```
 
 
@@ -78,7 +77,7 @@ regrs <- function(mudelid)
 return(df_total)
 }
 
-# siit kaotasin ära intercept selle filteriga
+
 regr_results <- function(a){
   results1 <- a %>%
     select(-augmented,-tidied, -glanced) %>%
@@ -105,11 +104,6 @@ regr_results <- function(a){
   
 return(results)
 }
-
-```
-
-
-```{r child = 'archieve.rmd', include=FALSE}
 
 ```
 
@@ -182,7 +176,6 @@ Notes: This table depicts the output of regression with YIV as independent varia
 \end{equation}
 
 
-
 ```{r OLS1, message = F, warnings = F,echo = F}
 regr1 <- regrs(mudelid=c("YIV"))
 results1 <- regr_results(a=regr1)
@@ -195,7 +188,8 @@ results1 %>%
 
 #grangertest(log_gdp ~ YIV, order=1, df)
 ```
-\newpage
+
+\newpage 
 ## Appendix E 
 
 Notes: YIV and dummy as independent variables. The equation for the regression is following:
@@ -306,7 +300,6 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(
 
 
 ```
-
 
 
 \newpage

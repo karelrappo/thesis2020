@@ -24,6 +24,11 @@ header-includes:
 - \usepackage{amsmath}
 - \DeclareMathOperator{\logit}{logit}
 ---
+```{r resultimport, include=F, message = F, warnings = F,echo = F}
+library(dplyr)
+library(reshape2)
+source("oos.R")
+```
 
 
 # Results
@@ -49,7 +54,17 @@ Lastly, we were not only interested in the in-sample performance of the variable
 
 ### Sub-sample OOS forecasting
 
-Next, we wanted to compare the full-sample OOS RMSFE-s with the subsample OOS RMSFE-s. As it can be seen, during the recessionary period the RMSFE is significantly higher when compared to the full-sample RMSFE. This confirms our second hypothesis i.e. the full-sample is not robust in making predictions during turbulent time periods as the accuracy of the model suffers tremendously. During the expansionary periods the OOS RMSFE impoves slightly which is in line with the hypothesis as the inaccuracies of the expansionary periods are filtered out.
+Next, we wanted to compare the full-sample OOS RMSFE-s with the subsample OOS RMSFE-s. As it can be seen, during the recessionary period the RMSFE is significantly higher when compared to the full-sample RMSFE. This confirms our second hypothesis i.e. the full-sample is not robust in making predictions during turbulent time periods as the accuracy of the model suffers tremendously. During the expansionary periods the OOS RMSFE improves slightly which is in line with the hypothesis as the inaccuracies of the expansionary periods are filtered out.
+
+Figure \@ref(fig:subs) describes subsample relative RMSFE within different forecasting period. If the value is over 1, it indicates that the benchmark model(full sample model) has superior forecasting performance compared to the corresponding subsample model.
+
+
+```{r subs, fig.cap="Relative Recessionary & Expansionary RMSE"}
+joonis  <- relative_rmsfes %>%
+  melt()
+
+ggplot(joonis, aes(Var2, value, group=factor(Var1))) + geom_line(aes(color=factor(Var1))) + theme_bw() + theme(legend.position = "bottom") + labs(x="Time horizon", y="RMSFE value") + theme(legend.title = element_blank()) + geom_hline(yintercept=1,color="black", size=1, linetype="dashed")
+```
 
 ## Macroeconomic Random Forest
 

@@ -24,8 +24,6 @@ header-includes:
 - \usepackage{float}
 - \usepackage{amsmath}
 - \DeclareMathOperator{\logit}{logit}
-- \newcommand{\blandscape}{\begin{landscape}}
-- \newcommand{\elandscape}{\end{landscape}}
 ---
 
 \pagenumbering{gobble}
