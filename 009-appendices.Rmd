@@ -22,7 +22,8 @@ header-includes:
 - \usepackage{float}
 - \usepackage{amsmath}
 - \DeclareMathOperator{\logit}{logit}
-
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
 ---
 
 # Appendices
@@ -275,28 +276,38 @@ results5  %>%
 # ols_step_all_possible(model6)
 
 ```
-
-
 \newpage
+
 ## Appendix H
 
 
-```{r roll_regress, message = F, warnings = F,echo = F}
-rownames(df_resultss)[rownames(df_resultss)=='Out-of-sample RMSFE'] <- "OOS RMSFE"
+```{r roll_regress, message = F, warnings = F,echo = F, }
+
+rownames(df_resultss)[rownames(df_resultss)=='YIV_Recessionary'] <- "YIV-Recess."
+rownames(df_resultss)[rownames(df_resultss)=='YIV_Expansionary'] <- "YIV-Expans."
+rownames(df_resultss)[rownames(df_resultss)=='Naive_Recessionary'] <- "Naive-Recess."
+rownames(df_resultss)[rownames(df_resultss)=='Naive_Expansionary'] <- "Naive-Expans."
+
+
+
 df_resultss %>%
   kbl(longtable=T, booktabs=T) %>%
-  kable_styling() %>%
-  footnote(general = "OOS refers to Out-of-sample")
+  kable_styling() 
+```
 
 
+
+```{r, message = F, warnings = F,echo = F, fig.height=3, fig.cap="Out-of-sample RMSFE for various estimations"}
 df_results <- transpose(df_resultss)
-
 df_resultss2 <- melt(df_resultss)
 df_resultss2$rowid <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", "Naive_Recessionary", "Naive_Expansionary", "TRM", "CRS")
 
-ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(color=factor(rowid)))
+ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(color=factor(rowid))) + theme_bw() + theme(legend.position = "bottom") + labs(x="Time horizon", y="RMSFE value", color="Model")
+
 
 ```
+
+
 
 \newpage
 ## Appendix I 
