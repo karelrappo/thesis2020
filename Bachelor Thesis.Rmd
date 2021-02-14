@@ -3,6 +3,7 @@ date: '`r format(Sys.Date(), "%d %B %Y")`'
 output: 
   bookdown::pdf_document2:
     toc: no
+    fig_caption: true
 geometry: margin = 1in
 fontsize: 12pt
 bibliography: library.bib
@@ -28,9 +29,8 @@ header-includes:
 \pagenumbering{gobble}
 
 ```{r knitr.global_options, include=F}
-knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='images/', echo=FALSE, warning=FALSE, message=FALSE, tidy.opts=list(width.cutoff=60), tidy=TRUE)
+knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE, warning=FALSE, message=FALSE, tidy.opts=list(width.cutoff=60), tidy=TRUE)
 ```
-
 
 
 ```{r child = '001-title.Rmd'}
@@ -77,15 +77,16 @@ knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='images/', echo=FALSE
 \linespread{1.0}\selectfont
 
 # References
+\begingroup
 \setlength{\parindent}{-0.2in}
 \setlength{\leftskip}{0.2in}
 \setlength{\parskip}{8pt}
 \noindent
-
-
 <div id="refs"></div>
+\endgroup
 
 \newpage
 \linespread{1.0}\selectfont
+
 ```{r child = '009-appendices.Rmd'}
 ```

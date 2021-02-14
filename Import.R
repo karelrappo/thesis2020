@@ -1,32 +1,4 @@
----
-title: "data_cleaning"
-author: "Karel Räpp, Henry Enno Turu"
-date: "29 11 2020"
-output: 
-  bookdown::pdf_document2:
-    toc: no
-csl: apa.csl
-bibliography: library.bib
-indent: yes
-fontsize: 12pt
-geometry: margin = 1in
-link-citations: yes
-linkcolor: blue
-urlcolor: blue
-header-includes:
-- \usepackage{placeins}
-- \usepackage{setspace}
-- \usepackage{chngcntr}
-- \usepackage{microtype}
-- \counterwithin{figure}{section}
-- \counterwithin{table}{section}
-- \usepackage{float}
-- \usepackage{amsmath}
-- \DeclareMathOperator{\logit}{logit}
----
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 library(stringr)
 library(tidyverse)
 library(summarytools)
@@ -40,9 +12,7 @@ library(data.table)
 library(MacroRF)
 require(data.table)
 library(zoo)
-```
 
-```{r Import Data, include=F}
 start <- as.Date("01/03/1990", format="%d/%m/%Y")
 end <- as.Date("01/10/2015", format="%d/%m/%Y")
 
@@ -77,7 +47,7 @@ vix <- vix %>%
   select(VIX='VIX Close', 'Date') %>%
   mutate(month=month(Date)) %>%
   mutate(year=year(Date))
-  
+
 vix_monthly <- aggregate(VIX ~ month + year, vix, mean)
 
 vix_qrt<- vix_monthly  %>%
@@ -128,7 +98,7 @@ spy <- spy %>%
   select(Date, Close) %>%
   group_by(quarter=paste(quarters(Date), lubridate::year(Date))) %>%
   summarise_at(c("Close"), sum)
- 
+
 spy$Date <- as.Date(as.yearqtr(spy$quarter, format = "Q%q %Y"))
 spy <- spy%>%
   arrange(Date) %>%
@@ -153,9 +123,11 @@ dataset <- dataset %>%
   relocate(Date, YIV, GDP)
 
 
+
 #For summary statistics
 df_summary <- dataset %>%
   select("YIV", "GDP", "spy_logreturn","VIX","DBAA","AAA","baa_aaa","gz_spr", "housng" , "SRT03M", "TRM1003", "TRM1006", "TRM1012", "TRM0503", "TRM0506")
+
 
 #standardize only independent + spy(since log) <-- SISESTA SIIA NEED MIDA POLE VAJA STANDARDIZEDA
 standardizable_var <- setdiff(ls(dataset), c("GDP","spy_logreturn", "dum", "Date","log_gdp"))
@@ -167,23 +139,23 @@ dataset <- dataset %>%
 #Create rolling averages
 dataset <- dataset %>%
   arrange %>%
-    mutate(H4=rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H6=rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H8=rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H10=rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(H12=rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" )) %>%
-    mutate(F1=lead(log_gdp, n = 1L)) %>%
-    mutate(F2=lead(log_gdp, n = 2L)) %>%
-    mutate(F3=lead(log_gdp, n = 3L)) %>%
-    mutate(F4=lead(log_gdp, n = 4L)) %>%
-    mutate(F5=lead(log_gdp, n = 5L)) %>%
-    mutate(F6=lead(log_gdp, n = 6L)) %>%
-    mutate(F7=lead(log_gdp, n = 7L)) %>%
-    mutate(F8=lead(log_gdp, n = 8L)) %>%
-    mutate(F9=lead(log_gdp, n = 9L)) %>%
-    mutate(F10=lead(log_gdp, n = 10L)) %>%
-    mutate(F11=lead(log_gdp, n = 11L)) %>%
-    mutate(F12=lead(log_gdp, n = 12L))
+  mutate(H4=rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" )) %>%
+  mutate(H6=rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" )) %>%
+  mutate(H8=rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" )) %>%
+  mutate(H10=rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" )) %>%
+  mutate(H12=rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" )) %>%
+  mutate(F1=lead(log_gdp, n = 1L)) %>%
+  mutate(F2=lead(log_gdp, n = 2L)) %>%
+  mutate(F3=lead(log_gdp, n = 3L)) %>%
+  mutate(F4=lead(log_gdp, n = 4L)) %>%
+  mutate(F5=lead(log_gdp, n = 5L)) %>%
+  mutate(F6=lead(log_gdp, n = 6L)) %>%
+  mutate(F7=lead(log_gdp, n = 7L)) %>%
+  mutate(F8=lead(log_gdp, n = 8L)) %>%
+  mutate(F9=lead(log_gdp, n = 9L)) %>%
+  mutate(F10=lead(log_gdp, n = 10L)) %>%
+  mutate(F11=lead(log_gdp, n = 11L)) %>%
+  mutate(F12=lead(log_gdp, n = 12L))
 
 
 #Name differences with appendices
@@ -200,8 +172,16 @@ df <- df %>%
   mutate(lag3=lag(log_gdp, n = 3L)) %>%
   mutate(lag4=lag(log_gdp, n = 4L))
 
-```
 
+
+statistics <- df_summary %>%
+  descr(
+    transpose = TRUE,
+    stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
+
+statistics <- statistics %>%
+  mutate(Variable=rownames(statistics)) %>%
+  relocate(Variable)
 
 
 

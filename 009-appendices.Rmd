@@ -56,12 +56,9 @@ library(reshape2)
 library(lmtest)
 library(olsrr)
 library(pracma)
+source("Import.R")
 ```
 
-
-```{r child = 'Dataclean.rmd'}
-
-```
 
 ```{r model, include=FALSE}
 
@@ -116,37 +113,56 @@ return(results)
 ```
 
 
-```{r, include=F}
-order <- c("GDP", "YIV")
-statistics <- df_summary %>%
-  descr(
-    transpose = TRUE,
-    stats = c("mean","sd","min","q1","med","q3","max","n.valid"))
-
-statistics <- statistics %>%
-  mutate(Variable=rownames(statistics)) %>%
-  relocate(Variable)
-
-```
 
 ## Appendix A
 
-```{r reg_graphs, message = F, warnings = F, echo = F, fig.height=3, fig.width=6}
+As researchers typically do not typically post underlying data with their research, various plot digitizers have seen an exponential increase in use. @Drevon2017 researched intercoder reliability, during which over 3500 data points were extracted with WebPlotDigitizer from 36 different graphs. Nevertheless, they controlled the validity of the results and concluded that there was a near perfect correlation (r=0.989 with p-value <0.01) between extracted and actual data. Nevertheless, the limitations mentioned highlight coders previous experience with plot-digitizing tools.
+
+Furthermore, @Burda2017 also highlight that systematic reviewers often tend to have data constraints which is why plot digitizers are of a great help. They estimated data using WebPlotDigitizer and conclude that the extraction done by different coders was consistent; nevertheless, in the case of continuous data (compared to event data), the distribution varied more. Whatsoever, the intreclass coefficient for both types of plots was over 95%.
+
+We also used the WebPlotDigitzer in our research and as validity test extracted GDP from the same graph as YIV time series & plotted it with actuals - see the graph below.
+
+
+
+```{r vsextracted, message=F, warnings=F,echo = F, fig.height=3, fig.cap="Actual vs Extracted GDP growth rate in %"}
+GDP_data <- read_csv("data/actualvsplot.csv")
+
+extracted <- ggplot(GDP_data,aes(x=Date)) + geom_line(aes(y=Actual, color="Actual"), color="red") + geom_line(aes(y=Extracted, color="Extracted"), color="blue") +theme_bw() + ylab("GDP growth %")
+
+extracted
+
+```
+
+
+\newpage
+## Appendix B
+
+
+```{r regfit, message = F, warnings = F, echo = F, fig.height=3, fig.width=6, fig.cap="Regressions' R-squared"}
 regr1 <- regrs(mudelid=c("YIV"))
 results1 <- regr_results(a=regr1)
 results1 <- as.data.frame(t(results1))
 
-
-regression.coefficients <- ggplot(results1, aes(x=row.names(results1), y=YIV_estimate))+ geom_bar(stat="identity", fill="steelblue")+theme_minimal()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5)) + scale_x_discrete(limits=c("H4", "H6", "H8", "H10", "H12"))
-
 regression.fit <- ggplot(results1, aes(x=row.names(results1),y=r.squared)) + geom_bar(stat="identity", fill="steelblue")+ theme_minimal() + xlab("Quarters") + ylab("R-squared") + labs(title = "GDP R-squared") +  theme(plot.title = element_text(hjust = 0.5)) + scale_x_discrete(limits=c("H4", "H6", "H8", "H10", "H12"))
 
 regression.fit
-regression.coefficients
 ```
 
+
+
+```{r regcoefficients, message = F, warnings = F, echo = F, fig.height=3, fig.width=6, fig.cap="Regressions' coefficients"}
+
+regression.coefficients <- ggplot(results1, aes(x=row.names(results1), y=YIV_estimate))+ geom_bar(stat="identity", fill="steelblue")+theme_minimal()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5)) + scale_x_discrete(limits=c("H4", "H6", "H8", "H10", "H12"))
+
+regression.coefficients
+
+```
+
+
 \newpage
-## Appendix B
+## Appendix C
+
+
 
 ```{r GDPvsYIV, message=F, warnings=F, echo = F, fig.cap="GDP Growth(%) vs 5-year Treasury Implied Volatility"}
 par(mar = c(5, 5, 3, 5))
@@ -159,36 +175,17 @@ legend("topleft", c("YIV", "GDP"),
        col = c("blue", "red"), lty = c(1, 2))
 ```
 
+
 \newpage
-## Appendix C
-
-Notes: This table includes summary statistics for main variables used in our research. Statistics include mean, standard deviation,, min, 1st quartile, median, 3rd quartile, max & number of valid data points. 
-In Panel A, YIV data is summarized. 
-In Panel B, we have listed the main dependent variables which are used for predictions. GDP denotes the year-on-year growth rate(quarterly data), CON denotes YOY consumption growth(monthly data), EMP describes YOY growth rate for non-farm payroll and lastly IND stands for Industrial production YOY growth (monthly data).
-In Panel C, different control variables are listed: 
-
-
-```{r summarystat, message = F, warnings = F, echo = F}
-
-statistics %>%
-  select(-N.Valid) %>%
-  arrange(match(Variable, c("YIV", "GDP","AAA","DBAA","baa_aaa")), desc(Mean)) %>%
-  kbl(booktabs = T,  longtable=T, align="c", digits=2, caption="Summary Statistics") %>%
-  kable_styling(latex_options = c("striped","repeat_header")) %>%
-  group_rows("Panel A: YIV & GDP",1,2, latex_align="c") %>%
-  group_rows("Panel B: Control Variables",3,15, latex_align="c") %>%
-  footnote(general = "The variables are shown prior to the standardization process.", threeparttable=T)
-```
-\newpage
-
-
-## Appendix D. 
+## Appendix D 
 
 Notes: This table depicts the output of regression with YIV as independent variable. The equation for the regression is following:
 
 \begin{equation}
 \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} +\varepsilon_{t+H}
 \end{equation}
+
+
 
 ```{r OLS1, message = F, warnings = F,echo = F}
 regr1 <- regrs(mudelid=c("YIV"))
@@ -203,13 +200,15 @@ results1 %>%
 #grangertest(log_gdp ~ YIV, order=1, df)
 ```
 \newpage
-## Appendix E. 
+## Appendix E 
 
 Notes: YIV and dummy as independent variables. The equation for the regression is following:
 
 \begin{equation}
 \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Dummy +\varepsilon_{t+H}
 \end{equation}
+
+
 
 ```{r OLS2, message = F, warnings = F,echo = F}
 regr2 <- regrs(mudelid=c("YIV", "dum"))
@@ -221,18 +220,20 @@ results2  %>%
      column_spec(1:1, width="2in")%>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
-model2 <- lm(log_gdp ~ YIV + dum + YIV*dum, df)
-ols_vif_tol(model2)
+#model2 <- lm(log_gdp ~ YIV + dum + YIV*dum, df)
+#ols_vif_tol(model2)
 ```
 
 \newpage
-## Appendix F. 
+## Appendix F 
 
 Notes: This table includes regression using YIV and GDP lags. The equation for the regression is following:
 
 \begin{equation}
 \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + lag[log(1+GDP_{i,t+j})] +\varepsilon_{t+H}
 \end{equation}
+
+
 
 ```{r OLS3, message = F, warnings = F,echo = F}
 # lag_selection1 <- lm(log_gdp ~ lag1, df)
@@ -260,18 +261,20 @@ results3  %>%
      column_spec(1:1, width="2in")%>%
 
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
-model3 <- lm(log_gdp ~ YIV + lag1 + lag2, df)
-ols_vif_tol(model3)
+#model3 <- lm(log_gdp ~ YIV + lag1 + lag2, df)
+#ols_vif_tol(model3)
 
 ```
 \newpage
-## Appendix G. 
+## Appendix G
 
 Notes: This table includes regression using GDP lags and controls. The equation for the regression is following:
 
 \begin{equation}
 \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + lag[log(1+GDP_{i,t+j})] +\varepsilon_{t+H}
 \end{equation}
+
+
 
 ```{r OLS4, message = F, warnings = F,echo = F}
 regr4 <- regrs(mudelid=c("lag1", "lag2", "DGS1","TRM1012", "SRT03M", "baa_aaa", "VIX", "housng", "gz_spr", "spy_logreturn"))
@@ -283,18 +286,20 @@ results4  %>%
    column_spec(1:1, width="2in")%>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
-model4 <- lm(log_gdp ~ lag1 + lag2 + DGS1 + TRM1012 + SRT03M + baa_aaa + VIX + housng + gz_spr + spy_logreturn, df)
-ols_vif_tol(model4)
+#model4 <- lm(log_gdp ~ lag1 + lag2 + DGS1 + TRM1012 + SRT03M + baa_aaa + VIX + housng + gz_spr + spy_logreturn, df)
+#ols_vif_tol(model4)
 ```
 
 \newpage
-## Appendix H. 
+## Appendix H
 
 Notes: YIV, dummy, GDP lags and controls as independent variables. The equation for the regression is following:
 
 \begin{equation}
 \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + lag[log(1+GDP_{i,t+j})] +\varepsilon_{t+H}
 \end{equation}
+
+
 
 ```{r OLS5, message = F, warnings = F,echo = F}
 regr5 <- regrs(mudelid=c("YIV", "dum", "lag1", "lag2", "DGS1", "TRM1012", "SRT03M", "baa_aaa", "VIX", "housng", "gz_spr", "spy_logreturn"))
@@ -306,8 +311,8 @@ results5  %>%
     column_spec(1:1, width="2in")%>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
-model5 <- lm(log_gdp ~ YIV + dum + YIV*dum + lag2 + DGS1 + TRM1012 + SRT03M + baa_aaa + VIX + housng + gz_spr + spy_logreturn, df)
-ols_vif_tol(model5)
+#model5 <- lm(log_gdp ~ YIV + dum + YIV*dum + lag2 + DGS1 + TRM1012 + SRT03M + baa_aaa + VIX + housng + gz_spr + spy_logreturn, df)
+#ols_vif_tol(model5)
 
 # model6 <- lm(log_gdp ~  YIV + dum + YIV*dum + lag1 + lag2 + DGS1 + TRM1012 + SRT03M + baa_aaa + VIX + housng + gz_spr + spy_logreturn, df)
 # ols_step_forward_p(model6)
@@ -318,7 +323,7 @@ ols_vif_tol(model5)
 
 
 \newpage
-## Appendix I. 
+## Appendix I
 
 
 ```{r roll_regress, message = F, warnings = F,echo = F}
@@ -338,7 +343,8 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(
 
 ```
 \newpage
-## Appendix J. 
+## Appendix J 
+
 
 ```{r MRF, message = F, warnings = F,echo = F}
 #RMSE Subject to oos period and variable numbers
