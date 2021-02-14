@@ -59,7 +59,7 @@ After having done the regression with YIV, subsample dummy and controls as indep
 
 \begin{equation}
 \begin{split}
-SFE = \sum_{j=1}^{j=H}(log(GDP_{i,t+j}) - log(\widetilde{GDP}_{i,t+j})^2 \\
+SFE = \sum_{j=1}^{j=H}(log(1+GDP_{i,t+j}) - \widetilde{log({1+GDP}_{i,t+j})}^2 \\
 RMSFE =  \sqrt{mean(SFE)}
 \end{split}
 \end{equation}
