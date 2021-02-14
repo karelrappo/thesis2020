@@ -51,7 +51,6 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE
 \FloatBarrier
 \newpage
 
-
 ```{r child = '003-literature.Rmd'}
 ```
 \FloatBarrier
@@ -68,8 +67,6 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE
 \FloatBarrier
 ```{r child = '006-Results.Rmd'}
 ```
-
-
 
 \FloatBarrier
 \newpage
