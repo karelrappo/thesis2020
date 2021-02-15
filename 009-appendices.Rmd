@@ -327,8 +327,7 @@ predicted <- predicted %>%
 RMSE<-mltools::rmse(preds=predicted$value,actuals=predicted$GDP)
 ```
 
-\newpage
-## Appendix J
+
 
 
 ```{r createjoonised, message=F, warnings=F,echo = F}
@@ -353,19 +352,22 @@ rf_resultss4 <- melt(rf_resultss4 ,  id.vars = 'time', variable.name = 'series')
 
 ```
 
-```{r rfjoonised, message=F, warnings=F, fig.height=2.5, fig.width=6, fig.cap="Random Forest RMSFEs"}
+\newpage
+## Appendix J^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
 
 
+```{r rfjoonised1, message=F, warnings=F, fig.height=2.5, fig.width=6, fig.cap="Random Forest vs OLS RMSFE"}
 ggplot(rf_resultss2, aes((time), value)) + geom_line(aes(colour = series)) + theme_bw() + theme(legend.position = "bottom") + labs(x="Time horizon", y="RMSFE value", color="Model")
-
-
-
-ggplot(rf_resultss3, aes(time, value)) + geom_line(aes(colour = series)) + theme_bw() + theme(legend.position = "bottom") + labs(x="Time horizon", y="RMSFE value", color="Model")
-
-
-
-ggplot(rf_resultss4, aes(time, value)) + geom_line(aes(colour = series)) + theme_bw() + theme(legend.position = "bottom") + labs(x="Time horizon", y="RMSFE value", color="Model")
-
-
-
 ```
+
+
+```{r rfjoonised2, message=F, warnings=F, fig.height=2.5, fig.width=6, fig.cap="Random Forest vs OLS RMSFE in Reccessionary subsample"}
+ggplot(rf_resultss3, aes(time, value)) + geom_line(aes(colour = series)) + theme_bw() + theme(legend.position = "bottom") + labs(x="Time horizon", y="RMSFE value", color="Model")
+```
+
+
+```{r rfjoonised3, message=F, warnings=F, fig.height=2.5, fig.width=6, fig.cap="Random Forest vs OLS RMSFE in Expansionary subsample"}
+ggplot(rf_resultss4, aes(time, value)) + geom_line(aes(colour = series)) + theme_bw() + theme(legend.position = "bottom") + labs(x="Time horizon", y="RMSFE value", color="Model")
+```
+
+

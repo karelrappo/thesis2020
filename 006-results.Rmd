@@ -68,7 +68,7 @@ ggplot(joonis, aes(Var2, value, group=factor(Var1))) + geom_line(aes(color=facto
 
 ## Out-of-sample forecasting with Random Forest
 
-Lastly, we erected a random forest model to try to improve the forecasting accuracy through having non-linearity. As it can be seen from the graphs (\@ref(fig:rfjoonised)) the performance in some cases is slightly better than OLS (e.g. during recessionary periods), however, is some cases (e.g. during expansionary periods) the model's accuracy is slightly worse. This holds also after tuning the model for number of trees. 
+Lastly, we erected a random forest model to try to improve the forecasting accuracy through having non-linearity. As it can be seen from the graphs (\@ref(fig:rfjoonised1)) the performance in some cases is slightly better than OLS (e.g. during recessionary periods), however, is some cases (e.g. during expansionary periods) the model's accuracy is slightly worse. This holds also after tuning the model for number of trees. 
 
 ## (Macroeconomic Random Forest)
 
