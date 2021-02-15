@@ -42,9 +42,6 @@ colnames(rf_resultss, do.NULL = FALSE)
 colnames(rf_resultss) <- c("H1","H2","H3","H4","H5","H6","H7","H8","H9","H10","H11","H12")
 rownames(rf_resultss) <- c("RF_YIV", "RF_Recessionary", "RF_Expansionary")
 
-ols_rmsfe <- read.csv("Data/RMSFE comparison.csv")
-ols_rmsfe <- column_to_rownames(ols_rmsfe, "X")
-rf_resultss1 <- rbind(rf_resultss, ols_rmsfe[1:3,])
 
 
 
