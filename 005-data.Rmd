@@ -75,6 +75,7 @@ We use the risk free rates to compute different term spreads which is defined as
 * between 5 year and 3 month treasury constant maturity rate (variable TRM0503)
 
 Furthermore, we construct changes in the short rate that is defined as the change in the rate of treasury 3 month note (SRT03M). In addition to the credit spread index(CRSZGI) and individual corporate yields, we calculate yield spread between AAA and BAA corporate bonds, defined as baa_aaa. All the used variables prior to standardization can be seen in the table below \@ref(tab:summarystat). It includes summary statistics for main variables used in our research. Statistics include mean, standard deviation,, min, 1st quartile, median, 3rd quartile, max & number of valid data points. 
+
 \begingroup
 \linespread{1.0}\selectfont
 ```{r summarystat, message = F, warnings = F, echo = F}
