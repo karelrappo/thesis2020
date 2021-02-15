@@ -29,7 +29,7 @@ Boriss Siliverstovs\break
 \vspace{2 cm}
 \begin{center}
 Riga \break
-2020
+2021
 \end{center}
 \linespread{1.5}\selectfont
 
