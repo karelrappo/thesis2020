@@ -1,7 +1,6 @@
-source("Import.R")
 library(rollRegres)
 library(mltools)
-
+source("Import.R")
 
 # Out-of-sample regression
 do_regression <- function(var)
@@ -10,7 +9,7 @@ do_regression <- function(var)
   predicted <- unlist(res[4])
   predicted <- predicted[21:91]
   actual <- df[[var]][21:91]
-  RMSFE <- rmse(preds = predicted, actuals = actual)
+  RMSFE <- mltools::rmse(preds = predicted, actuals = actual)
   return(RMSFE)
 }
 
@@ -50,7 +49,7 @@ do_regression4 <- function(var)
   predicted <- unlist(res[4])
   predicted <- predicted[21:91]
   actual <- df[[var]][21:91]
-  RMSFE <- rmse(preds = predicted, actuals = actual)
+  RMSFE <- mltools::rmse(preds = predicted, actuals = actual)
   return(RMSFE)
 }
 
@@ -89,7 +88,7 @@ do_regression7 <- function(var)
   predicted <- unlist(res[4])
   predicted <- predicted[21:91]
   actual <- df[[var]][21:91]
-  RMSFE <- rmse(preds = predicted, actuals = actual)
+  RMSFE <- mltools::rmse(preds = predicted, actuals = actual)
   return(RMSFE)
 }
 
@@ -100,7 +99,7 @@ do_regression8 <- function(var)
   predicted <- unlist(res[4])
   predicted <- predicted[21:91]
   actual <- df[[var]][21:91]
-  RMSFE <- rmse(preds = predicted, actuals = actual)
+  RMSFE <- mltools::rmse(preds = predicted, actuals = actual)
   return(RMSFE)
 }
 

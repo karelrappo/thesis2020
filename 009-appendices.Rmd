@@ -327,7 +327,7 @@ predicted <- as_tibble(mrf.output$pred)
 predicted <- predicted %>%
   mutate(GDP = df[90:103,]$GDP)
 
-RMSE<-rmse(preds=predicted$value,actuals=predicted$GDP)
+RMSE<-mltools::rmse(preds=predicted$value,actuals=predicted$GDP)
 ```
 
 
