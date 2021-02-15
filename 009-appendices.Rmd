@@ -327,6 +327,10 @@ predicted <- predicted %>%
 RMSE<-mltools::rmse(preds=predicted$value,actuals=predicted$GDP)
 ```
 
+\newpage
+## Appendix J
+
+
 ```{r createjoonised, message=F, warnings=F,echo = F}
 source("RF.R")
 
@@ -361,5 +365,7 @@ ggplot(rf_resultss3, aes(time, value)) + geom_line(aes(colour = series)) + theme
 
 
 ggplot(rf_resultss4, aes(time, value)) + geom_line(aes(colour = series)) + theme_bw() + theme(legend.position = "bottom") + labs(x="Time horizon", y="RMSFE value", color="Model")
+
+
 
 ```
