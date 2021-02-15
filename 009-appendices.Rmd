@@ -122,7 +122,7 @@ We also used the WebPlotDigitzer in our research and as validity test extracted 
 ```{r vsextracted, message=F, warnings=F,echo = F, fig.height=5, fig.cap="Actual vs Extracted GDP growth rate in %"}
 GDP_data <- read_csv("data/actualvsplot.csv")
 
-extracted <- ggplot(GDP_data,aes(x=Date)) + geom_line(aes(y=Actual, color="Actual"), color="red") + geom_line(aes(y=Extracted, color="Extracted"), color="blue") +theme_bw() + ylab("GDP growth %")
+extracted <- ggplot(GDP_data,aes(x=Date)) + geom_line(aes(y=Actual, color="Actual"), color="red") + geom_line(aes(y=Extracted, color="Extracted"), color="blue") +theme_bw() + ylab("GDP growth %") + theme_bw()
 
 extracted
 
