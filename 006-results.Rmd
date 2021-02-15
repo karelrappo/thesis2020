@@ -59,6 +59,10 @@ Next, we wanted to compare the full-sample OOS RMSFE-s with the subsample OOS RM
 Figure \@ref(fig:subs) describes subsample relative RMSFE within different forecasting period. If the value is over 1, it indicates that the benchmark model(full sample model) has superior forecasting performance compared to the corresponding subsample model. Over most of the horizons, the results verify our hypothesis and are consistent with the findings of @Siliverstovs2020 - the model with reccessionary subsample has much lower forecasting performance (bigger error) compared to full-sample model, and vice versa for expansionary.
 
 
+## Out-of-sample forecasting with Random Forest
+
+Lastly, we erected a random forest model to try to improve the forecasting accuracy through having non-linearity. As it can be seen from the graphs () the performance in some cases is slightly better than OLS (e.g. during recessionary periods), however, is some cases (e.g. during expansionary periods) the model's accuracy is slightly worse. This holds also after tuning the model for number of trees. 
+
 ```{r subs, fig.height=3, fig.cap="Relative Recessionary & Expansionary RMSE"}
 joonis  <- relative_rmsfes %>%
   melt()
