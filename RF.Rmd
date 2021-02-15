@@ -46,13 +46,21 @@ ols_rmsfe <- column_to_rownames(ols_rmsfe, "X")
 df_resultss1 <- rbind(df_resultss, ols_rmsfe[1:3,])
 
 
-df_resultss2 <- as.data.frame(t(df_resultss1[c(2,5),]))
+
+df_resultss2 <- as.data.frame(t(df_resultss1[c(1,4),]))
 df_resultss2$time <- c(1:12)
 df_resultss2 <- melt(df_resultss2 ,  id.vars = 'time', variable.name = 'series')
-ggplot(df_resultss2, aes(time, value)) + geom_line(aes(colour = series))
+ggplot(df_resultss2, aes(as.numeric(time), value)) + geom_line(aes(colour = series))
 
+df_resultss3 <- as.data.frame(t(df_resultss1[c(2,5),]))
+df_resultss3$time <- c(1:12)
+df_resultss3 <- melt(df_resultss3 ,  id.vars = 'time', variable.name = 'series')
+ggplot(df_resultss3, aes(time, value)) + geom_line(aes(colour = series))
 
-
+df_resultss4 <- as.data.frame(t(df_resultss1[c(3,6),]))
+df_resultss4$time <- c(1:12)
+df_resultss4 <- melt(df_resultss4 ,  id.vars = 'time', variable.name = 'series')
+ggplot(df_resultss4, aes(time, value)) + geom_line(aes(colour = series))
 
 
 ```
