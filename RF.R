@@ -1,23 +1,26 @@
-```{r regs, include=F}
+source("Import.R")
+library("caret")
+
+
 out_of_samp <- function(var1, var2, var3){
-    mycontrol <- trainControl(method = "timeslice",
+  mycontrol <- trainControl(method = "timeslice",
                             initialWindow = 20,
                             horizon = 1,
                             fixedWindow = TRUE, 
                             savePredictions = TRUE)
-    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
-                   method = "rf",
-                   ntree = 50,
-                   trControl = mycontrol)
-    dff <- myfit$pred
-    SE <- (dff$pred-dff$obs)^2
-    if (var3 == 5){
-      SE <- SE[c(25,26,27,52,53,54,55,56,57)]
-    }
-    if (var3 == 6){
-      SE <- SE[-c(25,26,27,52,53,54,55,56,57)]
-    }
-    RMSFE <- sqrt(mean(SE))
+  myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
+                 method = "rf",
+                 ntree = 50,
+                 trControl = mycontrol)
+  dff <- myfit$pred
+  SE <- (dff$pred-dff$obs)^2
+  if (var3 == 5){
+    SE <- SE[c(25,26,27,52,53,54,55,56,57)]
+  }
+  if (var3 == 6){
+    SE <- SE[-c(25,26,27,52,53,54,55,56,57)]
+  }
+  RMSFE <- sqrt(mean(SE))
   return(RMSFE)
 } 
 
@@ -38,14 +41,10 @@ df_resultss <- df_resultss %>%
 colnames(df_resultss, do.NULL = FALSE)
 colnames(df_resultss) <- c("H1","H2","H3","H4","H5","H6","H7","H8","H9","H10","H11","H12")
 rownames(df_resultss) <- c("RF_YIV", "RF_Recessionary", "RF_Expansionary")
-```
 
-```{r, message = F, warnings = F,echo = F, fig.height=3, fig.cap="Out-of-sample RMSFE for various estimations"}
 ols_rmsfe <- read.csv("Data/RMSFE comparison.csv")
 ols_rmsfe <- column_to_rownames(ols_rmsfe, "X")
 df_resultss1 <- rbind(df_resultss, ols_rmsfe[1:3,])
-
-
 
 df_resultss2 <- as.data.frame(t(df_resultss1[c(1,4),]))
 df_resultss2$time <- c(1:12)
@@ -62,8 +61,6 @@ df_resultss4$time <- c(1:12)
 df_resultss4 <- melt(df_resultss4 ,  id.vars = 'time', variable.name = 'series')
 ggplot(df_resultss4, aes(time, value)) + geom_line(aes(colour = series))
 
-
-```
 
 
 
