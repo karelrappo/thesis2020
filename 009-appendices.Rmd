@@ -57,7 +57,6 @@ library(olsrr)
 library(pracma)
 source("Import.R")
 source("oos.R")
-source("RF.R")
 ```
 
 
@@ -277,13 +276,10 @@ results5  %>%
 
 
 ```{r roll_regress, message = F, warnings = F,echo = F, }
-
 rownames(df_resultss)[rownames(df_resultss)=='YIV_Recessionary'] <- "YIV-Recess."
 rownames(df_resultss)[rownames(df_resultss)=='YIV_Expansionary'] <- "YIV-Expans."
 rownames(df_resultss)[rownames(df_resultss)=='Naive_Recessionary'] <- "Naive-Recess."
 rownames(df_resultss)[rownames(df_resultss)=='Naive_Expansionary'] <- "Naive-Expans."
-
-
 
 df_resultss %>%
   kbl(longtable=T, booktabs=T) %>%
@@ -331,35 +327,35 @@ predicted <- predicted %>%
 RMSE<-mltools::rmse(preds=predicted$value,actuals=predicted$GDP)
 ```
 
+```{r createjoonised, message=F, warnings=F,echo = F}
+source("RF.R")
 
+rf_resultss2 <- as.data.frame(t(rf_resultss1[c(1,4),]))
+rf_resultss2$time <- c(1:12)
+rf_resultss2 <- melt(rf_resultss2 ,  id.vars = 'time', variable.name = 'series')
 
+rf_resultss3 <- as.data.frame(t(rf_resultss1[c(2,5),]))
+rf_resultss3$time <- c(1:12)
+rf_resultss3 <- melt(rf_resultss3 ,  id.vars = 'time', variable.name = 'series')
 
-```{r randomforest, message=F, warnings=F,echo = F, include=F}
-# train <- dataset[,2:22]
-# test <- dataset[1:15,2:22]
-# #The Random Forest
-# train[,1:14] <- sapply(train[,1:14], as.numeric) #Convert all predictors to numeric variables
-# set.seed(131) #Set randomizing seed for replication study
-# 
-# #The Random Forest Algorithm
-# library(randomForest)
-# gdp.rf <- randomForest(GDPC1 ~ .
-# , data=train, importance=TRUE, na.action=na.omit)
-# print(gdp.rf)
-# #Variable importance measure
-# imp <- importance(gdp.rf, type = 1)
-# round(imp, 3)
-# varImpPlot(gdp.rf)
-# #Prediction
-# test[1:15,1:114] <- sapply(test[1:15,1:114], as.numeric)
-# pred.rf <- predict(gdp.rf, newdata=test, n.ahead=15)
-# pred.rf
-# #RMSE
-# RMSE(test$GDPC1, pred.rf)
-#  
+rf_resultss4 <- as.data.frame(t(rf_resultss1[c(3,6),]))
+rf_resultss4$time <- c(1:12)
+rf_resultss4 <- melt(rf_resultss4 ,  id.vars = 'time', variable.name = 'series')
+
 ```
 
+```{r rfjoonised, message=F, warnings=F, fig.height=3, fig.width=6, fig.cap="Random Forest RMSFEs"}
 
 
 
+ggplot(rf_resultss2, aes(as.numeric(time), value)) + geom_line(aes(colour = series))
 
+
+
+ggplot(rf_resultss3, aes(time, value)) + geom_line(aes(colour = series))
+
+
+
+ggplot(rf_resultss4, aes(time, value)) + geom_line(aes(colour = series))
+
+```
