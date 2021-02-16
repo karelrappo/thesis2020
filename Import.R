@@ -1,4 +1,3 @@
-
 library(stringr)
 library(tidyverse)
 library(summarytools)
@@ -12,6 +11,10 @@ library(data.table)
 library(MacroRF)
 require(data.table)
 library(zoo)
+library(rollRegres)
+library(mltools)
+library(caret)
+
 
 start <- as.Date("01/03/1990", format="%d/%m/%Y")
 end <- as.Date("01/10/2015", format="%d/%m/%Y")

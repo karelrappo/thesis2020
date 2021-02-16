@@ -27,7 +27,7 @@ header-includes:
 ```{r resultimport, include=F, message = F, warnings = F,echo = F}
 library(dplyr)
 library(reshape2)
-source("oos.R")
+source("functions.R")
 ```
 
 
