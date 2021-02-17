@@ -52,8 +52,31 @@ remove(results1, results2)
 ########################       OOS FORECASTS   ################################################
 ###############################################################################################
 
-## Peaks siia ka tekitama nii ,et independent on ka muutuv var + vb if conditionaliga see, et kas full sample, v subsampled
-## aga hetkel kell liiga palju :D 
+
+#var - dependent variable
+#var2 - independent variable
+#type - full:0, expans:1, recess:2
+#SEE siin test, et saaks kõik kokku lükata
+
+
+out_of_sample <- function(var,var2,type)
+{ 
+  res <-roll_regres(as.formula(paste0(var,"~",var2)), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
+  predicted <- unlist(res[4])
+  predicted <- predicted[21:91]
+  actual <- df[[var]][21:91]
+  SE <- (predicted-actual)^2
+  
+  ifelse(type==1,SE <- SE[c(25,26,27,52,53,54,55,56,57)],
+  ifelse(type==2, SE <- SE[-c(25,26,27,52,53,54,55,56,57)],
+          SE <- SE))
+  
+  RMSFE <- sqrt(mean(SE))
+  return(RMSFE)
+}
+
+rf_results <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "YIV", 0)))
+
 
 ##############################     YIV FULL    ##############################################################
 
@@ -162,6 +185,9 @@ do_regression8 <- function(var)
 
 
 ##############################   FORMAT RESULTS  ##############################################################
+
+rf_results1 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "YIV", 2)))
+rf_results2 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "YIV", 1)))
 
 
 df_results1 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression)))
