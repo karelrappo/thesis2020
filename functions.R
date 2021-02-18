@@ -52,12 +52,8 @@ remove(results1, results2)
 ########################       OOS FORECASTS   ################################################
 ###############################################################################################
 
-
 #var - dependent variable
 #var2 - independent variable
-#type - full:0, expans:1, recess:2
-#SEE siin test, et saaks kõik kokku lükata
-
 
 out_of_sample <- function(var,var2,type)
 { 
@@ -67,138 +63,26 @@ out_of_sample <- function(var,var2,type)
   actual <- df[[var]][21:91]
   SE <- (predicted-actual)^2
   
-  ifelse(type==1,SE <- SE[c(25,26,27,52,53,54,55,56,57)],
-  ifelse(type==2, SE <- SE[-c(25,26,27,52,53,54,55,56,57)],
+  ifelse(type=="recessionary",SE <- SE[c(25,26,27,52,53,54,55,56,57)],
+  ifelse(type=="expansionary", SE <- SE[-c(25,26,27,52,53,54,55,56,57)],
           SE <- SE))
   
   RMSFE <- sqrt(mean(SE))
   return(RMSFE)
 }
 
-rf_results <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "YIV", 0)))
-
-
-##############################     YIV FULL    ##############################################################
-
-do_regression <- function(var)
-{ 
-  res <-roll_regres(as.formula(paste0(var, "~ YIV")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
-  predicted <- unlist(res[4])
-  predicted <- predicted[21:91]
-  actual <- df[[var]][21:91]
-  RMSFE <- mltools::rmse(preds = predicted, actuals = actual)
-  return(RMSFE)
-}
-
-
-##############################   YIV RECESSIONARY   #######################################################
-do_regression2 <- function(var)
-{ 
-  res <-roll_regres(as.formula(paste0(var, "~ YIV")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
-  predicted <- unlist(res[4])
-  predicted <- predicted[21:91]
-  actual <- df[[var]][21:91]
-  SE <- (predicted-actual)^2
-  SE <- SE[c(25,26,27,52,53,54,55,56,57)]
-  RMSFE <- sqrt(mean(SE))
-  return(RMSFE)
-}
-
-
-##############################   YIV EXPANSIONARY   #######################################################
-do_regression3 <- function(var)
-{ 
-  res <-roll_regres(as.formula(paste0(var, "~ YIV")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
-  predicted <- unlist(res[4])
-  predicted <- predicted[21:91]
-  actual <- df[[var]][21:91]
-  SE <- (predicted-actual)^2
-  SE <- SE[-c(25,26,27,52,53,54,55,56,57)]
-  RMSFE <- sqrt(mean(SE))
-  return(RMSFE)
-}
-
-
-##############################   NAIVE FULL  ##############################################################
-do_regression4 <- function(var)
-{ 
-  res <-roll_regres(as.formula(paste0(var, "~ log_gdp")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
-  predicted <- unlist(res[4])
-  predicted <- predicted[21:91]
-  actual <- df[[var]][21:91]
-  RMSFE <- mltools::rmse(preds = predicted, actuals = actual)
-  return(RMSFE)
-}
-
-##############################   NAIVE RECESSIONARY  ##############################################################
-do_regression5 <- function(var)
-{ 
-  res <-roll_regres(as.formula(paste0(var, "~ log_gdp")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
-  predicted <- unlist(res[4])
-  predicted <- predicted[21:91]
-  actual <- df[[var]][21:91]
-  SE <- (predicted-actual)^2
-  SE <- SE[c(25,26,27,52,53,54,55,56,57)]
-  RMSFE <- sqrt(mean(SE))
-  return(RMSFE)
-}
-
-
-##############################   NAIVE EXPANSIONARY  ##############################################################
-do_regression6 <- function(var)
-{ 
-  res <-roll_regres(as.formula(paste0(var, "~ log_gdp")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
-  predicted <- unlist(res[4])
-  predicted <- predicted[21:91]
-  actual <- df[[var]][21:91]
-  SE <- (predicted-actual)^2
-  SE <- SE[-c(25,26,27,52,53,54,55,56,57)]
-  RMSFE <- sqrt(mean(SE))
-  return(RMSFE)
-}
-
-##############################   TERM SPREAD FULL  ##############################################################
-
-
-# TRM1006 doesn't work in the regression for some reason
-do_regression7 <- function(var)
-{ 
-  res <-roll_regres(as.formula(paste0(var, "~ TRM1012")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
-  predicted <- unlist(res[4])
-  predicted <- predicted[21:91]
-  actual <- df[[var]][21:91]
-  RMSFE <- mltools::rmse(preds = predicted, actuals = actual)
-  return(RMSFE)
-}
-
-##############################   CREDIT SPREAD FULL  ##############################################################
-
-do_regression8 <- function(var)
-{ # var - the name of the variable to be regressed
-  res <-roll_regres(as.formula(paste0(var, "~ baa_aaa")), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
-  predicted <- unlist(res[4])
-  predicted <- predicted[21:91]
-  actual <- df[[var]][21:91]
-  RMSFE <- mltools::rmse(preds = predicted, actuals = actual)
-  return(RMSFE)
-}
-
 
 ##############################   FORMAT RESULTS  ##############################################################
 
-rf_results1 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "YIV", 2)))
-rf_results2 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "YIV", 1)))
 
-
-df_results1 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression)))
-df_results2 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression2)))
-df_results3 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression3)))
-df_results4 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression4)))
-df_results5 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression5)))
-df_results6 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression6)))
-df_results7 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression7)))
-df_results8 <- as.data.frame(t(sapply(colnames(df)[29:40], do_regression8)))
-
+df_results1 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "YIV", "full")))
+df_results2 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "YIV", "recessionary")))
+df_results3 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "YIV", "expansionary")))
+df_results4 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "log_gdp", "full")))
+df_results5 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "log_gdp", "recessionary")))
+df_results6 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "log_gdp", "expansionary")))
+df_results7 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "TRM1012", "full")))
+df_results8 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "baa_aaa", "full")))
 
 df_resultss <- rbind(df_results1, df_results2, df_results3, df_results4, df_results5, df_results6, df_results7, df_results8) %>%
   round(2)
