@@ -52,4 +52,6 @@ Thus, our research question consists of three sub-questions:
 2. **If so, is this conclusion robust even after taking into account different business cycles.**
 3. **Do Machine Learning methods such as Random Forest improve the forecast accuracy?**
 
+The research paper is structured as follows. First we give an overview of existing literature to offer background to our work. As a next step, we describe our dataset and its acquisiton methods, which is followed by methodology. Lastly, we describe the results of our research and connect it with existing research.
+
 
