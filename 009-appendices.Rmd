@@ -245,29 +245,18 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(
 
 ```
 
-
 \newpage
-## Appendix I 
+## Appendix I^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
 
 
-```{r, fig.cap="Generalized Time-varying parameters of Macroeconomic Random Forest"}
-knitr::include_graphics("images/MRF-1.pdf")
+```{r rfjoonised1, figures-side, fig.show="hold", out.width="50%", echo = F}
 
-```
-
-
-Note: These are just preliminary results. Will be edited.
-
-
-
-\newpage
-## Appendix J^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
-
-
-```{r rfjoonised1, message=F, warnings=F, fig.height=2.5, fig.width=6, fig.cap="Random Forest all"}
-
-plot1 <- results(c("ols", "rf", "ols_rec", "rf_rec", "ols_exp", "rf_exp"))
+plot1 <- results(c("ols", "rf"))
+plot2 <- results(c("ols_rec", "rf_rec"))
+plot3 <- results(c("ols_exp", "rf_exp"))
 plot1
+plot2
+plot3
 
 ```
 
