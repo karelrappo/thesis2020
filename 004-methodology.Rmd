@@ -119,24 +119,3 @@ To take this process together in algorithmical terms:
 MSE = \frac{1}{n} \sum_{i=1}^{n}(y_{i}-\gamma)^2
 \end{equation}
 
-
-### Macroeconomic Random Forest
-However, in our research, we use an algorithm developed by @Coulombe2020 named Macroeconomic Random Forest. His proposed model further develops off-the-shelf random forest with regards to two areas:
-
-* **Statistical efficiency** - due to the nature of random forest approximation, achieving smooth linear relationships takes many splits which in case of a smaller time series can result in the loss of degrees of freedom which in turn increases the error terms. MRF, however, includes a linear component which can capture these less complex relationships with less splits, saving the degrees of freedom for more complicated sequences.
-
-* **Interpretation** - random forest model itself is often considered as a black box model in terms of interpretability, and external interpreter algorithms are used to understand it. However, MRF tackles this problem through adding the linear part - after splitting the initial parameter into many pieces of the whole forest, it allows to directly interpret the coefficients of the underlying surrogate models^[The full derivation & optimization can be found in @Coulombe2020].
-
-The general model (see Equation \@ref(eq:macrorf)) proposed by Coulombe (2020). The main difference between MRF and RF is that the latter is a restricted model ,where Xt=1. 
-
-\begin{equation}
-y_{t} = X_{t} \beta_{t} +\varepsilon_{t} (\#eq:macrorf)
-\end{equation}
-\begin{equation}
-\beta_{t}= F(S_{t})
-\end{equation}
-
-Where F(St) describes the function of random forest, beta is the outcome of random forest predictions and X the linear part used for interpretation of MRF. 
-
-The author has provided us with an R-package^[Macroeconomic Random Forest R package can be downloaded form https://philippegouletcoulombe.com/code
-], which dramatically simplifies our research process and makes it more feasible for a Bachelor level thesis.
