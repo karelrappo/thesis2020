@@ -156,7 +156,6 @@ df_resultss %>%
 ```
 
 
-
 ```{r oosgraph, message = F, warnings = F,echo = F, fig.height=3, fig.cap="Out-of-sample RMSFE for various estimations"}
 df_results <- transpose(df_resultss)
 df_resultss2 <- melt(df_resultss)
@@ -168,11 +167,7 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(
 ```
 
 \newpage
-<<<<<<< HEAD
 ## Appendix G^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
-=======
-## Appendix I^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
->>>>>>> ea9f25ee71faf8682581c96cfc785af36a67aeff
 
 
 ```{r rfjoonised1, figures-side, fig.show="hold", out.width="50%", echo = F}
