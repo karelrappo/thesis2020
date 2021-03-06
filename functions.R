@@ -75,20 +75,20 @@ out_of_sample <- function(var,var2,type)
 ##############################   FORMAT OOS RESULTS  ##############################################################
 
 
-df_results1 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "YIV", "full")))
-df_results2 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "YIV", "recessionary")))
-df_results3 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "YIV", "expansionary")))
-df_results4 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "log_gdp", "full")))
-df_results5 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "log_gdp", "recessionary")))
-df_results6 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "log_gdp", "expansionary")))
-df_results7 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "TRM1012", "full")))
-df_results8 <- as.data.frame(t(mapply(out_of_sample, colnames(df)[29:40], "baa_aaa", "full")))
+df_results1 <- as.data.frame(t(mapply(out_of_sample, c("F1", "F2", "F4", "F8"), "YIV", "full")))
+df_results2 <- as.data.frame(t(mapply(out_of_sample, c("F1", "F2", "F4", "F8"), "YIV", "recessionary")))
+df_results3 <- as.data.frame(t(mapply(out_of_sample, c("F1", "F2", "F4", "F8"), "YIV", "expansionary")))
+df_results4 <- as.data.frame(t(mapply(out_of_sample, c("F1", "F2", "F4", "F8"), "log_gdp", "full")))
+df_results5 <- as.data.frame(t(mapply(out_of_sample, c("F1", "F2", "F4", "F8"), "log_gdp", "recessionary")))
+df_results6 <- as.data.frame(t(mapply(out_of_sample, c("F1", "F2", "F4", "F8"), "log_gdp", "expansionary")))
+df_results7 <- as.data.frame(t(mapply(out_of_sample, c("F1", "F2", "F4", "F8"), "TRM1012", "full")))
+df_results8 <- as.data.frame(t(mapply(out_of_sample, c("F1", "F2", "F4", "F8"), "baa_aaa", "full")))
 
 df_resultss <- rbind(df_results1, df_results2, df_results3, df_results4, df_results5, df_results6, df_results7, df_results8) %>%
   round(2)
 
 colnames(df_resultss, do.NULL = FALSE)
-colnames(df_resultss) <- c("H1","H2","H3","H4","H5","H6","H7","H8","H9","H10","H11","H12")
+colnames(df_resultss) <- c("H1","H2","H4","H8")
 rownames(df_resultss) <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", "Naive_Recessionary", "Naive_Expansionary", "TRM", "CRS")
 
 ##############################   RELATIVE RMSFE  ##############################################################
@@ -102,7 +102,7 @@ relative_rmsfes <- df_resultss %>%
   round(2) %>%
   t()
 
-colnames(relative_rmsfes) <- c("H1","H2","H3","H4","H5","H6","H7","H8","H9","H10","H11","H12")
+colnames(relative_rmsfes) <- c("H1","H2","H4","H8")
 rownames(df_resultss)[rownames(df_resultss)=='YIV_Recessionary'] <- "YIV-Recess."
 rownames(df_resultss)[rownames(df_resultss)=='YIV_Expansionary'] <- "YIV-Expans."
 rownames(df_resultss)[rownames(df_resultss)=='Naive_Recessionary'] <- "Naive-Recess."
@@ -137,25 +137,25 @@ out_of_samp <- function(var1, var2, var3, var4){
 
 # SRT03M + gz_spr  + spy_logreturn
 
-ols <- as.data.frame(as.data.frame(t(mapply(out_of_samp, colnames(df)[29:40], "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 4, "lm"))))
-rf <- as.data.frame(as.data.frame(t(mapply(out_of_samp, colnames(df)[29:40], "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 4, "rf"))))
+ols <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 4, "lm"))))
+rf <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 4, "rf"))))
 
-ols_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, colnames(df)[29:40], "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 5, "lm"))))
-rf_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, colnames(df)[29:40], "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 5, "rf"))))
+ols_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 5, "lm"))))
+rf_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 5, "rf"))))
 
-ols_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, colnames(df)[29:40], "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 6, "lm"))))
-rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, colnames(df)[29:40], "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 6, "rf"))))
+ols_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 6, "lm"))))
+rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 6, "rf"))))
 
 
 rf_resultsss <- rbind(ols, rf, ols_rec, rf_rec, ols_exp, rf_exp)
 colnames(rf_resultsss, do.NULL = FALSE)
-colnames(rf_resultsss) <- c("H1","H2","H3","H4","H5","H6","H7","H8","H9","H10","H11","H12")
+colnames(rf_resultsss) <- c("H1","H2","H4","H8")
 rownames(rf_resultsss) <- c("ols", "rf", "ols_rec", "rf_rec", "ols_exp", "rf_exp")
 
 
 results <- function(var1){
   rf_resultss2 <- as.data.frame(t(rf_resultsss[var1,]))
-  rf_resultss2$time <- c(1:12)
+  rf_resultss2$time <- c(1, 2, 4, 8)
   rf_resultss2 <- melt(rf_resultss2 ,  id.vars = 'time', variable.name = 'series') 
   ggplot(rf_resultss2, aes((time), value)) + geom_line(aes(colour = series)) + theme_bw() + theme(legend.position = "bottom") + labs(x="Time horizon", y="RMSFE value", color="Model")
   
