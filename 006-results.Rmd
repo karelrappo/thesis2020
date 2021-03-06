@@ -32,12 +32,27 @@ source("functions.R")
 
 # Results
 
+Before diving to details, we plot quarterly YIV with quarterly GDP to see whether visual patterns arise. As it can be seen, the YIV seems to have a negative correlation with GDP. This relationship is especially profound  during Global Financial Crisis (around 2008-2009) when YIV surges up a bit before where a big decline in GDP happens. This is confirms our base for analysis as suggested by the literature review that indeed the treasury could have predictive ability over GDP.
+
+```{r, message=F, warnings=F, echo = F, fig.cap="GDP Growth(%) vs 5-year Treasury Implied Volatility"}
+par(mar = c(5, 5, 3, 5))
+plot(df$Date, df$YIV, type = "l", xlab = "Date", ylab = "YIV (%)", col = "blue", main = "GDP growth vs YIV")
+par(new=TRUE)
+plot(df$Date, df$GDP, type = "l", xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "red", lty = 2)
+axis(side = 4)
+mtext("GDP growth(%)", side = 4, line = 3)
+legend("topleft", c("YIV", "GDP"),
+       col = c("blue", "red"), lty = c(1, 2))
+```
+
 ## In-sample regressions
 
 We start our analysis by regressing YIV to GDP growth throughout different rolling periods - i.e. 4, 6, 8, 10 and 12 quarter GDP growth rolling averages (the regression formula and summary can be seen in table \@ref(tab:OLS1)). Our regression results implicate that 1 standard deviation increase in YIV is associated with a -1 * 1.31% = 1.31% decrease in gdp growth within next 4 quarters.  For predicting 12 quarters ahead (3 years), 1 standard deviation increase in YIV is associated with a -0.54 * 1.31% * 3 = 2.11% decrease in GDP growth. To illustrate the magnitude of this reduction, one should note that the average year-on-year growth rate in our sample is 2,5%.
 
 Furthermore, it can be seen, YIV’s coefficients are significant throughout the prediction periods within 1% confidence level. The model’s R-squared gradually decreases from 39% in predicting ahead GDP growth 4 quarters’ rolling averages to 19% in predicting ahead 12 quarters’ rolling averages. These results are consistent with the paper by @Cremers2017 while the only difference is from std. error. Thus, this verifies the validity of our methodology and that the extracted data can be used to proceed with the research process. Nevertheless, as an additional robustness check to ensure that YIV predicts GDP growth and not the other way around, we run the Granger causality test by which we indeed conclude that YIV granger-caused GDP growth.
 
+\begingroup
+\linespread{1.0}\selectfont
 
 \begin{equation}
 \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} +\varepsilon_{t+H}
@@ -56,8 +71,12 @@ results1 %>%
 
 #grangertest(log_gdp ~ YIV, order=1, df)
 ```
+\endgroup
 
 Next, we add a dummy variable representing recessionary periods (according to the NBER classification) i.e. the dummy takes a value of 1 during recession and 0 during expansion table \@ref(tab:OLS2)). As it can be seen from the table, the dummy’s coefficient is negative and significant at 1% confidence level throughout all predicted timespans. Furthermore, adding the dummy improved R-squared significantly - 61% in predicting ahead GDP growth 4 quarters’ rolling averages when compared to 39% of respective YIV only model. The latter indicates that there is a structural break in data during recessions and that full model predictions during recessionary periods can result in poor prediction accuracy. Nevertheless, the interaction term of the dummy variable & YIV yield insignificant results. Hence, this means that recessionary period only influences the intercept, not slope of the variable.
+
+\begingroup
+\linespread{1.0}\selectfont
 
 \begin{equation}
 \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Dummy +\varepsilon_{t+H}
@@ -77,6 +96,7 @@ results2  %>%
 #model2 <- lm(log_gdp ~ YIV + dum + YIV*dum, df)
 #ols_vif_tol(model2)
 ```
+\endgroup
 
 Additionally, we also constructed a model with controls as regressors (Table \@ref(tab:OLS4)). The controls variables were selected among the variables described in the data section. More specifically, the following controls were selected initially: DGS1, DGS5, DGS10, DGS3MO, DGS6MO, TRM0503, TRM0506, TRM1003, TRM1006, TRM1012, STR03M, BAA-AAA, VIX, HOUSNG and GZ_SPR. However, due to multicollinearity problems among DSG and TRM controls we constructed a model for variable selection and  selected the best predictor among those groups. For selection criteria, both R-squared and Mallow’s Cp were used and according to this we chose DGS10 and TRM1012 as the best predictors out of DGS and TRM control groups. Thus, in the final regression model the following controls were included: DGS1, TRM1012, STR03M, BAA-AAA, VIX, HOUSNG and GZ_SPR.
 
