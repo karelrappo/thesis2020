@@ -24,36 +24,7 @@ header-includes:
 - \DeclareMathOperator{\logit}{logit}
 ---
 
-```{r run libraries, include=F}
-library(stringr)
-library(tidyverse)
-library(summarytools)
-library(kableExtra)
-library(dynlm)
-library(stats)
-library(readr)
-library(dplyr)
-library(ggplot2)
-library(MacroRF)
-require(data.table)
-library(zoo)
-library(sandwich)
-library(randomForest)
-library(caret)
-library(fbi)
-library(lmtest)
-library(purrr)
-library(broom)
-library(rollRegres)
-library(modelr)
-library(forcats)
-library(tibble)
-library(Metrics)
-library(mltools)
-library(reshape2)
-library(lmtest)
-library(olsrr)
-library(pracma)
+```{r, include=F}
 source("functions.R")
 ```
 
@@ -118,56 +89,7 @@ legend("topleft", c("YIV", "GDP"),
 
 
 \newpage
-## Appendix D 
-
-Notes: This table depicts the output of regression with YIV as independent variable. The equation for the regression is following:
-
-\begin{equation}
-\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} +\varepsilon_{t+H}
-\end{equation}
-
-
-```{r OLS1, message = F, warnings = F,echo = F}
-regr1 <- regrs(mudelid=c("YIV"))
-results1 <- regr_results(a=regr1)
-
-results1 %>%
-  kbl(booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
-  kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-     column_spec(1:1, width="2in")%>%
-  footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
-
-#grangertest(log_gdp ~ YIV, order=1, df)
-```
-
-\newpage 
-## Appendix E 
-
-Notes: YIV and dummy as independent variables. The equation for the regression is following:
-
-\begin{equation}
-\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Dummy +\varepsilon_{t+H}
-\end{equation}
-
-
-
-```{r OLS2, message = F, warnings = F,echo = F}
-regr2 <- regrs(mudelid=c("YIV", "dum"))
-results2 <- regr_results(a=regr2)
-
-results2  %>%
-  kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
-   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-     column_spec(1:1, width="2in")%>%
-       footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
-
-#model2 <- lm(log_gdp ~ YIV + dum + YIV*dum, df)
-#ols_vif_tol(model2)
-```
-
-
-\newpage
-## Appendix F
+## Appendix D
 
 Notes: This table includes regression with controls. The equation for the regression is following:
 
@@ -192,7 +114,7 @@ results4  %>%
 ```
 
 \newpage
-## Appendix G
+## Appendix E
 
 Notes: YIV, dummy and controls as independent variables. The equation for the regression is following:
 
@@ -223,7 +145,7 @@ results5  %>%
 ```
 \newpage
 
-## Appendix H
+## Appendix F
 
 
 ```{r roll_regress, message = F, warnings = F,echo = F, }
@@ -245,29 +167,18 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(
 
 ```
 
-
 \newpage
-## Appendix I 
+## Appendix G^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
 
 
-```{r, fig.cap="Generalized Time-varying parameters of Macroeconomic Random Forest"}
-knitr::include_graphics("images/MRF-1.pdf")
+```{r rfjoonised1, figures-side, fig.show="hold", out.width="50%", echo = F}
 
-```
-
-
-Note: These are just preliminary results. Will be edited.
-
-
-
-\newpage
-## Appendix J^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
-
-
-```{r rfjoonised1, message=F, warnings=F, fig.height=2.5, fig.width=6, fig.cap="Random Forest all"}
-
-plot1 <- results(c("ols", "rf", "ols_rec", "rf_rec", "ols_exp", "rf_exp"))
+plot1 <- results(c("ols", "rf"))
+plot2 <- results(c("ols_rec", "rf_rec"))
+plot3 <- results(c("ols_exp", "rf_exp"))
 plot1
+plot2
+plot3
 
 ```
 

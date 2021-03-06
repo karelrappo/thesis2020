@@ -24,9 +24,8 @@ header-includes:
 - \usepackage{amsmath}
 - \DeclareMathOperator{\logit}{logit}
 ---
+
 ```{r resultimport, include=F, message = F, warnings = F,echo = F}
-library(dplyr)
-library(reshape2)
 source("functions.R")
 ```
 
@@ -37,9 +36,47 @@ source("functions.R")
 
 We start our analysis by regressing YIV to GDP growth throughout different rolling periods - i.e. 4, 6, 8, 10 and 12 quarter GDP growth rolling averages (the regression formula and summary can be seen in table \@ref(tab:OLS1)). Our regression results implicate that 1 standard deviation increase in YIV is associated with a -1 * 1.31% = 1.31% decrease in gdp growth within next 4 quarters.  For predicting 12 quarters ahead (3 years), 1 standard deviation increase in YIV is associated with a -0.54 * 1.31% * 3 = 2.11% decrease in GDP growth. To illustrate the magnitude of this reduction, one should note that the average year-on-year growth rate in our sample is 2,5%.
 
-Furthermore, it can be seen, YIV’s coefficients are significant throughout the prediction periods within 1% confidence level. The model’s R-squared gradually decreases from 39% in predicting ahead GDP growth 4 quarters’ rolling averages to 19% in predicting ahead 12 quarters’ rolling averages. These results are consistent with the paper by @Cremers2017 while the only difference is from std. error. Thus, this verifies the validity of our methodology and that the extracted data can be used to proceed with the research process. Nevertheless, as an additional robustness check to ensure that YIV predicts GDP growth and not the other way around, we run the Granger causality test by which we indeed conclude that YIV granger-caused GDP growth. 
+Furthermore, it can be seen, YIV’s coefficients are significant throughout the prediction periods within 1% confidence level. The model’s R-squared gradually decreases from 39% in predicting ahead GDP growth 4 quarters’ rolling averages to 19% in predicting ahead 12 quarters’ rolling averages. These results are consistent with the paper by @Cremers2017 while the only difference is from std. error. Thus, this verifies the validity of our methodology and that the extracted data can be used to proceed with the research process. Nevertheless, as an additional robustness check to ensure that YIV predicts GDP growth and not the other way around, we run the Granger causality test by which we indeed conclude that YIV granger-caused GDP growth.
+
+
+\begin{equation}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} +\varepsilon_{t+H}
+\end{equation}
+
+
+```{r OLS1, message = F, warnings = F,echo = F}
+regr1 <- regrs(mudelid=c("YIV"))
+results1 <- regr_results(a=regr1)
+
+results1 %>%
+  kbl(booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
+  kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
+     column_spec(1:1, width="2in")%>%
+  footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
+
+#grangertest(log_gdp ~ YIV, order=1, df)
+```
 
 Next, we add a dummy variable representing recessionary periods (according to the NBER classification) i.e. the dummy takes a value of 1 during recession and 0 during expansion table \@ref(tab:OLS2)). As it can be seen from the table, the dummy’s coefficient is negative and significant at 1% confidence level throughout all predicted timespans. Furthermore, adding the dummy improved R-squared significantly - 61% in predicting ahead GDP growth 4 quarters’ rolling averages when compared to 39% of respective YIV only model. The latter indicates that there is a structural break in data during recessions and that full model predictions during recessionary periods can result in poor prediction accuracy. Nevertheless, the interaction term of the dummy variable & YIV yield insignificant results. Hence, this means that recessionary period only influences the intercept, not slope of the variable.
+
+\begin{equation}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Dummy +\varepsilon_{t+H}
+\end{equation}
+
+
+```{r OLS2, message = F, warnings = F,echo = F}
+regr2 <- regrs(mudelid=c("YIV", "dum"))
+results2 <- regr_results(a=regr2)
+
+results2  %>%
+  kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
+   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
+     column_spec(1:1, width="2in")%>%
+       footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
+
+#model2 <- lm(log_gdp ~ YIV + dum + YIV*dum, df)
+#ols_vif_tol(model2)
+```
 
 Additionally, we also constructed a model with controls as regressors (Table \@ref(tab:OLS4)). The controls variables were selected among the variables described in the data section. More specifically, the following controls were selected initially: DGS1, DGS5, DGS10, DGS3MO, DGS6MO, TRM0503, TRM0506, TRM1003, TRM1006, TRM1012, STR03M, BAA-AAA, VIX, HOUSNG and GZ_SPR. However, due to multicollinearity problems among DSG and TRM controls we constructed a model for variable selection and  selected the best predictor among those groups. For selection criteria, both R-squared and Mallow’s Cp were used and according to this we chose DGS10 and TRM1012 as the best predictors out of DGS and TRM control groups. Thus, in the final regression model the following controls were included: DGS1, TRM1012, STR03M, BAA-AAA, VIX, HOUSNG and GZ_SPR.
 
@@ -70,5 +107,4 @@ ggplot(joonis, aes(Var2, value, group=factor(Var1))) + geom_line(aes(color=facto
 
 Lastly, we erected a random forest model to try to improve the forecasting accuracy through having non-linearity. As it can be seen from the graphs (\@ref(fig:rfjoonised1)) the performance in some cases is slightly better than OLS (e.g. during recessionary periods), however, is some cases (e.g. during expansionary periods) the model's accuracy is slightly worse. This holds also after tuning the model for number of trees. 
 
-## (Macroeconomic Random Forest)
 
