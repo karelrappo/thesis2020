@@ -31,7 +31,7 @@ library(olsrr)
 library(pracma)
 
 ###############################################################################################
-########################       LINEAR MODELS   ################################################
+########################       LINEAR MODELS' RELATED SUMMARY STATISTICS   ####################
 ###############################################################################################
 regrs <- function(mudelid)
 {
@@ -76,55 +76,41 @@ remove(results1, results2)
 }
 
 
-
 ###############################################################################################
-########################       OOS FORECASTS   ################################################
+########################     RMSFE calculation function     ################################################
 ###############################################################################################
 
-#var - dependent variable
-#var2 - independent variable
-
-out_of_sample <- function(var,var2,type)
-{ 
-  res <-roll_regres(as.formula(paste0(var,"~",var2)), df[1:91,], width=20L, do_compute = c("sigmas", "r.squareds", "1_step_forecasts"))
-  predicted <- unlist(res[4])
-  predicted <- predicted[21:91]
-  actual <- df[[var]][21:91]
-  SE <- (predicted-actual)^2
+out_of_samp <- function(var1, var2, type, var4){
+  mycontrol <- trainControl(method = "timeslice",
+                            initialWindow = 20,
+                            horizon = 1,
+                            fixedWindow = TRUE, 
+                            savePredictions = TRUE)
+  myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
+                 method = var4,
+                 ntree = 50,
+                 trControl = mycontrol)
+  dff <- myfit$pred
+  SE <- (dff$pred-dff$obs)^2
   
   ifelse(type=="recessionary",SE <- SE[c(25,26,27,52,53,54,55,56,57)],
   ifelse(type=="expansionary", SE <- SE[-c(25,26,27,52,53,54,55,56,57)],
-          SE <- SE))
-  
+            SE <- SE))
   RMSFE <- sqrt(mean(SE))
   return(RMSFE)
-}
-
-#################################  Actual vs Predicted values    ################################################
-
-out_of_sample.vs <- function(var,var2)
-{ 
-  res <-roll_regres(as.formula(paste0(var,"~",var2)), df[1:91,], width=20L, do_compute = c("1_step_forecasts"))
-  predicted <- unlist(res[4])
-  predicted <- predicted[21:91]
-  rownames(predicted) <- c()
-  actual <- df[[var]][21:91]
-  return(list(actual,predicted))
-}
-
-act_vs_predicted<- mapply(out_of_sample.vs, c("F1","F2","F4","F8"), "YIV")
-
-##############################   FORMAT OOS RESULTS  ##############################################################
+} 
 
 
-df_results1 <- as.data.frame(t(mapply(out_of_sample, c("F1", "F2", "F4", "F8"), "YIV", "full")))
-df_results2 <- as.data.frame(t(mapply(out_of_sample, c("F1", "F2", "F4", "F8"), "YIV", "recessionary")))
-df_results3 <- as.data.frame(t(mapply(out_of_sample, c("F1", "F2", "F4", "F8"), "YIV", "expansionary")))
-df_results4 <- as.data.frame(t(mapply(out_of_sample, c("F1", "F2", "F4", "F8"), "log_gdp", "full")))
-df_results5 <- as.data.frame(t(mapply(out_of_sample, c("F1", "F2", "F4", "F8"), "log_gdp", "recessionary")))
-df_results6 <- as.data.frame(t(mapply(out_of_sample, c("F1", "F2", "F4", "F8"), "log_gdp", "expansionary")))
-df_results7 <- as.data.frame(t(mapply(out_of_sample, c("F1", "F2", "F4", "F8"), "TRM1012", "full")))
-df_results8 <- as.data.frame(t(mapply(out_of_sample, c("F1", "F2", "F4", "F8"), "baa_aaa", "full")))
+##############################   OLS RMSFE-s  ##############################################################
+
+df_results1 <- as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV", "full", "lm")))
+df_results2 <- as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV", "recessionary", "lm")))
+df_results3 <- as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV", "expansionary", "lm")))
+df_results4 <- as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "log_gdp", "full", "lm")))
+df_results5 <- as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "log_gdp", "recessionary", "lm")))
+df_results6 <- as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "log_gdp", "expansionary", "lm")))
+df_results7 <- as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "TRM1012", "full", "lm")))
+df_results8 <- as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "baa_aaa", "full", "lm")))
 
 df_resultss <- rbind(df_results1, df_results2, df_results3, df_results4, df_results5, df_results6, df_results7, df_results8) %>%
   round(2)
@@ -151,42 +137,16 @@ rownames(df_resultss)[rownames(df_resultss)=='Naive_Recessionary'] <- "Naive-Rec
 rownames(df_resultss)[rownames(df_resultss)=='Naive_Expansionary'] <- "Naive-Expans."
 
 
-###############################################################################################
-########################     RF FULL MODEL     ################################################
-###############################################################################################
+##############################   RF & OLS RMSFE results' comparison ##############################################################
 
-out_of_samp <- function(var1, var2, var3, var4){
-  mycontrol <- trainControl(method = "timeslice",
-                            initialWindow = 20,
-                            horizon = 1,
-                            fixedWindow = TRUE, 
-                            savePredictions = TRUE)
-  myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
-                 method = var4,
-                 ntree = 50,
-                 trControl = mycontrol)
-  dff <- myfit$pred
-  SE <- (dff$pred-dff$obs)^2
-  if (var3 == 5){
-    SE <- SE[c(25,26,27,52,53,54,55,56,57)]
-  }
-  if (var3 == 6){
-    SE <- SE[-c(25,26,27,52,53,54,55,56,57)]
-  }
-  RMSFE <- sqrt(mean(SE))
-  return(RMSFE)
-} 
+ols <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "full", "lm"))))
+rf <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "full", "rf"))))
 
-# SRT03M + gz_spr  + spy_logreturn
+ols_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "recessionary", "lm"))))
+rf_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "recessionary", "rf"))))
 
-ols <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 4, "lm"))))
-rf <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 4, "rf"))))
-
-ols_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 5, "lm"))))
-rf_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 5, "rf"))))
-
-ols_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 6, "lm"))))
-rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", 6, "rf"))))
+ols_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "expansionary", "lm"))))
+rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "expansionary", "rf"))))
 
 
 rf_resultsss <- rbind(ols, rf, ols_rec, rf_rec, ols_exp, rf_exp)
@@ -205,17 +165,34 @@ results <- function(var1){
 
 
 ###############################################################################################
-########################         MRF           ################################################
+########################     Predicted and observed values calculation function     ###########
 ###############################################################################################
-MRF.data <- df %>%
-  select(-Date, -log_gdp) %>%
-  relocate(GDP, YIV, dum)%>% 
-  as.matrix()
 
-mrf.output=MRF(data=MRF.data,y.pos=1,x.pos=2:5,S.pos=2:20,oos.pos=90:103)
+out_of_samp2 <- function(var1, var2, var4){
+  mycontrol <- trainControl(method = "timeslice",
+                            initialWindow = 20,
+                            horizon = 1,
+                            fixedWindow = TRUE, 
+                            savePredictions = TRUE)
+  myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
+                 method = var4,
+                 ntree = 50,
+                 trControl = mycontrol)
+  dff <- myfit$pred
+  return(list(dff$pred, dff$obs))
+} 
 
-predicted <- as_tibble(mrf.output$pred)
-predicted <- predicted %>%
-  mutate(GDP = df[90:103,]$GDP)
+act_vs_predicted <- mapply(out_of_samp2, c("F1", "F2", "F4", "F8"), "YIV", "lm")
+dfff1 <- data.frame(matrix(unlist(act_vs_predicted), nrow=8, byrow=TRUE),stringsAsFactors=FALSE)
+colnames(dfff1) <- c(1:80)
+dfff1$type1 <- c("H1", "H2", "H4", "H8")
+dfff1$type2 <- c("Predicted", "Actual")
 
-RMSE<-mltools::rmse(preds=predicted$value,actuals=predicted$GDP)
+dfff1 <- dfff1 %>%
+  pivot_longer(!c(type1, type2), names_to = "variable", values_to = "value")
+
+ggplot(dfff1, aes(variable, value, group=factor(type1))) + geom_line(aes(color=factor(type2))) + theme_bw() + 
+  theme(legend.position = "none") + labs(x="Time horizon", y="GDP growth value", color="Model", caption="Naive refers to regressions with GDP and its lags, TRM - term spreads, CRS - credit spreads") + 
+  facet_wrap( ~type1)
+
+
