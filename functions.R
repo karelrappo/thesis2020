@@ -185,14 +185,17 @@ out_of_samp2 <- function(var1, var2, var4){
 act_vs_predicted <- mapply(out_of_samp2, c("F1", "F2", "F4", "F8"), "YIV", "lm")
 dfff1 <- data.frame(matrix(unlist(act_vs_predicted), nrow=8, byrow=TRUE),stringsAsFactors=FALSE)
 colnames(dfff1) <- c(1:80)
-dfff1$type1 <- c("H1", "H2", "H4", "H8")
+dfff1$type1 <- c("H1","H1", "H2","H2", "H4","H4", "H8", "H8")
 dfff1$type2 <- c("Predicted", "Actual")
+#dfff1 <- as.data.frame(t(dfff1))
+
+
 
 dfff1 <- dfff1 %>%
   pivot_longer(!c(type1, type2), names_to = "variable", values_to = "value")
 
-ggplot(dfff1, aes(variable, value, group=factor(type1))) + geom_line(aes(color=factor(type2))) + theme_bw() + 
-  theme(legend.position = "none") + labs(x="Time horizon", y="GDP growth value", color="Model", caption="Naive refers to regressions with GDP and its lags, TRM - term spreads, CRS - credit spreads") + 
-  facet_wrap( ~type1)
+ggplot(dfff1, aes(variable, value, group=factor(type2))) + geom_line(aes(color=factor(type2))) + theme_bw() + 
+  labs(x="Time horizon", y="GDP growth value", color="Legend", caption="Naive refers to regressions with GDP and its lags, TRM - term spreads, CRS - credit spreads") + 
+  facet_wrap(~type1)
 
 
