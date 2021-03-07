@@ -190,12 +190,9 @@ dfff1$type2 <- c("Predicted", "Actual")
 #dfff1 <- as.data.frame(t(dfff1))
 
 
-
 dfff1 <- dfff1 %>%
   pivot_longer(!c(type1, type2), names_to = "variable", values_to = "value")
 
-ggplot(dfff1, aes(variable, value, group=factor(type2))) + geom_line(aes(color=factor(type2))) + theme_bw() + 
-  labs(x="Time horizon", y="GDP growth value", color="Legend", caption="Naive refers to regressions with GDP and its lags, TRM - term spreads, CRS - credit spreads") + 
-  facet_wrap(~type1)
+
 
 

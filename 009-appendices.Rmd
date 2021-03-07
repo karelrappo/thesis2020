@@ -168,4 +168,15 @@ plot3
 
 ```
 
+\newpage
+## Appendix H
+
+```{r, message = F, warnings = F,echo = F,}
+
+ggplot(dfff1, aes(variable, value, group=factor(type2))) + geom_line(aes(color=factor(type2))) + theme_bw() + 
+  labs(x="Time horizon", y="GDP growth value", color="Legend", caption="Naive refers to regressions with GDP and its lags, TRM - term spreads, CRS - credit spreads") + 
+  facet_wrap(~type1)
+```
+
+
 
