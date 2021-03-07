@@ -100,6 +100,19 @@ out_of_sample <- function(var,var2,type)
   return(RMSFE)
 }
 
+#################################  Actual vs Predicted values    ################################################
+
+out_of_sample.vs <- function(var,var2)
+{ 
+  res <-roll_regres(as.formula(paste0(var,"~",var2)), df[1:91,], width=20L, do_compute = c("1_step_forecasts"))
+  predicted <- unlist(res[4])
+  predicted <- predicted[21:91]
+  rownames(predicted) <- c()
+  actual <- df[[var]][21:91]
+  return(list(actual,predicted))
+}
+
+act_vs_predicted<- mapply(out_of_sample.vs, c("F1","F2","F4","F8"), "YIV")
 
 ##############################   FORMAT OOS RESULTS  ##############################################################
 
