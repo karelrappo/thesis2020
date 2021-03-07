@@ -64,7 +64,7 @@ RMSFE =  \sqrt{mean(SFE)}
 \end{split}
 \end{equation}
 
-To calculate the full model RMSFE we first have to obtain square forecasting errors (SFE). For that we construct a predictive model with a 5-year rolling estimation window. Thus, we use the previous 20 quarters to predict the next H quarters (note: here H denotes lead values not rolling averages). From that regression we obtain the predicted values and through incorporating the actual values we can then compute the SFE-s. Having the SFE-s, we take the mean from the values and then take the square root.
+To calculate the full model RMSFE we first have to obtain square forecasting errors (SFE). For that we construct a predictive model with a 5-year rolling estimation window. Thus, we use the previous 20 quarters to predict the next H quarters (note: here H denotes lead values not rolling averages).The reason behind opting for rolling estimation window is that in this way the predicted datapoint is continously moving; thus the forecast error is not so much dependent on the selected forecast interval (i.e. there would be big differences if one used 85 datapoints to predict 20 datapoints, or 70 datapoints to predict 35 datapoints). From that regression we obtain the predicted values and through incorporating the actual values we can then compute the SFE-s. Having the SFE-s, we take the mean from the values and then take the square root.
 
 ## Out of sample validation for different economic cycles
 

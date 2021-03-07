@@ -74,19 +74,6 @@ regression.coefficients
 ```
 
 
-\newpage
-## Appendix C
-```{r GDPvsYIV, message=F, warnings=F, echo = F, fig.cap="GDP Growth(%) vs 5-year Treasury Implied Volatility"}
-par(mar = c(5, 5, 3, 5))
-plot(df$Date, df$YIV, type = "l", xlab = "Date", ylab = "YIV (%)", col = "blue", main = "GDP growth vs YIV")
-par(new=TRUE)
-plot(df$Date, df$GDP, type = "l", xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "red", lty = 2)
-axis(side = 4)
-mtext("GDP growth(%)", side = 4, line = 3)
-legend("topleft", c("YIV", "GDP"),
-       col = c("blue", "red"), lty = c(1, 2))
-```
-
 
 \newpage
 ## Appendix D
@@ -156,12 +143,12 @@ df_resultss %>%
 ```
 
 
-```{r oosgraph, message = F, warnings = F,echo = F, fig.height=3, fig.cap="Out-of-sample RMSFE for various estimations"}
+```{r oosgraph, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE for various estimations"}
 df_results <- transpose(df_resultss)
 df_resultss2 <- melt(df_resultss)
 df_resultss2$rowid <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", "Naive_Recessionary", "Naive_Expansionary", "TRM", "CRS")
 
-ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(color=factor(rowid))) + theme_bw() + theme(legend.position = "bottom") + labs(x="Time horizon", y="RMSFE value", color="Model")
+ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(color=factor(rowid))) + theme_bw() + theme(legend.position = "none") + labs(x="Time horizon", y="RMSFE value", color="Model", caption="Naive refers to regressions with GDP and its lags, TRM - term spreads, CRS - credit spreads") + facet_wrap( ~rowid)
 
 
 ```
