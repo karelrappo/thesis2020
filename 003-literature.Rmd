@@ -77,18 +77,13 @@ Therefore, there is reason to believe that the model introduced by Cremers & Fle
 
 ## Advanced methods for macroeconomic forecasting
 Based on the recent research on forecasting, there is significant evidence on the poor performance of simple autoregressive models when forecasting macroeconomic real activity.
-In an IMF working paper “Deus ex Machina? A Framework for Macro Forecasting with Machine Learning” published in February 2020, Bolhuis and Rayner bring out the following key shortcomings of a simple OLS-based forecasting model:
+In an IMF working paper “Deus ex Machina? A Framework for Macro Forecasting with Machine Learning” published in February 2020, Bolhuis and Rayner bring out the following four key shortcomings of a simple OLS-based forecasting model: Collinearity, Dimensionality, Predictor relevance, and Non-linearity.
 
-* Collinearity
-* Dimensionality
-* Predictor relevance
-* Non-linearity
+To combat some of these shortcomings (collinearity and dimensionality), @Siliverstovs2020 assessed the forecasting performance of a dynamic factor model (DFM) compared to a simple autoregressive model. Furthermore, they also included the state-dependent subsamples to their research. The main finding is that there is a significant performance improvement in forecasting capability during the recessionary periods when using the dynamic factor model. Thus, it further illustrates the need for accounting the state-dependency and the importance of using more advanced models (especially during the recessionary periods) over simple autoregressive models to account for the shortcomings of simple OLS-based models.
 
-To combat some of these shortcomings, @Siliverstovs2020 assessed the forecasting performance of a dynamic factor model (DFM) compared to a simple autoregressive model. Furthermore, they also included the state-dependent subsamples to their research. The main finding is that there is a significant performance improvement in forecasting capability during the recessionary periods when using the dynamic factor model. Thus, it further illustrates the need for accounting the state-dependency and the importance of using more advanced models (especially during the recessionary periods) over simple autoregressive models to account for the shortcomings of simple OLS-based models.
+However, for our research, using a DFM doesn't serve its purpose as we are using a limited set of proven control variables which diminish the problems of collinearity and dimensionality significantly. Furthermore, as brought out by @Bolhuis2020, while the DFM-s account for collinearity and dimensional shortcomings, they are still unable to account for the predictor relevance and non-linearity. This in turn increases the root mean square forecast errors (RMSFE) and thus, makes the predictions less accurate.
 
-However, as brought out by @Bolhuis2020, while the DFM-s account for collinearity and dimensional shortcomings, they are still unable to account for the predictor relevance and non-linearity. This in turn increases the root mean square forecast errors (RMSFE) and thus, makes the predictions less accurate.
-
-A solution for this can be found through implementing machine learning (ML) models which have been increasingly taken into use also in applied economics research. Researches have been drawn more and more towards the ML methods in forecasting mainly due to its ability to take into account nonlinearity and its emphasis on out-of-sample forecasting to avoid overfitting. Furthermore, the ML methods have been found to have better performance with regards to the forecasting accuracy and robustness [@Carrasco2016]
+A solution for this can be found through implementing machine learning (ML) models which have been increasingly taken into use also in applied economics research. Researches have been drawn more and more towards the ML methods in forecasting mainly due to its ability to take into account nonlinearity and its emphasis on out-of-sample forecasting to avoid overfitting which in turn improves the performance with regards to the forecasting accuracy and robustness [@Carrasco2016]. Furthermore, through ML methods we will be able to test for predictor relevance to get an overview of how significant variable YIV is in predicting macroeconomic real activity and how does it compare against other academically proven predictors.
 
 
 To take it together, our paper builds upon Fleckenstein et al while improving the methodology in 2 ways:
