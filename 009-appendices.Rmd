@@ -152,31 +152,37 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(
 
 
 ```
-
 \newpage
-## Appendix G^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
 
+## Appendix G
 
-```{r rfjoonised1, figures-side, fig.show="hold", out.width="50%", echo = F}
+```{r message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Linear model)"}
 
-plot1 <- results(c("ols", "rf"))
-plot2 <- results(c("ols_rec", "rf_rec"))
-plot3 <- results(c("ols_exp", "rf_exp"))
-plot1
-plot2
-plot3
+pred_vs_actual_graph(lm)
+
+```
+
+```{r message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Random forest)"}
+
+pred_vs_actual_graph(rf)
 
 ```
 
 \newpage
-## Appendix H
+## Appendix H^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
 
-```{r, message = F, warnings = F,echo = F,}
 
-ggplot(dfff1, aes(variable, value, group=factor(type2))) + geom_line(aes(color=factor(type2))) + theme_bw() + 
-  labs(x="Time horizon", y="GDP growth value", color="Legend", caption="Naive refers to regressions with GDP and its lags, TRM - term spreads, CRS - credit spreads") + 
-  facet_wrap(~type1)
+```{r message = F, warnings = F,echo = F, fig.cap="RMSFE-s of linear model and random forest"}
+
+ggplot(rf_resultsss, aes(variable, value, group=factor(period))) + geom_line(aes(color=factor(period))) + theme(legend.position="bottom") + labs(x="Time horizon", y="GDP growth value", color="Model") + 
+  facet_wrap(~type) + scale_color_manual(values=c("blue", "red"))
+
 ```
+
+
+
+
+
 
 
 

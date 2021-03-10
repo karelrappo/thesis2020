@@ -152,16 +152,11 @@ rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", 
 rf_resultsss <- rbind(ols, rf, ols_rec, rf_rec, ols_exp, rf_exp)
 colnames(rf_resultsss, do.NULL = FALSE)
 colnames(rf_resultsss) <- c("H1","H2","H4","H8")
-rownames(rf_resultsss) <- c("ols", "rf", "ols_rec", "rf_rec", "ols_exp", "rf_exp")
-
-
-results <- function(var1){
-  rf_resultss2 <- as.data.frame(t(rf_resultsss[var1,]))
-  rf_resultss2$time <- c(1, 2, 4, 8)
-  rf_resultss2 <- melt(rf_resultss2 ,  id.vars = 'time', variable.name = 'series') 
-  ggplot(rf_resultss2, aes((time), value)) + geom_line(aes(colour = series)) + theme_bw() + theme(legend.position = "bottom") + labs(x="Time horizon", y="RMSFE value", color="Model")
-  
-}
+rf_resultsss$period <- c("Linear model", "Random forest")
+rf_resultsss$type <- c("Full sample","Full sample","Reccessionary period","Reccessionary period","Expansionary period","Expansionary period")
+rf_resultsss$type2 <- c(1,2)
+rf_resultsss <- rf_resultsss %>%
+  pivot_longer(!c(type, period, type2), names_to = "variable", values_to = "value")
 
 
 ###############################################################################################
@@ -182,16 +177,32 @@ out_of_samp2 <- function(var1, var2, var4){
   return(list(dff$pred, dff$obs))
 } 
 
-act_vs_predicted <- mapply(out_of_samp2, c("F1", "F2", "F4", "F8"), "YIV", "lm")
-dfff1 <- data.frame(matrix(unlist(act_vs_predicted), nrow=8, byrow=TRUE),stringsAsFactors=FALSE)
-colnames(dfff1) <- c(1:80)
-dfff1$type1 <- c("H1","H1", "H2","H2", "H4","H4", "H8", "H8")
-dfff1$type2 <- c("Predicted", "Actual")
-#dfff1 <- as.data.frame(t(dfff1))
+act_vs_predicted <- function(var1, var2){
+  act_vs_predicted <- mapply(out_of_samp2, c("F1", "F2", "F4", "F8"), "YIV", var1)
+  dfff1 <- data.frame(matrix(unlist(act_vs_predicted), nrow=8, byrow=TRUE),stringsAsFactors=FALSE)
+  colnames(dfff1) <- c(1:80)
+  dfff1$type1 <- c("H1","H1", "H2","H2", "H4","H4", "H8", "H8")
+  dfff1$type2 <- c(var2, "Actual")
+  dfff1 <- dfff1 %>%
+    pivot_longer(!c(type1, type2), names_to = "variable", values_to = "value")
+}
+
+lm <- act_vs_predicted("lm", "Predicted (Linear model)")
+rf <- act_vs_predicted("rf", "Predicted (Random forest)")
+
+pred_vs_actual_graph <- function(var){
+  ggplot(var, aes(variable, value, group=factor(type2))) + geom_line(aes(color=factor(type2))) + theme_bw() + 
+    theme(legend.position="bottom") + labs(x="Time horizon", y="GDP growth value", color="") + 
+    facet_wrap(~type1) + scale_color_manual(values=c("blue", "red"))
+}
 
 
-dfff1 <- dfff1 %>%
-  pivot_longer(!c(type1, type2), names_to = "variable", values_to = "value")
+
+
+
+
+
+
 
 
 
