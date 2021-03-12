@@ -81,8 +81,7 @@ GZ <- GZ %>%
   select(Date, gz_spr)
 
 # Import term rates
-DGS.raw <- read_csv("Data/feds/DGS_combined.csv")
-DGS.clean<- subset(DGS.raw, DATE >= start & DATE <= end)
+DGS.clean <- read_csv("Data/feds/DGS_combined.csv")
 
 DGS.clean$DGS3MO <- as.numeric(DGS.clean$DGS3MO)
 DGS.clean$DGS6MO <- as.numeric(DGS.clean$DGS6MO)
@@ -94,6 +93,8 @@ DGS.clean <- DGS.clean %>%
   mutate(TRM1006 = DGS10-DGS6MO) %>%
   mutate(TRM1012 = DGS10-DGS1) %>%
   mutate(SRT03M = DGS3MO-lag(DGS3MO, 4))
+
+DGS.clean<- subset(DGS.clean, DATE >= start & DATE <= end)
 
 #SPY
 spy <- read_csv("data/SPY.csv")
@@ -125,6 +126,14 @@ dataset <- dataset %>%
   left_join(spy) %>%
   relocate(Date, YIV, GDP)
 
+# Make dataset with quarterly gdp
+gdp_qoq <- read_csv("data/GDPC1_qoq.csv")
+gdp_qoq <- gdp_qoq %>%
+  subset(DATE >= start & DATE <= end)
+
+dataset_quarterly <- dataset
+
+dataset_quarterly$GDP <- lapply(gdp_qoq$GDPC1_PCH, as.numeric)
 
 
 #For summary statistics
@@ -138,9 +147,24 @@ standardizable_var <- setdiff(ls(dataset), c("GDP","spy_logreturn", "dum", "Date
 dataset <- dataset %>%
   mutate_at(standardizable_var, scale)
 
+dataset_quarterly <- dataset_quarterly %>%
+  mutate_at(standardizable_var, scale)
+
 
 #Create rolling averages
 dataset <- dataset %>%
+  arrange %>%
+  mutate(H4=rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" )) %>%
+  mutate(H6=rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" )) %>%
+  mutate(H8=rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" )) %>%
+  mutate(H10=rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" )) %>%
+  mutate(H12=rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" )) %>%
+  mutate(F1=lead(log_gdp, n = 1L)) %>%
+  mutate(F2=lead(log_gdp, n = 2L)) %>%
+  mutate(F4=lead(log_gdp, n = 4L)) %>%
+  mutate(F8=lead(log_gdp, n = 8L))
+
+dataset_quarterly <- dataset_quarterly %>%
   arrange %>%
   mutate(H4=rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" )) %>%
   mutate(H6=rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" )) %>%
@@ -158,8 +182,10 @@ df <- dataset
 df.expansionary <- subset(dataset, dum== 0)
 df.recessionary <- subset(dataset, dum== 1)
 
+df_qoq <- dataset_quarterly
+
 #drop unnecessary shit for work proccesses
-rm(list=setdiff(ls(), c("df", "df_summary")))
+rm(list=setdiff(ls(), c("df", "df_summary", "df_qoq")))
 
 df <- df %>%
   mutate(lag1=lag(log_gdp, n = 1L)) %>%
@@ -167,6 +193,11 @@ df <- df %>%
   mutate(lag3=lag(log_gdp, n = 3L)) %>%
   mutate(lag4=lag(log_gdp, n = 4L))
 
+df_qoq<-df_qoq %>%
+  mutate(lag1=lag(log_gdp, n = 1L)) %>%
+  mutate(lag2=lag(log_gdp, n = 2L)) %>%
+  mutate(lag3=lag(log_gdp, n = 3L)) %>%
+  mutate(lag4=lag(log_gdp, n = 4L))
 
 
 statistics <- df_summary %>%
