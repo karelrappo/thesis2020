@@ -179,6 +179,21 @@ ggplot(rf_resultsss, aes(variable, value, group=factor(period))) + geom_line(aes
 
 ```
 
+\newpage
+## Appendix I
+
+
+```{r echo = F, warning = F, figures-side, fig.show="hold", out.width="50%"}
+
+
+plot(variable_importance("F1"), main = "H1", xlab = "")
+plot(variable_importance("F2"), main = "H2", xlab = "")
+plot(variable_importance("F4"), main = "H4")
+plot(variable_importance("F8"), main = "H8")
+
+
+```
+
 
 
 
