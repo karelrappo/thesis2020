@@ -110,12 +110,19 @@ spy <- spy%>%
   select(-quarter, -Close) %>%
   subset(Date >= start & Date <= end)
 
-
 #Import NBER recessions and create subsets
 dummy <- read.csv("data/Dummy.csv")
 
+# Make dataset with quarterly gdp
+gdp_qoq <- read_csv("data/GDPC1_qoq.csv")
+gdp_qoq <- gdp_qoq %>%
+  subset(DATE >= start & DATE <= end)
+
+dataset_quarterly <- dataset
+dataset_quarterly$GDP <- unlist(lapply(gdp_qoq$GDPC1_PCH, as.numeric))
+
 # combine
-dataset <- dataset %>%
+dataset_quarterly <- dataset_quarterly %>%
   mutate(DGS.clean[-1]) %>% 
   mutate(creditspreads[-1]) %>%
   mutate(dum=dummy$Reccession) %>%
@@ -126,13 +133,16 @@ dataset <- dataset %>%
   left_join(spy) %>%
   relocate(Date, YIV, GDP)
 
-# Make dataset with quarterly gdp
-gdp_qoq <- read_csv("data/GDPC1_qoq.csv")
-gdp_qoq <- gdp_qoq %>%
-  subset(DATE >= start & DATE <= end)
-
-dataset_quarterly <- dataset
-dataset_quarterly$GDP <- unlist(lapply(gdp_qoq$GDPC1_PCH, as.numeric))
+dataset <- dataset %>%
+  mutate(DGS.clean[-1]) %>% 
+  mutate(creditspreads[-1]) %>%
+  mutate(dum=dummy$Reccession) %>%
+  mutate(vix_qrt[-2]) %>%
+  mutate(housng_qrt[-2]) %>%
+  mutate(log_gdp=log(1+GDP/100)*100) %>%
+  left_join(GZ) %>% 
+  left_join(spy) %>%
+  relocate(Date, YIV, GDP)
 
 
 #For summary statistics
@@ -197,7 +207,6 @@ df_qoq<-df_qoq %>%
   mutate(lag2=lag(log_gdp, n = 2L)) %>%
   mutate(lag3=lag(log_gdp, n = 3L)) %>%
   mutate(lag4=lag(log_gdp, n = 4L))
-
 
 
 statistics <- df_summary %>%
