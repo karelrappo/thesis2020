@@ -196,6 +196,26 @@ pred_vs_actual_graph <- function(var){
     facet_wrap(~type1) + scale_color_manual(values=c("blue", "red"))
 }
 
+###############################################################################################
+########################       VARIABLE IMPORTANCE   ##########################################
+###############################################################################################
+
+variable_importance <- function(var){
+  mycontrol <- trainControl(method = "timeslice",
+                            initialWindow = 20,
+                            horizon = 1,
+                            fixedWindow = TRUE, 
+                            savePredictions = TRUE)
+  myfit <- train(as.formula(paste0(var, "~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng")), data = df[1:sum(!is.na(df[var])),],
+                 method = "rf",
+                 ntree = 50,
+                 trControl = mycontrol)
+  
+  output <- varImp(myfit)
+  return(output)
+  
+}
+
 
 
 
