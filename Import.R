@@ -132,8 +132,7 @@ gdp_qoq <- gdp_qoq %>%
   subset(DATE >= start & DATE <= end)
 
 dataset_quarterly <- dataset
-
-dataset_quarterly$GDP <- lapply(gdp_qoq$GDPC1_PCH, as.numeric)
+dataset_quarterly$GDP <- unlist(lapply(gdp_qoq$GDPC1_PCH, as.numeric))
 
 
 #For summary statistics
@@ -200,6 +199,7 @@ df_qoq<-df_qoq %>%
   mutate(lag4=lag(log_gdp, n = 4L))
 
 
+
 statistics <- df_summary %>%
   descr(
     transpose = TRUE,
@@ -208,6 +208,5 @@ statistics <- df_summary %>%
 statistics <- statistics %>%
   mutate(Variable=rownames(statistics)) %>%
   relocate(Variable)
-
 
 
