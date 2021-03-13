@@ -139,14 +139,14 @@ rownames(df_resultss)[rownames(df_resultss)=='Naive_Expansionary'] <- "Naive-Exp
 
 ##############################   RF & OLS RMSFE results' comparison ##############################################################
 
-ols <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "full", "lm"))))
-rf <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "full", "rf"))))
+ols <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "lm"))))
+rf <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "rf"))))
 
-ols_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "recessionary", "lm"))))
-rf_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "recessionary", "rf"))))
+ols_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "lm"))))
+rf_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "rf"))))
 
-ols_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "expansionary", "lm"))))
-rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "expansionary", "rf"))))
+ols_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "expansionary", "lm"))))
+rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "expansionary", "rf"))))
 
 
 rf_resultsss <- rbind(ols, rf, ols_rec, rf_rec, ols_exp, rf_exp)
@@ -206,7 +206,7 @@ variable_importance <- function(var){
                             horizon = 1,
                             fixedWindow = TRUE, 
                             savePredictions = TRUE)
-  myfit <- train(as.formula(paste0(var, "~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng")), data = df[1:sum(!is.na(df[var])),],
+  myfit <- train(as.formula(paste0(var, "~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")), data = df[1:sum(!is.na(df[var])),],
                  method = "rf",
                  ntree = 50,
                  trControl = mycontrol)
