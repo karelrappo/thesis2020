@@ -29,6 +29,7 @@ library(reshape2)
 library(lmtest)
 library(olsrr)
 library(pracma)
+library(dyn)
 
 ###############################################################################################
 ########################       LINEAR MODELS' RELATED SUMMARY STATISTICS   ####################
@@ -220,71 +221,46 @@ variable_importance <- function(var){
 ###############################################################################################
 ########################          CSSFED            ##########################################
 ###############################################################################################
-library(dyn)
 
-get_statistics <- function(ts_df, indep, dep, h=1, start, end, est_periods_OOS = 20) {
+df_ts <- ts(df)  
+
+get_statistics <- function(dep, indep, start=1, end=102, est_periods_OOS = 20) {
   
-  #### IS ANALYSIS
-  
-  #1. Historical mean model
-  avg   <- mean(window(ts_df, start, end)[, dep], na.rm=TRUE)
-  IS_error_N <- (window(ts_df, start, end)[, dep] - avg)
-  
-  #2. OLS model
-  reg <- dyn$lm(eval(parse(text=dep)) ~ eval(parse(text=indep)), data=window(ts_df, start, end))
-  IS_error_A <- reg$residuals
-  ### 
-  
-  ####OOS ANALYSIS
+  # Creating vectors where to store values
   OOS_error_N <- numeric(end - start - est_periods_OOS)
   OOS_error_A <- numeric(end - start - est_periods_OOS)
   #Only use information that is available up to the time at which the forecast is made
   j <- 0
-  for (i in (start + est_periods_OOS):(end-1)) {
-    j <- j + 1
-    #Get the actual ERP that you want to predict
-    actual_ERP <- as.numeric(window(ts_df, i+1, i+1)[, dep])
-    
-    #1. Historical mean model
-    OOS_error_N[j] <- actual_ERP - mean(window(ts_df, start, i)[, dep], na.rm=TRUE)
-    
-    #2. OLS model
-    reg_OOS <- dyn$lm(eval(parse(text=dep)) ~ eval(parse(text=indep)), 
-                      data=window(ts_df, start, i))
-    #Compute_error
-    df <- data.frame(x=as.numeric(window(ts_df, i, i)[, indep]))
-    names(df) <- indep
-    pred_ERP   <- predict.lm(reg_OOS, newdata=df)
-    OOS_error_A[j] <-  pred_ERP - actual_ERP
-    
-  }
-  
-  
-  #Compute statistics 
-  MSE_N <- mean(OOS_error_N^2)
-  MSE_A <- mean(OOS_error_A^2)
-  T <- length(!is.na(ts_df[, dep]))
-  OOS_R2  <- 1 - MSE_A/MSE_N
-  #Is the -1 enough (maybe -2 needed because of lag)?
-  OOS_oR2 <- OOS_R2 - (1-OOS_R2)*(reg$df.residual)/(T - 1) 
-  dRMSE <- sqrt(MSE_N) - sqrt(MSE_A)
-  ##
+    for (i in 21:(end-1)) {
+      j <- j + 1
+      #Get the actual ERP that you want to predict
+      actual <- as.numeric(window(df_ts, i, i)[, dep])
+      
+      #1. Historical mean model
+      OOS_error_N[j] <- (actual - mean(window(df_ts, start, i-1)[, dep], na.rm=TRUE))^2
+      
+      #2. OLS model
+      reg_OOS <- dyn$lm(eval(parse(text=dep)) ~ eval(parse(text=indep)), 
+                        data=window(df_ts, start, i-1))
+      #Compute_error
+      predicted_values <- unlist(reg_OOS[5])
+      pred <- predicted_values[length(predicted_values)]
+      OOS_error_A[j] <-  (pred - actual)^2
+      
+    }
   
   #### CREATE PLOT
-  OOS <- cumsum(OOS_error_N^2)-cumsum(OOS_error_A^2)
- 
-
-    
+  OOS <- cumsum(OOS_error_N)-cumsum(OOS_error_A)
+  
   return(as.tibble(list(OOS_error_N = OOS_error_N,
-              OOS_error_A = OOS_error_A,
-              OOS=OOS,
-              OOS_R2  = OOS_R2,
-              OOS_oR2 = OOS_oR2,
-              dRMSE = dRMSE)))
+                        OOS_error_A = OOS_error_A,
+                        OOS=OOS)))
 }
 
-df_test <- ts(df)
-test <- get_statistics(ts_df=df_test, "YIV", "GDP", h=1, start=1, end=102)
+test <- get_statistics( "F1", "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
+test$Date <- df$Date[21:101]
 
-plot(test$OOS)
+
+
+
 

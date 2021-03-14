@@ -25,7 +25,7 @@ header-includes:
 ---
 
 ```{r, include=F}
-source("functions_qoq.R")
+source("functions.R")
 ```
 
 
@@ -208,7 +208,15 @@ summary_table %>%
   kable_styling() 
 ```
 
+\newpage
+## Appendix I
 
+```{r message = F, warnings = F,echo = F, fig.cap="Cumulative sum of squared forecast error differential (gray shaded areas represent reccesionary periods"}
+ggplot(data = test, aes(x=Date,y=OOS)) + geom_point(colour='red') + 
+  annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+  annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+  xlab("Time horizon") + ylab("CSSFED")
+```
 
 
 
