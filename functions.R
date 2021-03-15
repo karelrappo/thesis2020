@@ -223,12 +223,11 @@ variable_importance <- function(var){
 ###############################################################################################
 
 df_ts <- ts(df)  
-
 get_statistics <- function(dep, indep, start=1, end=102, est_periods_OOS = 20) {
   
   # Creating vectors where to store values
-  OOS_error_N <- numeric(end - start - est_periods_OOS)
-  OOS_error_A <- numeric(end - start - est_periods_OOS)
+  OOS_error_hist <- numeric(end - start - est_periods_OOS)
+  OOS_error_lm <- numeric(end - start - est_periods_OOS)
   #Only use information that is available up to the time at which the forecast is made
   j <- 0
     for (i in 21:(end-1)) {
@@ -237,7 +236,7 @@ get_statistics <- function(dep, indep, start=1, end=102, est_periods_OOS = 20) {
       actual <- as.numeric(window(df_ts, i, i)[, dep])
       
       #1. Historical mean model
-      OOS_error_N[j] <- (actual - mean(window(df_ts, start, i-1)[, dep], na.rm=TRUE))^2
+      OOS_error_hist[j] <- (actual - mean(window(df_ts, start, i-1)[, dep], na.rm=TRUE))^2
       
       #2. OLS model
       reg_OOS <- dyn$lm(eval(parse(text=dep)) ~ eval(parse(text=indep)), 
@@ -245,22 +244,70 @@ get_statistics <- function(dep, indep, start=1, end=102, est_periods_OOS = 20) {
       #Compute_error
       predicted_values <- unlist(reg_OOS[5])
       pred <- predicted_values[length(predicted_values)]
-      OOS_error_A[j] <-  (pred - actual)^2
+      OOS_error_lm[j] <-  (pred - actual)^2
       
     }
   
-  #### CREATE PLOT
-  OOS <- cumsum(OOS_error_N)-cumsum(OOS_error_A)
+  #3. Random forest model
+  mycontrol <- trainControl(method = "timeslice",
+                            initialWindow = 20,
+                            horizon = 1,
+                            fixedWindow = TRUE, 
+                            savePredictions = TRUE)
+  myfit <- train(F1 ~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M, data = df[1:101,],
+                 method = "rf",
+                 ntree = 50,
+                 trControl = mycontrol)
+  dff <- myfit$pred
+  dff <- dff[dff$mtry == 2, ]
+  OOS_error_rf <- (dff$pred-dff$obs)^2
   
-  return(as.tibble(list(OOS_error_N = OOS_error_N,
-                        OOS_error_A = OOS_error_A,
-                        OOS=OOS)))
+  
+  #### CREATE VARIABLES
+  hist_lm <- cumsum(OOS_error_hist)-cumsum(OOS_error_lm)
+  lm_rf <- cumsum(OOS_error_lm)-cumsum(OOS_error_rf)
+  hist_rf <- cumsum(OOS_error_hist)-cumsum(OOS_error_rf)
+  
+  
+  return(as.tibble(list(OOS_error_hist = OOS_error_hist,
+                        OOS_error_lm = OOS_error_lm,
+                        OOS_error_rf = OOS_error_rf,
+                        hist_lm = hist_lm,
+                        lm_rf = lm_rf,
+                        hist_rf = hist_rf)))
 }
 
-test <- get_statistics( "F1", "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
-test$Date <- df$Date[21:101]
+
+CSSFED <- get_statistics( "F1", "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
+CSSFED$Date <- df$Date[21:101]
+CSSFED <- pivot_longer(CSSFED, cols = -c(7), names_to = "type", values_to = "values")
 
 
+squared_error_plot <- function(var){
 
+  squared_errors <- CSSFED %>%
+    filter(type == var)
+
+  plot <- ggplot(data = squared_errors, aes(x=Date,y=c(values))) + geom_line(aes(color=factor(type))) + 
+    annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+    annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+    xlab("Time horizon") + ylab("CSSFED")
+  
+  return(plot)
+}
+
+
+CSSFED_plot <- function(var){
+  
+  cssfed_values <- CSSFED %>%
+    filter(type == var)
+  
+  plot <- ggplot(data = cssfed_values, aes(x=Date,y=values)) + geom_point(colour='red') + 
+    annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+    annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+    xlab("Time horizon") + ylab("CSSFED")
+  
+  return(plot)
+}
 
 
