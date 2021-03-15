@@ -211,16 +211,22 @@ summary_table %>%
 \newpage
 ## Appendix I
 
-```{r message = F, warnings = F,echo = F, fig.cap="Cumulative sum of squared forecast error differential (Linear model vs benchmark historic mean model"}
+
+```{r message = F, warnings = F,echo = F,fig.height=2, fig.cap="Cumulative sum of squared forecast error differential (Linear model vs benchmark historic mean model"}
 CSSFED_plot("hist_lm")
 ```
-```{r message = F, warnings = F,echo = F, fig.cap="Cumulative sum of squared forecast error differential (Random forest model vs benchmark historic mean model"}
+
+
+```{r message = F, warnings = F,echo = F, fig.height=2, fig.cap="Cumulative sum of squared forecast error differential (Random forest model vs benchmark historic mean model"}
 CSSFED_plot("hist_rf")
 ```
 
-```{r message = F, warnings = F,echo = F, fig.cap="Cumulative sum of squared forecast error differential (Random forest model vs benchmark linear model"}
+
+```{r message = F, warnings = F,echo = F, fig.height=2, fig.cap="Cumulative sum of squared forecast error differential (Random forest model vs benchmark linear model"}
 CSSFED_plot("lm_rf")
 ```
+
+
 
 ```{r message = F, warnings = F,echo = F, fig.cap="Squared errors"}
 squared_error_plot(c("OOS_error_hist", "OOS_error_lm", "OOS_error_rf"))
