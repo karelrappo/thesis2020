@@ -73,7 +73,11 @@ In the fairly recent wave of research of forecasting, the problems and limitatio
 
 For example, in the Handbook of Economics, @Chauvet2013 evaluate the accuracy of different models with regards to the performance during recessionary periods and expansionary periods using the classifications for US recessions and expansions from National Bureau of Economic Research (NBER). They conclude that for all different models tested, the GDP growth is significantly harder to forecast during recessions when compared to expansionary periods. Furthermore, based on the results they state that although the forecasting ability of some of the models is relatively good during expansions, most of them fail during recessions. 
 
+In addition, @Siliverstovs2021 adds to the research by analyzing the impact of influential observations on relative forecast accuracy during Covid-19 crisis. By implementing a newly proposed metric (recursive relative mean squared forecast error) in addition to the cumulative sum of squared forecast error difference (CSSFED) by @Welch2008, he concludes that there exist significant differences in relative forecasting error depending on the business cycle. 
+
 Therefore, there is reason to believe that the model introduced by Cremers & Fleckenstein & Gandhi might not offer significant information about the future during calm days. Arising from this, we replicate their models while accounting for the effects of different economic phases and see whether it still offers a robust outcome.
+
+
 
 ## Advanced methods for macroeconomic forecasting
 Based on the recent research on forecasting, there is significant evidence on the poor performance of simple autoregressive models when forecasting macroeconomic real activity.
