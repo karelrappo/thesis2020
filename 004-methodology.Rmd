@@ -82,14 +82,14 @@ To offer a better comparison of the models forecasting performance, we assess th
 In the case of the formula having a value smaller than 1 indicates that the subset model does have a superior performance over the fullsample model.
 
 ### Cumulated sum of squared error differential
-As the recessions in comparison with expansionary periods do have less observations, one might start to doubt the conclusion drawn from such few observations. To tackle this, we use cumulated sum of squared forecast error difference (CSS-FED) proposed by @Welch2008. Even though the main use-case for the model is to compare the forecast performance of different models, it has another benefit more applicable to our needs - it helps to dissect the forecast error and hence see whether the (dis)improvement of relative performance is due to actual continuous (dis)improvement or it is dependent on few influential observations. Thus, the CSS-FED is applied in order to test how the few observations of recessions impact the whole forecasting error. As mentioned in the literature review, there is reason to believe their influence on the whole sample forecast error is crucial. In other words, recessionary periods RMSFE is more influential and outweighs the importance of expansionary periods RMSFE. 
+As the recessions in comparison with expansionary periods do have less observations, one might start to doubt the conclusion drawn from such few observations. To tackle this, we use the cumulative sum of squared forecast error difference (CSS-FED) proposed by @Welch2008. Even though the main use-case for the model is to compare the forecast performance of different models, it has another benefit more applicable to our needs - it helps to dissect the forecast error and hence see whether the (dis)improvement of relative performance is due to actual continuous (dis)improvement or it is dependent on few influential observations. Thus, the CSS-FED is applied in order to test how the few observations of recessions impact the whole forecasting error. As mentioned in the literature review, there is reason to believe their influence on the whole sample forecast error is crucial. In other words, recessionary periods RMSFE is more influential and outweighs the importance of expansionary periods RMSFE. 
 The CS-SFED can be calculated according to the formula below:
 
 \begin{equation}
-CSSFED = \sum_{t=1}^{T}[(e_{hist,t})^2 - (e_{lm,t})^2]
+CSSFED = \sum_{t=1}^{T}[(e_{benchmark,t})^2 - (e_{advanced,t})^2]
 \end{equation}
 
-where e~hist,t~ refers to forecast errors of historical mean model, and e~lm,t~ of the linear model at time t.
+where e~benchmark,t~ refers to forecast errors of benchmark model, and e~advanced,t~ of the advanced model at time t.
 
 The resulting figure can be plotted over time to visually identify how each observation contributes to the cumulative forecasting error - i.e. if each datapoint increases the forecast error difference, the graph shows an upwards trend. Contrarily, if little difference exists between each observation’s error differential, the graph will stay fairly smooth. In the case when one observation’s sum of forecasting error difference(SFED) is significantly bigger from the previous ones, big jumps can be identified on the graph - these jumps mark the observations with largest influence on the overall forecasting performance. 
 
