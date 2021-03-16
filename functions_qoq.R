@@ -29,13 +29,17 @@ library(reshape2)
 library(lmtest)
 library(olsrr)
 library(pracma)
+library(dyn)
+
+df <- df_qoq
+
 
 ###############################################################################################
 ########################       LINEAR MODELS' RELATED SUMMARY STATISTICS   ####################
 ###############################################################################################
 regrs <- function(mudelid)
 {
-  df_total <- df_qoq %>%
+  df_total <- df %>%
     select(H4, H6, H8, H10, H12, mudelid) %>%
     gather(Var,Value,  -mudelid) %>%
     nest(data=c(Value,  mudelid)) %>%
@@ -61,16 +65,16 @@ regr_results <- function(a){
     pivot_wider(names_from = Var, values_from = Delay) %>%
     column_to_rownames(var = "x")
   
-results2 <- a %>%
+  results2 <- a %>%
     select(-augmented,-neweywest, -tidied) %>%
     unnest(cols = c(glanced)) %>%
     select(-df, -AIC, -BIC, -deviance, -nobs, -df.residual, -logLik, -statistic, -p.value, -sigma) %>%
     column_to_rownames(var = "Var")
-
-results2 <- as.data.frame(t(results2))
   
-results <- rbind(results1, results2)
-remove(results1, results2)
+  results2 <- as.data.frame(t(results2))
+  
+  results <- rbind(results1, results2)
+  remove(results1, results2)
   
   return(results)
 }
@@ -86,7 +90,7 @@ out_of_samp <- function(var1, var2, type, var4){
                             horizon = 1,
                             fixedWindow = TRUE, 
                             savePredictions = TRUE)
-  myfit <- train(as.formula(paste0(var1, "~", var2)), data = df_qoq[1:sum(!is.na(df_qoq[var1])),],
+  myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                  method = var4,
                  ntree = 50,
                  trControl = mycontrol)
@@ -94,8 +98,8 @@ out_of_samp <- function(var1, var2, type, var4){
   SE <- (dff$pred-dff$obs)^2
   
   ifelse(type=="recessionary",SE <- SE[c(25,26,27,52,53,54,55,56,57)],
-  ifelse(type=="expansionary", SE <- SE[-c(25,26,27,52,53,54,55,56,57)],
-            SE <- SE))
+         ifelse(type=="expansionary", SE <- SE[-c(25,26,27,52,53,54,55,56,57)],
+                SE <- SE))
   RMSFE <- sqrt(mean(SE))
   return(RMSFE)
 } 
@@ -139,14 +143,14 @@ rownames(df_resultss)[rownames(df_resultss)=='Naive_Expansionary'] <- "Naive-Exp
 
 ##############################   RF & OLS RMSFE results' comparison ##############################################################
 
-ols <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "full", "lm"))))
-rf <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "full", "rf"))))
+ols <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "lm"))))
+rf <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "rf"))))
 
-ols_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "recessionary", "lm"))))
-rf_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "recessionary", "rf"))))
+ols_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "lm"))))
+rf_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "rf"))))
 
-ols_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "expansionary", "lm"))))
-rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng", "expansionary", "rf"))))
+ols_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "expansionary", "lm"))))
+rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "expansionary", "rf"))))
 
 
 rf_resultsss <- rbind(ols, rf, ols_rec, rf_rec, ols_exp, rf_exp)
@@ -169,7 +173,7 @@ out_of_samp2 <- function(var1, var2, var4){
                             horizon = 1,
                             fixedWindow = TRUE, 
                             savePredictions = TRUE)
-  myfit <- train(as.formula(paste0(var1, "~", var2)), data = df_qoq[1:sum(!is.na(df_qoq[var1])),],
+  myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                  method = var4,
                  ntree = 50,
                  trControl = mycontrol)
@@ -196,7 +200,6 @@ pred_vs_actual_graph <- function(var){
     facet_wrap(~type1) + scale_color_manual(values=c("blue", "red"))
 }
 
-
 ###############################################################################################
 ########################       VARIABLE IMPORTANCE   ##########################################
 ###############################################################################################
@@ -207,7 +210,7 @@ variable_importance <- function(var){
                             horizon = 1,
                             fixedWindow = TRUE, 
                             savePredictions = TRUE)
-  myfit <- train(as.formula(paste0(var, "~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng")), data = df_qoq[1:sum(!is.na(df_qoq[var])),],
+  myfit <- train(as.formula(paste0(var, "~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")), data = df[1:sum(!is.na(df[var])),],
                  method = "rf",
                  ntree = 50,
                  trControl = mycontrol)
@@ -218,11 +221,96 @@ variable_importance <- function(var){
 }
 
 
+###############################################################################################
+########################          CSSFED            ##########################################
+###############################################################################################
+
+df_ts <- ts(df)  
+get_statistics <- function(dep, indep, start=1, end=102, est_periods_OOS = 20) {
+  
+  # Creating vectors where to store values
+  OOS_error_hist <- numeric(end - start - est_periods_OOS)
+  OOS_error_lm <- numeric(end - start - est_periods_OOS)
+  #Only use information that is available up to the time at which the forecast is made
+  j <- 0
+  for (i in 21:(end-1)) {
+    j <- j + 1
+    #Get the actual ERP that you want to predict
+    actual <- as.numeric(window(df_ts, i, i)[, dep])
+    
+    #1. Historical mean model
+    OOS_error_hist[j] <- (actual - mean(window(df_ts, start, i-1)[, dep], na.rm=TRUE))^2
+    
+    #2. OLS model
+    reg_OOS <- dyn$lm(eval(parse(text=dep)) ~ eval(parse(text=indep)), 
+                      data=window(df_ts, start, i-1))
+    #Compute_error
+    predicted_values <- unlist(reg_OOS[5])
+    pred <- predicted_values[length(predicted_values)]
+    OOS_error_lm[j] <-  (pred - actual)^2
+    
+  }
+  
+  #3. Random forest model
+  mycontrol <- trainControl(method = "timeslice",
+                            initialWindow = 20,
+                            horizon = 1,
+                            fixedWindow = TRUE, 
+                            savePredictions = TRUE)
+  myfit <- train(F1 ~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M, data = df[1:101,],
+                 method = "rf",
+                 ntree = 50,
+                 trControl = mycontrol)
+  dff <- myfit$pred
+  dff <- dff[dff$mtry == 2, ]
+  OOS_error_rf <- (dff$pred-dff$obs)^2
+  
+  
+  #### CREATE VARIABLES
+  hist_lm <- cumsum(OOS_error_hist)-cumsum(OOS_error_lm)
+  lm_rf <- cumsum(OOS_error_lm)-cumsum(OOS_error_rf)
+  hist_rf <- cumsum(OOS_error_hist)-cumsum(OOS_error_rf)
+  
+  
+  return(as.tibble(list(OOS_error_hist = OOS_error_hist,
+                        OOS_error_lm = OOS_error_lm,
+                        OOS_error_rf = OOS_error_rf,
+                        hist_lm = hist_lm,
+                        lm_rf = lm_rf,
+                        hist_rf = hist_rf)))
+}
 
 
+CSSFED <- get_statistics( "F1", "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
+CSSFED$Date <- df$Date[21:101]
+CSSFED <- pivot_longer(CSSFED, cols = -c(7), names_to = "type", values_to = "values")
 
 
+squared_error_plot <- function(var){
+  
+  squared_errors <- CSSFED %>%
+    filter(type == var)
+  
+  plot <- ggplot(data = squared_errors, aes(x=Date,y=c(values))) + geom_line(aes(color=factor(type))) + 
+    annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+    annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+    xlab("Time horizon") + ylab("CSSFED")
+  
+  return(plot)
+}
 
 
+CSSFED_plot <- function(var){
+  
+  cssfed_values <- CSSFED %>%
+    filter(type == var)
+  
+  plot <- ggplot(data = cssfed_values, aes(x=Date,y=values)) + geom_point(colour='red') + 
+    annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+    annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+    xlab("Time horizon") + ylab("CSSFED")
+  
+  return(plot)
+}
 
 
