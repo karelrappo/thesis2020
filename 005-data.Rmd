@@ -38,13 +38,13 @@ For the regression analysis, we have extracted the following data:
 
 * Quarterly 5-year Treasury Implied Volatility 
 * Quarterly GDP year-on-year growth rate
-* Control Variables
-  5. US treasury interest rates to construct term spreads
-  6. credit spreads
-  7. credit spread index
-  8. stock returns (SPY)
-  9. stock market implied volatility (VIX)
-  10. Residential market construction starts
+* Control Variables:
+  - US treasury interest rates to construct term spreads
+  - credit spreads
+  - credit spread index
+  - stock returns (SPY)
+  - stock market implied volatility (VIX)
+  - Residential market construction starts
 
 
 As mentioned in the review of literature, YIV is constructed using Black model & deriving implied volatility through option prices, time-to-maturity, etc. The data regarding options on treasury bond futures, however, is collected by CME and available only through accessing their database.

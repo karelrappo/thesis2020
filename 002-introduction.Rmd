@@ -49,7 +49,7 @@ Secondly, we propose using machine learning models to account for the shortcomin
   
 Thus, our research question consists of three sub-questions:
 
-1. **Can options on Treasury bond futures effectively predict the USA's macroeconomic and financial activity?**
+1. **Can options on Treasury bond futures effectively predict the USA's macroeconomic activity?**
 2. **If so, is this conclusion robust even after taking into account different business cycles.**
 3. **Do Machine Learning methods such as Random Forest improve the forecast accuracy?**
 
