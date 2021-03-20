@@ -29,7 +29,7 @@ header-includes:
 # Methodology
 
 ## Linear regressions
-The first part of our methodology consists of replicating the methodology conducted by @Cremers2017. In other words, we test whether the treasury implied volatility can be used to predict the future macroeconomic real activity.
+The first part of our methodology consists of replicating the methodology conducted by @Cremers2021. In other words, we test whether the treasury implied volatility can be used to predict the future macroeconomic real activity.
 
 To quantify the predictability of macroeconomic real activity using the treasury implied volatility, we run an ordinary least squares (OLS) regression. In the first regression, we take the 5-year YIV and use it to predict the forward-looking GDP growth. To specify, GDP i,t+j refers to  logarithmic values of year-on-year quarterly growth rate of the real GDP. H is equal to the periods predicted - e.g. if H=4, it means that we are taking the rolling overlapping average of GDP growth over the 4 quarters. 
 
@@ -37,7 +37,11 @@ To quantify the predictability of macroeconomic real activity using the treasury
 \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + \varepsilon_{t+H}
 \end{equation}
 
+<<<<<<< HEAD
 In the linear models, we compare the predictive ability of YIV within different time periods (H=1,2,3,..,12). Furthermore, to validate YIVs predictive ability, we construct different models by adding in various financial and economical control variables  to see whether the significance of our main variable persists. The control variables include term spreads, credit spreads, stock market implied volatility (VIX), number of new residential construction starts (HOUSNG). In order to enable the comparison of the variables ,we standardize all of the independent variables so the mean is equal  to 1 and standard deviation to 0. Furthermore, all of our reported coefficients as well as standard errors are adjusted for heteroskedasticity and also autocorrelation (HAC) - to do so, we use the Newey-West methodology with automatic bandwidth selection process.
+=======
+In the linear models, we compare the predictive ability of YIV within different time periods (H=1,2,3,..,12). Furthermore, to validate YIVs predictive ability, we construct different models (including autoregressive models) by adding in various financial and economical control variables  to see whether the significance of our main variable persists. The control variables include term spreads, credit spreads, stock market implied volatility (VIX), number of new residential construction starts (HOUSNG). In order to enable the comparison of the variables, we standardize all of the independent variables so the mean is equal  to 1 and standard deviation to 0. Furthermore, all of our reported coefficients as well as standard errors are adjusted for heteroskedasticity and also autocorrelation (HAC) - to do so, we use the Newey-West methodology with automatic bandwidth selection process.
+>>>>>>> ecb56426ba9d3e04a195d9daef206ac2a15c7fe4
 
 
 \begin{equation}
@@ -58,13 +62,13 @@ After having done the regression with YIV, subsample dummy and controls as indep
 
 
 \begin{equation}
-\begin{split}
+\begin{gathered}
 SFE = \sum_{j=1}^{j=H}(log(1+GDP_{i,t+j}) - \widetilde{log({1+GDP}_{i,t+j})}^2 \\
 RMSFE =  \sqrt{mean(SFE)}
-\end{split}
+\end{gathered}
 \end{equation}
 
-To calculate the full model RMSFE we first have to obtain square forecasting errors (SFE). For that we construct a predictive model with a 5-year rolling estimation window. Thus, we use the previous 20 quarters to predict the next H quarters (note: here H denotes lead values not rolling averages).The reason behind opting for rolling estimation window is that in this way the predicted datapoint is continously moving; thus the forecast error is not so much dependent on the selected forecast interval (i.e. there would be big differences if one used 85 datapoints to predict 20 datapoints, or 70 datapoints to predict 35 datapoints). From that regression we obtain the predicted values and through incorporating the actual values we can then compute the SFE-s. Having the SFE-s, we take the mean from the values and then take the square root.
+To calculate the full model RMSFE we first have to obtain square forecasting errors (SFE). This is done by constructing a predictive model with a 5-year rolling estimation window. This means that we use the previous 20 quarters to predict the next H quarters (note: here H denotes lead values not rolling averages). The reason behind opting for rolling estimation window is that in this way the predicted datapoint is continously moving; thus the forecast error is not so much dependent on the selected forecast interval (i.e. there would be big differences if one used 85 datapoints to predict 20 datapoints, or 70 datapoints to predict 35 datapoints). From that regression we obtain the predicted values and through incorporating the actual values we can then compute the SFE-s. Having the SFE-s, we take the mean from the values and then take the square root.
 
 ## Out of sample validation for different economic cycles
 
@@ -72,7 +76,7 @@ In the second part of our research we build upon the research conducted by Creme
 
 More specifically, we compare the root-mean-square-forecasting-error (RMSFE) of the predictive model during recession and expansion with full sample forecast to find out whether full sample forecast’s RMSFE forecasts are robust during the expansionary and recessionary subsamples (in other words, we check whether a distributional shift occurs during the recessionary and/or expansionary periods).
 
-To calculate the  recessionary subsample RMSFE, we first obtain SFE-s through doing the full regression as described before, however, in calculating RMSFE we take only the SFE-s related to recessions (according to NBER classification). Based on those recessionary SFE-s we calculated the RMSFE. Similarly, in expansionary-only RMSFE calculation we excluded those recessionary SFE-s.
+To calculate the recessionary subsample RMSFE, we first obtain SFE-s through doing the full regression as described before, however, in calculating RMSFE we take only the SFE-s related to recessions (according to NBER classification). Based on those recessionary SFE-s we calculated the RMSFE. Similarly, in expansionary-only RMSFE calculation we excluded those recessionary SFE-s.
 
 \begin{equation}
 rRMSFE = \frac{RMSFE_{subset}}{RMSFE_{full}}
@@ -82,7 +86,12 @@ To offer a better comparison of the models forecasting performance, we assess th
 In the case of the formula having a value smaller than 1 indicates that the subset model does have a superior performance over the fullsample model.
 
 ### Cumulated sum of squared error differential
+<<<<<<< HEAD
 As the recessions in comparison with expansionary periods do have less observations, one might start to doubt the conclusion drawn from such few observations. To tackle this, we use the cumulative sum of squared forecast error difference (CSSFED) proposed by @Welch2008. Even though the main use-case for the model is to compare the forecast performance of different models, it has another benefit even more applicable to our needs - it helps to dissect the forecast error and hence see whether the (dis)improvement of relative performance is due to actual continuous (dis)improvement or it is dependent on few influential observations. Thus, the CSSFED is applied in order to test how the few observations of recessions impact the whole forecasting error. As mentioned in the literature review, there is reason to believe their influence on the whole sample forecast error is crucial. In other words, recessionary periods RMSFE is more influential and outweighs the importance of expansionary periods RMSFE. 
+=======
+
+As the recessions in comparison with expansionary periods do have less observations, one might start to doubt the conclusion drawn from such few observations. To tackle this, we use the cumulative sum of squared forecast error difference (CSSFED) proposed by @Welch2008. Even though the main use-case for the model is to compare the forecast performance of different models, it has another feature even more useful to our research - it helps to dissect the forecast error and hence see whether the (dis)improvement of relative performance is due to actual continuous (dis)improvement or it is dependent on few influential observations. Thus, the CSSFED is applied in order to test how the few observations of recessions impact the whole forecasting error. As mentioned in the literature review, there is reason to believe their influence on the whole sample forecast error is crucial. In other words, recessionary periods RMSFE is more influential and outweighs the importance of expansionary periods RMSFE. 
+>>>>>>> ecb56426ba9d3e04a195d9daef206ac2a15c7fe4
 The CSSFED can be calculated according to the formula below:
 
 \begin{equation}
@@ -95,7 +104,11 @@ The resulting figure can be plotted over time to visually identify how each obse
 
 
 ## Machine learning methods
+<<<<<<< HEAD
 As Machine Learning (ML) methods successfully tackle nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty @Coulombe2020a. As our research includes many different economic crises, we expect to find forecasting gains by utilizing the Random Forest method.
+=======
+As Machine Learning (ML) methods successfully tackle nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty @Coulombe2020a. As our research includes many different economic crises, we expect to find forecasting gains by utilizing the Macroeconomic Random Forest method. In our research, we focus specifically on a random forest based method due to its advantages over other ML methods, which will be discussed in the following paragraphs.
+>>>>>>> ecb56426ba9d3e04a195d9daef206ac2a15c7fe4
 
 ### Decision Trees
 In order to dig deeper into the methodology of random forest, it is crucial to understand one of its core elements - decision trees. Decision tree is a rather straightforward non-parametric algorithm that can be used for both regressions and classifications. The name ‘decision tree’ derives from the fact that the algorithm is built in a tree-like structure - it recursively splits the whole sample into subsets by following predefined criteria. In our case when the dependent variable is continuous, reducing variance is used as the selection criteria. 
