@@ -37,7 +37,11 @@ To quantify the predictability of macroeconomic real activity using the treasury
 \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + \varepsilon_{t+H}
 \end{equation}
 
+<<<<<<< HEAD
+In the linear models, we compare the predictive ability of YIV within different time periods (H=1,2,3,..,12). Furthermore, to validate YIVs predictive ability, we construct different models by adding in various financial and economical control variables  to see whether the significance of our main variable persists. The control variables include term spreads, credit spreads, stock market implied volatility (VIX), number of new residential construction starts (HOUSNG). In order to enable the comparison of the variables ,we standardize all of the independent variables so the mean is equal  to 1 and standard deviation to 0. Furthermore, all of our reported coefficients as well as standard errors are adjusted for heteroskedasticity and also autocorrelation (HAC) - to do so, we use the Newey-West methodology with automatic bandwidth selection process.
+=======
 In the linear models, we compare the predictive ability of YIV within different time periods (H=1,2,3,..,12). Furthermore, to validate YIVs predictive ability, we construct different models (including autoregressive models) by adding in various financial and economical control variables  to see whether the significance of our main variable persists. The control variables include term spreads, credit spreads, stock market implied volatility (VIX), number of new residential construction starts (HOUSNG). In order to enable the comparison of the variables, we standardize all of the independent variables so the mean is equal  to 1 and standard deviation to 0. Furthermore, all of our reported coefficients as well as standard errors are adjusted for heteroskedasticity and also autocorrelation (HAC) - to do so, we use the Newey-West methodology with automatic bandwidth selection process.
+>>>>>>> ecb56426ba9d3e04a195d9daef206ac2a15c7fe4
 
 
 \begin{equation}
@@ -46,7 +50,7 @@ In the linear models, we compare the predictive ability of YIV within different 
 
 Next, to determine the direction of the causality, we run a Vector Autoregressive model (VAR) Granger Causality test on every variable to make sure that e.g. YIV indeed granger-causes movements in GDP. 
 
-We also check whether there exist any asymmetries regarding economic cycles - i.e. if YIV exerts a bigger/smaller effect on GDP when the current state is a recession or an expansion. To do so, we introduce a model with a dummy variable that is equal to 1(0) during a recessionary(expansionary) period. The business cycle dating (i.e. recessionary and expansionary periods) for the US economy is taken from the National Bureau of Economic Research (NBER)^[https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions].
+We also check whether there exist any asymmetries regarding economic cycles - i.e. if YIV exerts a bigger/smaller effect on GDP when the current state is a recession or an expansion. To do so, we introduce a model with a dummy variable that is equal to 1(0) during a recessionary (expansionary) period. The business cycle dating (i.e. recessionary and expansionary periods) for the US economy is taken from the National Bureau of Economic Research (NBER)^[https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions].
 
 \begin{equation}
 \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Dummy +\varepsilon_{t+H}
@@ -78,12 +82,16 @@ To calculate the recessionary subsample RMSFE, we first obtain SFE-s through doi
 rRMSFE = \frac{RMSFE_{subset}}{RMSFE_{full}}
 \end{equation}
 
-To offer a better comparison of the models forecasting performance, we assess the sub-models with expansionary & recessionary data points compared to benchmark model by calculating RMSFE.
+To offer a better comparison of the models forecasting performance, we assess the sub-models with expansionary & recessionary data points compared to benchmark model by calculating relative root mean square forecasting error (rRMSFE).
 In the case of the formula having a value smaller than 1 indicates that the subset model does have a superior performance over the fullsample model.
 
 ### Cumulated sum of squared error differential
+<<<<<<< HEAD
+As the recessions in comparison with expansionary periods do have less observations, one might start to doubt the conclusion drawn from such few observations. To tackle this, we use the cumulative sum of squared forecast error difference (CSSFED) proposed by @Welch2008. Even though the main use-case for the model is to compare the forecast performance of different models, it has another benefit even more applicable to our needs - it helps to dissect the forecast error and hence see whether the (dis)improvement of relative performance is due to actual continuous (dis)improvement or it is dependent on few influential observations. Thus, the CSSFED is applied in order to test how the few observations of recessions impact the whole forecasting error. As mentioned in the literature review, there is reason to believe their influence on the whole sample forecast error is crucial. In other words, recessionary periods RMSFE is more influential and outweighs the importance of expansionary periods RMSFE. 
+=======
 
 As the recessions in comparison with expansionary periods do have less observations, one might start to doubt the conclusion drawn from such few observations. To tackle this, we use the cumulative sum of squared forecast error difference (CSSFED) proposed by @Welch2008. Even though the main use-case for the model is to compare the forecast performance of different models, it has another feature even more useful to our research - it helps to dissect the forecast error and hence see whether the (dis)improvement of relative performance is due to actual continuous (dis)improvement or it is dependent on few influential observations. Thus, the CSSFED is applied in order to test how the few observations of recessions impact the whole forecasting error. As mentioned in the literature review, there is reason to believe their influence on the whole sample forecast error is crucial. In other words, recessionary periods RMSFE is more influential and outweighs the importance of expansionary periods RMSFE. 
+>>>>>>> ecb56426ba9d3e04a195d9daef206ac2a15c7fe4
 The CSSFED can be calculated according to the formula below:
 
 \begin{equation}
@@ -96,13 +104,17 @@ The resulting figure can be plotted over time to visually identify how each obse
 
 
 ## Machine learning methods
+<<<<<<< HEAD
+As Machine Learning (ML) methods successfully tackle nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty @Coulombe2020a. As our research includes many different economic crises, we expect to find forecasting gains by utilizing the Random Forest method.
+=======
 As Machine Learning (ML) methods successfully tackle nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty @Coulombe2020a. As our research includes many different economic crises, we expect to find forecasting gains by utilizing the Macroeconomic Random Forest method. In our research, we focus specifically on a random forest based method due to its advantages over other ML methods, which will be discussed in the following paragraphs.
+>>>>>>> ecb56426ba9d3e04a195d9daef206ac2a15c7fe4
 
 ### Decision Trees
 In order to dig deeper into the methodology of random forest, it is crucial to understand one of its core elements - decision trees. Decision tree is a rather straightforward non-parametric algorithm that can be used for both regressions and classifications. The name ‘decision tree’ derives from the fact that the algorithm is built in a tree-like structure - it recursively splits the whole sample into subsets by following predefined criteria. In our case when the dependent variable is continuous, reducing variance is used as the selection criteria. 
 Thus, the algorithm takes the whole dataset and picks the variables that possess the biggest influence on the dependent variable, splitting the dataset further until stopping criteria is met; so it arrives at the leaf node where the decision is made. The stopping criteria are hyper-parameters defined by the user such as maximum depth, minimum leaf size (no of observations in the leaf node), minimum number of samples, etc [@Zhang2019]. 
 
-As decision trees are non-parametric, it means that no strong assumptions about the underlying data and its form is made, which in return enables capturing different forms such as non-linearities in the data. However, this makes them subject to overfitting - it might be the case that the algorithm might start capturing random movements (noise) instead of actual meaningful patterns. There are three main ways to tackle this 
+As decision trees are non-parametric, it means that no strong assumptions about the underlying data and its form is made, which in return enables capturing different forms such as non-linearities in the data. However, this makes them subject to overfitting - it might be the case that the algorithm might start capturing random movements (noise) instead of actual meaningful patterns. There are three main ways to tackle this: 
 
 1) Tuning the hyperparameters
 2) Pruning - growing the full tree and then eliminating decision nodes so that the general accuracy preserves
