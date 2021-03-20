@@ -30,6 +30,17 @@ header-includes:
 \linespread{1.6}\selectfont
 
 # Discussion
+ 
+In the following section, we offer context from the literature review to our findings. The goal is to analyze how our findings fit in with the existing research by other academia. Secondly, we give an overview of the limitations of our research and additionally, suggest opportunities for further research of this topic.
+
+## Discussion of results
+
+On the basis of the results stated previously, we can accept the stated hypothesis 1 that treasury implied volatility is indeed a significant predictor of GDP. This outcome is robust even after including various control variables that have been historically important predictors of real output. In comparison with the paper of @Cremers2021, we received almost identical results, which enabled us to carry on and introduce advancements to their research. 
+ 
+Secondly, we accept our second hypothesis that the model based on full sample is inefficient in predicting GDP during turbulent time periods - this is due to the fact that business cycle related assymmetries exists. As mentioned in the results, having calculated 2 business cycle dependent RMSFE’s (in addition to the general RMSFE), we can clearly note that the RMSFE is higher during recessionary period, no matter the model used. This finding is aligned with @Chauvet2013, who conclude that GDP growth is significantly differ to forecast during recessions. Also, by using the cumulative sum of squared forecast error difference, the visual inspection yields that there exist big jumps arounds financial crisis - especially during the Global Financial Crisis of 2008-2009. This indicates that the whole sample forecast performance (error) is severely affected by recessionary time periods, which is similar to the conclusion made by @Siliverstovs2021. 
+ 
+Lastly, we also accept our last hypothesis that machine learning models which in Random Forest can improve the forecast performance. In comparison with OLS model, we were able to yield smaller RMSFE’s, most likely to its ability to take into account non-linearities. This is especially visible when plotting the forecast errors during different business cycles - it can be seen that random forest posses the biggest impact especially during recessionary time-periods. This is further confirmed by numerical figures by calculating relative root mean square forecasting error.  Also, the same outcome can be obtaining by utilizing CSSFED - as the graphs are upward sloping, the interpretation is that on average for each observation the random forest model has a better forecast accuracy compared to the linear model. This conclusion can be equated to @Siliverstovs2020 & @Siliverstovs2021 who conclude that the advanced models advanced models, specifically DFM in their case outperform simple linear models and the biggest forecast accuracy gain happens exactly during the market downturn.
+
 
 ## Limitations & further research
 The main limitations regarding our work lie in the data quality - as mentioned in the Data section the data was behind the paywall, which drastically limited our options with the research (shorter timeframe & only quarterly data). Therefore, as the first step it would be necessary to obtain the exact data elements required for Black’s formula, and then use it to calculate the treasury implied volatility. This would enhance the research in two ways - 
