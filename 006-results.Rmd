@@ -35,14 +35,14 @@ source("functions.R")
 Before diving to details, we plot quarterly YIV with quarterly GDP to see whether visual patterns arise. As it can be seen, the YIV seems to have a negative correlation with GDP. This relationship is especially profound  during Global Financial Crisis (around 2008-2009) when YIV surges up a bit before where a big decline in GDP happens. This is confirms our base for analysis as suggested by the literature review that indeed the treasury could have predictive ability over GDP.
 
 ```{r, message=F, warnings=F, echo = F, fig.cap="GDP Growth(%) vs 5-year Treasury Implied Volatility"}
-par(mar = c(5, 5, 3, 5))
-plot(df$Date, df$YIV, type = "l", xlab = "Date", ylab = "YIV (%)", col = "blue", main = "GDP growth vs YIV")
-par(new=TRUE)
-plot(df$Date, df$GDP, type = "l", xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "red", lty = 2)
-axis(side = 4)
-mtext("GDP growth(%)", side = 4, line = 3)
-legend("topleft", c("YIV", "GDP"),
-       col = c("blue", "red"), lty = c(1, 2))
+df %>%
+  select(Date, GDP, YIV) %>%
+  gather(key = "variable", value = "value", -Date) %>%
+  ggplot(aes(x=Date, y=value)) +
+    geom_line(aes(color = variable, linetype = variable)) +
+    theme_bw() +
+    theme(legend.position = "bottom", legend.title = element_blank()) +
+    labs(x="Date", y="Growth rate")
 ```
 
 ## In-sample regressions
@@ -120,7 +120,11 @@ Figure \@ref(fig:subs) describes subsample relative RMSFE within different forec
 joonis  <- relative_rmsfes %>%
   melt()
 
-ggplot(joonis, aes(Var2, value, group=factor(Var1))) + geom_line(aes(color=factor(Var1))) + theme_bw() + theme(legend.position = "bottom")+ labs(x="Time horizon", y="RMSFE value") + theme(legend.title = element_blank()) + geom_hline(yintercept=1,color="black", size=1, linetype="dashed")
+ggplot(joonis, aes(Var2, value, group=factor(Var1))) +
+  geom_line(aes(color=factor(Var1))) + theme_bw() +
+  theme(legend.position = "bottom", legend.title = element_blank()) +
+  labs(x="Time horizon", y="RMSFE value") +
+  geom_hline(yintercept=1,color="black", size=1, linetype="dashed")
 ```
 
 ## Out-of-sample forecasting with Random Forest
