@@ -213,34 +213,9 @@ summary_table %>%
 ## Appendix I
 
 
-```{r message = F, warnings = F,echo = F,fig.height=2, fig.cap="Cumulative sum of squared forecast error differential (Linear model vs benchmark historic mean model"}
-CSSFED_plot("hist_lm")
-```
-
-
-```{r message = F, warnings = F,echo = F, fig.height=2, fig.cap="Cumulative sum of squared forecast error differential (Random forest model vs benchmark historic mean model"}
-CSSFED_plot("hist_rf")
-```
-
-
-```{r message = F, warnings = F,echo = F, fig.height=2, fig.cap="Cumulative sum of squared forecast error differential (Random forest model vs benchmark linear model"}
-CSSFED_plot("lm_rf")
-```
-
-
 ```{r message = F, warnings = F,echo = F, fig.cap="Squared errors"}
 squared_error_plot(c("OOS_error_hist", "OOS_error_lm", "OOS_error_rf"))
 ```
 
-\newpage
-## Appendix J
 
-```{r message= F, warnings = F,echo = F,  fig.cap="Variable importance"}
-p1 <- plot(variable_importance("F1"), main="H1")
-p2 <- plot(variable_importance("F2"), main="H2")
-p3 <- plot(variable_importance("F4"), main="H4")
-p4 <- plot(variable_importance("F8"), main="H8")
-grid.arrange(p1, p2, p3, p4, nrow=2)
-
-```
 

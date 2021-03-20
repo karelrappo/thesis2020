@@ -127,8 +127,26 @@ ggplot(joonis, aes(Var2, value, group=factor(Var1))) +
   geom_hline(yintercept=1,color="black", size=1, linetype="dashed")
 ```
 
+
+
+```{r message = F, warnings = F,echo = F,fig.height=2, fig.cap="Cumulative sum of squared forecast error differential (Linear model vs benchmark historic mean model"}
+CSSFED_plot("hist_lm")
+```
+
+
 ## Out-of-sample forecasting with Random Forest
+
+```{r message = F, warnings = F,echo = F, fig.height=2, fig.cap="Cumulative sum of squared forecast error differential (Random forest model vs benchmark linear model"}
+CSSFED_plot("lm_rf")
+```
 
 Lastly, we erected a random forest model to try to improve the forecasting accuracy through having non-linearity. As it can be seen from the graphs (\@ref(fig:rfjoonised1)) the performance in some cases is slightly better than OLS (e.g. during recessionary periods), however, is some cases (e.g. during expansionary periods) the model's accuracy is slightly worse. This holds also after tuning the model for number of trees. 
 
+```{r message= F, warnings = F,echo = F,  fig.cap="Variable importance"}
+p1 <- plot(variable_importance("F1"), main="H1")
+p2 <- plot(variable_importance("F2"), main="H2")
+p3 <- plot(variable_importance("F4"), main="H4")
+p4 <- plot(variable_importance("F8"), main="H8")
+grid.arrange(p1, p2, p3, p4, nrow=2)
 
+```
