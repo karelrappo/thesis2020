@@ -26,12 +26,12 @@ header-includes:
 - \DeclareMathOperator{\logit}{logit}
 ---
 
-\pagenumbering{gobble}
 
 ```{r knitr.global_options, include=F}
 knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE, warning=FALSE, message=FALSE, tidy.opts=list(width.cutoff=60), tidy=TRUE)
 ```
 
+\pagenumbering{gobble}
 
 ```{r child = '001-title.Rmd'}
 ```
@@ -40,14 +40,21 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE
 \renewcommand{\footrulewidth}{0pt}
 \pagestyle{fancy}
 \pagenumbering{arabic}
+
+```{r child = 'Declaration of copyright.Rmd'}
+```
+\tableofcontents
+\newpage
+
+```{r child = 'Abstract.Rmd'}
+```
 \setcounter{tocdepth}{3}
 \linespread{1}\selectfont
-\tableofcontents
+\FloatBarrier
 \newpage
 
 ```{r child = '002-introduction.Rmd'}
 ```
-
 \FloatBarrier
 \newpage
 
@@ -66,6 +73,16 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE
 \newpage
 \FloatBarrier
 ```{r child = '006-Results.Rmd'}
+```
+
+\newpage
+\FloatBarrier
+```{r child = 'Discussion.Rmd'}
+```
+
+\newpage
+\FloatBarrier
+```{r child = 'Conclusion.Rmd'}
 ```
 
 \FloatBarrier

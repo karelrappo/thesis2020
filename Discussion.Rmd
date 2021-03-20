@@ -1,0 +1,34 @@
+---
+title: "Discussion"
+author: "Karel Räpp, Henry Enno Turu"
+date: "28 11 2020"
+output: 
+  bookdown::pdf_document2:
+    toc: no
+csl: apa.csl
+bibliography: library.bib
+indent: yes
+fontsize: 12pt
+geometry: margin = 1in
+link-citations: yes
+linkcolor: blue
+urlcolor: blue
+header-includes:
+- \usepackage{placeins}
+- \usepackage{setspace}
+- \usepackage{chngcntr}
+- \usepackage{microtype}
+- \counterwithin{figure}{section}
+- \counterwithin{table}{section}
+- \usepackage{float}
+- \usepackage{amsmath}
+- \DeclareMathOperator{\logit}{logit}
+---
+
+
+
+\linespread{1.6}\selectfont
+
+# Discussion
+
+
