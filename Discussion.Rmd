@@ -31,4 +31,13 @@ header-includes:
 
 # Discussion
 
+## Limitations & further research
+The main limitations regarding our work lie in the data quality - as mentioned in the Data section the data was behind the paywall, which drastically limited our options with the research (shorter timeframe & only quarterly data). Therefore, as the first step it would be necessary to obtain the exact data elements required for Black’s formula, and then use it to calculate the treasury implied volatility. This would enhance the research in two ways - 
+1) the data quality is much more reliable and hence it could improve the outcome of results
+2) the scope of the research can be broadened drastically
+ 
+By having the underlying data, the granularity of the work can be improved - for example, one could analyze shorter-term forecasting performance/effects by calculating monthly YIV timeseries and selecting another proxy for macroeconomic growth that exists on a monthly basis (GDP available only quarterly).
+ 
+Secondly, as the data quality is much more robust, in-depth explanatory analysis could be done. In this research, we rather focus on the "if"-part, but not how - i.e. can YIV predict GDP taking into account different circumstances. As an extension of the work, one could analyze how exactly YIV affects GDP in the upcoming periods - since random forest itself is very difficult to interpret and is considered to be rather a black-box model, we recommend to look into a method named macroeconomic random forest (MRF) developed by @Coulombe2020^[Author has provided also R package that can be downloaded on request from https://philippegouletcoulombe.com/code]. The main advances in comparison to random forest is that MRF further improves the former by adding a linear component - not only does this help with overfitting of RF but it also enables the interpretation of the outcome.
+
 

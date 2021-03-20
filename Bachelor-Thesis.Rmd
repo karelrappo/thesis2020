@@ -41,6 +41,7 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE
 \pagestyle{fancy}
 \pagenumbering{arabic}
 
+\setcounter{page}{2}
 ```{r child = 'Declaration of copyright.Rmd'}
 ```
 \tableofcontents
