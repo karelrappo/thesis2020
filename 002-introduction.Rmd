@@ -39,11 +39,11 @@ One of the most comprehensive papers quantifying the financial market's ability 
 In a recent work by @Cremers2017, they approach predicting macroeconomic real activity through the treasury implied volatility (YIV) which is derived from options on treasury bond futures of different maturity periods. YIV can be considered as a proxy for interest rate uncertainty as it incorporates market participants' sentiment towards the future outlook for interest rates on which the underlying asset (treasury bond) is dependent on. In the paper the authors show that YIV is able to predict consistently the real economy, especially focusing on predicting the growth of the real GDP as it can be considered as one of the key proxies for the real economy.
 
 
-Thus, the first part of our research aims to replicate the research by @Cremers2017 - predicting real GDP growth using YIV.
+As our paper builds on the initial discoveries of @Cremers2020, the first part of our paper focuses on replication their results to test the validity - i.e whether real GDP can be predicted using YIV.
 
-In the second part of the research we build upon the research of @Cremers2017 in two ways. 
+In the second part of the research we advance the research of @Cremers2017 from two perspectives.
 
-Firstly, to account for the state-dependency of forecast models, as shown to be relevant by @Chauvet2013 and @Siliverstovs2020, we conduct separate regression analysis for both recessionary periods and expansionary periods (classification of the US business cycles obtain from NBER).
+Firstly, to account for the state-dependency of forecast models as shown to be relevant by @Chauvet2013 and @Siliverstovs2020, we first test whether business cycles affect the size of YIV's impact on future GDP growth. In addition, we investigate whether forecast performance is dependent on the business cycle - i.e calculating RMSFE including only recessionary periods or expansionary periods (classification of the US business cycles obtained from NBER).
 
 Secondly, we propose using machine learning models to account for the shortcomings of the simple OLS-based models. More specifically, the inability of simple OLS-based models to account for collinearity, dimensionality, predictor relevance and non-linearity [@Bolhuis2020]. To elaborate, we apply the framework of a random forest (RF) model as it is able to tackle the aforementioned problems. Thus, the RF model is expected to significantly decrease the root mean square forecasting errors (RMSFE). Nevertheless, it's interpretability is questionable but as it is not the main scope of our research, we do not consider it to be a problem.
   
@@ -53,6 +53,6 @@ Thus, our research question consists of three sub-questions:
 2. **If so, is this conclusion robust even after taking into account different business cycles.**
 3. **Do Machine Learning methods such as Random Forest improve the forecast accuracy?**
 
-The research paper is structured as follows. First we give an overview of existing literature to offer background to our work. As a next step, we describe our dataset and its acquisiton methods, which is followed by methodology. Lastly, we describe the results of our research and connect it with existing research.
+The research paper is structured as follows. First, we offer context to our work by describing various research already done in the same field. As the next step, we describe the data and the acquisition method used for obtaining it. Subsequently, we offer an in-depth overview of the methods used, which is followed by description of results. In the discussion part we elaborate how our findings fit in with the preexisting research. Lastly, we list any possible limitations of the paper and suggest ideas for further research.
 
 
