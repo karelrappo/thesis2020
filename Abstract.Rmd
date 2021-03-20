@@ -31,4 +31,14 @@ header-includes:
 
 # Abstract
 
+Despite being a widely researched topic, forecasting macroeconomic real activity especially through financial markets is still a focus of many researchers. Historically, many researchers have set out to discover new and novel variables, however there is no strong agreement on which variables could predict the macroeconomic real activity consistently. In this research we examine a variable called YIV (treasury implied volatility) and its predictive ability on the GDP growth. Additionally, we test whether the model’s robustness holds also during different subsample periods (recessionary and expansionary periods) as there is significant evidence from the latest literature on the topic that there exist performance asymmetries. Lastly, we set out to discover whether the model’s performance could be improved through using a machine learning (ML) based method that accounts for the non-linearities. Our results indicate that indeed YIV is a significant predictor of macroeconomic real activity, however, it is important to account for a model’s performance asymmetries as few points during the recessionary periods have a substantial contribution to model’s accuracy. Furthermore, we find that using a ML-based methods the model’s accuracy can be improved significantly thanks to the method’s ability to account for nonlinearities.
+
+
+
+\begingroup
+\noindent 
+**Keywords**: Predicting real economy, treasury implied volatility, performance asymmetries, ML-based methods.
+\endgroup
+
+
 
