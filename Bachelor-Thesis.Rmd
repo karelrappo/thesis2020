@@ -1,0 +1,89 @@
+---
+date: '`r format(Sys.Date(), "%d %B %Y")`'
+output: 
+  bookdown::pdf_document2:
+    toc: no
+    fig_caption: true
+geometry: margin = 1in
+fontsize: 12pt
+bibliography: library.bib
+csl: apa.csl
+link-citations: yes
+linkcolor: blue
+urlcolor: blue
+header-includes:
+- \usepackage{placeins}
+- \usepackage{fancyhdr}
+- \usepackage{setspace}
+- \usepackage{chngcntr}
+- \usepackage{microtype}
+- \counterwithin{figure}{section}
+- \counterwithin{table}{section}
+- \setlength{\parindent}{1em}
+- \doublespacing
+- \usepackage{float}
+- \usepackage{amsmath}
+- \DeclareMathOperator{\logit}{logit}
+---
+
+\pagenumbering{gobble}
+
+```{r knitr.global_options, include=F}
+knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE, warning=FALSE, message=FALSE, tidy.opts=list(width.cutoff=60), tidy=TRUE)
+```
+
+
+```{r child = '001-title.Rmd'}
+```
+\newpage
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\pagestyle{fancy}
+\pagenumbering{arabic}
+\setcounter{tocdepth}{3}
+\linespread{1}\selectfont
+\tableofcontents
+\newpage
+
+```{r child = '002-introduction.Rmd'}
+```
+
+\FloatBarrier
+\newpage
+
+```{r child = '003-literature.Rmd'}
+```
+\FloatBarrier
+\newpage
+
+```{r child = '004-methodology.Rmd'}
+```
+\FloatBarrier
+\newpage
+
+```{r child = '005-data.Rmd'}
+```
+\newpage
+\FloatBarrier
+```{r child = '006-Results.Rmd'}
+```
+
+\FloatBarrier
+\newpage
+
+\linespread{1.0}\selectfont
+
+# References
+\begingroup
+\setlength{\parindent}{-0.2in}
+\setlength{\leftskip}{0.2in}
+\setlength{\parskip}{8pt}
+\noindent
+<div id="refs"></div>
+\endgroup
+
+\newpage
+
+
+```{r child = '009-appendices.Rmd'}
+```
