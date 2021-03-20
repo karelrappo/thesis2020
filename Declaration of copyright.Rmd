@@ -1,0 +1,7 @@
+---
+output: pdf_document
+---
+
+```{r, echo=F}
+knitr::include_graphics("./images/COPYRIGHT DECLARATION.pdf")
+```
