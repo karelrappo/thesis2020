@@ -91,14 +91,14 @@ out_of_samp <- function(var1, var2, type, var4){
   if(var4=="rf"){
     myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                    method = var4,
-                   ntree = 50,
-                   tuneGrid=data.frame(mtry=4),
+                   ntree = 500,
+                   tuneGrid=data.frame(mtry=5),
                    trControl = mycontrol)
   }
   else{
     myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                    method = var4,
-                   ntree = 50,
+                   ntree = 500,
                    trControl = mycontrol)
   }
   dff <- myfit$pred
@@ -182,14 +182,14 @@ out_of_samp2 <- function(var1, var2, var4){
   if(var4=="rf"){
     myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                    method = var4,
-                   ntree = 50,
-                   tuneGrid=data.frame(mtry=4),
+                   ntree = 500,
+                   tuneGrid=data.frame(mtry=5),
                    trControl = mycontrol)
   }
   else{
     myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                    method = var4,
-                   ntree = 50,
+                   ntree = 500,
                    trControl = mycontrol)
   }
   dff <- myfit$pred
@@ -212,7 +212,7 @@ rf <- act_vs_predicted("rf", "Predicted (Random forest)")
 pred_vs_actual_graph <- function(var){
   ggplot(var, aes(variable, value, group=factor(type2))) + geom_line(aes(color=factor(type2))) + theme_bw() + 
     theme(legend.position="bottom") + labs(x="Time horizon", y="GDP growth value", color="") + 
-    facet_wrap(~type1) + scale_color_manual(values=c("blue", "red"))
+    facet_wrap(~type1) + scale_color_manual(values=c("blue", "red")) 
 }
 
 ###############################################################################################
@@ -227,8 +227,8 @@ variable_importance <- function(var){
                             savePredictions = TRUE)
   myfit <- train(as.formula(paste0(var, "~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")), data = df[1:sum(!is.na(df[var])),],
                  method = "rf",
-                 ntree = 50,
-                 tuneGrid = data.frame(mtry = 4),
+                 ntree = 500,
+                 tuneGrid = data.frame(mtry = 5),
                  trControl = mycontrol)
   output <- varImp(myfit)
   return(output)
@@ -241,13 +241,13 @@ variable_importance <- function(var){
 ###############################################################################################
 
 df_ts <- ts(df)  
-get_statistics <- function(dep, indep, start=1, end=103, est_periods_OOS = 20) {
+get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_periods_OOS = 20) {
   
   # Creating vectors where to store values
   OOS_error_hist <- numeric(end - start - est_periods_OOS)
   #Only use information that is available up to the time at which the forecast is made
   j <- 0
-    for (i in 21:(end-1)) {
+    for (i in 21:(end)) {
       j <- j + 1
       #Get the actual ERP that you want to predict
       actual <- as.numeric(window(df_ts, i, i)[, dep])
@@ -265,13 +265,13 @@ get_statistics <- function(dep, indep, start=1, end=103, est_periods_OOS = 20) {
   
     myfit_rf <- train(as.formula(paste0(dep, "~", indep)), data = df[1:sum(!is.na(df[dep])),],
                    method = "rf",
-                   ntree = 50,
-                   tuneGrid=data.frame(mtry=4),
+                   ntree = 500,
+                   tuneGrid=data.frame(mtry=5),
                    trControl = mycontrol)
 
     myfit_lm <- train(as.formula(paste0(dep, "~", indep)), data = df[1:sum(!is.na(df[dep])),],
                    method = "lm",
-                   ntree = 50,
+                   ntree = 500,
                    trControl = mycontrol)
 
 
@@ -281,13 +281,14 @@ get_statistics <- function(dep, indep, start=1, end=103, est_periods_OOS = 20) {
   dff_lm <- myfit_lm$pred
   OOS_error_lm <- (dff_lm$pred-dff_lm$obs)^2
   
-
+  
 
   
   #### CREATE VARIABLES
   hist_lm <- cumsum(OOS_error_hist)-cumsum(OOS_error_lm)
   lm_rf <- cumsum(OOS_error_lm)-cumsum(OOS_error_rf)
   hist_rf <- cumsum(OOS_error_hist)-cumsum(OOS_error_rf)
+
   
   
   return(as.tibble(list(OOS_error_hist = OOS_error_hist,
@@ -301,6 +302,7 @@ get_statistics <- function(dep, indep, start=1, end=103, est_periods_OOS = 20) {
 
 CSSFED <- get_statistics( "F1", "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
 CSSFED$Date <- df$Date[21:102]
+
 CSSFED <- pivot_longer(CSSFED, cols = -c(7), names_to = "type", values_to = "values")
 
 
@@ -326,7 +328,8 @@ CSSFED_plot <- function(var){
   plot <- ggplot(data = cssfed_values, aes(x=Date,y=values)) + geom_point(colour='red') + 
     annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
-    xlab("Time horizon") + ylab("CSSFED")
+    xlab("Time horizon") +
+    ylab("CSSFED")
   
   return(plot)
 }
