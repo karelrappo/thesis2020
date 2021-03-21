@@ -74,6 +74,28 @@ results2 <- as.data.frame(t(results2))
 results <- rbind(results1, results2)
 remove(results1, results2)
   
+for (i in 1:nrow(results))
+{ 
+  for (k in 1:ncol(results))
+  {
+    if(grepl(pattern = "p.value", row.names(results)[i])==TRUE)
+    {
+      if(results[i,k]<0.01)
+      { results[i-2,k] <-paste(results[i-2,k],"***")
+      } 
+      else if(results5[i,k]<0.05)
+      { results[i-2,k] <-paste(results[i-2,k],"**")
+      }
+      else if(results5[i,k]<0.1)
+      { results[i-2,k] <-paste(results[i-2,k],"*")
+      } else {
+        results[i-2,k] <-results[i-2,k]
+      }
+    }
+  }
+}
+
+
   return(results)
 }
 
@@ -212,7 +234,7 @@ rf <- act_vs_predicted("rf", "Predicted (Random forest)")
 pred_vs_actual_graph <- function(var){
   ggplot(var, aes(variable, value, group=factor(type2))) + geom_line(aes(color=factor(type2))) + theme_bw() + 
     theme(legend.position="bottom") + labs(x="Time horizon", y="GDP growth value", color="") + 
-    facet_wrap(~type1) + scale_color_manual(values=c("blue", "red")) 
+    facet_wrap(~type1) + scale_color_manual(values=c("blue", "red"))
 }
 
 ###############################################################################################
@@ -314,7 +336,7 @@ squared_error_plot <- function(var){
   plot <- ggplot(data = squared_errors, aes(x=Date,y=c(values))) + geom_line(aes(color=factor(type))) + 
     annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
-    xlab("Time horizon") + ylab("CSSFED")
+    xlab("Time horizon") + ylab("CSSFED") + theme_bw()
   
   return(plot)
 }
@@ -329,7 +351,7 @@ CSSFED_plot <- function(var){
     annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     xlab("Time horizon") +
-    ylab("CSSFED")
+    ylab("CSSFED") + theme_bw()
   
   return(plot)
 }
