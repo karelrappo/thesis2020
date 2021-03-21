@@ -241,11 +241,10 @@ variable_importance <- function(var){
 ###############################################################################################
 
 df_ts <- ts(df)  
-get_statistics <- function(dep, indep, start=1, end=102, est_periods_OOS = 20) {
+get_statistics <- function(dep, indep, start=1, end=103, est_periods_OOS = 20) {
   
   # Creating vectors where to store values
   OOS_error_hist <- numeric(end - start - est_periods_OOS)
-  OOS_error_lm <- numeric(end - start - est_periods_OOS)
   #Only use information that is available up to the time at which the forecast is made
   j <- 0
     for (i in 21:(end-1)) {
@@ -256,30 +255,34 @@ get_statistics <- function(dep, indep, start=1, end=102, est_periods_OOS = 20) {
       #1. Historical mean model
       OOS_error_hist[j] <- (actual - mean(window(df_ts, start, i-1)[, dep], na.rm=TRUE))^2
       
-      #2. OLS model
-      reg_OOS <- dyn$lm(eval(parse(text=dep)) ~ eval(parse(text=indep)), 
-                        data=window(df_ts, start, i-1))
-      #Compute_error
-      predicted_values <- unlist(reg_OOS[5])
-      pred <- predicted_values[length(predicted_values)]
-      OOS_error_lm[j] <-  (pred - actual)^2
-      
     }
-  
-  #3. Random forest model
+
   mycontrol <- trainControl(method = "timeslice",
                             initialWindow = 20,
                             horizon = 1,
                             fixedWindow = TRUE, 
                             savePredictions = TRUE)
-  myfit <- train(F1 ~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M, data = df[1:101,],
-                 method = "rf",
-                 ntree = 50,
-                 tuneGrid = data.frame(mtry = 4),
-                 trControl = mycontrol)
-  dff <- myfit$pred
-  OOS_error_rf <- (dff$pred-dff$obs)^2
   
+    myfit_rf <- train(as.formula(paste0(dep, "~", indep)), data = df[1:sum(!is.na(df[dep])),],
+                   method = "rf",
+                   ntree = 50,
+                   tuneGrid=data.frame(mtry=4),
+                   trControl = mycontrol)
+
+    myfit_lm <- train(as.formula(paste0(dep, "~", indep)), data = df[1:sum(!is.na(df[dep])),],
+                   method = "lm",
+                   ntree = 50,
+                   trControl = mycontrol)
+
+
+  dff_rf <- myfit_rf$pred
+  OOS_error_rf <- (dff_rf$pred-dff_rf$obs)^2
+  
+  dff_lm <- myfit_lm$pred
+  OOS_error_lm <- (dff_lm$pred-dff_lm$obs)^2
+  
+
+
   
   #### CREATE VARIABLES
   hist_lm <- cumsum(OOS_error_hist)-cumsum(OOS_error_lm)
@@ -297,7 +300,7 @@ get_statistics <- function(dep, indep, start=1, end=102, est_periods_OOS = 20) {
 
 
 CSSFED <- get_statistics( "F1", "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
-CSSFED$Date <- df$Date[21:101]
+CSSFED$Date <- df$Date[21:102]
 CSSFED <- pivot_longer(CSSFED, cols = -c(7), names_to = "type", values_to = "values")
 
 
@@ -328,48 +331,3 @@ CSSFED_plot <- function(var){
   return(plot)
 }
 
-### PASKKKKK
-CSSFED <- get_statistics( "F1", "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
-
-CSSFED$Date <- df$Date[21:101]
-CSSFED <- CSSFED %>%
-  mutate(dum=df$dum[21:101])
-
-errorid <- CSSFED %>%
-  filter(dum==1) %>%
-  summarise(lm_REC_CSSFED=sqrt(mean(OOS_error_lm)),
-            rf_REC_CSSFED=sqrt(mean(OOS_error_rf))) %>%
-  mutate(lm_CSSFED = sqrt(mean(CSSFED$OOS_error_lm)),
-         rf_CSSFED = sqrt(mean(CSSFED$OOS_error_rf)),
-         rf_caret = as.numeric(mapply(out_of_samp, c("F1"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "rf")),
-         lm_caret = as.numeric(mapply(out_of_samp, c("F1"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "lm")),
-         rf_rec_caret = as.numeric(mapply(out_of_samp, c("F1"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "rf")),
-         lm_rec_caret = as.numeric(mapply(out_of_samp, c("F1"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "lm")))
-
-
-
-out_of_samp2 <- function(var1, var2, var4){
-  mycontrol <- trainControl(method = "timeslice",
-                            initialWindow = 20,
-                            horizon = 1,
-                            fixedWindow = TRUE, 
-                            savePredictions = TRUE)
-  if(var4=="rf"){
-    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
-                   method = var4,
-                   ntree = 50,
-                   tuneGrid=data.frame(mtry=4),
-                   trControl = mycontrol)
-  }
-  else{
-    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
-                   method = var4,
-                   ntree = 50,
-                   trControl = mycontrol)
-  }
-  dff <- myfit$pred
-  error <- (dff$pred-dff$obs)^2
-  return(error)
-} 
-
-test <- as.data.frame(mapply(out_of_samp2, c("F1"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "rf"))
