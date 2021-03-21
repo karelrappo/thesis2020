@@ -328,4 +328,48 @@ CSSFED_plot <- function(var){
   return(plot)
 }
 
+### PASKKKKK
+CSSFED <- get_statistics( "F1", "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
 
+CSSFED$Date <- df$Date[21:101]
+CSSFED <- CSSFED %>%
+  mutate(dum=df$dum[21:101])
+
+errorid <- CSSFED %>%
+  filter(dum==1) %>%
+  summarise(lm_REC_CSSFED=sqrt(mean(OOS_error_lm)),
+            rf_REC_CSSFED=sqrt(mean(OOS_error_rf))) %>%
+  mutate(lm_CSSFED = sqrt(mean(CSSFED$OOS_error_lm)),
+         rf_CSSFED = sqrt(mean(CSSFED$OOS_error_rf)),
+         rf_caret = as.numeric(mapply(out_of_samp, c("F1"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "rf")),
+         lm_caret = as.numeric(mapply(out_of_samp, c("F1"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "lm")),
+         rf_rec_caret = as.numeric(mapply(out_of_samp, c("F1"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "rf")),
+         lm_rec_caret = as.numeric(mapply(out_of_samp, c("F1"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "lm")))
+
+
+
+out_of_samp2 <- function(var1, var2, var4){
+  mycontrol <- trainControl(method = "timeslice",
+                            initialWindow = 20,
+                            horizon = 1,
+                            fixedWindow = TRUE, 
+                            savePredictions = TRUE)
+  if(var4=="rf"){
+    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
+                   method = var4,
+                   ntree = 50,
+                   tuneGrid=data.frame(mtry=4),
+                   trControl = mycontrol)
+  }
+  else{
+    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
+                   method = var4,
+                   ntree = 50,
+                   trControl = mycontrol)
+  }
+  dff <- myfit$pred
+  error <- (dff$pred-dff$obs)^2
+  return(error)
+} 
+
+test <- as.data.frame(mapply(out_of_samp2, c("F1"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "rf"))
