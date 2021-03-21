@@ -39,7 +39,7 @@ One of the most comprehensive papers quantifying the financial market's ability 
 In a recent work by @Cremers2017, they approach predicting macroeconomic real activity through the treasury implied volatility (YIV) which is derived from options on treasury bond futures of different maturity periods. YIV can be considered as a proxy for interest rate uncertainty as it incorporates market participants' sentiment towards the future outlook for interest rates on which the underlying asset (treasury bond) is dependent on. In the paper the authors show that YIV is able to predict consistently the real economy, especially focusing on predicting the growth of the real GDP as it can be considered as one of the key proxies for the real economy.
 
 
-As our paper builds on the initial discoveries of @Cremers2020, the first part of our paper focuses on replication their results to test the validity - i.e whether real GDP can be predicted using YIV.
+As our paper builds on the initial discoveries of @Cremers2021, the first part of our paper focuses on replication their results to test the validity - i.e whether real GDP can be predicted using YIV.
 
 In the second part of the research we advance the research of @Cremers2017 from two perspectives.
 

@@ -29,9 +29,11 @@ header-includes:
 
 # Review of literature
 ## Link between financial markets & real economy
-Firstly, to dig deeper into various variables that help to predict future macroeconomic conditions, it is essential to understand what is the mechanism that potentially enables using the financial markets for predicting (movements in) the real economy. The biggest fundamentals lie in one of the most important concepts of macroeconomic theory - Fischer theory, according to which the nominal interest rate is equal to the real interest rate and inflation. To illustrate, in the case of high nominal interest rates and deflation, the outcome should be a recessionary period. 
+ 
+Firstly, to dig deeper into various variables that help to predict future macroeconomic conditions, it is essential to understand what are the mechanisms that can explain the connection of the financial markets and the real economy. 
+ 
+One of the best examples can be made on the basis of the global financial crisis and using one of the most important concepts of macroeconomic theory - Fischer theory. According to the formula, the nominal interest rate is equal to the real interest rate and expected inflation/deflation. So, as the expected inflation rate changes, equilibrium is reached by changing the nominal interest rate. On the basis of this example, if we expect future deflation which over a longer time period implicitly refers to recession, we can see that it also affects the current market situation.
 
-Thus, the current stock/bond/commodity market prices include expectations about future performance & earnings - consequently on the aggregate level, the expectations can be generalized to the whole economy.  
 
 ## Volatility as a predictor of GDP
 As the studies about first moments of financial variables have become fairly obsolete, researchers have started focusing on another level - e.g. (implied) volatilities. @Fornari2019 use the countercyclicality of financial volatility to construct a prediction model and conclude that stock volatility is a significant variable in predicting business cycles. The conclusion is even stronger when combining volatility with term spread - in such a case, their proposed model would have predicted at least 3 of the last recessions. @Ferrara2014 continue the same path - they mix daily financial volatility with monthly industrial production and achieve significant results in predicting GDP; nevertheless their results are limited to the timeframe of Great Recession in 2008-2009.
