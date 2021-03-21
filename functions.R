@@ -88,20 +88,28 @@ out_of_samp <- function(var1, var2, type, var4){
                             horizon = 1,
                             fixedWindow = TRUE, 
                             savePredictions = TRUE)
-  myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
-                 method = var4,
-                 ntree = 50,
-                 trControl = mycontrol)
+  if(var4=="rf"){
+    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
+                   method = var4,
+                   ntree = 50,
+                   tuneGrid=data.frame(mtry=4),
+                   trControl = mycontrol)
+  }
+  else{
+    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
+                   method = var4,
+                   ntree = 50,
+                   trControl = mycontrol)
+  }
   dff <- myfit$pred
   SE <- (dff$pred-dff$obs)^2
   
   ifelse(type=="recessionary",SE <- SE[c(25,26,27,52,53,54,55,56,57)],
-  ifelse(type=="expansionary", SE <- SE[-c(25,26,27,52,53,54,55,56,57)],
-            SE <- SE))
+         ifelse(type=="expansionary", SE <- SE[-c(25,26,27,52,53,54,55,56,57)],
+                SE <- SE))
   RMSFE <- sqrt(mean(SE))
   return(RMSFE)
-} 
-
+}
 
 ##############################   OLS RMSFE-s  ##############################################################
 
@@ -171,10 +179,19 @@ out_of_samp2 <- function(var1, var2, var4){
                             horizon = 1,
                             fixedWindow = TRUE, 
                             savePredictions = TRUE)
-  myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
-                 method = var4,
-                 ntree = 50,
-                 trControl = mycontrol)
+  if(var4=="rf"){
+    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
+                   method = var4,
+                   ntree = 50,
+                   tuneGrid=data.frame(mtry=4),
+                   trControl = mycontrol)
+  }
+  else{
+    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
+                   method = var4,
+                   ntree = 50,
+                   trControl = mycontrol)
+  }
   dff <- myfit$pred
   return(list(dff$pred, dff$obs))
 } 
@@ -211,8 +228,8 @@ variable_importance <- function(var){
   myfit <- train(as.formula(paste0(var, "~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")), data = df[1:sum(!is.na(df[var])),],
                  method = "rf",
                  ntree = 50,
+                 tuneGrid = data.frame(mtry = 4),
                  trControl = mycontrol)
-  
   output <- varImp(myfit)
   return(output)
   
@@ -258,9 +275,9 @@ get_statistics <- function(dep, indep, start=1, end=102, est_periods_OOS = 20) {
   myfit <- train(F1 ~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M, data = df[1:101,],
                  method = "rf",
                  ntree = 50,
+                 tuneGrid = data.frame(mtry = 4),
                  trControl = mycontrol)
   dff <- myfit$pred
-  dff <- dff[dff$mtry == 2, ]
   OOS_error_rf <- (dff$pred-dff$obs)^2
   
   

@@ -26,7 +26,7 @@ header-includes:
 ---
 
 ```{r resultimport, include=F, message = F, warnings = F,echo = F}
-source("functions.R")
+source("functions_qoq.R")
 ```
 
 
