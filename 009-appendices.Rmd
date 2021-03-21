@@ -75,36 +75,10 @@ regression.coefficients
 ```
 
 
-
 \newpage
-## Appendix D
+## Appendix C
 
-Notes: This table includes regression with controls. The equation for the regression is following:
-
-\begin{equation}
-\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} +\varepsilon_{t+H}
-\end{equation}
-
-
-
-```{r OLS4, message = F, warnings = F,echo = F}
-regr4 <- regrs(mudelid=c("DGS1","TRM1012", "SRT03M", "baa_aaa", "VIX", "housng", "gz_spr", "spy_logreturn"))
-results4 <- regr_results(a=regr4)
-
-results4  %>%
-  kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
-   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-   column_spec(1:1, width="2in")%>%
-       footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
-
-#model4 <- lm(log_gdp ~ lag1 + lag2 + DGS1 + TRM1012 + SRT03M + baa_aaa + VIX + housng + gz_spr + spy_logreturn, df)
-#ols_vif_tol(model4)
-```
-
-\newpage
-## Appendix E
-
-Notes: YIV, dummy and controls as independent variables. The equation for the regression is following:
+Notes: The following regressions includes YIV, dummy and controls as independent variables. The specification for the regression is the following:
 
 \begin{equation}
 \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} +\varepsilon_{t+H}
@@ -133,7 +107,7 @@ results5  %>%
 ```
 \newpage
 
-## Appendix F
+## Appendix D
 
 
 ```{r roll_regress, message = F, warnings = F,echo = F, }
@@ -155,7 +129,7 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(
 ```
 \newpage
 
-## Appendix G
+## Appendix E
 
 ```{r message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Linear model)"}
 
@@ -170,7 +144,7 @@ pred_vs_actual_graph(rf)
 ```
 
 \newpage
-## Appendix H^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
+## Appendix F^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
 
 
 ```{r message = F, warnings = F,echo = F, fig.cap="RMSFE-s of linear model and random forest"}
@@ -182,7 +156,7 @@ ggplot(rf_resultsss, aes(variable, value, group=factor(period))) + geom_line(aes
 
 
 \newpage
-## Appendix H
+## Appendix G
 
 ```{r,message = F, warnings = F,echo = F}
 summary_table <- colnames(df_summary)
@@ -210,7 +184,7 @@ summary_table %>%
 ```
 
 \newpage
-## Appendix I
+## Appendix H
 
 
 ```{r message = F, warnings = F,echo = F, fig.cap="Squared errors"}
