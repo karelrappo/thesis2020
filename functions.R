@@ -31,6 +31,35 @@ library(olsrr)
 library(pracma)
 library(dyn)
 library(gridExtra)
+########################     Replaces p-values with significance stars    ################################################
+
+significance <- function(x){
+  for (i in 1:nrow(x))
+  { 
+    for (k in 1:ncol(x))
+    {
+      if(grepl(pattern = "p.value", row.names(x)[i])==TRUE)
+      {
+        if(x[i,k]<0.01)
+        { x[i-2,k] <-paste(x[i-2,k],"***")
+        } 
+        else if(x[i,k]<0.05)
+        { x[i-2,k] <-paste(x[i-2,k],"**")
+        }
+        else if(x[i,k]<0.1)
+        { x[i-2,k] <-paste(x[i-2,k],"*")
+        } else {
+          x[i-2,k] <-x[i-2,k]
+        }
+      }
+    }
+  }
+  
+  x <- x %>%
+    rownames_to_column() %>%
+    filter(!(grepl(pattern = "p.value",rowname)))
+}
+
 
 ###############################################################################################
 ########################       LINEAR MODELS' RELATED SUMMARY STATISTICS   ####################
@@ -73,31 +102,10 @@ results2 <- as.data.frame(t(results2))
   
 results <- rbind(results1, results2)
 remove(results1, results2)
-  
-for (i in 1:nrow(results))
-{ 
-  for (k in 1:ncol(results))
-  {
-    if(grepl(pattern = "p.value", row.names(results)[i])==TRUE)
-    {
-      if(results[i,k]<0.01)
-      { results[i-2,k] <-paste(results[i-2,k],"***")
-      } 
-      else if(results5[i,k]<0.05)
-      { results[i-2,k] <-paste(results[i-2,k],"**")
-      }
-      else if(results5[i,k]<0.1)
-      { results[i-2,k] <-paste(results[i-2,k],"*")
-      } else {
-        results[i-2,k] <-results[i-2,k]
-      }
-    }
-  }
-}
-
 
   return(results)
 }
+
 
 
 ###############################################################################################

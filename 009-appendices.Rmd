@@ -86,36 +86,14 @@ Notes: The following regressions includes YIV, dummy and controls as independent
 
 
 
+
 ```{r OLS5, message = F, warnings = F,echo = F}
 regr5 <- regrs(mudelid=c("YIV", "dum", "DGS1", "TRM1012", "SRT03M", "baa_aaa", "VIX", "housng", "gz_spr", "spy_logreturn"))
 results5 <- regr_results(a=regr5) %>%
-  round(2)
+  round(2) %>%
+  significance()
 
 
-  for (i in 1:nrow(results5))
-  { 
-    for (k in 1:ncol(results5))
-    {
-      if(grepl(pattern = "p.value", row.names(results5)[i])==TRUE)
-      {
-        if(results5[i,k]<0.01)
-        { results5[i-2,k] <-paste(results5[i-2,k],"***")
-        } 
-        else if(results5[i,k]<0.05)
-        { results5[i-2,k] <-paste(results5[i-2,k],"**")
-        }
-        else if(results5[i,k]<0.1)
-        { results5[i-2,k] <-paste(results5[i-2,k],"*")
-        } else {
-          results5[i-2,k] <-results5[i-2,k]
-        }
-      }
-    }
-  }
-
-results5 <- results5 %>%
-  rownames_to_column() %>%
-  filter(!(grepl(pattern = "p.value",rowname)))
 
 results5  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%

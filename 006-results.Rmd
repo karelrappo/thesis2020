@@ -26,7 +26,7 @@ header-includes:
 ---
 
 ```{r resultimport, include=F, message = F, warnings = F,echo = F}
-source("functions_qoq.R")
+source("functions.R")
 ```
 
 
@@ -61,7 +61,9 @@ Furthermore, it can be seen, YIV’s coefficients are significant throughout the
 
 ```{r OLS1, message = F, warnings = F,echo = F}
 regr1 <- regrs(mudelid=c("YIV"))
-results1 <- regr_results(a=regr1)
+results1 <- regr_results(a=regr1) %>%
+    round(2) %>%
+    significance()
 
 results1 %>%
   kbl(booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
@@ -85,7 +87,10 @@ Next, we add a dummy variable representing recessionary periods (according to th
 
 ```{r OLS2, message = F, warnings = F,echo = F}
 regr2 <- regrs(mudelid=c("YIV", "dum"))
-results2 <- regr_results(a=regr2)
+results2 <- regr_results(a=regr2) %>%
+    round(2) %>%
+    significance()
+
 
 results2  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
