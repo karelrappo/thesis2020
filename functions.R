@@ -31,6 +31,13 @@ library(olsrr)
 library(pracma)
 library(dyn)
 library(gridExtra)
+
+######################## Select dataset, df by default ###########################################
+
+#df <- df_qoq
+#df <- df_avg_qoq
+
+
 ########################     Replaces p-values with significance stars    ################################################
 
 significance <- function(x){

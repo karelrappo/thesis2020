@@ -175,7 +175,7 @@ dataset <- dataset %>%
   mutate(F4=lead(log_gdp, n = 4L)) %>%
   mutate(F8=lead(log_gdp, n = 8L))
 
-dataset_quarterly <- dataset_quarterly %>%
+dataset_qoq <- dataset_quarterly %>%
   arrange %>%
   mutate(H1=rollapply(log_gdp,2,FUN = function(df) mean(df[-2], na.rm = TRUE), fill = NA, align = "left" )) %>%
   mutate(H2=rollapply(log_gdp,3,FUN = function(df) mean(df[-3], na.rm = TRUE), fill = NA, align = "left" )) %>%
@@ -195,22 +195,9 @@ df <- dataset
 df.expansionary <- subset(dataset, dum== 0)
 df.recessionary <- subset(dataset, dum== 1)
 
-df_qoq <- dataset_quarterly
 
 #drop unnecessary shit for work proccesses
 rm(list=setdiff(ls(), c("df", "df_summary", "df_qoq")))
-
-df <- df %>%
-  mutate(lag1=lag(log_gdp, n = 1L)) %>%
-  mutate(lag2=lag(log_gdp, n = 2L)) %>%
-  mutate(lag3=lag(log_gdp, n = 3L)) %>%
-  mutate(lag4=lag(log_gdp, n = 4L))
-
-df_qoq<-df_qoq %>%
-  mutate(lag1=lag(log_gdp, n = 1L)) %>%
-  mutate(lag2=lag(log_gdp, n = 2L)) %>%
-  mutate(lag3=lag(log_gdp, n = 3L)) %>%
-  mutate(lag4=lag(log_gdp, n = 4L))
 
 
 statistics <- df_summary %>%
