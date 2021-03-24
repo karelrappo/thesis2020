@@ -68,7 +68,7 @@ regression.fit
 
 ```{r regcoefficients, message = F, warnings = F, echo = F, fig.height=3, fig.width=6, fig.cap="Regressions' coefficients"}
 
-regression.coefficients <- ggplot(results1, aes(x=row.names(results1), y=YIV_estimate))+ geom_bar(stat="identity", fill="steelblue")+theme_bw()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5)) + scale_x_discrete(limits=c("H4", "H6", "H8", "H10", "H12"))
+regression.coefficients <- ggplot(results1, aes(x=row.names(results1), y=YIV_estimate))+ geom_bar(stat="identity", fill="steelblue")+theme_bw()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5)) + scale_x_discrete(limits=c("H1","H2","H4", "H6", "H8", "H10", "H12"))
 
 regression.coefficients
 
