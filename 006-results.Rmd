@@ -63,7 +63,8 @@ Furthermore, it can be seen, YIV’s coefficients are significant throughout the
 regr1 <- regrs(mudelid=c("YIV"))
 results1 <- regr_results(a=regr1) %>%
     round(2) %>%
-    significance()
+    significance() %>%
+    select(-H6,-H10,-H12)
 
 results1 %>%
   kbl(booktabs = T, longtable=T, align="c", digits=2, caption="Regression output") %>%
@@ -89,7 +90,8 @@ Next, we add a dummy variable representing recessionary periods (according to th
 regr2 <- regrs(mudelid=c("YIV", "dum"))
 results2 <- regr_results(a=regr2) %>%
     round(2) %>%
-    significance()
+    significance() %>%
+    select(-H6,-H10,-H12)
 
 
 results2  %>%

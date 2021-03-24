@@ -163,6 +163,8 @@ dataset_quarterly <- dataset_quarterly %>%
 #Create rolling averages
 dataset <- dataset %>%
   arrange %>%
+  mutate(H1=rollapply(log_gdp,2,FUN = function(df) mean(df[-2], na.rm = TRUE), fill = NA, align = "left" )) %>%
+  mutate(H2=rollapply(log_gdp,3,FUN = function(df) mean(df[-3], na.rm = TRUE), fill = NA, align = "left" )) %>%
   mutate(H4=rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" )) %>%
   mutate(H6=rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" )) %>%
   mutate(H8=rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" )) %>%
@@ -175,6 +177,8 @@ dataset <- dataset %>%
 
 dataset_quarterly <- dataset_quarterly %>%
   arrange %>%
+  mutate(H1=rollapply(log_gdp,2,FUN = function(df) mean(df[-2], na.rm = TRUE), fill = NA, align = "left" )) %>%
+  mutate(H2=rollapply(log_gdp,3,FUN = function(df) mean(df[-3], na.rm = TRUE), fill = NA, align = "left" )) %>%
   mutate(H4=rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" )) %>%
   mutate(H6=rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" )) %>%
   mutate(H8=rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" )) %>%

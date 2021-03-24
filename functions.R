@@ -67,7 +67,7 @@ significance <- function(x){
 regrs <- function(mudelid)
 {
   df_total <- df %>%
-    select(H4, H6, H8, H10, H12, mudelid) %>%
+    select(H1,H2, H4, H6, H8, H10, H12, mudelid) %>%
     gather(Var,Value,  -mudelid) %>%
     nest(data=c(Value,  mudelid)) %>%
     mutate(model = map(data, ~lm(Value ~ ., data = .)),
