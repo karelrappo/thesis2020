@@ -33,6 +33,36 @@ library(dyn)
 library(gridExtra)
 
 df <- df_qoq
+########################     Replaces p-values with significance stars    ################################################
+
+significance <- function(x){
+  for (i in 1:nrow(x))
+  { 
+    for (k in 1:ncol(x))
+    {
+      if(grepl(pattern = "p.value", row.names(x)[i])==TRUE)
+      {
+        if(x[i,k]<0.01)
+        { x[i-2,k] <-paste(x[i-2,k],"***")
+        } 
+        else if(x[i,k]<0.05)
+        { x[i-2,k] <-paste(x[i-2,k],"**")
+        }
+        else if(x[i,k]<0.1)
+        { x[i-2,k] <-paste(x[i-2,k],"*")
+        } else {
+          x[i-2,k] <-x[i-2,k]
+        }
+      }
+    }
+  }
+  
+  x <- x %>%
+    rownames_to_column() %>%
+    filter(!(grepl(pattern = "p.value",rowname)))
+}
+
+
 ###############################################################################################
 ########################       LINEAR MODELS' RELATED SUMMARY STATISTICS   ####################
 ###############################################################################################
@@ -79,6 +109,7 @@ regr_results <- function(a){
 }
 
 
+
 ###############################################################################################
 ########################     RMSFE calculation function     ################################################
 ###############################################################################################
@@ -92,14 +123,14 @@ out_of_samp <- function(var1, var2, type, var4){
   if(var4=="rf"){
     myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                    method = var4,
-                   ntree = 50,
-                   tuneGrid=data.frame(mtry=4),
+                   ntree = 500,
+                   tuneGrid=data.frame(mtry=5),
                    trControl = mycontrol)
   }
   else{
     myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                    method = var4,
-                   ntree = 50,
+                   ntree = 500,
                    trControl = mycontrol)
   }
   dff <- myfit$pred
@@ -183,14 +214,14 @@ out_of_samp2 <- function(var1, var2, var4){
   if(var4=="rf"){
     myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                    method = var4,
-                   ntree = 50,
-                   tuneGrid=data.frame(mtry=4),
+                   ntree = 500,
+                   tuneGrid=data.frame(mtry=5),
                    trControl = mycontrol)
   }
   else{
     myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                    method = var4,
-                   ntree = 50,
+                   ntree = 500,
                    trControl = mycontrol)
   }
   dff <- myfit$pred
@@ -228,8 +259,8 @@ variable_importance <- function(var){
                             savePredictions = TRUE)
   myfit <- train(as.formula(paste0(var, "~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")), data = df[1:sum(!is.na(df[var])),],
                  method = "rf",
-                 ntree = 50,
-                 tuneGrid = data.frame(mtry = 4),
+                 ntree = 500,
+                 tuneGrid = data.frame(mtry = 5),
                  trControl = mycontrol)
   output <- varImp(myfit)
   return(output)
@@ -242,14 +273,13 @@ variable_importance <- function(var){
 ###############################################################################################
 
 df_ts <- ts(df)  
-get_statistics <- function(dep, indep, start=1, end=102, est_periods_OOS = 20) {
+get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_periods_OOS = 20) {
   
   # Creating vectors where to store values
   OOS_error_hist <- numeric(end - start - est_periods_OOS)
-  OOS_error_lm <- numeric(end - start - est_periods_OOS)
   #Only use information that is available up to the time at which the forecast is made
   j <- 0
-  for (i in 21:(end-1)) {
+  for (i in 21:(end)) {
     j <- j + 1
     #Get the actual ERP that you want to predict
     actual <- as.numeric(window(df_ts, i, i)[, dep])
@@ -257,35 +287,40 @@ get_statistics <- function(dep, indep, start=1, end=102, est_periods_OOS = 20) {
     #1. Historical mean model
     OOS_error_hist[j] <- (actual - mean(window(df_ts, start, i-1)[, dep], na.rm=TRUE))^2
     
-    #2. OLS model
-    reg_OOS <- dyn$lm(eval(parse(text=dep)) ~ eval(parse(text=indep)), 
-                      data=window(df_ts, start, i-1))
-    #Compute_error
-    predicted_values <- unlist(reg_OOS[5])
-    pred <- predicted_values[length(predicted_values)]
-    OOS_error_lm[j] <-  (pred - actual)^2
-    
   }
   
-  #3. Random forest model
   mycontrol <- trainControl(method = "timeslice",
                             initialWindow = 20,
                             horizon = 1,
                             fixedWindow = TRUE, 
                             savePredictions = TRUE)
-  myfit <- train(F1 ~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M, data = df[1:101,],
-                 method = "rf",
-                 ntree = 50,
-                 tuneGrid = data.frame(mtry = 4),
-                 trControl = mycontrol)
-  dff <- myfit$pred
-  OOS_error_rf <- (dff$pred-dff$obs)^2
+  
+  myfit_rf <- train(as.formula(paste0(dep, "~", indep)), data = df[1:sum(!is.na(df[dep])),],
+                    method = "rf",
+                    ntree = 500,
+                    tuneGrid=data.frame(mtry=5),
+                    trControl = mycontrol)
+  
+  myfit_lm <- train(as.formula(paste0(dep, "~", indep)), data = df[1:sum(!is.na(df[dep])),],
+                    method = "lm",
+                    ntree = 500,
+                    trControl = mycontrol)
+  
+  
+  dff_rf <- myfit_rf$pred
+  OOS_error_rf <- (dff_rf$pred-dff_rf$obs)^2
+  
+  dff_lm <- myfit_lm$pred
+  OOS_error_lm <- (dff_lm$pred-dff_lm$obs)^2
+  
+  
   
   
   #### CREATE VARIABLES
   hist_lm <- cumsum(OOS_error_hist)-cumsum(OOS_error_lm)
   lm_rf <- cumsum(OOS_error_lm)-cumsum(OOS_error_rf)
   hist_rf <- cumsum(OOS_error_hist)-cumsum(OOS_error_rf)
+  
   
   
   return(as.tibble(list(OOS_error_hist = OOS_error_hist,
@@ -298,7 +333,8 @@ get_statistics <- function(dep, indep, start=1, end=102, est_periods_OOS = 20) {
 
 
 CSSFED <- get_statistics( "F1", "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
-CSSFED$Date <- df$Date[21:101]
+CSSFED$Date <- df$Date[21:102]
+
 CSSFED <- pivot_longer(CSSFED, cols = -c(7), names_to = "type", values_to = "values")
 
 
@@ -310,7 +346,7 @@ squared_error_plot <- function(var){
   plot <- ggplot(data = squared_errors, aes(x=Date,y=c(values))) + geom_line(aes(color=factor(type))) + 
     annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
-    xlab("Time horizon") + ylab("CSSFED")
+    xlab("Time horizon") + ylab("CSSFED") + theme_bw()
   
   return(plot)
 }
@@ -324,9 +360,9 @@ CSSFED_plot <- function(var){
   plot <- ggplot(data = cssfed_values, aes(x=Date,y=values)) + geom_point(colour='red') + 
     annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
-    xlab("Time horizon") + ylab("CSSFED")
+    xlab("Time horizon") +
+    ylab("CSSFED") + theme_bw()
   
   return(plot)
 }
-
 
