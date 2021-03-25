@@ -129,16 +129,21 @@ out_of_samp <- function(var1, var2, type, var4){
     myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                    method = var4,
                    ntree = 500,
-                   tuneGrid=data.frame(mtry=5),
+                   tuneGrid = expand.grid(mtry = c(1:8)),
                    trControl = mycontrol)
+    dff <- myfit$pred
+    best_mtry <- myfit$bestTune$mtry
+    dff <- dff %>%
+      filter(mtry==best_mtry)
   }
   else{
     myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                    method = var4,
-                   ntree = 500,
                    trControl = mycontrol)
+    dff <- myfit$pred
   }
-  dff <- myfit$pred
+  
+  
   SE <- (dff$pred-dff$obs)^2
   
   ifelse(type=="recessionary",SE <- SE[c(25,26,27,52,53,54,55,56,57)],
@@ -220,16 +225,20 @@ out_of_samp2 <- function(var1, var2, var4){
     myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                    method = var4,
                    ntree = 500,
-                   tuneGrid=data.frame(mtry=5),
+                   tuneGrid = expand.grid(mtry = c(1:8)),
                    trControl = mycontrol)
+    dff <- myfit$pred
+    best_mtry <- myfit$bestTune$mtry
+    dff <- dff %>%
+      filter(mtry==best_mtry)
   }
   else{
     myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                    method = var4,
-                   ntree = 500,
                    trControl = mycontrol)
+    dff <- myfit$pred
   }
-  dff <- myfit$pred
+  
   return(list(dff$pred, dff$obs))
 } 
 
@@ -265,7 +274,7 @@ variable_importance <- function(var){
   myfit <- train(as.formula(paste0(var, "~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")), data = df[1:sum(!is.na(df[var])),],
                  method = "rf",
                  ntree = 500,
-                 tuneGrid = data.frame(mtry = 5),
+                 tuneGrid = expand.grid(mtry = c(1:8)),
                  trControl = mycontrol)
   output <- varImp(myfit)
   return(output)
@@ -303,7 +312,7 @@ get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_pe
     myfit_rf <- train(as.formula(paste0(dep, "~", indep)), data = df[1:sum(!is.na(df[dep])),],
                    method = "rf",
                    ntree = 500,
-                   tuneGrid=data.frame(mtry=5),
+                   tuneGrid = expand.grid(mtry = c(1:8)),
                    trControl = mycontrol)
 
     myfit_lm <- train(as.formula(paste0(dep, "~", indep)), data = df[1:sum(!is.na(df[dep])),],
@@ -311,8 +320,10 @@ get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_pe
                    ntree = 500,
                    trControl = mycontrol)
 
-
   dff_rf <- myfit_rf$pred
+  best_mtry_rf<- myfit_rf$bestTune$mtry
+  dff_rf <- dff_rf %>%
+    filter(mtry==best_mtry_rf)
   OOS_error_rf <- (dff_rf$pred-dff_rf$obs)^2
   
   dff_lm <- myfit_lm$pred
