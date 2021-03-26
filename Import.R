@@ -194,7 +194,7 @@ dataset_qoq <- dataset_quarterly %>%
 df <- dataset 
 df.expansionary <- subset(dataset, dum== 0)
 df.recessionary <- subset(dataset, dum== 1)
-
+df_qoq <- dataset_qoq
 
 #drop unnecessary shit for work proccesses
 rm(list=setdiff(ls(), c("df", "df_summary", "df_qoq")))
