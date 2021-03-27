@@ -163,13 +163,13 @@ dataset_quarterly <- dataset_quarterly %>%
 #Create rolling averages
 dataset <- dataset %>%
   arrange %>%
-  mutate(H1=rollapply(log_gdp,2,FUN = function(df) mean(df[-2], na.rm = TRUE), fill = NA, align = "left" )) %>%
-  mutate(H2=rollapply(log_gdp,3,FUN = function(df) mean(df[-3], na.rm = TRUE), fill = NA, align = "left" )) %>%
-  mutate(H4=rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" )) %>%
-  mutate(H6=rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" )) %>%
-  mutate(H8=rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" )) %>%
-  mutate(H10=rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" )) %>%
-  mutate(H12=rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" )) %>%
+  mutate(H1=lead(rollapply(log_gdp,1,FUN = mean, fill = NA, align = "left" ))) %>%
+  mutate(H2=lead(rollapply(log_gdp,2,FUN = mean, fill = NA, align = "left" ))) %>%
+  mutate(H4=lead(rollapply(log_gdp,4,FUN = mean, fill = NA, align = "left" )))%>%
+  mutate(H6=lead(rollapply(log_gdp, 6,FUN = mean, fill = NA, align = "left" ))) %>%
+  mutate(H8=lead(rollapply(log_gdp, 8,FUN = mean, fill = NA, align = "left" ))) %>%
+  mutate(H10=lead(rollapply(log_gdp, 10,FUN = mean, fill = NA, align = "left" ))) %>%
+  mutate(H12=lead(rollapply(log_gdp, 12,FUN = mean, fill = NA, align = "left" )))%>%
   mutate(F1=lead(log_gdp, n = 1L)) %>%
   mutate(F2=lead(log_gdp, n = 2L)) %>%
   mutate(F4=lead(log_gdp, n = 4L)) %>%
@@ -177,13 +177,13 @@ dataset <- dataset %>%
 
 dataset_qoq <- dataset_quarterly %>%
   arrange %>%
-  mutate(H1=rollapply(log_gdp,2,FUN = function(df) mean(df[-2], na.rm = TRUE), fill = NA, align = "left" )) %>%
-  mutate(H2=rollapply(log_gdp,3,FUN = function(df) mean(df[-3], na.rm = TRUE), fill = NA, align = "left" )) %>%
-  mutate(H4=rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" )) %>%
-  mutate(H6=rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" )) %>%
-  mutate(H8=rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" )) %>%
-  mutate(H10=rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" )) %>%
-  mutate(H12=rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" )) %>%
+  mutate(H1=lead(rollapply(log_gdp,2,FUN = function(df) mean(df[-2], na.rm = TRUE), fill = NA, align = "left" ))) %>%
+  mutate(H2=lead(rollapply(log_gdp,3,FUN = function(df) mean(df[-3], na.rm = TRUE), fill = NA, align = "left" ))) %>%
+  mutate(H4=lead(rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" ))) %>%
+  mutate(H6=lead(rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" ))) %>%
+  mutate(H8=lead(rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" ))) %>%
+  mutate(H10=lead(rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" ))) %>%
+  mutate(H12=lead(rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" ))) %>%
   mutate(F1=lead(log_gdp, n = 1L)) %>%
   mutate(F2=lead(log_gdp, n = 2L)) %>%
   mutate(F4=lead(log_gdp, n = 4L)) %>%

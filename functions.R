@@ -35,7 +35,6 @@ library(gridExtra)
 ######################## Select dataset, df by default ###########################################
 
 #df <- df_qoq
-#df <- df_avg_qoq
 
 
 ########################     Replaces p-values with significance stars    ################################################
@@ -348,7 +347,7 @@ get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_pe
 }
 
 
-CSSFED <- get_statistics( "F1", "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
+CSSFED <- get_statistics( "H1", "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
 CSSFED$Date <- df$Date[21:102]
 
 CSSFED <- pivot_longer(CSSFED, cols = -c(7), names_to = "type", values_to = "values")
