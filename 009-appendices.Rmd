@@ -59,7 +59,7 @@ regr1 <- regrs(mudelid=c("YIV"))
 results1 <- regr_results(a=regr1)
 results1 <- as.data.frame(t(results1))
   
-regression.fit <- ggplot(results1, aes(x=row.names(results1),y=r.squared)) + geom_bar(stat="identity", fill="steelblue")+ theme_bw() + xlab("Quarters") + ylab("R-squared") + labs(title = "GDP R-squared") +  theme(plot.title = element_text(hjust = 0.5)) + scale_x_discrete(limits=c("H1","H2","H4", "H6", "H8", "H10", "H12"))
+regression.fit <- ggplot(results1, aes(x=row.names(results1),y=r.squared)) + geom_bar(stat="identity", fill="steelblue")+ theme_bw() + xlab("Quarters") + ylab("R-squared") + labs(title = "GDP R-squared") +  theme(plot.title = element_text(hjust = 0.5)) + scale_x_discrete(limits=c("H1","H2","H4", "H8"))
 
 regression.fit
 ```
@@ -68,7 +68,7 @@ regression.fit
 
 ```{r regcoefficients, message = F, warnings = F, echo = F, fig.height=3, fig.width=6, fig.cap="Regressions' coefficients"}
 
-regression.coefficients <- ggplot(results1, aes(x=row.names(results1), y=YIV_estimate))+ geom_bar(stat="identity", fill="steelblue")+theme_bw()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5)) + scale_x_discrete(limits=c("H1","H2","H4", "H6", "H8", "H10", "H12"))
+regression.coefficients <- ggplot(results1, aes(x=row.names(results1), y=YIV_estimate))+ geom_bar(stat="identity", fill="steelblue")+theme_bw()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5)) + scale_x_discrete(limits=c("H1","H2","H4","H8"))
 
 regression.coefficients
 
@@ -92,7 +92,6 @@ regr5 <- regrs(mudelid=c("YIV", "dum", "DGS1", "TRM1012", "SRT03M", "baa_aaa", "
 results5 <- regr_results(a=regr5) %>%
   round(2) %>%
   significance() %>%
-    select(-H6,-H10,-H12) %>%
     rename(" "=rowname)
 
 

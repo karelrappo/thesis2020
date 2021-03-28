@@ -64,7 +64,6 @@ regr1 <- regrs(mudelid=c("YIV"))
 results1 <- regr_results(a=regr1) %>%
     round(2) %>%
     significance() %>%
-    select(-H6,-H10,-H12) %>%
     rename(" "=rowname)
 
 results1 %>%
@@ -92,7 +91,6 @@ regr2 <- regrs(mudelid=c("YIV", "dum"))
 results2 <- regr_results(a=regr2) %>%
     round(2) %>%
     significance() %>%
-    select(-H6,-H10,-H12) %>%
     rename(" "=rowname)
 
 

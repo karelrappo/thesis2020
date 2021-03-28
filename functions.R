@@ -35,7 +35,10 @@ library(gridExtra)
 ######################## Select dataset, df by default ###########################################
 
 #df <- df_qoq
-
+##### List of dependent variables
+# H1:H8 - Average quarerly year-on-year growth rates (as in the original paper)
+# F1:F8 - Quarterly growth rates of GDP h-quarters ahead
+# N1:N8 - Average quarterly growth rates of GDP h-quarters ahead
 
 ########################     Replaces p-values with significance stars    ################################################
 
@@ -73,7 +76,7 @@ significance <- function(x){
 regrs <- function(mudelid)
 {
   df_total <- df %>%
-    select(H1,H2, H4, H6, H8, H10, H12, mudelid) %>%
+    select(H1, H2, H4, H8, mudelid) %>%
     gather(Var,Value,  -mudelid) %>%
     nest(data=c(Value,  mudelid)) %>%
     mutate(model = map(data, ~lm(Value ~ ., data = .)),
@@ -87,6 +90,7 @@ regrs <- function(mudelid)
 
 
 regr_results <- function(a){
+  
   results1 <- a %>%
     select(-augmented,-tidied, -glanced) %>%
     unnest(cols = c(neweywest)) %>%
@@ -244,7 +248,7 @@ out_of_samp2 <- function(var1, var2, var4){
 act_vs_predicted <- function(var1, var2){
   act_vs_predicted <- mapply(out_of_samp2, c("F1", "F2", "F4", "F8"), "YIV", var1)
   dfff1 <- data.frame(matrix(unlist(act_vs_predicted), nrow=8, byrow=TRUE),stringsAsFactors=FALSE)
-  colnames(dfff1) <- c(1:80)
+  colnames(dfff1) <- c(1:83)
   dfff1$type1 <- c("H1","H1", "H2","H2", "H4","H4", "H8", "H8")
   dfff1$type2 <- c(var2, "Actual")
   dfff1 <- dfff1 %>%
@@ -348,7 +352,7 @@ get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_pe
 
 
 CSSFED <- get_statistics( "H1", "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
-CSSFED$Date <- df$Date[21:102]
+CSSFED$Date <- df$Date[21:103]
 
 CSSFED <- pivot_longer(CSSFED, cols = -c(7), names_to = "type", values_to = "values")
 
