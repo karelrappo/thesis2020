@@ -23,7 +23,8 @@ end <- as.Date("01/10/2015", format="%d/%m/%Y")
 dataset <- read_csv("data/gdp_yiv.csv")
 dataset$Date <- as.Date(dataset$Date, format="%d.%m.%Y")
 
-
+  
+  
 #Import Housing data and convert to quarterly
 housng <- read_csv("data/HOUSNG.csv")
 housng$DATE <- as.Date(housng$DATE, format="%d.%m.%Y")
@@ -121,18 +122,6 @@ gdp_qoq <- gdp_qoq %>%
 dataset_quarterly <- dataset
 dataset_quarterly$GDP <- unlist(lapply(gdp_qoq$GDPC1_PCH, as.numeric))
 
-# combine
-dataset_quarterly <- dataset_quarterly %>%
-  mutate(DGS.clean[-1]) %>% 
-  mutate(creditspreads[-1]) %>%
-  mutate(dum=dummy$Reccession) %>%
-  mutate(vix_qrt[-2]) %>%
-  mutate(housng_qrt[-2]) %>%
-  mutate(log_gdp=log(1+GDP/100)*100) %>%
-  left_join(GZ) %>% 
-  left_join(spy) %>%
-  relocate(Date, YIV, GDP)
-
 dataset <- dataset %>%
   mutate(DGS.clean[-1]) %>% 
   mutate(creditspreads[-1]) %>%
@@ -156,46 +145,19 @@ standardizable_var <- setdiff(ls(dataset), c("GDP","spy_logreturn", "dum", "Date
 dataset <- dataset %>%
   mutate_at(standardizable_var, scale)
 
-dataset_quarterly <- dataset_quarterly %>%
-  mutate_at(standardizable_var, scale)
 
-
-#Create rolling averages
-dataset <- dataset %>%
-  arrange %>%
-  mutate(H1=lead(rollapply(log_gdp,1,FUN = mean, fill = NA, align = "left" ))) %>%
-  mutate(H2=lead(rollapply(log_gdp,2,FUN = mean, fill = NA, align = "left" ))) %>%
-  mutate(H4=lead(rollapply(log_gdp,4,FUN = mean, fill = NA, align = "left" )))%>%
-  mutate(H6=lead(rollapply(log_gdp, 6,FUN = mean, fill = NA, align = "left" ))) %>%
-  mutate(H8=lead(rollapply(log_gdp, 8,FUN = mean, fill = NA, align = "left" ))) %>%
-  mutate(H10=lead(rollapply(log_gdp, 10,FUN = mean, fill = NA, align = "left" ))) %>%
-  mutate(H12=lead(rollapply(log_gdp, 12,FUN = mean, fill = NA, align = "left" )))%>%
-  mutate(F1=lead(log_gdp, n = 1L)) %>%
-  mutate(F2=lead(log_gdp, n = 2L)) %>%
-  mutate(F4=lead(log_gdp, n = 4L)) %>%
-  mutate(F8=lead(log_gdp, n = 8L))
-
-dataset_qoq <- dataset_quarterly %>%
-  arrange %>%
-  mutate(H1=lead(rollapply(log_gdp,2,FUN = function(df) mean(df[-2], na.rm = TRUE), fill = NA, align = "left" ))) %>%
-  mutate(H2=lead(rollapply(log_gdp,3,FUN = function(df) mean(df[-3], na.rm = TRUE), fill = NA, align = "left" ))) %>%
-  mutate(H4=lead(rollapply(log_gdp,5,FUN = function(df) mean(df[-5], na.rm = TRUE), fill = NA, align = "left" ))) %>%
-  mutate(H6=lead(rollapply(log_gdp, 7,FUN = function(df) mean(df[-7], na.rm = TRUE), fill = NA, align = "left" ))) %>%
-  mutate(H8=lead(rollapply(log_gdp, 9,FUN = function(df) mean(df[-9], na.rm = TRUE), fill = NA, align = "left" ))) %>%
-  mutate(H10=lead(rollapply(log_gdp, 11,FUN = function(df) mean(df[-11], na.rm = TRUE), fill = NA, align = "left" ))) %>%
-  mutate(H12=lead(rollapply(log_gdp, 13,FUN = function(df) mean(df[-13], na.rm = TRUE), fill = NA, align = "left" ))) %>%
-  mutate(F1=lead(log_gdp, n = 1L)) %>%
-  mutate(F2=lead(log_gdp, n = 2L)) %>%
-  mutate(F4=lead(log_gdp, n = 4L)) %>%
-  mutate(F8=lead(log_gdp, n = 8L))
 
 
 #Name differences with appendices
-df <- dataset 
+
 df.expansionary <- subset(dataset, dum== 0)
 df.recessionary <- subset(dataset, dum== 1)
-df_qoq <- dataset_qoq
 
+#Different averages of GDP in excel
+cleandata <- read_csv("data/Clean_data.csv") %>%
+  select(-Date, -Y)
+
+df <- cbind(dataset, cleandata)
 #drop unnecessary shit for work proccesses
 rm(list=setdiff(ls(), c("df", "df_summary", "df_qoq")))
 
