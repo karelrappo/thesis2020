@@ -34,11 +34,14 @@ library(gridExtra)
 
 ######################## Select dataset, df by default ###########################################
 
-#df <- df_qoq
+
 ##### List of dependent variables
 # H1:H8 - Average quarerly year-on-year growth rates (as in the original paper)
 # F1:F8 - Quarterly growth rates of GDP h-quarters ahead
 # N1:N8 - Average quarterly growth rates of GDP h-quarters ahead
+
+dep <- c("H1", "H2", "H4", "H8")
+
 
 ########################     Replaces p-values with significance stars    ################################################
 
@@ -158,14 +161,14 @@ out_of_samp <- function(var1, var2, type, var4){
 
 ##############################   OLS RMSFE-s  ##############################################################
 
-df_results1 <- as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV", "full", "lm")))
-df_results2 <- as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV", "recessionary", "lm")))
-df_results3 <- as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV", "expansionary", "lm")))
-df_results4 <- as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "log_gdp", "full", "lm")))
-df_results5 <- as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "log_gdp", "recessionary", "lm")))
-df_results6 <- as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "log_gdp", "expansionary", "lm")))
-df_results7 <- as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "TRM1012", "full", "lm")))
-df_results8 <- as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "baa_aaa", "full", "lm")))
+df_results1 <- as.data.frame(t(mapply(out_of_samp, dep, "YIV", "full", "lm")))
+df_results2 <- as.data.frame(t(mapply(out_of_samp, dep, "YIV", "recessionary", "lm")))
+df_results3 <- as.data.frame(t(mapply(out_of_samp, dep, "YIV", "expansionary", "lm")))
+df_results4 <- as.data.frame(t(mapply(out_of_samp, dep, "log_gdp", "full", "lm")))
+df_results5 <- as.data.frame(t(mapply(out_of_samp, dep, "log_gdp", "recessionary", "lm")))
+df_results6 <- as.data.frame(t(mapply(out_of_samp, dep, "log_gdp", "expansionary", "lm")))
+df_results7 <- as.data.frame(t(mapply(out_of_samp, dep, "TRM1012", "full", "lm")))
+df_results8 <- as.data.frame(t(mapply(out_of_samp, dep, "baa_aaa", "full", "lm")))
 
 df_resultss <- rbind(df_results1, df_results2, df_results3, df_results4, df_results5, df_results6, df_results7, df_results8) %>%
   round(2)
@@ -194,14 +197,14 @@ rownames(df_resultss)[rownames(df_resultss)=='Naive_Expansionary'] <- "Naive-Exp
 
 ##############################   RF & OLS RMSFE results' comparison ##############################################################
 
-ols <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "lm"))))
-rf <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "rf"))))
+ols <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "lm"))))
+rf <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "rf"))))
 
-ols_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "lm"))))
-rf_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "rf"))))
+ols_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "lm"))))
+rf_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "rf"))))
 
-ols_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "expansionary", "lm"))))
-rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, c("F1", "F2", "F4", "F8"), "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "expansionary", "rf"))))
+ols_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "expansionary", "lm"))))
+rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "expansionary", "rf"))))
 
 
 rf_resultsss <- rbind(ols, rf, ols_rec, rf_rec, ols_exp, rf_exp)
@@ -246,7 +249,7 @@ out_of_samp2 <- function(var1, var2, var4){
 } 
 
 act_vs_predicted <- function(var1, var2){
-  act_vs_predicted <- mapply(out_of_samp2, c("F1", "F2", "F4", "F8"), "YIV", var1)
+  act_vs_predicted <- mapply(out_of_samp2, dep, "YIV", var1)
   dfff1 <- data.frame(matrix(unlist(act_vs_predicted), nrow=8, byrow=TRUE),stringsAsFactors=FALSE)
   colnames(dfff1) <- c(1:83)
   dfff1$type1 <- c("H1","H1", "H2","H2", "H4","H4", "H8", "H8")
@@ -351,7 +354,7 @@ get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_pe
 }
 
 
-CSSFED <- get_statistics( "H1", "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
+CSSFED <- get_statistics(dep[1], "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
 CSSFED$Date <- df$Date[21:103]
 
 CSSFED <- pivot_longer(CSSFED, cols = -c(7), names_to = "type", values_to = "values")
