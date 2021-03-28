@@ -41,6 +41,8 @@ library(gridExtra)
 # N1:N8 - Average quarterly growth rates of GDP h-quarters ahead
 
 dep <- c("H1", "H2", "H4", "H8")
+#dep <- c("F1", "F2", "F4", "F8")
+#dep <- c("N1", "N2", "N4", "N8")
 
 
 ########################     Replaces p-values with significance stars    ################################################
