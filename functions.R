@@ -40,9 +40,9 @@ library(gridExtra)
 # F1:F8 - Quarterly growth rates of GDP h-quarters ahead
 # N1:N8 - Average quarterly growth rates of GDP h-quarters ahead
 
-#dep <- c("H1", "H2", "H4", "H8")
+dep <- c("H1", "H2", "H4", "H8")
 #dep <- c("F1", "F2", "F4", "F8")
-dep <- c("N1", "N2", "N4", "N8")
+#dep <- c("N1", "N2", "N4", "N8")
 
 
 ########################     Replaces p-values with significance stars    ################################################
@@ -78,21 +78,33 @@ significance <- function(x){
 ###############################################################################################
 ########################       LINEAR MODELS' RELATED SUMMARY STATISTICS   ####################
 ###############################################################################################
-regrs <- function(mudelid)
-{
-  df_total <- df %>%
-    select(H1, H2, H4, H8, mudelid) %>%
-    gather(Var,Value,  -mudelid) %>%
-    nest(data=c(Value,  mudelid)) %>%
-    mutate(model = map(data, ~lm(Value ~ ., data = .)),
-           tidied = map(model, tidy),
-           glanced = map(model, glance),
-           augmented = map(model, augment),
-           neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
-    select(-model, -data)
-  return(df_total)
+regrs <- function(mudelid, interaction)
+  {
+  if(interaction==T)
+  {
+    df_total <- df %>%
+      select(H1, H2, H4, H8, mudelid) %>%
+      gather(Var,Value,  -mudelid) %>%
+      nest(data=c(Value,  mudelid)) %>%
+      mutate(model = map(data, ~lm(Value ~ YIV + dum +YIV*dum, data = .)),
+             tidied = map(model, tidy),
+             glanced = map(model, glance),
+             augmented = map(model, augment),
+             neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
+      select(-model, -data)
+  } else{
+    df_total <- df %>%
+      select(H1, H2, H4, H8, mudelid) %>%
+      gather(Var,Value,  -mudelid) %>%
+      nest(data=c(Value,  mudelid)) %>%
+      mutate(model = map(data, ~lm(Value ~ ., data = .)),
+             tidied = map(model, tidy),
+             glanced = map(model, glance),
+             augmented = map(model, augment),
+             neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
+      select(-model, -data)
+  }
 }
-
 
 regr_results <- function(a){
   
@@ -142,24 +154,29 @@ out_of_samp <- function(var1, var2, type, var4){
     dff <- myfit$pred
     best_mtry <- myfit$bestTune$mtry
     dff <- dff %>%
-      filter(mtry==best_mtry)
+      filter(mtry==best_mtry) %>%
+      mutate(dum=df$dum[21:103]) %>%
+      mutate(SE=(pred-obs)^2)
   }
   else{
     myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                    method = var4,
                    trControl = mycontrol)
-    dff <- myfit$pred
+    dff <- myfit$pred %>%
+      mutate(dum=df$dum[21:103]) %>%
+      mutate(SE=(pred-obs)^2)
   }
   
   
-  SE <- (dff$pred-dff$obs)^2
-  
-  ifelse(type=="recessionary",SE <- SE[c(25,26,27,52,53,54,55,56,57)],
-         ifelse(type=="expansionary", SE <- SE[-c(25,26,27,52,53,54,55,56,57)],
-                SE <- SE))
+  ifelse(type=="recessionary", SE <- filter(dff, dum==1),
+         ifelse(type=="expansionary", SE <- filter(dff, dum==0),
+                SE <- dff))
+  SE <- SE$SE
   RMSFE <- sqrt(mean(SE))
   return(RMSFE)
 }
+
+
 
 ##############################   OLS RMSFE-s  ##############################################################
 
@@ -389,4 +406,5 @@ CSSFED_plot <- function(var){
   
   return(plot)
 }
+
 

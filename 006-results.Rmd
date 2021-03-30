@@ -60,7 +60,7 @@ Furthermore, it can be seen, YIV’s coefficients are significant throughout the
 
 
 ```{r OLS1, message = F, warnings = F,echo = F}
-regr1 <- regrs(mudelid=c("YIV"))
+regr1 <- regrs(mudelid=c("YIV"),interaction=F)
 results1 <- regr_results(a=regr1) %>%
     round(2) %>%
     significance() %>%
@@ -87,7 +87,7 @@ Next, we add a dummy variable representing recessionary periods (according to th
 
 
 ```{r OLS2, message = F, warnings = F,echo = F}
-regr2 <- regrs(mudelid=c("YIV", "dum"))
+regr2 <- regrs(mudelid=c("YIV", "dum"),interaction=T)
 results2 <- regr_results(a=regr2) %>%
     round(2) %>%
     significance() %>%
