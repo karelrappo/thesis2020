@@ -40,9 +40,9 @@ set.seed(123)
 # F1:F8 - Quarterly growth rates of GDP h-quarters ahead
 # N1:N8 - Average quarterly growth rates of GDP h-quarters ahead
 
-#dep <- c("H1", "H2", "H4", "H8")
+dep <- c("H1", "H2", "H4", "H8")
 #dep <- c("F1", "F2", "F4", "F8")
-dep <- c("N1", "N2", "N4", "N8")
+#dep <- c("N1", "N2", "N4", "N8")
 
 
 ########################     Replaces p-values with significance stars    ################################################
@@ -281,7 +281,7 @@ act_vs_predicted <- function(var1, var2){
 lm <- act_vs_predicted("lm", "Predicted (Linear model)")
 rf <- act_vs_predicted("rf", "Predicted (Random forest)")
 pred_vs_actual_graph <- function(var){
-  ggplot(var, aes(variable, value, group=factor(type2))) + geom_line(aes(color=factor(type2))) + theme_bw() + 
+  ggplot(var, aes(x=as.numeric(variable), value, group=factor(type2))) + geom_line(aes(color=factor(type2))) + theme_bw() + 
     theme(legend.position="bottom") + labs(x="Time horizon", y="GDP growth value", color="") + 
     facet_wrap(~type1) + scale_color_manual(values=c("blue", "red"))
 }
