@@ -34,15 +34,15 @@ library(gridExtra)
 
 ######################## Select dataset, df by default ###########################################
 
-
+set.seed(123)
 ##### List of dependent variables
 # H1:H8 - Average quarerly year-on-year growth rates (as in the original paper)
 # F1:F8 - Quarterly growth rates of GDP h-quarters ahead
 # N1:N8 - Average quarterly growth rates of GDP h-quarters ahead
 
-dep <- c("H1", "H2", "H4", "H8")
+#dep <- c("H1", "H2", "H4", "H8")
 #dep <- c("F1", "F2", "F4", "F8")
-#dep <- c("N1", "N2", "N4", "N8")
+dep <- c("N1", "N2", "N4", "N8")
 
 
 ########################     Replaces p-values with significance stars    ################################################
@@ -144,17 +144,17 @@ out_of_samp <- function(var1, var2, type, var4){
                             initialWindow = 20,
                             horizon = 1,
                             fixedWindow = TRUE, 
-                            savePredictions = TRUE)
+                            savePredictions = "final")
   if(var4=="rf"){
     myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                    method = var4,
                    ntree = 500,
                    tuneGrid = expand.grid(mtry = c(1:8)),
                    trControl = mycontrol)
-    dff <- myfit$pred
-    best_mtry <- myfit$bestTune$mtry
+    dff <- myfit$pred %>%
+      arrange(rowIndex)
+
     dff <- dff %>%
-      filter(mtry==best_mtry) %>%
       mutate(dum=df$dum[21:103]) %>%
       mutate(SE=(pred-obs)^2)
   }
@@ -163,6 +163,7 @@ out_of_samp <- function(var1, var2, type, var4){
                    method = var4,
                    trControl = mycontrol)
     dff <- myfit$pred %>%
+      arrange(rowIndex)  %>%
       mutate(dum=df$dum[21:103]) %>%
       mutate(SE=(pred-obs)^2)
   }
@@ -245,23 +246,23 @@ out_of_samp2 <- function(var1, var2, var4){
                             initialWindow = 20,
                             horizon = 1,
                             fixedWindow = TRUE, 
-                            savePredictions = TRUE)
+                            savePredictions = "final")
   if(var4=="rf"){
     myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                    method = var4,
                    ntree = 500,
                    tuneGrid = expand.grid(mtry = c(1:8)),
                    trControl = mycontrol)
-    dff <- myfit$pred
-    best_mtry <- myfit$bestTune$mtry
-    dff <- dff %>%
-      filter(mtry==best_mtry)
+    dff <- myfit$pred %>%
+      arrange(rowIndex)
+
   }
   else{
     myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
                    method = var4,
                    trControl = mycontrol)
-    dff <- myfit$pred
+    dff <- myfit$pred %>%
+      arrange(rowIndex)
   }
   
   return(list(dff$pred, dff$obs))
@@ -279,12 +280,12 @@ act_vs_predicted <- function(var1, var2){
 
 lm <- act_vs_predicted("lm", "Predicted (Linear model)")
 rf <- act_vs_predicted("rf", "Predicted (Random forest)")
-
 pred_vs_actual_graph <- function(var){
   ggplot(var, aes(variable, value, group=factor(type2))) + geom_line(aes(color=factor(type2))) + theme_bw() + 
     theme(legend.position="bottom") + labs(x="Time horizon", y="GDP growth value", color="") + 
     facet_wrap(~type1) + scale_color_manual(values=c("blue", "red"))
 }
+
 
 ###############################################################################################
 ########################       VARIABLE IMPORTANCE   ##########################################
@@ -295,7 +296,7 @@ variable_importance <- function(var){
                             initialWindow = 20,
                             horizon = 1,
                             fixedWindow = TRUE, 
-                            savePredictions = TRUE)
+                            savePredictions = "final")
   myfit <- train(as.formula(paste0(var, "~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")), data = df[1:sum(!is.na(df[var])),],
                  method = "rf",
                  ntree = 500,
@@ -332,7 +333,7 @@ get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_pe
                             initialWindow = 20,
                             horizon = 1,
                             fixedWindow = TRUE, 
-                            savePredictions = TRUE)
+                            savePredictions = "final")
   
     myfit_rf <- train(as.formula(paste0(dep, "~", indep)), data = df[1:sum(!is.na(df[dep])),],
                    method = "rf",
@@ -345,13 +346,13 @@ get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_pe
                    ntree = 500,
                    trControl = mycontrol)
 
-  dff_rf <- myfit_rf$pred
-  best_mtry_rf<- myfit_rf$bestTune$mtry
-  dff_rf <- dff_rf %>%
-    filter(mtry==best_mtry_rf)
+  dff_rf <- myfit_rf$pred %>%
+    arrange(rowIndex)
+ 
   OOS_error_rf <- (dff_rf$pred-dff_rf$obs)^2
   
-  dff_lm <- myfit_lm$pred
+  dff_lm <- myfit_lm$pred %>%
+    arrange(rowIndex)
   OOS_error_lm <- (dff_lm$pred-dff_lm$obs)^2
   
   
