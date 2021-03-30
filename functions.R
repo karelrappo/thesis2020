@@ -265,26 +265,34 @@ out_of_samp2 <- function(var1, var2, var4){
       arrange(rowIndex)
   }
   
-  return(list(dff$pred, dff$obs))
+  return(data.frame(predicted=dff$pred, actuals=dff$obs,Date=df$Date[21:103]))
 } 
 
-act_vs_predicted <- function(var1, var2){
-  act_vs_predicted <- mapply(out_of_samp2, dep, "YIV", var1)
-  dfff1 <- data.frame(matrix(unlist(act_vs_predicted), nrow=8, byrow=TRUE),stringsAsFactors=FALSE)
-  colnames(dfff1) <- c(1:83)
-  dfff1$type1 <- c("H1","H1", "H2","H2", "H4","H4", "H8", "H8")
-  dfff1$type2 <- c(var2, "Actual")
-  dfff1 <- dfff1 %>%
-    pivot_longer(!c(type1, type2), names_to = "variable", values_to = "value")
+combiner <- function(type){
+  combined <- data.frame(matrix(ncol = 3, nrow = 0))
+  x <- c("predicted", "actuals", "Date")
+  colnames(combined) <- x
+  for (i in dep){
+    output <- out_of_samp2(i,"YIV",type) %>%
+      mutate(variable=i)
+    combined <- rbind(combined,output)
+    
+  }
+  return(combined)
 }
 
-lm <- act_vs_predicted("lm", "Predicted (Linear model)")
-rf <- act_vs_predicted("rf", "Predicted (Random forest)")
-pred_vs_actual_graph <- function(var){
-  ggplot(var, aes(x=as.numeric(variable), value, group=factor(type2))) + geom_line(aes(color=factor(type2))) + theme_bw() + 
-    theme(legend.position="bottom") + labs(x="Time horizon", y="GDP growth value", color="") + 
-    facet_wrap(~type1) + scale_color_manual(values=c("blue", "red"))
+rf <-combiner(type="rf")
+lm <-combiner(type="lm")
+
+
+pred_vs_actual_graph <- function(var,lab){
+  ggplot(var, aes(x=Date)) + geom_line(aes(y=predicted, color="red")) + geom_line(aes(y=actuals, color="blue"))+ theme_bw() +
+    theme(legend.position="bottom",legend.title = element_blank()) + labs(x="Time horizon", y=paste0("GDP predicted with ",lab)) + 
+    facet_wrap(~variable) + scale_color_manual(labels = c("Actuals", "Predicted"), values = c("blue", "red")) 
 }
+
+
+
 
 
 ###############################################################################################

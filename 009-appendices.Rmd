@@ -139,13 +139,14 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(
 
 ```{r message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Linear model)"}
 
-pred_vs_actual_graph(lm)
+pred_vs_actual_graph(lm,"Linear model")
+
 
 ```
 
 ```{r message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Random forest)"}
 
-pred_vs_actual_graph(rf)
+pred_vs_actual_graph(rf,"Random forest")
 
 ```
 
