@@ -46,23 +46,43 @@ plot <- ggplot(data = squared_errors, aes(x=Date,y=values)) + geom_line(aes(colo
 
 ```{r, message = F, warnings = F,echo = F}
 
-pred_vs_actual_graph(lm,"Linear model")
-pred_vs_actual_graph(rf,"Random forest")
+pred_vs_actual_graph(lm,"Linear model") + labs(title="Linear model predicted vs actual")
 
+
+```
+
+
+```{r, message = F, warnings = F,echo = F}
+
+pred_vs_actual_graph(rf,"Random forest") + labs(title="Random forest predicted vs actual")
+
+```
+
+
+```{r, message = F, warnings = F,echo = F}
 ggplot(rf_resultsss, aes(variable, value, group=factor(Specification))) + geom_line(aes(color=factor(Specification))) +
   theme(legend.position="bottom") +
-  labs(x="Time horizon", y="RMSFE", color="Model") + 
+  labs(x="Time horizon", y="RMSFE", color="Model", title="RMSFEs random forest vs linear model") + 
   facet_wrap(~period) +
   scale_color_manual(values=c("blue", "red")) +
   theme_bw()
+```
 
+
+```{r, message = F, warnings = F,echo = F}
 a <- c("OOS_error_lm","OOS_error_rf")
 
-squared_error_plot2(a)
+squared_error_plot2(a) + labs(title = "Squared Errors")
+```
 
-CSSFED_plot2("hist_lm")
+
+```{r, message = F, warnings = F,echo = F, label="CSSFED graphs"}
+
+
+CSSFED_plot2("hist_lm") + labs(title = "CSSFED")
+
+
 CSSFED_plot2("lm_rf")
-
 
 ```
 

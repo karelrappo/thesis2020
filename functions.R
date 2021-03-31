@@ -236,7 +236,7 @@ combiner <- function(type){
   x <- c("predicted", "actuals", "Date")
   colnames(combined) <- x
   for (i in dep){
-    output <- out_of_samp2(i,"YIV",type) %>%
+    output <- out_of_samp2(i,"YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M",type) %>%
       mutate(variable=i)
     combined <- rbind(combined,output)
     
