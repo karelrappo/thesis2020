@@ -55,9 +55,7 @@ ggplot(rf_resultsss, aes(variable, value, group=factor(Specification))) + geom_l
   labs(x="Time horizon", y="RMSFE", color="Model") + 
   facet_wrap(~period) +
   scale_color_manual(values=c("blue", "red")) +
-  theme_bw() +
-  annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
-  annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")
+  theme_bw()
 
 a <- c("OOS_error_lm","OOS_error_rf")
 squared_error_plot2(a)
