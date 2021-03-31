@@ -79,10 +79,10 @@ squared_error_plot2(a) + labs(title = "Squared Errors")
 ```{r, message = F, warnings = F,echo = F, label="CSSFED graphs"}
 
 
-CSSFED_plot2("hist_lm") + labs(title = "CSSFED")
+CSSFED_plot2("hist_lm") + labs(title = "CSSFED HIST_LM", subtitle="CSSFED = Historical mean model - Linear model")
 
 
-CSSFED_plot2("lm_rf")
+CSSFED_plot2("lm_rf") + labs(title = "CSSFED LM_RF", subtitle="CSSFED = Linear model - Random forest")
 
 ```
 
