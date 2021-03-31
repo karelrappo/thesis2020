@@ -248,7 +248,7 @@ rf <-combiner(type="rf")
 lm <-combiner(type="lm")
 
 pred_vs_actual_graph <- function(var,lab){
-  ggplot(var, aes(x=Date)) + geom_line(aes(y=predicted, color="red")) + geom_line(aes(y=actuals, color="blue"))+ theme_bw() +
+  ggplot(var, aes(x=as.Date(Date))) + geom_line(aes(y=predicted, color="red")) + geom_line(aes(y=actuals, color="blue"))+ theme_bw() +
     theme(legend.position="bottom",legend.title = element_blank()) + labs(x="Time horizon", y=paste0("GDP predicted with ",lab)) + 
     facet_wrap(~variable) + scale_color_manual(labels = c("Actuals", "Predicted"), values = c("blue", "red")) +
     annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey") +

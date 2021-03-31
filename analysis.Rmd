@@ -34,13 +34,12 @@ CSSFED_plot2 <- function(var){
 squared_error_plot2 <- function(var){
 
   squared_errors <- CSSFED %>%
-    filter(type == var)
+    filter(type %in% var)
 
-  plot <- ggplot(data = squared_errors, aes(x=Date,y=values)) + geom_line(aes(color=factor(type))) + 
+plot <- ggplot(data = squared_errors, aes(x=Date,y=values)) + geom_line(aes(color=factor(type))) + 
     annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     xlab("Time horizon") + ylab(paste0("Squared Errors")) + theme_bw() + facet_wrap(~Dependent)
-  
   return(plot)
 }
 ```
@@ -58,6 +57,7 @@ ggplot(rf_resultsss, aes(variable, value, group=factor(Specification))) + geom_l
   theme_bw()
 
 a <- c("OOS_error_lm","OOS_error_rf")
+
 squared_error_plot2(a)
 
 CSSFED_plot2("hist_lm")
