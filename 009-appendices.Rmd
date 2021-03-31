@@ -223,7 +223,7 @@ summary_table %>%
 
 
 ```{r message = F, warnings = F,echo = F, fig.cap="Squared errors"}
-squared_error_plot(c("OOS_error_hist", "OOS_error_lm", "OOS_error_rf"))
+squared_error_plot(c("OOS_error_hist", "OOS_error_lm", "OOS_error_rf"),"H1")
 ```
 
 

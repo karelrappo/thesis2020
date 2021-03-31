@@ -340,15 +340,28 @@ get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_pe
                         hist_rf = hist_rf)))
 }
 
+#CSSFED results combine & create graph function
 
-CSSFED <- get_statistics(dep[1], "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
-CSSFED$Date <- df$Date[21:103]
-CSSFED <- pivot_longer(CSSFED, cols = -c(7), names_to = "type", values_to = "values")
+CSSFED_all <- function(dependent){
+  output_combined <- data.frame(matrix(ncol = 7, nrow = 0))
+  x <- c("OOS_error_hist","OOS_error_lm","OOS_error_rf", "hist_lm","lm_rf","hist_rf", "Date")
+  colnames(output_combined) <- x
+  for (i in dependent){
+  output <- get_statistics(i, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M") %>%
+    mutate(Date=df$Date[21:103]) %>%
+    mutate(Dependent=i)
+   output_combined <- rbind(output_combined, output)
+  }
+  return(output_combined)
+}
+ 
+CSSFED <- CSSFED_all(dep) 
+CSSFED <- pivot_longer(CSSFED, cols=!c(Date,Dependent), names_to = "type", values_to = "values")
 
-squared_error_plot <- function(var){
+squared_error_plot <- function(var, dependent){
 
   squared_errors <- CSSFED %>%
-    filter(type == var)
+    filter(type == var, dependent==Dependent)
 
   plot <- ggplot(data = squared_errors, aes(x=Date,y=values)) + geom_line(aes(color=factor(type))) + 
     annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
@@ -359,10 +372,10 @@ squared_error_plot <- function(var){
 }
 
 
-CSSFED_plot <- function(var){
+CSSFED_plot <- function(var, dependent){
   
   cssfed_values <- CSSFED %>%
-    filter(type == var)
+    filter(type == var, dependent==Dependent)
   
   plot <- ggplot(data = cssfed_values, aes(x=Date,y=values)) + geom_point(colour='red') + 
     annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
