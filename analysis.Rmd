@@ -13,19 +13,32 @@ source("functions.R")
 
 ```{r, message = F, warnings = F,echo = F}
 
-CSSFED_plot("hist_lm", "H1")
-CSSFED_plot("hist_lm", "H2")
-CSSFED_plot("hist_lm", "H4")
-CSSFED_plot("hist_lm", "H8")
+pred_vs_actual_graph(lm,"Linear model")
+pred_vs_actual_graph(rf,"Random forest")
 
-CSSFED_plot("lm_rf", "H1")
-CSSFED_plot("lm_rf", "H2")
-CSSFED_plot("lm_rf", "H4")
-CSSFED_plot("lm_rf", "H8")
+ggplot(rf_resultsss, aes(variable, value, group=factor(Specification))) + geom_line(aes(color=factor(Specification))) +
+  theme(legend.position="bottom") +
+  labs(x="Time horizon", y="RMSFE", color="Model") + 
+  facet_wrap(~period) +
+  scale_color_manual(values=c("blue", "red")) +
+  theme_bw()
 
-squared_error_plot(c("OOS_error_hist", "OOS_error_lm", "OOS_error_rf"), "H1")
-squared_error_plot(c("OOS_error_hist", "OOS_error_lm", "OOS_error_rf"), "H2")
-squared_error_plot(c("OOS_error_hist", "OOS_error_lm", "OOS_error_rf"), "H4")
-squared_error_plot(c("OOS_error_hist", "OOS_error_lm", "OOS_error_rf"), "H8")
+CSSFED_plot("hist_lm", dep[1])
+CSSFED_plot("hist_lm", dep[2])
+CSSFED_plot("hist_lm", dep[3])
+CSSFED_plot("hist_lm", dep[4])
+
+CSSFED_plot("lm_rf", dep[1])
+CSSFED_plot("lm_rf", dep[2])
+CSSFED_plot("lm_rf", dep[3])
+CSSFED_plot("lm_rf", dep[4])
+
+a <- c("OOS_error_hist", "OOS_error_lm", "OOS_error_rf")
+#a <- c("OOS_error_lm")
+#a <- c("OOS_error_rf")
+squared_error_plot(a, dep[1])
+squared_error_plot(a, dep[2])
+squared_error_plot(a, dep[3])
+squared_error_plot(a, dep[4])
 ```
 
