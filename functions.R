@@ -217,24 +217,26 @@ rownames(df_resultss)[rownames(df_resultss)=='Naive_Expansionary'] <- "Naive-Exp
 
 ##############################   RF & OLS RMSFE results' comparison ##############################################################
 
-ols <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "lm"))))
-rf <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "rf"))))
+ols <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "lm")))) %>%
+  mutate(Specification="OLS",
+         period="Full sample")
+rf <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "rf")))) %>%
+  mutate(Specification="RF",period="Full sample")
 
-ols_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "lm"))))
-rf_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "rf"))))
+ols_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "lm")))) %>%
+  mutate(Specification="OLS", period="Reccessionary")
+rf_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "rf")))) %>%
+  mutate(Specification="RF", period="Reccessionary")
 
-ols_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "expansionary", "lm"))))
-rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "expansionary", "rf"))))
+ols_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "expansionary", "lm"))))%>%
+  mutate(Specification="OLS", period="Expansionary")
+rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "expansionary", "rf"))))%>%
+  mutate(Specification="RF",period="Expansionary")
 
 
 rf_resultsss <- rbind(ols, rf, ols_rec, rf_rec, ols_exp, rf_exp)
-colnames(rf_resultsss, do.NULL = FALSE)
-colnames(rf_resultsss) <- c("H1","H2","H4","H8")
-rf_resultsss$period <- c("Linear model", "Random forest")
-rf_resultsss$type <- c("Full sample","Full sample","Reccessionary period","Reccessionary period","Expansionary period","Expansionary period")
-rf_resultsss$type2 <- c(1,2)
 rf_resultsss <- rf_resultsss %>%
-  pivot_longer(!c(type, period, type2), names_to = "variable", values_to = "value")
+  pivot_longer(!c(Specification, period,), names_to = "variable", values_to = "value")
 
 
 ###############################################################################################
