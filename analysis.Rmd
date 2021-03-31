@@ -12,6 +12,40 @@ source("functions.R")
 ```
 
 ```{r, message = F, warnings = F,echo = F}
+CSSFED_plot2 <- function(var){
+  
+  cssfed_values <- CSSFED %>%
+    filter(type == var)
+  
+  plot <- ggplot(data = cssfed_values, aes(x=Date,y=values)) + geom_point(colour='red') + 
+    annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+    annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+    xlab("Time horizon") +
+    ylab(paste0("CSSFED for ",var)) + theme_bw() + facet_wrap(~Dependent) 
+
+  return(plot)
+}
+
+
+```
+
+
+```{r, message = F, warnings = F,echo = F}
+squared_error_plot2 <- function(var){
+
+  squared_errors <- CSSFED %>%
+    filter(type == var)
+
+  plot <- ggplot(data = squared_errors, aes(x=Date,y=values)) + geom_line(aes(color=factor(type))) + 
+    annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+    annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+    xlab("Time horizon") + ylab(paste0("Squared Errors")) + theme_bw() + facet_wrap(~Dependent)
+  
+  return(plot)
+}
+```
+
+```{r, message = F, warnings = F,echo = F}
 
 pred_vs_actual_graph(lm,"Linear model")
 pred_vs_actual_graph(rf,"Random forest")
@@ -21,24 +55,16 @@ ggplot(rf_resultsss, aes(variable, value, group=factor(Specification))) + geom_l
   labs(x="Time horizon", y="RMSFE", color="Model") + 
   facet_wrap(~period) +
   scale_color_manual(values=c("blue", "red")) +
-  theme_bw()
+  theme_bw() +
+  annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+  annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")
 
-CSSFED_plot("hist_lm", dep[1])
-CSSFED_plot("hist_lm", dep[2])
-CSSFED_plot("hist_lm", dep[3])
-CSSFED_plot("hist_lm", dep[4])
+a <- c("OOS_error_lm","OOS_error_rf")
+squared_error_plot2(a)
 
-CSSFED_plot("lm_rf", dep[1])
-CSSFED_plot("lm_rf", dep[2])
-CSSFED_plot("lm_rf", dep[3])
-CSSFED_plot("lm_rf", dep[4])
+CSSFED_plot2("hist_lm")
+CSSFED_plot2("lm_rf")
 
-a <- c("OOS_error_hist", "OOS_error_lm", "OOS_error_rf")
-#a <- c("OOS_error_lm")
-#a <- c("OOS_error_rf")
-squared_error_plot(a, dep[1])
-squared_error_plot(a, dep[2])
-squared_error_plot(a, dep[3])
-squared_error_plot(a, dep[4])
+
 ```
 
