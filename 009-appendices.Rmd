@@ -45,7 +45,9 @@ We also used the WebPlotDigitzer in our research and as validity test extracted 
 ```{r vsextracted, message=F, warnings=F,echo = F, fig.height=5, fig.cap="Actual vs Extracted GDP growth rate in %"}
 GDP_data <- read_csv("data/actualvsplot.csv")
 
-extracted <- ggplot(GDP_data,aes(x=Date)) + geom_line(aes(y=Actual, color="Actual"), color="red") + geom_line(aes(y=Extracted, color="Extracted"), color="blue") +theme_bw() + ylab("GDP growth %") 
+extracted <- ggplot(GDP_data,aes(x=Date)) + geom_line(aes(y=Actual, color="Actual"), color="red") + geom_line(aes(y=Extracted, color="Extracted"), color="blue") +
+  theme_bw() +
+  ylab("GDP growth %") 
 
 extracted
 
@@ -59,7 +61,14 @@ regr1 <- regrs(mudelid=c("YIV"),interaction=F)
 results1 <- regr_results(a=regr1)
 results1 <- as.data.frame(t(results1))
   
-regression.fit <- ggplot(results1, aes(x=row.names(results1),y=r.squared)) + geom_bar(stat="identity", fill="steelblue")+ theme_bw() + xlab("Quarters") + ylab("R-squared") + labs(title = "GDP R-squared") +  theme(plot.title = element_text(hjust = 0.5)) + scale_x_discrete(limits=c("H1","H2","H4", "H8"))
+regression.fit <- ggplot(results1, aes(x=row.names(results1),y=r.squared))+
+  geom_bar(stat="identity", fill="steelblue")+
+  theme_bw() +
+  xlab("Quarters") +
+  ylab("R-squared") +
+  labs(title = "GDP R-squared") + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_x_discrete(limits=c("H1","H2","H4", "H8"))
 
 regression.fit
 ```
@@ -68,7 +77,14 @@ regression.fit
 
 ```{r regcoefficients, message = F, warnings = F, echo = F, fig.height=3, fig.width=6, fig.cap="Regressions' coefficients"}
 
-regression.coefficients <- ggplot(results1, aes(x=row.names(results1), y=YIV_estimate))+ geom_bar(stat="identity", fill="steelblue")+theme_bw()+ xlab("Quarters") + ylab("Coefficients") + labs(title = "GDP coefficients") + theme(plot.title = element_text(hjust = 0.5)) + scale_x_discrete(limits=c("H1","H2","H4","H8"))
+regression.coefficients <- ggplot(results1, aes(x=row.names(results1), y=YIV_estimate))+
+  geom_bar(stat="identity", fill="steelblue")+
+  theme_bw()+
+  xlab("Quarters") +
+  ylab("Coefficients") +
+  labs(title = "GDP coefficients") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_x_discrete(limits=c("H1","H2","H4","H8"))
 
 regression.coefficients
 
@@ -129,7 +145,12 @@ df_results <- transpose(df_resultss)
 df_resultss2 <- melt(df_resultss)
 df_resultss2$rowid <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", "Naive_Recessionary", "Naive_Expansionary", "TRM", "CRS")
 
-ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(color=factor(rowid))) + theme_bw() + theme(legend.position = "none") + labs(x="Time horizon", y="RMSFE value", color="Model", caption="Naive refers to regressions with GDP and its lags, TRM - term spreads, CRS - credit spreads") + facet_wrap( ~rowid)
+ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) +
+  geom_line(aes(color=factor(rowid))) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  labs(x="Time horizon", y="RMSFE value", color="Model", caption="Naive refers to regressions with GDP and its lags, TRM - term spreads, CRS - credit spreads") +
+  facet_wrap( ~rowid)
 
 
 ```
@@ -139,6 +160,7 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) + geom_line(aes(
 
 ```{r message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Linear model)"}
 
+
 pred_vs_actual_graph(lm,"Linear model")
 
 
@@ -146,7 +168,9 @@ pred_vs_actual_graph(lm,"Linear model")
 
 ```{r message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Random forest)"}
 
+
 pred_vs_actual_graph(rf,"Random forest")
+
 
 ```
 
@@ -156,8 +180,12 @@ pred_vs_actual_graph(rf,"Random forest")
 
 ```{r message = F, warnings = F,echo = F, fig.cap="RMSFE-s of linear model and random forest"}
 
-ggplot(rf_resultsss, aes(variable, value, group=factor(Specification))) + geom_line(aes(color=factor(Specification))) + theme(legend.position="bottom") + labs(x="Time horizon", y="RMSFE", color="Model") + 
-  facet_wrap(~period) + scale_color_manual(values=c("blue", "red")) + theme_bw()
+ggplot(rf_resultsss, aes(variable, value, group=factor(Specification))) + geom_line(aes(color=factor(Specification))) +
+  theme(legend.position="bottom") +
+  labs(x="Time horizon", y="RMSFE", color="Model") + 
+  facet_wrap(~period) +
+  scale_color_manual(values=c("blue", "red")) +
+  theme_bw()
 
 ```
 

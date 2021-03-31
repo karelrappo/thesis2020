@@ -1,19 +1,17 @@
-library(stringr)
 library(tidyverse)
 library(summarytools)
 library(kableExtra)
 library(dynlm)
 library(stats)
-library(readr)
-library(dplyr)
-library(ggplot2)
+library(sandwich)
 library(data.table)
-library(MacroRF)
-require(data.table)
 library(zoo)
-library(rollRegres)
-library(mltools)
 library(caret)
+library(randomForest)
+library(broom)
+library(modelr)
+library(lmtest)
+library(gridExtra)
 
 
 start <- as.Date("01/03/1990", format="%d/%m/%Y")
@@ -23,7 +21,6 @@ end <- as.Date("01/10/2015", format="%d/%m/%Y")
 dataset <- read_csv("data/gdp_yiv.csv")
 dataset$Date <- as.Date(dataset$Date, format="%d.%m.%Y")
 
-  
   
 #Import Housing data and convert to quarterly
 housng <- read_csv("data/HOUSNG.csv")
@@ -144,8 +141,6 @@ standardizable_var <- setdiff(ls(dataset), c("GDP","spy_logreturn", "dum", "Date
 
 dataset <- dataset %>%
   mutate_at(standardizable_var, scale)
-
-
 
 
 #Name differences with appendices

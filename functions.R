@@ -1,36 +1,4 @@
 source("Import.R")
-library(dplyr)
-library(reshape2)
-library(stringr)
-library(tidyverse)
-library(summarytools)
-library(kableExtra)
-library(dynlm)
-library(stats)
-library(readr)
-library(ggplot2)
-library(MacroRF)
-require(data.table)
-library(zoo)
-library(sandwich)
-library(randomForest)
-library(caret)
-library(fbi)
-library(lmtest)
-library(purrr)
-library(broom)
-library(rollRegres)
-library(modelr)
-library(forcats)
-library(tibble)
-library(Metrics)
-library(mltools)
-library(reshape2)
-library(lmtest)
-library(olsrr)
-library(pracma)
-library(dyn)
-library(gridExtra)
 
 ######################## Select dataset, df by default ###########################################
 
@@ -79,31 +47,31 @@ significance <- function(x){
 ########################       LINEAR MODELS' RELATED SUMMARY STATISTICS   ####################
 ###############################################################################################
 regrs <- function(mudelid, interaction)
-  {
-  if(interaction==T)
-  {
-    df_total <- df %>%
-      select(H1, H2, H4, H8, mudelid) %>%
-      gather(Var,Value,  -mudelid) %>%
-      nest(data=c(Value,  mudelid)) %>%
-      mutate(model = map(data, ~lm(Value ~ YIV + dum +YIV*dum, data = .)),
+{
+    if(interaction==T){
+        df_total <- df %>%
+          select(H1, H2, H4, H8, mudelid) %>%
+          gather(Var,Value,  -mudelid) %>%
+          nest(data=c(Value,  mudelid)) %>%
+          mutate(model = map(data, ~lm(Value ~ YIV + dum +YIV*dum, data = .)),
              tidied = map(model, tidy),
              glanced = map(model, glance),
              augmented = map(model, augment),
              neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
-      select(-model, -data)
-  } else{
-    df_total <- df %>%
-      select(H1, H2, H4, H8, mudelid) %>%
-      gather(Var,Value,  -mudelid) %>%
-      nest(data=c(Value,  mudelid)) %>%
-      mutate(model = map(data, ~lm(Value ~ ., data = .)),
-             tidied = map(model, tidy),
-             glanced = map(model, glance),
-             augmented = map(model, augment),
-             neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
-      select(-model, -data)
+          select(-model, -data)
   }
+  else{
+      df_total <- df %>%
+        select(H1, H2, H4, H8, mudelid) %>%
+        gather(Var,Value,  -mudelid) %>%
+        nest(data=c(Value,  mudelid)) %>%
+        mutate(model = map(data, ~lm(Value ~ ., data = .)),
+             tidied = map(model, tidy),
+             glanced = map(model, glance),
+             augmented = map(model, augment),
+             neweywest = map(model, ~tidy(coeftest(., vcov.=NeweyWest(., prewhite=FALSE))))) %>%
+      select(-model, -data)
+    }
 }
 
 regr_results <- function(a){
@@ -132,7 +100,6 @@ remove(results1, results2)
 
   return(results)
 }
-
 
 
 ###############################################################################################
@@ -193,8 +160,6 @@ df_results8 <- as.data.frame(t(mapply(out_of_samp, dep, "baa_aaa", "full", "lm")
 df_resultss <- rbind(df_results1, df_results2, df_results3, df_results4, df_results5, df_results6, df_results7, df_results8) %>%
   round(2)
 
-colnames(df_resultss, do.NULL = FALSE)
-colnames(df_resultss) <- c("H1","H2","H4","H8")
 rownames(df_resultss) <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", "Naive_Recessionary", "Naive_Expansionary", "TRM", "CRS")
 
 ##############################   RELATIVE RMSFE  ##############################################################
@@ -218,21 +183,17 @@ rownames(df_resultss)[rownames(df_resultss)=='Naive_Expansionary'] <- "Naive-Exp
 ##############################   RF & OLS RMSFE results' comparison ##############################################################
 
 ols <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "lm")))) %>%
-  mutate(Specification="OLS",
-         period="Full sample")
+  mutate(Specification="OLS",period="Full sample")
 rf <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "full", "rf")))) %>%
   mutate(Specification="RF",period="Full sample")
-
 ols_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "lm")))) %>%
   mutate(Specification="OLS", period="Reccessionary")
 rf_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "recessionary", "rf")))) %>%
   mutate(Specification="RF", period="Reccessionary")
-
 ols_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "expansionary", "lm"))))%>%
   mutate(Specification="OLS", period="Expansionary")
 rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M", "expansionary", "rf"))))%>%
   mutate(Specification="RF",period="Expansionary")
-
 
 rf_resultsss <- rbind(ols, rf, ols_rec, rf_rec, ols_exp, rf_exp)
 rf_resultsss <- rf_resultsss %>%
@@ -286,14 +247,11 @@ combiner <- function(type){
 rf <-combiner(type="rf")
 lm <-combiner(type="lm")
 
-
 pred_vs_actual_graph <- function(var,lab){
   ggplot(var, aes(x=Date)) + geom_line(aes(y=predicted, color="red")) + geom_line(aes(y=actuals, color="blue"))+ theme_bw() +
     theme(legend.position="bottom",legend.title = element_blank()) + labs(x="Time horizon", y=paste0("GDP predicted with ",lab)) + 
     facet_wrap(~variable) + scale_color_manual(labels = c("Actuals", "Predicted"), values = c("blue", "red")) 
 }
-
-
 
 
 
@@ -353,7 +311,6 @@ get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_pe
 
     myfit_lm <- train(as.formula(paste0(dep, "~", indep)), data = df[1:sum(!is.na(df[dep])),],
                    method = "lm",
-                   ntree = 500,
                    trControl = mycontrol)
 
   dff_rf <- myfit_rf$pred %>%
@@ -363,6 +320,7 @@ get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_pe
   
   dff_lm <- myfit_lm$pred %>%
     arrange(rowIndex)
+  
   OOS_error_lm <- (dff_lm$pred-dff_lm$obs)^2
   
   
@@ -373,7 +331,6 @@ get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_pe
   lm_rf <- cumsum(OOS_error_lm)-cumsum(OOS_error_rf)
   hist_rf <- cumsum(OOS_error_hist)-cumsum(OOS_error_rf)
 
-  
   
   return(as.tibble(list(OOS_error_hist = OOS_error_hist,
                         OOS_error_lm = OOS_error_lm,
@@ -386,16 +343,14 @@ get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_pe
 
 CSSFED <- get_statistics(dep[1], "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
 CSSFED$Date <- df$Date[21:103]
-
 CSSFED <- pivot_longer(CSSFED, cols = -c(7), names_to = "type", values_to = "values")
-
 
 squared_error_plot <- function(var){
 
   squared_errors <- CSSFED %>%
     filter(type == var)
 
-  plot <- ggplot(data = squared_errors, aes(x=Date,y=c(values))) + geom_line(aes(color=factor(type))) + 
+  plot <- ggplot(data = squared_errors, aes(x=Date,y=values)) + geom_line(aes(color=factor(type))) + 
     annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     xlab("Time horizon") + ylab("CSSFED") + theme_bw()
@@ -414,7 +369,7 @@ CSSFED_plot <- function(var){
     annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     xlab("Time horizon") +
     ylab("CSSFED") + theme_bw()
-  
+
   return(plot)
 }
 

@@ -1,0 +1,63 @@
+---
+title: "analysis"
+author: "Karel Räpp, Henry Enno Turu"
+date: "31 3 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("functions.R")
+```
+
+```{r, message = F, warnings = F,echo = F}
+
+squared_error_plot <- function(var, var1){
+  CSSFED <- get_statistics(var1, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
+  CSSFED$Date <- df$Date[21:103]
+  CSSFED <- pivot_longer(CSSFED, cols = -c(7), names_to = "type", values_to = "values")
+  squared_errors <- CSSFED %>%
+    filter(type == var)
+
+  plot <- ggplot(data = squared_errors, aes(x=Date,y=c(values))) + geom_line(aes(color=factor(type))) + 
+    annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+    annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+    xlab("Time horizon") + ylab("CSSFED") + theme_bw()
+  
+  return(plot)
+}
+
+
+CSSFED_plot <- function(var, var1){
+  CSSFED <- get_statistics(var1, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")
+  CSSFED$Date <- df$Date[21:103]
+  CSSFED <- pivot_longer(CSSFED, cols = -c(7), names_to = "type", values_to = "values")
+  cssfed_values <- CSSFED %>%
+    filter(type == var)
+  
+  plot <- ggplot(data = cssfed_values, aes(x=Date,y=values)) + geom_point(colour='red') + 
+    annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+    annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
+    xlab("Time horizon") +
+    ylab("CSSFED") + theme_bw()
+  
+  return(plot)
+}
+
+
+CSSFED_plot("hist_lm", dep[1])
+CSSFED_plot("hist_lm", dep[2])
+CSSFED_plot("hist_lm", dep[3])
+CSSFED_plot("hist_lm", dep[4])
+
+CSSFED_plot("lm_rf", dep[1])
+CSSFED_plot("lm_rf", dep[2])
+CSSFED_plot("lm_rf", dep[3])
+CSSFED_plot("lm_rf", dep[4])
+
+squared_error_plot(c("OOS_error_hist", "OOS_error_lm", "OOS_error_rf"), dep[1])
+squared_error_plot(c("OOS_error_hist", "OOS_error_lm", "OOS_error_rf"), dep[2])
+squared_error_plot(c("OOS_error_hist", "OOS_error_lm", "OOS_error_rf"), dep[3])
+squared_error_plot(c("OOS_error_hist", "OOS_error_lm", "OOS_error_rf"), dep[4])
+```
+
