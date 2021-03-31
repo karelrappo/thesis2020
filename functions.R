@@ -366,7 +366,7 @@ squared_error_plot <- function(var, dependent){
   plot <- ggplot(data = squared_errors, aes(x=Date,y=values)) + geom_line(aes(color=factor(type))) + 
     annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
-    xlab("Time horizon") + ylab("CSSFED") + theme_bw()
+    xlab("Time horizon") + ylab(paste0("RMSFE - ",dependent)) + theme_bw()
   
   return(plot)
 }
@@ -381,7 +381,7 @@ CSSFED_plot <- function(var, dependent){
     annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     xlab("Time horizon") +
-    ylab("CSSFED") + theme_bw()
+    ylab(paste0("CSSFED - ", dependent," for ",var)) + theme_bw()
 
   return(plot)
 }
