@@ -341,7 +341,6 @@ get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_pe
                         lm_rf = lm_rf,
                         hist_rf = hist_rf)))
 }
-
 #CSSFED results combine & create graph function
 
 CSSFED_all <- function(dependent){
@@ -350,18 +349,18 @@ CSSFED_all <- function(dependent){
   colnames(output_combined) <- x
   for (i in dependent){
   output <- get_statistics(i, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M") %>%
-    mutate(Date=df$Date[21:103]) %>%
+    mutate(Date=lag(df$Date[21:103], as.numeric(substring(i,2,2)))) %>%
     mutate(Dependent=i)
+
    output_combined <- rbind(output_combined, output)
   }
   return(output_combined)
 }
- 
 CSSFED <- CSSFED_all(dep) 
 CSSFED <- pivot_longer(CSSFED, cols=!c(Date,Dependent), names_to = "type", values_to = "values")
 
 squared_error_plot <- function(var, dependent){
-
+z
   squared_errors <- CSSFED %>%
     filter(type == var, dependent==Dependent)
 
