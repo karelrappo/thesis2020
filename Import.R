@@ -149,12 +149,10 @@ df.expansionary <- subset(dataset, dum== 0)
 df.recessionary <- subset(dataset, dum== 1)
 
 #Different averages of GDP in excel
-#cleandata <- read_csv("data/Clean_data.csv") %>%
-#  select(-Date, -Y)
-cleandata2 <- read_csv("data/RAWDATA.csv") %>%
+cleandata <- read_csv("data/RAWDATA.csv") %>%
   select(-1, -2)
 
-df <- cbind(dataset, cleandata2)
+df <- cbind(dataset, cleandata)
 #drop unnecessary shit for work proccesses
 rm(list=setdiff(ls(), c("df", "df_summary", "df_qoq")))
 
