@@ -364,31 +364,32 @@ CSSFED <- CSSFED_all(dep)
 CSSFED <- pivot_longer(CSSFED, cols=!c(Date,Dependent), names_to = "type", values_to = "values")
 
 squared_error_plot <- function(var, dependent){
-
+  
   squared_errors <- CSSFED %>%
-    filter(type == var, dependent==Dependent)
-
+    filter(type %in% var)
+  
   plot <- ggplot(data = squared_errors, aes(x=Date,y=values)) + geom_line(aes(color=factor(type))) + 
     annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
-    xlab("Time horizon") + ylab(paste0("RMSFE - ",dependent)) + theme_bw()
-  
+    xlab("Time horizon") + ylab(paste0("Squared Errors")) + theme_bw() + facet_wrap(~Dependent)
   return(plot)
 }
 
 
-CSSFED_plot <- function(var, dependent){
+CSSFED_plot <- function(var){
   
   cssfed_values <- CSSFED %>%
-    filter(type == var, dependent==Dependent)
+    filter(type == var)
   
   plot <- ggplot(data = cssfed_values, aes(x=Date,y=values)) + geom_point(colour='red') + 
     annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
     xlab("Time horizon") +
-    ylab(paste0("CSSFED - ", dependent," for ",var)) + theme_bw()
-
+    ylab(paste0("CSSFED for ",var)) + theme_bw() + facet_wrap(~Dependent) 
+  
   return(plot)
+
+
 }
 
 

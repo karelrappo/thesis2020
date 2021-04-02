@@ -161,7 +161,7 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) +
 ```{r message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Linear model)"}
 
 
-pred_vs_actual_graph(lm,"Linear model")
+pred_vs_actual_graph(lm,"Linear model") + labs(title="Linear model predicted vs actual")
 
 
 ```
@@ -169,7 +169,7 @@ pred_vs_actual_graph(lm,"Linear model")
 ```{r message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Random forest)"}
 
 
-pred_vs_actual_graph(rf,"Random forest")
+pred_vs_actual_graph(rf,"Random forest") + labs(title="Random forest predicted vs actual")
 
 
 ```
@@ -223,7 +223,8 @@ summary_table %>%
 
 
 ```{r message = F, warnings = F,echo = F, fig.cap="Squared errors"}
-squared_error_plot(c("OOS_error_hist", "OOS_error_lm", "OOS_error_rf"),"H1")
+a <- c("OOS_error_lm","OOS_error_rf")
+squared_error_plot(a) + labs(title = "Squared Errors")
 ```
 
 
