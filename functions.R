@@ -229,15 +229,19 @@ out_of_samp2 <- function(var1, var2, var4){
   }
   
   return(data.frame(predicted=dff$pred, actuals=dff$obs,Date=df$Date[21:103]))
-} 
-
+}
+type <- "lm"
+i <- "H4"
 combiner <- function(type){
   combined <- data.frame(matrix(ncol = 3, nrow = 0))
   x <- c("predicted", "actuals", "Date")
   colnames(combined) <- x
   for (i in dep){
     output <- out_of_samp2(i,"YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M",type) %>%
-      mutate(variable=i)
+      mutate(variable=i) %>%
+      mutate(Date=lead(df$Date[21:103], as.numeric(substring(i,2,2)))) %>%
+      filter(row_number() <= n()- as.numeric(substring(i,2,2)))
+      
     combined <- rbind(combined,output)
     
   }
@@ -342,16 +346,16 @@ get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_pe
                         hist_rf = hist_rf)))
 }
 #CSSFED results combine & create graph function
-
 CSSFED_all <- function(dependent){
   output_combined <- data.frame(matrix(ncol = 7, nrow = 0))
   x <- c("OOS_error_hist","OOS_error_lm","OOS_error_rf", "hist_lm","lm_rf","hist_rf", "Date")
   colnames(output_combined) <- x
   for (i in dependent){
   output <- get_statistics(i, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M") %>%
-    mutate(Date=lag(df$Date[21:103], as.numeric(substring(i,2,2)))) %>%
-    mutate(Dependent=i)
-
+    mutate(Date=lead(df$Date[21:103], as.numeric(substring(i,2,2)))) %>%
+    mutate(Dependent=i) %>% 
+    filter(row_number() <= n()- as.numeric(substring(i,2,2)))
+  
    output_combined <- rbind(output_combined, output)
   }
   return(output_combined)
@@ -360,7 +364,7 @@ CSSFED <- CSSFED_all(dep)
 CSSFED <- pivot_longer(CSSFED, cols=!c(Date,Dependent), names_to = "type", values_to = "values")
 
 squared_error_plot <- function(var, dependent){
-z
+
   squared_errors <- CSSFED %>%
     filter(type == var, dependent==Dependent)
 
