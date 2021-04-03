@@ -56,6 +56,7 @@ extracted
 
 \newpage
 ## Appendix B
+
 ```{r regfit, message = F, warnings = F, echo = F, fig.height=2.5, fig.width=6, fig.cap="Regressions' R-squared"}
 regr1 <- regrs(mudelid=c("YIV"),interaction=F)
 results1 <- regr_results(a=regr1)
@@ -89,8 +90,10 @@ regression.coefficients <- ggplot(results1, aes(x=row.names(results1), y=YIV_est
 regression.coefficients
 
 ```
+
 \newpage
 ## Appendix C
+
 ```{r OLS4, message = F, warnings = F,echo = F}
 regr4 <- regrs(mudelid=c("DGS1","TRM1012", "SRT03M", "baa_aaa", "VIX", "housng", "gz_spr", "spy_logreturn"),interaction=F)
 results4 <- regr_results(a=regr4) %>%
