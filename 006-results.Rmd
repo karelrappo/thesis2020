@@ -143,13 +143,14 @@ CSSFED_plot("hist_lm")
 
 ## Out-of-sample forecasting with Random Forest
 
-```{r message = F, warnings = F,echo = F, fig.height=4, fig.cap="Cumulative sum of squared forecast error differential (Random forest model vs benchmark linear model"}
+```{r CSSFED_lm_rf, message = F, warnings = F,echo = F, fig.height=4, fig.cap="Cumulative sum of squared forecast error differential (Random forest model vs benchmark linear model"}
 CSSFED_plot("lm_rf") 
 ```
 
-Lastly, we erected a random forest model to try to improve the forecasting accuracy through having non-linearity. As it can be seen from the graphs (\@ref(fig:rfjoonised1)) the performance in some cases is slightly better than OLS (e.g. during recessionary periods), however, is some cases (e.g. during expansionary periods) the model's accuracy is slightly worse. This holds also after tuning the model for number of trees. 
+Lastly, we construct a random forest model to see whether the forecasting accuracy can be improved through introducing non-linearity. As it can be seen from the graphs (\@ref(fig:CSSFED_lm_rf)) the overall performance of the random forest model is better when compared to OLS across all of the prediction periods as indicated by the upward sloping graph (meaning that OLS squared errors are larger than the respective squared errors of the random forest model). Furthermore, the same conclusion is derived when looking at the \@ref(fig:RSMFE_lm_vs_rf)) where it can be seen that RF model significantly outperforms during full sample and expansionary periods and mostly outperforms during recessionary periods with the exception of looking 2 quarters ahead where linear model slightly outperforms random forest model. Additionally, the results are consistent with (\@ref(fig:pred_vs_actual_rf)) and (\@ref(fig:squared_errors)). In the latter the comparison between accuracy of random forest and linear model can be clearly seen during H4 and H8 forecasts as linear model's errors spike especially high after the 2008-2009 Financial crisis which is not the case for the random forest model.
+On \@ref(fig:var_imp)) we also plot the importance of different variables as extracted from the random forest model. The figure shows on which variables the random forest model relies the most to make predictions i.e. which variables are the most important for the model's accuracy. As it can be seen, throughout different forecast horizons the importance of the variables change - e.g. for H1 predictions the most important variable is baa_aaa (yield spread between BAA and AAA yields) while for H8 the most important variable is TRM1012 (10 year and 1 year treasury yield spread). During H1 and H2 YIV is 2nd and 3rd respectively, however, 6th during H4 and H8. Dummy displays some minor importance during H1 and but none during the other prediction horizons.
 
-```{r message= F, warnings = F,echo = F,  fig.cap="Variable importance"}
+```{r var_imp, message= F, warnings = F,echo = F,  fig.cap="Variable importance"}
 p1 <- plot(variable_importance(dep[1]), main="H1")
 p2 <- plot(variable_importance(dep[2]), main="H2")
 p3 <- plot(variable_importance(dep[3]), main="H4")
