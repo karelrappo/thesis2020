@@ -162,7 +162,7 @@ df_resultss %>%
 ```{r oosgraph, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE for various estimations"}
 df_results <- transpose(df_resultss)
 df_resultss2 <- melt(df_resultss)
-df_resultss2$rowid <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", "Naive_Recessionary", "Naive_Expansionary", "TRM", "CRS","Full model")
+df_resultss2$rowid <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", "Naive_Recessionary", "Naive_Expansionary", "TRM", "CRS","Full model", "Full - reccessionary", "Full - expansionary")
 
 ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) +
   geom_line(aes(color=factor(rowid))) +
