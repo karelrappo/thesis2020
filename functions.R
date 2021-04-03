@@ -4,12 +4,12 @@ source("Import.R")
 
 set.seed(123)
 ##### List of dependent variables
-# H1:H8 - Average quarerly year-on-year growth rates (as in the original paper)
+# H1:H8 - Average quarterly year-on-year growth rates (as in the original paper)
 # F1:F8 - Quarterly growth rates of GDP h-quarters ahead
 # N1:N8 - Average quarterly growth rates of GDP h-quarters ahead
 
-#dep <- c("H1", "H2", "H4", "H8")
-dep <- c("F1", "F2", "F4", "F8")
+dep <- c("H1", "H2", "H4", "H8")
+#dep <- c("F1", "F2", "F4", "F8")
 #dep <- c("N1", "N2", "N4", "N8")
 
 
