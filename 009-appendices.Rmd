@@ -92,7 +92,7 @@ regression.coefficients
 \newpage
 ## Appendix C
 ```{r OLS4, message = F, warnings = F,echo = F}
-regr4 <- regrs(mudelid=c("YIV", "dum", "DGS1", "TRM1012", "SRT03M", "baa_aaa", "VIX", "housng", "gz_spr", "spy_logreturn"),interaction=F)
+regr4 <- regrs(mudelid=c("DGS1","TRM1012", "SRT03M", "baa_aaa", "VIX", "housng", "gz_spr", "spy_logreturn"),interaction=F)
 results4 <- regr_results(a=regr4) %>%
   round(2) %>%
   significance() %>%
