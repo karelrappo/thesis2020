@@ -89,10 +89,26 @@ regression.coefficients <- ggplot(results1, aes(x=row.names(results1), y=YIV_est
 regression.coefficients
 
 ```
-
-
 \newpage
 ## Appendix C
+```{r OLS4, message = F, warnings = F,echo = F}
+regr4 <- regrs(mudelid=c("DGS1","TRM1012", "SRT03M", "baa_aaa", "VIX", "housng", "gz_spr", "spy_logreturn"),interaction=F)
+results4 <- regr_results(a=regr4) %>%
+  round(2) %>%
+  significance() %>%
+    rename(" "=rowname)
+
+
+
+results4  %>%
+  kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
+   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
+    column_spec(1:1, width="2in")%>%
+       footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
+```
+
+\newpage
+## Appendix D
 
 Notes: The following regressions includes YIV, dummy and controls as independent variables. The specification for the regression is the following:
 
@@ -129,7 +145,7 @@ results5  %>%
 ```
 \newpage
 
-## Appendix D
+## Appendix E
 
 
 ```{r roll_regress, message = F, warnings = F,echo = F, }
@@ -156,7 +172,7 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) +
 ```
 \newpage
 
-## Appendix E
+## Appendix F
 
 ```{r message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Linear model)"}
 
@@ -174,7 +190,7 @@ pred_vs_actual_graph(rf,"Random forest")
 ```
 
 \newpage
-## Appendix F^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
+## Appendix G^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
 
 
 ```{r RSMFE_lm_vs_rf, message = F, warnings = F,echo = F, fig.cap="RMSFE-s of linear model and random forest"}
@@ -190,7 +206,7 @@ ggplot(rf_resultsss, aes(variable, value, group=factor(Specification))) + geom_l
 
 
 \newpage
-## Appendix G
+## Appendix H
 
 ```{r,message = F, warnings = F,echo = F}
 summary_table <- colnames(df_summary)
@@ -218,7 +234,7 @@ summary_table %>%
 ```
 
 \newpage
-## Appendix H
+## Appendix I
 
 
 ```{r squared_errors, message = F, warnings = F,echo = F, fig.cap="Squared errors"}
