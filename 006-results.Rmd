@@ -136,11 +136,6 @@ joonis  %>%
 Figure \@ref(tab:subs) describes subsample relative RMSFE within different forecasting period. If the value is over 1, it indicates that the benchmark model(full sample model) has superior forecasting performance compared to the corresponding subsample model. Over most of the horizons, the results verify our hypothesis and are consistent with the findings of @Siliverstovs2020 - the model with reccessionary subsample has much lower forecasting performance (bigger error) compared to full-sample model, and vice versa for expansionary.
 
 
-```{r, CSSFED-hist-lm, message = F, warnings = F,echo = F,fig.height=4, fig.cap="Cumulative sum of squared forecast error differential (Linear model vs benchmark historic mean model"}
-CSSFED_plot("hist_lm")
-```
-
-
 ## Out-of-sample forecasting with Random Forest
 
 ```{r, CSSFED-lm-rf, message = F, warnings = F,echo = F, fig.height=4, fig.cap="Cumulative sum of squared forecast error differential (Random forest model vs benchmark linear model"}
