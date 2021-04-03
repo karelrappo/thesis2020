@@ -8,8 +8,8 @@ set.seed(123)
 # F1:F8 - Quarterly growth rates of GDP h-quarters ahead
 # N1:N8 - Average quarterly growth rates of GDP h-quarters ahead
 
-dep <- c("H1", "H2", "H4", "H8")
-#dep <- c("F1", "F2", "F4", "F8")
+#dep <- c("H1", "H2", "H4", "H8")
+dep <- c("F1", "F2", "F4", "F8")
 #dep <- c("N1", "N2", "N4", "N8")
 
 
@@ -50,7 +50,7 @@ regrs <- function(mudelid, interaction)
 {
     if(interaction==T){
         df_total <- df %>%
-          select(H1, H2, H4, H8, mudelid) %>%
+          select(F1, F2, F4, F8, mudelid) %>%
           gather(Var,Value,  -mudelid) %>%
           nest(data=c(Value,  mudelid)) %>%
           mutate(model = map(data, ~lm(Value ~ YIV + dum +YIV*dum, data = .)),
@@ -62,7 +62,7 @@ regrs <- function(mudelid, interaction)
   }
   else{
       df_total <- df %>%
-        select(H1, H2, H4, H8, mudelid) %>%
+        select(F1, F2, F4, F8, mudelid) %>%
         gather(Var,Value,  -mudelid) %>%
         nest(data=c(Value,  mudelid)) %>%
         mutate(model = map(data, ~lm(Value ~ ., data = .)),
@@ -106,6 +106,7 @@ remove(results1, results2)
 ########################     RMSFE calculation function     ################################################
 ###############################################################################################
 
+
 out_of_samp <- function(var1, var2, type, var4){
   mycontrol <- trainControl(method = "timeslice",
                             initialWindow = 20,
@@ -113,29 +114,37 @@ out_of_samp <- function(var1, var2, type, var4){
                             fixedWindow = TRUE, 
                             savePredictions = "final")
   if(var4=="rf"){
-    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
+    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df,
                    method = var4,
                    ntree = 500,
                    tuneGrid = expand.grid(mtry = c(1:8)),
-                   trControl = mycontrol)
+                   trControl = mycontrol,
+                   na.action=na.pass)
     dff <- myfit$pred %>%
       arrange(rowIndex)
 
     dff <- dff %>%
-      mutate(dum=df$dum[21:103]) %>%
-      mutate(SE=(pred-obs)^2)
+      mutate(Date=lead(df$Date[21:103], as.numeric(substring(var1,2,2)))) %>%
+      mutate(dum=lead(df$dum[21:103], as.numeric(substring(var1,2,2)))) %>%
+      mutate(SE=(pred-obs)^2) %>%
+      filter(row_number() <= n()- as.numeric(substring(var1,2,2)))
   }
   else{
-    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
+    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df,
                    method = var4,
-                   trControl = mycontrol)
+                   trControl = mycontrol,
+                  na.action=na.pass)
     dff <- myfit$pred %>%
       arrange(rowIndex)  %>%
-      mutate(dum=df$dum[21:103]) %>%
-      mutate(SE=(pred-obs)^2)
+      mutate(Date=lead(df$Date[21:103], as.numeric(substring(var1,2,2)))) %>%
+      mutate(dum=lead(df$dum[21:103], as.numeric(substring(var1,2,2)))) %>%
+      mutate(SE=(pred-obs)^2) %>%
+      filter(row_number() <= n()- as.numeric(substring(var1,2,2)))
   }
   
   
+    
+    
   ifelse(type=="recessionary", SE <- filter(dff, dum==1),
          ifelse(type=="expansionary", SE <- filter(dff, dum==0),
                 SE <- dff))
@@ -216,36 +225,43 @@ out_of_samp2 <- function(var1, var2, var4){
                             fixedWindow = TRUE, 
                             savePredictions = "final")
   if(var4=="rf"){
-    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
+    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df,
                    method = var4,
                    ntree = 500,
                    tuneGrid = expand.grid(mtry = c(1:8)),
-                   trControl = mycontrol)
+                   trControl = mycontrol,
+                   na.action=na.pass)
     dff <- myfit$pred %>%
-      arrange(rowIndex)
+      arrange(rowIndex) %>%
+      mutate(Date=lead(df$Date[21:103], as.numeric(substring(var1,2,2)))) %>%
+      mutate(dum=lead(df$dum[21:103], as.numeric(substring(var1,2,2)))) %>%
+      mutate(SE=(pred-obs)^2) %>%
+      filter(row_number() <= n()- as.numeric(substring(var1,2,2)))
 
   }
   else{
-    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df[1:sum(!is.na(df[var1])),],
+    myfit <- train(as.formula(paste0(var1, "~", var2)), data = df,
                    method = var4,
-                   trControl = mycontrol)
+                   trControl = mycontrol,
+                   na.action=na.pass)
     dff <- myfit$pred %>%
-      arrange(rowIndex)
+      arrange(rowIndex) %>%
+      mutate(Date=lead(df$Date[21:103], as.numeric(substring(var1,2,2)))) %>%
+      mutate(dum=lead(df$dum[21:103], as.numeric(substring(var1,2,2)))) %>%
+      mutate(SE=(pred-obs)^2) %>%
+      filter(row_number() <= n()- as.numeric(substring(var1,2,2)))
   }
   
-  return(data.frame(predicted=dff$pred, actuals=dff$obs,Date=df$Date[21:103]))
+  return(data.frame(predicted=dff$pred, actuals=dff$obs,Date=dff$Date))
 }
-type <- "lm"
-i <- "H4"
+
 combiner <- function(type){
   combined <- data.frame(matrix(ncol = 3, nrow = 0))
   x <- c("predicted", "actuals", "Date")
   colnames(combined) <- x
   for (i in dep){
     output <- out_of_samp2(i,"YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M",type) %>%
-      mutate(variable=i) %>%
-      mutate(Date=lead(df$Date[21:103], as.numeric(substring(i,2,2)))) %>%
-      filter(row_number() <= n()- as.numeric(substring(i,2,2)))
+      mutate(variable=i)
       
     combined <- rbind(combined,output)
     
@@ -276,11 +292,12 @@ variable_importance <- function(var){
                             horizon = 1,
                             fixedWindow = TRUE, 
                             savePredictions = "final")
-  myfit <- train(as.formula(paste0(var, "~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")), data = df[1:sum(!is.na(df[var])),],
+  myfit <- train(as.formula(paste0(var, "~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")), data = df,
                  method = "rf",
                  ntree = 500,
                  tuneGrid = expand.grid(mtry = c(1:8)),
-                 trControl = mycontrol)
+                 trControl = mycontrol,
+                 na.action=na.pass)
   output <- varImp(myfit)
   return(output)
   
@@ -295,18 +312,7 @@ df_ts <- ts(df)
 get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_periods_OOS = 20) {
   
   # Creating vectors where to store values
-  OOS_error_hist <- numeric(end - start - est_periods_OOS)
   #Only use information that is available up to the time at which the forecast is made
-  j <- 0
-    for (i in 21:(end)) {
-      j <- j + 1
-      #Get the actual ERP that you want to predict
-      actual <- as.numeric(window(df_ts, i, i)[, dep])
-      
-      #1. Historical mean model
-      OOS_error_hist[j] <- (actual - mean(window(df_ts, start, i-1)[, dep], na.rm=TRUE))^2
-      
-    }
 
   mycontrol <- trainControl(method = "timeslice",
                             initialWindow = 20,
@@ -314,53 +320,58 @@ get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_pe
                             fixedWindow = TRUE, 
                             savePredictions = "final")
   
-    myfit_rf <- train(as.formula(paste0(dep, "~", indep)), data = df[1:sum(!is.na(df[dep])),],
+    myfit_rf <- train(as.formula(paste0(dep, "~", indep)), data = df,
                    method = "rf",
                    ntree = 500,
                    tuneGrid = expand.grid(mtry = c(1:8)),
-                   trControl = mycontrol)
+                   trControl = mycontrol,
+                   na.action=na.pass)
 
-    myfit_lm <- train(as.formula(paste0(dep, "~", indep)), data = df[1:sum(!is.na(df[dep])),],
+    myfit_lm <- train(as.formula(paste0(dep, "~", indep)), data = df,
                    method = "lm",
-                   trControl = mycontrol)
+                   trControl = mycontrol,
+                   na.action=na.pass)
 
   dff_rf <- myfit_rf$pred %>%
-    arrange(rowIndex)
+    arrange(rowIndex) %>%
+    mutate(Date=lead(df$Date[21:103], as.numeric(substring(dep,2,2)))) %>%
+    mutate(dum=lead(df$dum[21:103], as.numeric(substring(dep,2,2)))) %>%
+    mutate(SE=(pred-obs)^2) %>%
+    filter(row_number() <= n()- as.numeric(substring(dep,2,2)))
  
   OOS_error_rf <- (dff_rf$pred-dff_rf$obs)^2
   
   dff_lm <- myfit_lm$pred %>%
-    arrange(rowIndex)
+    arrange(rowIndex) %>%
+    mutate(Date=lead(df$Date[21:103], as.numeric(substring(dep,2,2)))) %>%
+    mutate(dum=lead(df$dum[21:103], as.numeric(substring(dep,2,2)))) %>%
+    mutate(SE=(pred-obs)^2) %>%
+    filter(row_number() <= n()- as.numeric(substring(dep,2,2)))
   
   OOS_error_lm <- (dff_lm$pred-dff_lm$obs)^2
   
+  Date <- dff_lm$Date
   
 
   
   #### CREATE VARIABLES
-  hist_lm <- cumsum(OOS_error_hist)-cumsum(OOS_error_lm)
   lm_rf <- cumsum(OOS_error_lm)-cumsum(OOS_error_rf)
-  hist_rf <- cumsum(OOS_error_hist)-cumsum(OOS_error_rf)
 
   
-  return(as.tibble(list(OOS_error_hist = OOS_error_hist,
-                        OOS_error_lm = OOS_error_lm,
+  return(as.tibble(list(OOS_error_lm = OOS_error_lm,
                         OOS_error_rf = OOS_error_rf,
-                        hist_lm = hist_lm,
                         lm_rf = lm_rf,
-                        hist_rf = hist_rf)))
+                        Date=Date)))
 }
 #CSSFED results combine & create graph function
 CSSFED_all <- function(dependent){
-  output_combined <- data.frame(matrix(ncol = 7, nrow = 0))
-  x <- c("OOS_error_hist","OOS_error_lm","OOS_error_rf", "hist_lm","lm_rf","hist_rf", "Date")
+  output_combined <- data.frame(matrix(ncol = 4, nrow = 0))
+  x <- c("OOS_error_lm","OOS_error_rf","lm_rf", "Date")
   colnames(output_combined) <- x
   for (i in dependent){
   output <- get_statistics(i, "YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M") %>%
-    mutate(Date=lead(df$Date[21:103], as.numeric(substring(i,2,2)))) %>%
-    mutate(Dependent=i) %>% 
-    filter(row_number() <= n()- as.numeric(substring(i,2,2)))
-  
+    mutate(Dependent=i)
+
    output_combined <- rbind(output_combined, output)
   }
   return(output_combined)
