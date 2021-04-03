@@ -157,7 +157,7 @@ df_results6 <- as.data.frame(t(mapply(out_of_samp, dep, "log_gdp", "expansionary
 df_results7 <- as.data.frame(t(mapply(out_of_samp, dep, "TRM1012", "full", "lm")))
 df_results8 <- as.data.frame(t(mapply(out_of_samp, dep, "baa_aaa", "full", "lm")))
 df_results9 <- as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa + VIX + housng + SRT03M", "full", "lm")))
-df_results10 <- as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa + VIX + housng + SRT03M", "recessionary", "lm")))
+df_results10 <- as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa + VIX + housng + SRT03M","recessionary", "lm")))
 df_results11 <- as.data.frame(t(mapply(out_of_samp, dep, "YIV + dum + DGS1 + TRM1012 + baa_aaa + VIX + housng + SRT03M", "expansionary", "lm")))
 
 
