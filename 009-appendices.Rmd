@@ -159,7 +159,7 @@ df_resultss %>%
 ```
 
 
-```{r oosgraph, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE for various estimations"}
+```{r, oosgraph, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE for various estimations"}
 
 df_results <- transpose(df_resultss)
 df_resultss2 <- melt(df_resultss)
