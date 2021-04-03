@@ -50,7 +50,7 @@ regrs <- function(mudelid, interaction)
 {
     if(interaction==T){
         df_total <- df %>%
-          select(F1, F2, F4, F8, mudelid) %>%
+          select(H1, H2, H4, H8, mudelid) %>%
           gather(Var,Value,  -mudelid) %>%
           nest(data=c(Value,  mudelid)) %>%
           mutate(model = map(data, ~lm(Value ~ YIV + dum +YIV*dum, data = .)),
@@ -62,7 +62,7 @@ regrs <- function(mudelid, interaction)
   }
   else{
       df_total <- df %>%
-        select(F1, F2, F4, F8, mudelid) %>%
+        select(H1, H2, H4, H8, mudelid) %>%
         gather(Var,Value,  -mudelid) %>%
         nest(data=c(Value,  mudelid)) %>%
         mutate(model = map(data, ~lm(Value ~ ., data = .)),
