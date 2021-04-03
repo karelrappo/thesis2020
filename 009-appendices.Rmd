@@ -165,7 +165,7 @@ pred_vs_actual_graph(lm,"Linear model")
 
 ```
 
-```{r message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Random forest)"}
+```{r pred_vs_actual_rf, message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Random forest)"}
 
 
 pred_vs_actual_graph(rf,"Random forest")
@@ -177,7 +177,7 @@ pred_vs_actual_graph(rf,"Random forest")
 ## Appendix F^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
 
 
-```{r message = F, warnings = F,echo = F, fig.cap="RMSFE-s of linear model and random forest"}
+```{r RSMFE_lm_vs_rf, message = F, warnings = F,echo = F, fig.cap="RMSFE-s of linear model and random forest"}
 
 ggplot(rf_resultsss, aes(variable, value, group=factor(Specification))) + geom_line(aes(color=factor(Specification))) +
   theme(legend.position="bottom") +
@@ -221,7 +221,7 @@ summary_table %>%
 ## Appendix H
 
 
-```{r message = F, warnings = F,echo = F, fig.cap="Squared errors"}
+```{r squared_errors, message = F, warnings = F,echo = F, fig.cap="Squared errors"}
 a <- c("OOS_error_lm","OOS_error_rf")
 squared_error_plot(a)
 ```
