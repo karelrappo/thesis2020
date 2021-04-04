@@ -133,15 +133,16 @@ results5  %>%
 ## Appendix E
 
 
-```{r, rmsfeerrors, message = F, warnings = F,echo = F}
+```{r, rmsfeerrors, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE for various estimations"}
 
 df_resultss %>%
   kbl(longtable=T, booktabs=T) %>%
   kable_styling(full_width = TRUE) 
+
 ```
 
 
-```{r, rmsfegraphs, message = F, warnings = F,echo = F}
+```{r, rmsfegraphs, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE graphs"}
 
 ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) +
   geom_line(aes(color=factor(rowid))) +
@@ -149,7 +150,8 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) +
   theme(legend.position = "none") +
   labs(x="Time horizon", y="RMSFE value", color="Model", caption="Naive refers to regressions with GDP and its lags, TRM - term spreads, CRS - credit spreads") +
   facet_wrap( ~rowid)
-#fig.cap"Out-of-sample RMSFE for various estimations"
+#fig.cap"Out-of-sample RMSFE for various estimations
+
 ```
 \newpage
 
@@ -230,8 +232,8 @@ squared_error_plot(a)
 **Formula for dependent variable as used in the paper where $GDP_{t+j}$ is the GDP year-on-year growth rate in quarter $t+j$.**
 
 \begin{equation}
-\label{BS_note}
 \frac{1}{h}\sum_{j=1}^{j=h} \ln (1 + GDP_{t+j})
+(\#eq:BS_note)
 \end{equation}
 
 

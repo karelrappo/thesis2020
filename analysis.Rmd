@@ -2,7 +2,9 @@
 title: "analysis"
 author: "Karel Räpp, Henry Enno Turu"
 date: "31 3 2021"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -77,9 +79,6 @@ squared_error_plot2(a) + labs(title = "Squared Errors")
 
 
 ```{r, message = F, warnings = F,echo = F, label="CSSFED graphs"}
-
-
-CSSFED_plot2("hist_lm") + labs(title = "CSSFED HIST_LM", subtitle="CSSFED = Historical mean model - Linear model")
 
 
 CSSFED_plot2("lm_rf") + labs(title = "CSSFED LM_RF", subtitle="CSSFED = Linear model - Random forest")
