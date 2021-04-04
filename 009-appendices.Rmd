@@ -155,7 +155,7 @@ results5  %>%
 
 df_resultss %>%
   kbl(longtable=T, booktabs=T) %>%
-  kable_styling() 
+  kable_styling(full_width = TRUE) 
 ```
 
 
