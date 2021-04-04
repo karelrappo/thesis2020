@@ -133,7 +133,7 @@ results5  %>%
 ## Appendix E
 
 
-```{r roll_regress, message = F, warnings = F,echo = F, }
+```{r, rmsfeerrors, message = F, warnings = F,echo = F}
 
 df_resultss %>%
   kbl(longtable=T, booktabs=T) %>%
@@ -141,7 +141,7 @@ df_resultss %>%
 ```
 
 
-```{r, rmsfe-graph, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE for various estimations"}
+```{r, rmsfegraphs, message = F, warnings = F,echo = F}
 
 ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) +
   geom_line(aes(color=factor(rowid))) +
@@ -149,8 +149,7 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) +
   theme(legend.position = "none") +
   labs(x="Time horizon", y="RMSFE value", color="Model", caption="Naive refers to regressions with GDP and its lags, TRM - term spreads, CRS - credit spreads") +
   facet_wrap( ~rowid)
-
-
+#fig.cap"Out-of-sample RMSFE for various estimations"
 ```
 \newpage
 
