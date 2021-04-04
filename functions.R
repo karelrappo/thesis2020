@@ -179,6 +179,10 @@ df_resultss <- rbind(df_results1, df_results2, df_results3, df_results4, df_resu
 
 rownames(df_resultss) <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", "Naive_Recessionary", "Naive_Expansionary", "TRM", "CRS","full", "full_rec","full_exp")
 
+df_results <- transpose(df_resultss)
+df_resultss2 <- melt(df_resultss)
+df_resultss2$rowid <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", "Naive_Recessionary", "Naive_Expansionary", "TRM", "CRS","Full model", "Full - reccessionary", "Full - expansionary")
+
 ##############################   RELATIVE RMSFE  ##############################################################
 
 relative_rmsfes <- df_resultss %>%
