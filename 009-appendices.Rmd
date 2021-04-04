@@ -231,6 +231,7 @@ squared_error_plot(a)
 **The dependent variable CFG-paper is where $GDP_{t+j}$ is the GDP year-on-year growth rate in quarter $t+j$.**
 
 \begin{align}
+\label{BS_note}
 \frac{1}{h}\sum_{j=1}^{j=h} \ln (1 + GDP_{t+j})
 \end{align}
 
