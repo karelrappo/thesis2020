@@ -228,7 +228,7 @@ squared_error_plot(a)
 \newpage
 ## Appendix J
 
-**The dependent variable CFG-paper is where $GDP_{t+j}$ is the GDP year-on-year growth rate in quarter $t+j$.**
+**Formula for dependent variable as used in the paper where $GDP_{t+j}$ is the GDP year-on-year growth rate in quarter $t+j$.**
 
 \begin{align}
 \label{BS_note}
@@ -270,7 +270,7 @@ For $h=4$
 \end{align}
 
 
-**This formula can be compared with h-step ahead average quarterly growth rate for $h=4$:**
+**This formula is for h-step ahead average quarterly growth rate for $h=4$:**
 
 \begin{align}
 &\frac{1}{4}( \ln (1 + GDP_{t+4})) = \\
@@ -278,7 +278,7 @@ For $h=4$
 \Delta \ln y_{t+4} + \Delta \ln y_{t+3} + \Delta \ln y_{t+2} + \Delta \ln y_{t+1})
 \end{align}
 
-**or, h-step ahead quarterly growth rate:**
+**Formula for h-step ahead quarterly growth rate:**
 
 \begin{align}
 \Delta \ln y_{t+4} 
