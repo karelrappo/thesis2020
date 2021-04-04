@@ -141,7 +141,7 @@ df_resultss %>%
 ```
 
 
-```{r, rmsfegraph, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE for various estimations"}
+```{r, rmsfe-graph, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE for various estimations"}
 
 ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) +
   geom_line(aes(color=factor(rowid))) +
