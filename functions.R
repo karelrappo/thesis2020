@@ -13,7 +13,12 @@ dep <- c("F1", "F2", "F4", "F8")
 #dep <- c("N1", "N2", "N4", "N8")
 
 #Full model independent variables
-indep <- "YIV + dum + DGS1 + TRM1012 + baa_aaa + VIX + housng + SRT03M"
+
+indep_replication <- "YIV + dum + log_gdp + TRM0503 + DGS3MO + SRT03M + VIX + AAA + housng"
+indep_replication2 <- c("YIV", "dum", "log_gdp", "TRM0503", "DGS3MO", "SRT03M", "VIX", "AAA", "housng")
+indep_RMSFE <- "YIV + dum + TRM1003 + TRM1006 + TRM1012 + TRM0506 + AAA + DBAA + baa_aaa + DGS3MO + SRT03M" 
+
+
 
 
 ########################     Replaces p-values with significance stars    ################################################
@@ -168,9 +173,9 @@ df_results5 <- as.data.frame(t(mapply(out_of_samp, dep, "log_gdp", "recessionary
 df_results6 <- as.data.frame(t(mapply(out_of_samp, dep, "log_gdp", "expansionary", "lm")))
 df_results7 <- as.data.frame(t(mapply(out_of_samp, dep, "TRM1012", "full", "lm")))
 df_results8 <- as.data.frame(t(mapply(out_of_samp, dep, "baa_aaa", "full", "lm")))
-df_results9 <- as.data.frame(t(mapply(out_of_samp, dep, indep, "full", "lm")))
-df_results10 <- as.data.frame(t(mapply(out_of_samp, dep, indep,"recessionary", "lm")))
-df_results11 <- as.data.frame(t(mapply(out_of_samp, dep, indep, "expansionary", "lm")))
+df_results9 <- as.data.frame(t(mapply(out_of_samp, dep, indep_replication, "full", "lm")))
+df_results10 <- as.data.frame(t(mapply(out_of_samp, dep, indep_replication,"recessionary", "lm")))
+df_results11 <- as.data.frame(t(mapply(out_of_samp, dep, indep_replication, "expansionary", "lm")))
 
 
 
@@ -203,17 +208,17 @@ rownames(df_resultss)[rownames(df_resultss)=='Naive_Expansionary'] <- "Naive-Exp
 
 ##############################   RF & OLS RMSFE results' comparison ##############################################################
 
-ols <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, indep, "full", "lm")))) %>%
+ols <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, indep_RMSFE, "full", "lm")))) %>%
   mutate(Specification="OLS",period="Full sample")
-rf <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, indep, "full", "rf")))) %>%
+rf <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, indep_RMSFE, "full", "rf")))) %>%
   mutate(Specification="RF",period="Full sample")
-ols_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, indep, "recessionary", "lm")))) %>%
+ols_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, indep_RMSFE, "recessionary", "lm")))) %>%
   mutate(Specification="OLS", period="Reccessionary")
-rf_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, indep, "recessionary", "rf")))) %>%
+rf_rec <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, indep_RMSFE, "recessionary", "rf")))) %>%
   mutate(Specification="RF", period="Reccessionary")
-ols_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, indep, "expansionary", "lm"))))%>%
+ols_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, indep_RMSFE, "expansionary", "lm"))))%>%
   mutate(Specification="OLS", period="Expansionary")
-rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, indep, "expansionary", "rf"))))%>%
+rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, indep_RMSFE, "expansionary", "rf"))))%>%
   mutate(Specification="RF",period="Expansionary")
 
 rf_resultsss <- rbind(ols, rf, ols_rec, rf_rec, ols_exp, rf_exp)
@@ -267,7 +272,7 @@ combiner <- function(type){
   x <- c("predicted", "actuals", "Date")
   colnames(combined) <- x
   for (i in dep){
-    output <- out_of_samp2(i,indep,type) %>%
+    output <- out_of_samp2(i,indep_RMSFE,type) %>%
       mutate(variable=i)
       
     combined <- rbind(combined,output)
@@ -299,7 +304,7 @@ variable_importance <- function(var){
                             horizon = 1,
                             fixedWindow = TRUE, 
                             savePredictions = "final")
-  myfit <- train(as.formula(paste0(var, "~ YIV + dum + DGS1 + TRM1012 + baa_aaa+ VIX + housng + SRT03M")), data = df,
+  myfit <- train(as.formula(paste0(var, "~", indep_RMSFE )), data = df,
                  method = "rf",
                  ntree = 500,
                  tuneGrid = expand.grid(mtry = c(1:8)),
@@ -316,7 +321,7 @@ variable_importance <- function(var){
 ###############################################################################################
 
 df_ts <- ts(df)  
-get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_periods_OOS = 20) {
+get_statistics <- function(dep, indep_RMSFE, start=1, end=sum(!is.na(df[dep])), est_periods_OOS = 20) {
   
   # Creating vectors where to store values
   #Only use information that is available up to the time at which the forecast is made
@@ -327,14 +332,14 @@ get_statistics <- function(dep, indep, start=1, end=sum(!is.na(df[dep])), est_pe
                             fixedWindow = TRUE, 
                             savePredictions = "final")
   
-    myfit_rf <- train(as.formula(paste0(dep, "~", indep)), data = df,
+    myfit_rf <- train(as.formula(paste0(dep, "~", indep_RMSFE)), data = df,
                    method = "rf",
                    ntree = 500,
                    tuneGrid = expand.grid(mtry = c(1:8)),
                    trControl = mycontrol,
                    na.action=na.pass)
 
-    myfit_lm <- train(as.formula(paste0(dep, "~", indep)), data = df,
+    myfit_lm <- train(as.formula(paste0(dep, "~", indep_RMSFE)), data = df,
                    method = "lm",
                    trControl = mycontrol,
                    na.action=na.pass)
@@ -376,7 +381,7 @@ CSSFED_all <- function(dependent){
   x <- c("OOS_error_lm","OOS_error_rf","lm_rf", "Date")
   colnames(output_combined) <- x
   for (i in dependent){
-  output <- get_statistics(i, indep) %>%
+  output <- get_statistics(i, indep_RMSFE) %>%
     mutate(Dependent=i)
 
    output_combined <- rbind(output_combined, output)

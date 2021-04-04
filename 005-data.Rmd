@@ -80,10 +80,10 @@ Furthermore, we construct changes in the short rate that is defined as the chang
 statistics %>%
   select(-N.Valid) %>%
   arrange(match(Variable, c("YIV", "GDP","AAA","DBAA","baa_aaa")), desc(Mean)) %>%
-  kbl(booktabs = T,  longtable=T, align="c", digits=2, caption="Summary Statistics") %>%
+  kbl(booktabs = T,  longtable=T, align="c", digits=2, caption="Summary Statistics", row.names = F) %>%
   kable_styling(latex_options = c("striped","repeat_header")) %>%
   group_rows("Panel A: YIV & GDP",1,2, latex_align="c") %>%
-  group_rows("Panel B: Control Variables",3,15, latex_align="c") %>%
+  group_rows("Panel B: Control Variables",3,14, latex_align="c") %>%
   footnote(general = "The variables are shown prior to the standardization process.", threeparttable=T)
 ```
 \endgroup

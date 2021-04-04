@@ -101,8 +101,6 @@ results2  %>%
      column_spec(1:1, width="2in")%>%
        footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
 
-#model2 <- lm(log_gdp ~ YIV + dum + YIV*dum, df)
-#ols_vif_tol(model2)
 ```
 \endgroup
 

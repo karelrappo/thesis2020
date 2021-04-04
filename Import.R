@@ -90,7 +90,7 @@ DGS.clean <- DGS.clean %>%
   mutate(TRM1003 = DGS10-DGS3MO) %>%
   mutate(TRM1006 = DGS10-DGS6MO) %>%
   mutate(TRM1012 = DGS10-DGS1) %>%
-  mutate(SRT03M = DGS3MO-lag(DGS3MO, 4))
+  mutate(SRT03M = DGS3MO-lag(DGS3MO, 1))
 
 DGS.clean<- subset(DGS.clean, DATE >= start & DATE <= end)
 
@@ -133,7 +133,7 @@ dataset <- dataset %>%
 
 #For summary statistics
 df_summary <- dataset %>%
-  select("YIV", "GDP", "spy_logreturn","VIX","DBAA","AAA","baa_aaa","gz_spr", "housng" , "SRT03M", "TRM1003", "TRM1006", "TRM1012", "TRM0503", "TRM0506")
+  select("YIV", "GDP", "VIX", "DBAA","AAA","baa_aaa", "housng" , "SRT03M", "TRM1003", "TRM1006", "TRM1012", "TRM0503", "TRM0506", "DGS3MO")
 
 
 #standardize only independent + spy(since log) <-- SISESTA SIIA NEED MIDA POLE VAJA STANDARDIZEDA

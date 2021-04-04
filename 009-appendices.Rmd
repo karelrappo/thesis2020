@@ -91,24 +91,6 @@ regression.coefficients
 
 ```
 
-\newpage
-## Appendix C
-
-```{r OLS4, message = F, warnings = F,echo = F}
-regr4 <- regrs(mudelid=c("DGS1","TRM1012", "SRT03M", "baa_aaa", "VIX", "housng", "gz_spr", "spy_logreturn"),interaction=F)
-results4 <- regr_results(a=regr4) %>%
-  round(2) %>%
-  significance() %>%
-    rename(" "=rowname)
-
-
-
-results4  %>%
-  kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
-   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-    column_spec(1:1, width="2in")%>%
-       footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
-```
 
 \newpage
 ## Appendix D
@@ -123,7 +105,7 @@ Notes: The following regressions includes YIV, dummy and controls as independent
 
 
 ```{r OLS5, message = F, warnings = F,echo = F}
-regr5 <- regrs(mudelid=c("YIV", "dum", "DGS1", "TRM1012", "SRT03M", "baa_aaa", "VIX", "housng", "gz_spr", "spy_logreturn"),interaction=F)
+regr5 <- regrs(mudelid=indep_replication2,interaction=F)
 results5 <- regr_results(a=regr5) %>%
   round(2) %>%
   significance() %>%
@@ -213,21 +195,22 @@ summary_table <- colnames(df_summary)
 summary_table <- summary_table %>%
   as_tibble() %>%
   rename(Variable=value)
+
 summary_table$Description <- c("5 - year Treasury Implied Volatility",
-                               "Year-on-year change in real gross domestic product",
-                               "logarithmic yearly returns of SPY index",
+                               "Real gross domestic product",
                                "Returns of VIX index",
                                "BAA corporate bond yields",
                                "AAA corporate bond yields",
                                "Yield spread between BAA and AAA yields",
-                               "Credit risk spread index",
                                "New housing market starts",
                                "Changes in 3 month treasury yield",
                                "TRM1003 - 10 year and 3 month treasury yield spread",
                                "TRM1006 - 10 year and 6 month treasury yield spread",
                                "TRM1012 - 10 year and 1 year treasury yield spread",
                                "TRM0503 - 5 year and 3 month treasury yield spread",
-                               "TRM0506 - 5 year and 6 month treasury yield spread")
+                               "TRM0506 - 5 year and 6 month treasury yield spread",
+                               "Three month corporate bond yield")
+  
 summary_table %>%
   kbl(longtable=T, booktabs=T) %>%
   kable_styling() 
