@@ -245,16 +245,6 @@ squared_error_plot(a)
 &= \Delta \ln y_{t+1} + \Delta \ln y_{t} + \Delta \ln y_{t-1} + \Delta \ln y_{t-2}
 \end{align}
 
-
-**For $h=2$**
-
-\begin{align}
-&\frac{1}{2}( \ln (1 + GDP_{t+2}) + \ln (1 + GDP_{t+1}) ) = \\
-&= \frac{1}{2}( \Delta \ln y_{t+2} + \Delta \ln y_{t+1} + \Delta \ln y_{t} + \Delta \ln y_{t-1} +  \Delta \ln y_{t+1} + \Delta \ln y_{t} + \Delta \ln y_{t-1} + \Delta \ln y_{t-2}) =\\
-&= \frac{1}{2}( \Delta \ln y_{t+2} + 2\Delta \ln y_{t+1} + 2\Delta \ln y_{t} + 2\Delta \ln y_{t-1} + \Delta \ln y_{t-2}) 
-\end{align}
-
-
 **For $h=4$**
 
 \begin{align}
@@ -268,7 +258,7 @@ squared_error_plot(a)
 \end{align}
 
 
-**This formula is for h-step ahead average quarterly growth rate for $h=4$:**
+**This formula is for average quarterly growth rate for $h=4$:**
 
 \begin{align}
 &\frac{1}{4}( \ln (1 + GDP_{t+4})) = \\
@@ -276,7 +266,8 @@ squared_error_plot(a)
 \Delta \ln y_{t+4} + \Delta \ln y_{t+3} + \Delta \ln y_{t+2} + \Delta \ln y_{t+1})
 \end{align}
 
-**Formula for h-step ahead quarterly growth rate:**
+
+**Formula for quarterly growth rate for $h=4$:**
 
 \begin{align}
 \Delta \ln y_{t+4} 
