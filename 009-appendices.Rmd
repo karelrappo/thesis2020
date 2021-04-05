@@ -130,7 +130,7 @@ results5  %>%
 ```
 \newpage
 
-## Appendix E
+## Appendix E {#S:rmsfegraph}
 
 
 ```{r, rmsfeerrors, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE for various estimations"}
@@ -141,8 +141,7 @@ df_resultss %>%
 
 ```
 
-
-```{r, rmsfegraphs, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE graphs"}
+```{r, rmsfegraphs, message = F, warnings = F,echo = F,fig.height=4, fig.cap="Out-of-sample RMSFE graphs"}
 
 ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) +
   geom_line(aes(color=factor(rowid))) +
@@ -227,15 +226,13 @@ squared_error_plot(a)
 ```
 
 \newpage
-## Appendix J
+## Appendix J {#S:BSnote}
 
 **Formula for dependent variable as used in the paper where $GDP_{t+j}$ is the GDP year-on-year growth rate in quarter $t+j$.**
 
 \begin{equation}
-\frac{1}{h}\sum_{j=1}^{j=h} \ln (1 + GDP_{t+j})
-(\#eq:BS_note)
+\frac{1}{h}\sum_{j=1}^{j=h} \ln (1 + GDP_{t+j}) (\#eq:BS_note)
 \end{equation}
-
 
 For $h=1$
 
