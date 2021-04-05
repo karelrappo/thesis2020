@@ -12,7 +12,7 @@ output: pdf_document
 \includegraphics[width=5cm, height=7cm]{SSE_logo}
 
 \Large
-\textbf{State-dependent forecasting of macroeconomic real activity }\break
+\textbf{State-dependent evaluation of Random Forest in forecasting real activity}\break
 \vspace{1 cm}
 \normalsize
 Bachelor Thesis \break

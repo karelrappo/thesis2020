@@ -30,9 +30,9 @@ source("functions.R")
 ```
 
 
-# Appendices {-}
+# Appendices
 
-## Appendix A {#S:digitizer}
+## Appendix A {#S:digitizer} 
 
 As researchers typically do not typically post underlying data with their research, various plot digitizers have seen an exponential increase in use. @Drevon2017 researched intercoder reliability, during which over 3500 data points were extracted with WebPlotDigitizer from 36 different graphs. Nevertheless, they controlled the validity of the results and concluded that there was a near perfect correlation (r=0.989 with p-value <0.01) between extracted and actual data. Nevertheless, the limitations mentioned highlight coders previous experience with plot-digitizing tools.
 
@@ -172,8 +172,7 @@ pred_vs_actual_graph(rf,"Random forest")
 ```
 
 \newpage
-## Appendix G {#S:rmsfelmsvsrf} ^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
-
+## Appendix G {#S:rmsfelmsvsrf} 
 
 ```{r, RSMFE-lm-vs-rf, message = F, warnings = F,echo = F, fig.cap="RMSFE-s of linear model and random forest"}
 
@@ -188,7 +187,7 @@ ggplot(rf_resultsss, aes(variable, value, group=factor(Specification))) + geom_l
 
 
 \newpage
-## Appendix H
+## Appendix H 
 
 ```{r, sum-stat,message = F, warnings = F,echo = F}
 summary_table <- colnames(df_summary)
@@ -217,7 +216,7 @@ summary_table %>%
 ```
 
 \newpage
-## Appendix I {#S:squarederrors}
+## Appendix I {#S:squarederrors} 
 
 
 ```{r, squared-errors, message = F, warnings = F,echo = F, fig.cap="Squared errors"}
@@ -226,7 +225,7 @@ squared_error_plot(a)
 ```
 
 \newpage
-## Appendix J {#S:BSnote}
+## Appendix J {#S:BSnote} 
 
 **Formula for dependent variable as used in the paper where $GDP_{t+j}$ is the GDP year-on-year growth rate in quarter $t+j$.**
 \begin{equation}
