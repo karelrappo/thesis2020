@@ -234,7 +234,7 @@ squared_error_plot(a)
 \frac{1}{h}\sum_{j=1}^{j=h} \ln (1 + GDP_{t+j}) (\#eq:BS_note)
 \end{equation}
 
-For $h=1$
+**For $h=1$**
 
 \begin{align}
 \ln (1 + GDP_{t+1}) & = \ln \left(1 + \frac{y_{t+1} - y_{t-3}}{y_{t-3}}\right) = \\
@@ -246,7 +246,7 @@ For $h=1$
 \end{align}
 
 
-For $h=2$
+**For $h=2$**
 
 \begin{align}
 &\frac{1}{2}( \ln (1 + GDP_{t+2}) + \ln (1 + GDP_{t+1}) ) = \\
@@ -255,7 +255,7 @@ For $h=2$
 \end{align}
 
 
-For $h=4$
+**For $h=4$**
 
 \begin{align}
 &\frac{1}{4}( \ln (1 + GDP_{t+4}) + \ln (1 + GDP_{t+3}) +  \ln (1 + GDP_{t+2}) + \ln (1 + GDP_{t+1})) = \\
