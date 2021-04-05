@@ -30,7 +30,7 @@ source("functions.R")
 ```
 
 
-# Appendices
+# Appendices {-}
 
 ## Appendix A {#S:digitizer}
 
