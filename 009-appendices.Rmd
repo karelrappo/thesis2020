@@ -154,7 +154,7 @@ ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) +
 ```
 \newpage
 
-## Appendix F
+## Appendix F {#S:predictedactuals}
 
 ```{r, pred-vs-actual-lm, message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Linear model)"}
 
