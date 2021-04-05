@@ -93,7 +93,7 @@ regression.coefficients
 
 
 \newpage
-## Appendix D
+## Appendix D {#S:appendixd}
 
 Notes: The following regressions includes YIV, dummy and controls as independent variables. The specification for the regression is the following:
 
@@ -172,7 +172,7 @@ pred_vs_actual_graph(rf,"Random forest")
 ```
 
 \newpage
-## Appendix G^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
+## Appendix G {#S:rmsfelmsvsrf} ^[Full R-Code with data is available upon request in github repository: https://github.com/karelrappo/thesis2020]
 
 
 ```{r, RSMFE-lm-vs-rf, message = F, warnings = F,echo = F, fig.cap="RMSFE-s of linear model and random forest"}
@@ -217,7 +217,7 @@ summary_table %>%
 ```
 
 \newpage
-## Appendix I
+## Appendix I {#S:squarederrors}
 
 
 ```{r, squared-errors, message = F, warnings = F,echo = F, fig.cap="Squared errors"}
