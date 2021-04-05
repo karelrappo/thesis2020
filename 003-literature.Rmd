@@ -42,7 +42,7 @@ One rather different variable that can be potentially used for macroeconomic for
 
 Similarly to stock prices, option prices reflect future expectations. Taking this into account, @David2014 continue to discover implications of at-the-money (ATM) implied volatility (IV). They find that a shock to stock and bonds ATM IV is followed by a decline in future real rates. Thus, there exists a positive relationship between IV shock and possibility of recession.
 
-Building upon the aforementioned various research, @Cremers2021 have analyzed over 20 years of data to find out whether Treasury yield implied volatility can be used to predict different macroeconomic and financial measures such as growth & volatility of GDP, industrial production, employment. Using daily at-the-money option data from 1990 May until 2016 November for different treasury bonds and bills, they calculated daily (treasury) implied volatilities (YIV) using Black’s model, which in essence is an adjusted model of the famous Black & Scholes model to value options on future contracts [@Black1976] - see equation \@ref(eq:black).
+Building upon the aforementioned various research, @Cremers2021 have analyzed over 20 years of data to find out whether Treasury yield implied volatility can be used to predict different macroeconomic and financial measures such as growth & volatility of GDP, industrial production, employment. Using daily at-the-money option data from 1990 May until 2016 November for different treasury bonds and bills, they calculated daily (treasury) implied volatilities (YIV) using Black’s model, which in essence is an adjusted model of the famous Black & Scholes model to value options on future contracts [@Black1976] - see Equation \@ref(eq:black).
 
 
 \begin{equation}\
