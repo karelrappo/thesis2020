@@ -32,7 +32,7 @@ source("functions.R")
 
 # Results
 
-For preliminary analysis, we plot quarterly YIV with quarterly GDP growth rates to see whether visual patterns arise. As it can be seen, the YIV seems to have a negative correlation with GDP. This relationship is especially profound during Global Financial Crisis (around 2008-2009) when YIV surges up while a big decline in GDP growth happens. This confirms our base for analysis as suggested by the literature review that indeed the treasury could have the predictive ability over GDP growth rate.
+For preliminary analysis, we plot quarterly YIV with quarterly GDP growth rates to see whether visual patterns arise. As it can be seen on the Figure \@ref(fig:YIV-gdp), YIV seems to have a negative correlation with GDP.  This relationship is especially profound during Global Financial Crisis (around 2008-2009) when YIV surges up while a big decline in GDP growth happens. This confirms our base for analysis as suggested by the literature review that indeed the treasury could have the predictive ability over GDP growth rate.
 
 ```{r, YIV-gdp, message=F, warnings=F, echo = F, fig.cap="GDP Growth(%) vs 5-year Treasury Implied Volatility"}
 df %>%
@@ -43,6 +43,10 @@ df %>%
    annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey") +
     annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey") +
     theme_bw() +
+   +
+    scale_fill_manual('NBER recessions',
+                      values = 'grey',  
+                      guide = guide_legend(override.aes = list(alpha = 1))) +
     theme(legend.position = "bottom", legend.title = element_blank()) +
     labs(x="Date", y="Growth rate")
 ```
