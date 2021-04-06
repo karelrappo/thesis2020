@@ -40,5 +40,10 @@ Despite being a widely researched topic, forecasting macroeconomic real activity
 **Keywords**: Predicting real economy, treasury implied volatility, performance asymmetries, ML-based methods.
 \endgroup
 
+# Acknowledgement {-}
+
+We would like to express gratitude to our supervisor Boriss Siliverstovs who has been of great help throughout the whole research process and enabled the quality of the work. We especially appreciate the technical guidance with regards to the methodology section of the paper.
+
+
 
 
