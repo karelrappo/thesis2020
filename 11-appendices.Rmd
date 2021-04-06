@@ -92,7 +92,7 @@ extracted
 The following figures illustrate r-squared and coefficients for the YIV-only regression:
 
 \begin{equation}
-\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} +\varepsilon_{t+H}
+\frac{1}{H} \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} +\varepsilon_{t+H}
 \end{equation}
 
 ```{r regfit, message = F, warnings = F, echo = F, fig.height=2.5, fig.width=6, fig.cap="Regressions' R-squared"}
@@ -171,7 +171,7 @@ summary_table %>%
 Notes: The following regressions includes YIV, dummy and controls as independent variables. For the description of the variables in the output, please refer to Appendix \@ref(S:descriptive). The specification for the regression is the following:
 
 \begin{equation}
-\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + Controls + Dummy +\varepsilon_{t+H}
+\frac{1}{H} \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + Controls + Dummy +\varepsilon_{t+H}
 \end{equation}
 
 

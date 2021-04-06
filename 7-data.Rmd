@@ -37,22 +37,21 @@ source("Import.R")
 For the regression analysis, we have extracted the following data:
 
 * Quarterly 5-year Treasury Implied Volatility 
-* Quarterly GDP data (used for calculating respective dependent variables for which the equations can be found in the appendix \@ref(S:BSnote) 
+* Quarterly GDP data (used for calculating respective dependent variables for which the equations can be found in the Appendix \@ref(S:BSnote)) 
 * Control Variables:
   - US treasury interest rates to construct term spreads
   - credit spreads
   - credit spread index
-  - stock returns (SPY)
   - stock market implied volatility (VIX)
   - Residential market construction starts
 
 
 As mentioned in the review of literature, YIV is constructed using Black model & deriving implied volatility through option prices, time-to-maturity, etc. The data regarding options on treasury bond futures, however, is collected by CME and available only through accessing their database.
 
-Due to the data price being behind the paywall, we had to resort to other measures to access the data. Firstly, we contacted prof. Cremers, Gandhi & Fleckenstein, who were ready to share their data with us if the CME group gives their consent. Nevertheless, as the work is still in the publication process, we could not rely solely on that possibility, and thus resort to other options - extracting data via plot digitizers (read more in Appendix \@ref(S:digitizer)).
+Due to the data being behind the paywall, we had to resort to other measures to access the data. Firstly, we contacted prof. Cremers, Gandhi & Fleckenstein, who were ready to share their data with us if the CME group gives their consent. Nevertheless, as the work is still in the publication process, we could not rely solely on that possibility, and thus resort to other options - extracting data via plot digitizers (read more in Appendix \@ref(S:digitizer)).
 
 
-The data regarding GDP was extracted on a quarterly basis from @Alfred2020. Furthermore, the vintage 2019-12-20 was extracted as it coincided the best with the data used in the research paper by @Cremers2017. In addition, most of the data for constructing control variables were also extracted from the Fred database, such as:
+The data regarding GDP was extracted on a quarterly basis from @Alfred2020. Furthermore, the vintage 2019-12-20 was extracted as it coincided the best with the data used in the research paper by @Cremers2017. In addition, most of the data for constructing control variables were also extracted from the FRED database, such as:
  
 * Quarterly risk free rates (Treasury constant maturity rates for 3 month, 6 months, 1 year, 5 year and 10 year) 
 * Quarterly corporate bond yields
@@ -61,8 +60,7 @@ The data regarding GDP was extracted on a quarterly basis from @Alfred2020. Furt
 * Quarterly housing (new residential property construction) starts
 
 In addition to individual corporate bonds yields, we have also included corporate bond credit spread index, which was obtained from the official replication dataset from OPENCSR [@GZdata]. As per authors, the dataset is constructed "using the prices of corporate bonds trading in the secondary market" [@Gilchrist2012, p. 1693].
-The daily data for stock market implied volatility (VIX) is taken from CBOE, which is later aggregated into quarterly data [@vix]. Lastly, the monthly SPY historical data is obtained from Yahoo Finance, which again is aggregated into quarterly data [@spy].
-
+The daily data for stock market implied volatility (VIX) is taken from CBOE, which is later aggregated into quarterly data [@vix].
 Based on the obtained risk free rates we calculate term spreads which are defined as the differences 
 
 * between 10 year and 12 month treasury constant maturity rate (variable TRM1012). 
@@ -71,9 +69,9 @@ Based on the obtained risk free rates we calculate term spreads which are define
 * between 5 year and 6 month treasury constant maturity rate (variable TRM0506)
 * between 5 year and 3 month treasury constant maturity rate (variable TRM0503)
 
-Furthermore, in addition to the 3-month treasury note, we also construct (SRT03M) which is defined as its change compared to the previous quarter. In addition to the credit spread index(CRSZGI) and individual corporate yields, we calculate yield spread between AAA and BAA corporate bonds, defined as baa_aaa. All the used variables prior to standardization can be seen in the Table \@ref(tab:summarystat) below. It includes summary statistics for main variables used in our research. Statistics include mean, standard deviation, min, 1st quartile, median, 3rd quartile, max.
+Furthermore, in addition to the 3-month treasury note, we also construct (SRT03M) which is defined as its change compared to the previous quarter. In addition to the credit spread index (CRSZGI) and individual corporate yields, we calculate yield spread between AAA and BAA corporate bonds, defined as baa_aaa. All the used variables prior to standardization can be seen in the Table \@ref(tab:summarystat) below. It includes summary statistics for main variables used in our research. Statistics include mean, standard deviation, min, 1st quartile, median, 3rd quartile, max.
 
-For the out-of-sample tests, we exclude SPY & GZ_SPR from the regressions as their dataset is limited (NAs present). Due to the random selection in RF NA's among predictor variables are not allowed; hence, if we want to have comparable results with linear model exclusion is required.
+For the analysis, we exclude GZ_SPR from the regressions as their dataset is limited (NAs present). Due to the random selection in RF NA's among predictor variables are not allowed; hence, if we want to have comparable results with linear model exclusion is required.
 
 
 \begingroup
