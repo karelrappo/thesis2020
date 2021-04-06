@@ -32,7 +32,7 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE
 ```
 \pagenumbering{gobble}
 
-```{r child = '001-title.Rmd'}
+```{r child = '1-title.Rmd'}
 ```
 \newpage
 \renewcommand{\headrulewidth}{0.4pt}
@@ -41,7 +41,7 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE
 \pagenumbering{arabic}
 
 \setcounter{page}{2}
-```{r child = 'Declaration of copyright.Rmd'}
+```{r child = '2-declaration of copyright.Rmd'}
 ```
 \setcounter{tocdepth}{3}
 \begingroup
@@ -51,42 +51,42 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE
 
 \newpage
 
-```{r child = 'Abstract.Rmd'}
+```{r child = '3-abstract.Rmd'}
 ```
 \linespread{1}\selectfont
 \FloatBarrier
 \newpage
 
-```{r child = '002-introduction.Rmd'}
+```{r child = '4-introduction.Rmd'}
 ```
 \FloatBarrier
 \newpage
 
-```{r child = '003-literature.Rmd'}
+```{r child = '5-literature.Rmd'}
 ```
 \FloatBarrier
 \newpage
 
-```{r child = '004-methodology.Rmd'}
+```{r child = '6-methodology.Rmd'}
 ```
 \FloatBarrier
 \newpage
 
-```{r child = '005-data.Rmd'}
+```{r child = '7-data.Rmd'}
 ```
 \newpage
 \FloatBarrier
-```{r child = '006-Results.Rmd'}
-```
-
-\newpage
-\FloatBarrier
-```{r child = 'Discussion.Rmd'}
+```{r child = '8-Results.Rmd'}
 ```
 
 \newpage
 \FloatBarrier
-```{r child = 'Conclusion.Rmd'}
+```{r child = '9-discussion.Rmd'}
+```
+
+\newpage
+\FloatBarrier
+```{r child = '10-conclusion.Rmd'}
 ```
 
 \FloatBarrier
@@ -106,4 +106,4 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE
 \newpage
 
 \renewcommand{\thefigure}{Appendix~\arabic{section}.\arabic{figure}}
-```{r child = '009-appendices.Rmd'}
+```{r child = '11-appendices.Rmd'}

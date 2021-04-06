@@ -1,17 +1,13 @@
-library(tidyverse)
-library(summarytools)
-library(kableExtra)
-library(dynlm)
-library(stats)
-library(sandwich)
-library(data.table)
-library(zoo)
-library(caret)
-library(randomForest)
-library(broom)
-library(modelr)
-library(lmtest)
-library(gridExtra)
+#Function for loading packages and installing them in case they are not already installed.
+install_packages <- function(package){
+  new.package <- package[!(package %in% installed.packages()[, "Package"])]
+  if (length(new.package)) 
+    install.packages(new.package, dependencies = TRUE)
+  sapply(package, require, character.only = TRUE)
+}
+packages <- c("tidyverse", "summarytools", "kableExtra", "dynlm", "stats", "sandwich", "data.table", "zoo", "caret", "randomForest", "broom", "modelr", "lmtest", "gridExtra")
+install_packages(packages)
+
 
 
 start <- as.Date("01/03/1990", format="%d/%m/%Y")
