@@ -25,8 +25,36 @@ header-includes:
 - \DeclareMathOperator{\logit}{logit}
 ---
 
-```{r, include=F}
+```{r, include=F, echo=F}
 source("functions.R")
+
+dep_H <- c("H1", "H8")
+dep_N <- c("N1", "N8")
+
+combiner_appendice <- function(dependent){
+  combined <- data.frame(matrix(ncol = 3, nrow = 0))
+  x <- c("predicted", "actuals", "Date")
+  colnames(combined) <- x
+  for (i in dependent){
+    output <- out_of_samp2(i,indep_RMSFE,"rf") %>%
+      mutate(variable=i)
+      
+    combined <- rbind(combined,output)
+    
+  }
+  return(combined)
+}
+
+N <-  combiner_appendice(dep_N)
+H <- combiner_appendice(dep_H)
+
+bsnote_graph <- function(var,lab){
+  ggplot(var, aes(x=as.Date(Date))) + geom_line(aes(y=predicted, color="red")) + geom_line(aes(y=actuals, color="blue"))+ theme_bw() +
+    theme(legend.position="bottom",legend.title = element_blank()) + labs(x="Time horizon", y=paste0(lab)) + 
+    facet_wrap(~variable) + scale_color_manual(labels = c("Actuals", "Predicted"), values = c("blue", "red")) +
+    annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey") +
+    annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")
+}
 ```
 
 # Appendices
@@ -94,7 +122,7 @@ regression.coefficients
 
 
 \newpage
-# Appendix D {#S:appendixd .unlisted}
+# Appendix C {#S:appendixd .unlisted}
 
 Notes: The following regressions includes YIV, dummy and controls as independent variables. The specification for the regression is the following:
 
@@ -131,7 +159,7 @@ results5  %>%
 ```
 \newpage
 
-# Appendix E {#S:rmsfegraph .unlisted}
+# Appendix D {#S:rmsfegraph .unlisted}
 
 
 ```{r, rmsfeerrors, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE for various estimations"}
@@ -157,7 +185,7 @@ ggplot(data, aes(variable, value, group=factor(rowid))) +
 ```
 \newpage
 
-# Appendix F {#S:predictedactuals .unlisted}
+# Appendix E {#S:predictedactuals .unlisted}
 
 ```{r, pred-vs-actual-lm, message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Linear model)"}
 
@@ -175,7 +203,7 @@ pred_vs_actual_graph(rf,"Random forest")
 ```
 
 \newpage
-# Appendix G {#S:rmsfelmsvsrf .unlisted} 
+# Appendix F {#S:rmsfelmsvsrf .unlisted} 
 
 ```{r, RSMFE-lm-vs-rf, message = F, warnings = F,echo = F, fig.cap="RMSFE-s of linear model and random forest"}
 
@@ -190,7 +218,7 @@ ggplot(lm_rf_results, aes(variable, value, group=factor(Specification))) + geom_
 
 
 \newpage
-# Appendix H{.unlisted}
+# Appendix G {.unlisted}
 
 ```{r, sum-stat,message = F, warnings = F,echo = F}
 summary_table <- colnames(df_summary)
@@ -219,16 +247,19 @@ summary_table %>%
 ```
 
 \newpage
-# Appendix I {#S:squarederrors .unlisted} 
+
+# Appendix H {#S:squarederrors .unlisted} 
 
 
 ```{r, squared-errors, message = F, warnings = F,echo = F, fig.cap="Squared errors"}
 a <- c("OOS_error_lm","OOS_error_rf")
 squared_error_plot(a)
 ```
+\linespread{.75}\selectfont
 
 \newpage
-# Appendix J {#S:BSnote .unlisted} 
+
+# Appendix I {#S:BSnote .unlisted} 
 
 **Formula for dependent variable as used in the paper where $GDP_{t+j}$ is the GDP year-on-year growth rate in quarter $t+j$.**
 \begin{equation}
@@ -272,38 +303,14 @@ squared_error_plot(a)
 
 \newpage
 
-# Appendix K {#S:gdpversions .unlisted}
+# Appendix J {#S:gdpversions .unlisted}
 
-```{r}
-dep_H <- c("H1", "H8")
-dep_N <- c("N1", "N8")
-
-combiner_appendice <- function(dependent){
-  combined <- data.frame(matrix(ncol = 3, nrow = 0))
-  x <- c("predicted", "actuals", "Date")
-  colnames(combined) <- x
-  for (i in dependent){
-    output <- out_of_samp2(i,indep_RMSFE,"rf") %>%
-      mutate(variable=i)
-      
-    combined <- rbind(combined,output)
-    
-  }
-  return(combined)
-}
-
-N <-  combiner_appendice(dep_N)
-H <- combiner_appendice(dep_H)
-
-bsnote_graph <- function(var,lab){
-  ggplot(var, aes(x=as.Date(Date))) + geom_line(aes(y=predicted, color="red")) + geom_line(aes(y=actuals, color="blue"))+ theme_bw() +
-    theme(legend.position="bottom",legend.title = element_blank()) + labs(x="Time horizon", y=paste0(lab)) + 
-    facet_wrap(~variable) + scale_color_manual(labels = c("Actuals", "Predicted"), values = c("blue", "red")) +
-    annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey") +
-    annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")
-}
-
+```{r, fig.height=4, fig.cap="Average quarterly growth rates of GDP h-quarters ahead"}
 bsnote_graph(N,"Average quarterly growth rates of GDP h-quarters ahead")
+```
+
+
+```{r, fig.height=4, fig.cap="Average quarterly year-on-year growth rates (as in the original paper"}
 bsnote_graph(H,"Average quarterly year-on-year growth rates (as in the original paper")
 ```
 
