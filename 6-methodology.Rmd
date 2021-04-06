@@ -23,6 +23,8 @@ header-includes:
 - \usepackage{float}
 - \usepackage{amsmath}
 - \DeclareMathOperator{\logit}{logit}
+biblatexoptions: [backend=biber, maxbibnames=999]
+
 ---
 
 
@@ -117,9 +119,18 @@ As decision trees are non-parametric, it means that no strong assumptions about 
 ### Random Forest
 
 Decision Trees are not a robust method as the results are extremely dependent on the dataset, even a small change in the initial training data can yield different outcomes. This is the very reason why Random Forest was proposed by @Breiman2001. Random forest itself is an ensemble based supervised learning method. As the name suggests there are two main elements behind it. 
+```{=latex}
+\begin{figure}[t]
+```
 
-```{r randomf,  out.width = "450px", fig.cap="Random forest example", fig.align="center"}
+```{r randomf, echo=F, out.width = "450px", fig.align="center"}
 knitr::include_graphics("images/randomforest.png")
+```
+
+```{=latex}
+\caption{Example of random forest. \label{fig:randomf}}
+\cite{Verikas2016}
+\end{figure}
 ```
 
 First is the randomness part - random forest uses bootstrap aggregation (bagging) to construct random samples of the initial training dataset. Furthermore, the randomness is also included in variable selection - it randomly selects n number of variables of the total set N used for splitting at each node.
