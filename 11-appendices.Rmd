@@ -179,7 +179,7 @@ pred_vs_actual_graph(rf,"Random forest")
 
 ```{r, RSMFE-lm-vs-rf, message = F, warnings = F,echo = F, fig.cap="RMSFE-s of linear model and random forest"}
 
-ggplot(rf_resultsss, aes(variable, value, group=factor(Specification))) + geom_line(aes(color=factor(Specification))) +
+ggplot(lm_rf_results, aes(variable, value, group=factor(Specification))) + geom_line(aes(color=factor(Specification))) +
   theme(legend.position="bottom") +
   labs(x="Time horizon", y="RMSFE", color="Model") + 
   facet_wrap(~period) +
