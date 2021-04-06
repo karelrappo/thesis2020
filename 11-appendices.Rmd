@@ -135,15 +135,17 @@ results5  %>%
 
 ```{r, rmsfeerrors, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE for various estimations"}
 
-df_resultss %>%
+df_results %>%
   kbl(longtable=T, booktabs=T) %>%
   kable_styling(full_width = TRUE) 
 
 ```
 
 ```{r, rmsfegraphs, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE graphs"}
+data <- melt(df_results)
+data$rowid <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", "Naive_Recessionary", "Naive_Expansionary", "TRM", "CRS","Full model", "Full - reccessionary", "Full - expansionary")
 
-ggplot(df_resultss2, aes(variable, value, group=factor(rowid))) +
+ggplot(data, aes(variable, value, group=factor(rowid))) +
   geom_line(aes(color=factor(rowid))) +
   theme_bw() +
   theme(legend.position = "none") +

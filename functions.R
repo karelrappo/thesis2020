@@ -153,8 +153,8 @@ out_of_samp <- function(var1, var2, type, var4){
     
     
   ifelse(type=="recessionary", SE <- filter(dff, dum==1),
-         ifelse(type=="expansionary", SE <- filter(dff, dum==0),
-                SE <- dff))
+  ifelse(type=="expansionary", SE <- filter(dff, dum==0),
+      SE <- dff))
   SE <- SE$SE
   RMSFE <- sqrt(mean(SE))
   return(RMSFE)
@@ -176,20 +176,15 @@ df_results9 <- as.data.frame(t(mapply(out_of_samp, dep, indep_replication, "full
 df_results10 <- as.data.frame(t(mapply(out_of_samp, dep, indep_replication,"recessionary", "lm")))
 df_results11 <- as.data.frame(t(mapply(out_of_samp, dep, indep_replication, "expansionary", "lm")))
 
-
-
-df_resultss <- rbind(df_results1, df_results2, df_results3, df_results4, df_results5, df_results6, df_results7, df_results8, df_results9, df_results10, df_results11) %>%
+df_results <- rbind(df_results1, df_results2, df_results3, df_results4, df_results5, df_results6, df_results7, df_results8, df_results9, df_results10, df_results11) %>%
   round(2)
 
-rownames(df_resultss) <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", "Naive_Recessionary", "Naive_Expansionary", "TRM", "CRS","full", "full_rec","full_exp")
+rownames(df_results) <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", "Naive_Recessionary", "Naive_Expansionary", "TRM", "CRS","full", "full_rec","full_exp")
 
-df_results <- transpose(df_resultss)
-df_resultss2 <- melt(df_resultss)
-df_resultss2$rowid <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", "Naive_Recessionary", "Naive_Expansionary", "TRM", "CRS","Full model", "Full - reccessionary", "Full - expansionary")
 
 ##############################   RELATIVE RMSFE  ##############################################################
 
-relative_rmsfes <- df_resultss %>%
+relative_rmsfes <- df_results %>%
   t() %>%
   as_tibble() %>%
   mutate(rRMSE_recess = YIV_Recessionary/YIV) %>%
@@ -199,10 +194,10 @@ relative_rmsfes <- df_resultss %>%
   t()
 
 colnames(relative_rmsfes) <- c("H1","H2","H4","H8")
-rownames(df_resultss)[rownames(df_resultss)=='YIV_Recessionary'] <- "YIV-Recess."
-rownames(df_resultss)[rownames(df_resultss)=='YIV_Expansionary'] <- "YIV-Expans."
-rownames(df_resultss)[rownames(df_resultss)=='Naive_Recessionary'] <- "Naive-Recess."
-rownames(df_resultss)[rownames(df_resultss)=='Naive_Expansionary'] <- "Naive-Expans."
+rownames(df_results)[rownames(df_results)=='YIV_Recessionary'] <- "YIV-Recess."
+rownames(df_results)[rownames(df_results)=='YIV_Expansionary'] <- "YIV-Expans."
+rownames(df_results)[rownames(df_results)=='Naive_Recessionary'] <- "Naive-Recess."
+rownames(df_results)[rownames(df_results)=='Naive_Expansionary'] <- "Naive-Expans."
 
 
 ##############################   RF & OLS RMSFE results' comparison ##############################################################
