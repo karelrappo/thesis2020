@@ -19,7 +19,6 @@ indep_RMSFE <- "YIV + dum + TRM1003 + TRM1006 + TRM1012 + TRM0506 + AAA + DBAA +
 
 
 
-
 ########################     Replaces p-values with significance stars    ################################################
 
 significance <- function(x){
@@ -60,7 +59,7 @@ regrs <- function(indep_vars, interaction)
           select(H1, H2, H4, H8, indep_vars) %>%
           gather(Var,Value,  -indep_vars) %>%
           nest(data=c(Value,  indep_vars)) %>%
-          mutate(model = map(data, ~lm(Value ~ YIV + dum +YIV*dum, data = .)),
+          mutate(model = map(data, ~lm(Value ~ YIV*dum, data = .)),
              tidied = map(model, tidy),
              glanced = map(model, glance),
              augmented = map(model, augment),
@@ -87,11 +86,11 @@ regr_results <- function(a){
     select(-augmented,-tidied, -glanced) %>%
     unnest(cols = c(neweywest)) %>%
     select(-statistic) %>%
-    pivot_longer(cols=-c(1:2), names_to = "mdeea", values_to = "Delay") %>%
-    mutate(x = paste(term,mdeea,sep = "_"))%>%
+    pivot_longer(cols=-c(1:2), names_to = "names", values_to = "values") %>%
+    mutate(x = paste(term,names,sep = "_"))%>%
     filter(!grepl('Intercept', term)) %>%
     select(-c(2:3)) %>%
-    pivot_wider(names_from = Var, values_from = Delay) %>%
+    pivot_wider(names_from = Var, values_from = values) %>%
     column_to_rownames(var = "x")
   
 results2 <- a %>%
@@ -413,5 +412,4 @@ CSSFED_plot <- function(var){
 
 
 }
-
 
