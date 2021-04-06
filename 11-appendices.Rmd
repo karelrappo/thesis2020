@@ -30,7 +30,7 @@ source("functions.R")
 ```
 
 # Appendices
-
+\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
 # (APPENDIX) Appendix {-}
 
 # Appendix A {#S:digitizer .unlisted} 
