@@ -122,16 +122,16 @@ Decision Trees are not a robust method as the results are extremely dependent on
 knitr::include_graphics("images/randomforest.png")
 ```
 
-First is the randomness part - random forest uses bootstrap aggregation (bagging) to construct random samples of the initial training dataset. Furthermore, the randomness is also included in variable selection - it randomly selects x number of variables of the total set X used for splitting at each node.
+First is the randomness part - random forest uses bootstrap aggregation (bagging) to construct random samples of the initial training dataset. Furthermore, the randomness is also included in variable selection - it randomly selects n number of variables of the total set N used for splitting at each node.
 Secondly, forest, which refers to the aggregation - the conclusion of the final model is reached by aggregating and averaging the output of individual decision trees. These two elements help to tackle overfitting as RF randomly creates a high number of combinations on the basis of which to create splits, which reduces the correlations betweens samples [@Zhang2019]. Hence, the final outcome is much more robust & less likely to be subject to overfitting.
 
 To take this process together in algorithmical terms: 
 
-1) Through bootstrap aggregation a sample set out of the predefined training data is created.
-2) Then the model randomly selects  x number variables amongst the total set X. 
+1) Through bootstrap aggregation a sample set out of the predefined training data X is created.
+2) Then the model randomly selects  n number variables amongst the total set N. 
 3) Subsequently, the best variable and splitting criterion is selected, on the basis of which the current node is splitted into two sub-nodes. 4) More specifically, the choice is  made on the basis of mean squared error (MSE)  - MSE is minimized at each split.
-5) This process is repeated until each terminal node reaches minimum size (by default 5 observations).
-6) The output is achieved by averaging the estimation of each tree in the model.
+5) This process is repeated until each terminal node reaches minimum size (by default 5 observations) and then model prediction k is made.
+6) The output k is achieved by averaging the estimations of each tree(k1..kb) in the model.
 
 
 \begin{equation}
