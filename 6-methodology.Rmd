@@ -102,7 +102,7 @@ The resulting figure can be plotted over time to visually identify how each obse
 
 
 ## Machine learning methods
-As machine learning (ML) methods successfully tackle nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty @Coulombe2020a. As our research includes many different economic crises, we expect to find forecasting gains by utilizing the Random Forest method. In our research, we focus specifically on a random forest based method due to its advantages over other ML methods, which will be discussed in the following paragraphs.
+As machine learning (ML) methods successfully tackle nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty @Coulombe2020a. As our research includes many different economic crises, we expect to find forecasting gains by utilizing the Random Forest method. In our research, we focus specifically on Random Forest model due to its advantages discussed in the literature review.
 
 
 ### Decision Trees
