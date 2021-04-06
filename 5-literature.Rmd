@@ -64,8 +64,11 @@ After obtaining the daily time series of implied volatility, the authors simply 
 
 
 \begin{equation}
-\sum_{j=1}^{j=H} log(1+GDP_{i,t+j}) = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Controls +\varepsilon_{t+H}
+\sum_{j=1}^{j=H} log(1+GDP_{t+j}) = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Controls +\varepsilon_{t+H}
 \end{equation}
+
+where $GDP_{i,t+j}$ refers to forward-looking GDP, $\sigma_{IV,t}$ to treasury implied volatility at time t
+
 
 So, for example, in the main regression described by the formula above, the authors analyze the effect on GDP. In this case, GDP refers to quarterly year-on-year growth rate. It is important to notice that they use the average annualized growth rate that is obtained by dividing the sum of quarterly growth rates with the number of quarters forecasted H.
 
