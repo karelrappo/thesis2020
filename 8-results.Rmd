@@ -43,7 +43,6 @@ df %>%
    annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey") +
     annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey") +
     theme_bw() +
-   +
     scale_fill_manual('NBER recessions',
                       values = 'grey',  
                       guide = guide_legend(override.aes = list(alpha = 1))) +
