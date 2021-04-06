@@ -123,9 +123,9 @@ This is consistent with the RMSFEs calculated (see Appendix \@ref(S:rmsfegraph))
 Next, we wanted to compare the full-sample OOS RMSFE-s with the subsample OOS RMSFE-s. As it can be seen from the same Figure (\@ref(S:rmsfegraph)), during the recessionary period the RMSFE is significantly higher when compared to the full-sample RMSFE - furthermore, this holds for all the different models.   
 
 ```{r subs, fig.height=3, fig.cap="Relative Recessionary & Expansionary RMSE"}
-joonis  <- relative_rmsfes
+relative_rmsfe  <- relative_rmsfes
 
-joonis  %>%
+relative_rmsfe  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Relative RMSFEs") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
      column_spec(1:1, width="2in")
