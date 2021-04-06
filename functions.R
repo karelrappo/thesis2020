@@ -1,19 +1,18 @@
 source("Import.R")
 
-######################## Select dataset, df by default ###########################################
-
 set.seed(123)
+
 ##### List of dependent variables
 # H1:H8 - Average quarterly year-on-year growth rates (as in the original paper)
 # F1:F8 - Quarterly growth rates of GDP h-quarters ahead
 # N1:N8 - Average quarterly growth rates of GDP h-quarters ahead
 
+#### Choose which dependent variable to use for calculating OOS RMSFE-s
 #dep <- c("H1", "H2", "H4", "H8")
 dep <- c("F1", "F2", "F4", "F8")
 #dep <- c("N1", "N2", "N4", "N8")
 
-#Full model independent variables
-
+####Full model independent variables for different regressions
 indep_replication <- "YIV + dum + log_gdp + TRM0503 + DGS3MO + SRT03M + VIX + AAA + housng"
 indep_replication2 <- c("YIV", "dum", "log_gdp", "TRM0503", "DGS3MO", "SRT03M", "VIX", "AAA", "housng")
 indep_RMSFE <- "YIV + dum + TRM1003 + TRM1006 + TRM1012 + TRM0506 + AAA + DBAA + baa_aaa + DGS3MO + SRT03M" 
@@ -52,15 +51,15 @@ significance <- function(x){
 
 
 ###############################################################################################
-########################       LINEAR MODELS' RELATED SUMMARY STATISTICS   ####################
+########################       LINEAR MODELS' RELATED SUMMARY OUTPUT     ######################
 ###############################################################################################
-regrs <- function(mudelid, interaction)
+regrs <- function(indep_vars, interaction)
 {
     if(interaction==T){
         df_total <- df %>%
-          select(H1, H2, H4, H8, mudelid) %>%
-          gather(Var,Value,  -mudelid) %>%
-          nest(data=c(Value,  mudelid)) %>%
+          select(H1, H2, H4, H8, indep_vars) %>%
+          gather(Var,Value,  -indep_vars) %>%
+          nest(data=c(Value,  indep_vars)) %>%
           mutate(model = map(data, ~lm(Value ~ YIV + dum +YIV*dum, data = .)),
              tidied = map(model, tidy),
              glanced = map(model, glance),
@@ -70,9 +69,9 @@ regrs <- function(mudelid, interaction)
   }
   else{
       df_total <- df %>%
-        select(H1, H2, H4, H8, mudelid) %>%
-        gather(Var,Value,  -mudelid) %>%
-        nest(data=c(Value,  mudelid)) %>%
+        select(H1, H2, H4, H8, indep_vars) %>%
+        gather(Var,Value,  -indep_vars) %>%
+        nest(data=c(Value,  indep_vars)) %>%
         mutate(model = map(data, ~lm(Value ~ ., data = .)),
              tidied = map(model, tidy),
              glanced = map(model, glance),
@@ -111,7 +110,7 @@ remove(results1, results2)
 
 
 ###############################################################################################
-########################     RMSFE calculation function     ################################################
+########################     RMSFE calculation function     ###################################
 ###############################################################################################
 
 
@@ -163,7 +162,7 @@ out_of_samp <- function(var1, var2, type, var4){
 
 
 
-##############################   OLS RMSFE-s  ##############################################################
+##############################   Calculating OLS RMSFE-s  #########################################
 
 df_results1 <- as.data.frame(t(mapply(out_of_samp, dep, "YIV", "full", "lm")))
 df_results2 <- as.data.frame(t(mapply(out_of_samp, dep, "YIV", "recessionary", "lm")))
