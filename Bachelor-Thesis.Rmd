@@ -25,8 +25,6 @@ header-includes:
 - \usepackage{amsmath}
 - \DeclareMathOperator{\logit}{logit}
 ---
-
-
 ```{r knitr.global_options, include=F}
 knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE, warning=FALSE, message=FALSE, tidy.opts=list(width.cutoff=60), tidy=TRUE)
 ```
@@ -39,7 +37,6 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE
 \renewcommand{\footrulewidth}{0pt}
 \pagestyle{fancy}
 \pagenumbering{arabic}
-
 \setcounter{page}{2}
 ```{r child = '2-declaration of copyright.Rmd'}
 ```
@@ -48,7 +45,6 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE
 \singlespacing
 \tableofcontents
 \endgroup
-
 \newpage
 
 ```{r child = '3-abstract.Rmd'}

@@ -61,7 +61,7 @@ bsnote_graph <- function(var,lab){
 \addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
 # (APPENDIX) Appendix {-}
 
-# Appendix A {#S:digitizer .unlisted} 
+# Appendix A {#S:digitizer} 
 
 As researchers typically do not typically post underlying data with their research, various plot digitizers have seen an exponential increase in use. @Drevon2017 researched intercoder reliability, during which over 3500 data points were extracted with WebPlotDigitizer from 36 different graphs. Nevertheless, they controlled the validity of the results and concluded that there was a near perfect correlation (r=0.989 with p-value <0.01) between extracted and actual data. Nevertheless, the limitations mentioned highlight coders previous experience with plot-digitizing tools.
 
@@ -84,7 +84,7 @@ extracted
 
 
 \newpage
-# Appendix B {.unlisted}
+# Appendix B
 
 ```{r regfit, message = F, warnings = F, echo = F, fig.height=2.5, fig.width=6, fig.cap="Regressions' R-squared"}
 regr1 <- regrs(indep_vars=c("YIV"),interaction=F)
@@ -122,7 +122,7 @@ regression.coefficients
 
 
 \newpage
-# Appendix C {#S:appendixd .unlisted}
+# Appendix C {#S:appendixd}
 
 Notes: The following regressions includes YIV, dummy and controls as independent variables. The specification for the regression is the following:
 
@@ -159,7 +159,7 @@ results5  %>%
 ```
 \newpage
 
-# Appendix D {#S:rmsfegraph .unlisted}
+# Appendix D {#S:rmsfegraph}
 
 
 ```{r, rmsfeerrors, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE for various estimations"}
@@ -185,7 +185,7 @@ ggplot(data, aes(variable, value, group=factor(rowid))) +
 ```
 \newpage
 
-# Appendix E {#S:predictedactuals .unlisted}
+# Appendix E {#S:predictedactuals}
 
 ```{r, pred-vs-actual-lm, message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Linear model)"}
 
@@ -193,6 +193,7 @@ ggplot(data, aes(variable, value, group=factor(rowid))) +
 pred_vs_actual_graph(lm,"Linear model") 
 
 ```
+
 
 ```{r, pred-vs-actual-rf, message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Random forest)"}
 
@@ -203,7 +204,7 @@ pred_vs_actual_graph(rf,"Random forest")
 ```
 
 \newpage
-# Appendix F {#S:rmsfelmsvsrf .unlisted} 
+# Appendix F {#S:rmsfelmsvsrf} 
 
 ```{r, RSMFE-lm-vs-rf, message = F, warnings = F,echo = F, fig.cap="RMSFE-s of linear model and random forest"}
 
@@ -218,9 +219,9 @@ ggplot(lm_rf_results, aes(variable, value, group=factor(Specification))) + geom_
 
 
 \newpage
-# Appendix G {.unlisted}
+# Appendix G
 
-```{r, sum-stat,message = F, warnings = F,echo = F}
+```{r, sum-stat,message = F, warnings = F,echo = F, fig.cap="Overview of main variables"}
 summary_table <- colnames(df_summary)
 summary_table <- summary_table %>%
   as_tibble() %>%
@@ -248,18 +249,24 @@ summary_table %>%
 
 \newpage
 
-# Appendix H {#S:squarederrors .unlisted} 
+# Appendix H {#S:squarederrors} 
 
 
 ```{r, squared-errors, message = F, warnings = F,echo = F, fig.cap="Squared errors"}
 a <- c("OOS_error_lm","OOS_error_rf")
+
+
 squared_error_plot(a)
+
+
 ```
+
+
 \linespread{.75}\selectfont
 
 \newpage
 
-# Appendix I {#S:BSnote .unlisted} 
+# Appendix I {#S:BSnote} 
 
 **Formula for dependent variable as used in the paper where $GDP_{t+j}$ is the GDP year-on-year growth rate in quarter $t+j$.**
 \begin{equation}
@@ -303,14 +310,14 @@ squared_error_plot(a)
 
 \newpage
 
-# Appendix J {#S:gdpversions .unlisted}
+# Appendix J {#S:gdpversions}
 
 ```{r, fig.height=4, fig.cap="Average quarterly growth rates of GDP h-quarters ahead"}
-bsnote_graph(N,"Average quarterly growth rates of GDP h-quarters ahead")
+bsnote_graph(N,"GDP Growth (%)")
 ```
 
 
 ```{r, fig.height=4, fig.cap="Average quarterly year-on-year growth rates (as in the original paper"}
-bsnote_graph(H,"Average quarterly year-on-year growth rates (as in the original paper")
+bsnote_graph(H,"GDP Growth (%)")
 ```
 
