@@ -106,5 +106,4 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE
 \newpage
 
 \renewcommand{\thetable}{\Alph{section}\arabic{table}}
-\setcounter{tocdepth}{1}
 ```{r child = '11-appendices.Rmd'}
