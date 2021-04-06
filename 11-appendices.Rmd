@@ -329,6 +329,7 @@ squared_error_plot(a)
 \end{align}
 
 \newpage
+\linespread{1}\selectfont
 
 # Appendix J {#S:gdpversions}
 
