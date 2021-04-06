@@ -15,7 +15,7 @@ dep <- c("F1", "F2", "F4", "F8")
 ####Full model independent variables for different regressions
 indep_replication <- "YIV + dum + log_gdp + TRM0503 + DGS3MO + SRT03M + VIX + AAA + housng"
 indep_replication2 <- c("YIV", "dum", "log_gdp", "TRM0503", "DGS3MO", "SRT03M", "VIX", "AAA", "housng")
-indep_RMSFE <- "YIV + dum + TRM1003 + TRM1006 + TRM1012 + TRM0506 + AAA + DBAA + baa_aaa + DGS3MO + SRT03M" 
+indep_RMSFE <- "YIV + dum + log_gdp + TRM1003 + TRM1006 + TRM1012 + TRM0506 + AAA + DBAA + baa_aaa + DGS3MO + SRT03M" 
 
 
 
@@ -59,7 +59,7 @@ regrs <- function(indep_vars, interaction)
           select(H1, H2, H4, H8, indep_vars) %>%
           gather(Var,Value,  -indep_vars) %>%
           nest(data=c(Value,  indep_vars)) %>%
-          mutate(model = map(data, ~lm(Value ~ YIV*dum, data = .)),
+          mutate(model = map(data, ~lm(Value ~ . + YIV*dum, data = .)),
              tidied = map(model, tidy),
              glanced = map(model, glance),
              augmented = map(model, augment),
@@ -169,11 +169,11 @@ df_results3 <- as.data.frame(t(mapply(out_of_samp, dep, "YIV", "expansionary", "
 df_results4 <- as.data.frame(t(mapply(out_of_samp, dep, "log_gdp", "full", "lm")))
 df_results5 <- as.data.frame(t(mapply(out_of_samp, dep, "log_gdp", "recessionary", "lm")))
 df_results6 <- as.data.frame(t(mapply(out_of_samp, dep, "log_gdp", "expansionary", "lm")))
-df_results7 <- as.data.frame(t(mapply(out_of_samp, dep, "TRM1012", "full", "lm")))
-df_results8 <- as.data.frame(t(mapply(out_of_samp, dep, "baa_aaa", "full", "lm")))
-df_results9 <- as.data.frame(t(mapply(out_of_samp, dep, indep_replication, "full", "lm")))
-df_results10 <- as.data.frame(t(mapply(out_of_samp, dep, indep_replication,"recessionary", "lm")))
-df_results11 <- as.data.frame(t(mapply(out_of_samp, dep, indep_replication, "expansionary", "lm")))
+df_results7 <- as.data.frame(t(mapply(out_of_samp, dep, "TRM1003 + TRM1006 + TRM1012 + TRM0506", "full", "lm")))
+df_results8 <- as.data.frame(t(mapply(out_of_samp, dep, "AAA + DBAA + baa_aaa", "full", "lm")))
+df_results9 <- as.data.frame(t(mapply(out_of_samp, dep, indep_RMSFE, "full", "lm")))
+df_results10 <- as.data.frame(t(mapply(out_of_samp, dep, indep_RMSFE,"recessionary", "lm")))
+df_results11 <- as.data.frame(t(mapply(out_of_samp, dep, indep_RMSFE, "expansionary", "lm")))
 
 df_results <- rbind(df_results1, df_results2, df_results3, df_results4, df_results5, df_results6, df_results7, df_results8, df_results9, df_results10, df_results11) %>%
   round(2)
