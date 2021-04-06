@@ -225,7 +225,7 @@ squared_error_plot(a)
 ```
 
 \newpage
-## Appendix J {#S:BSnote} 
+# Appendix J {#S:BSnote} 
 
 **Formula for dependent variable as used in the paper where $GDP_{t+j}$ is the GDP year-on-year growth rate in quarter $t+j$.**
 \begin{equation}
