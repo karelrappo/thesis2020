@@ -105,5 +105,8 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE
 
 \newpage
 
-
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+\renewcommand\thefigure{\thesection\arabic{figure}}
+\renewcommand\thetable{\thesection\arabic{table}}
 ```{r child = '009-appendices.Rmd'}

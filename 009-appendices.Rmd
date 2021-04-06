@@ -267,3 +267,39 @@ squared_error_plot(a)
 \Delta \ln y_{t+4} 
 \end{align}
 
+\newpage
+## Appendix K {#S:gdpversions}
+
+```{r}
+dep_H <- c("H1", "H8")
+dep_N <- c("N1", "N8")
+
+combiner_appendice <- function(dependent){
+  combined <- data.frame(matrix(ncol = 3, nrow = 0))
+  x <- c("predicted", "actuals", "Date")
+  colnames(combined) <- x
+  for (i in dependent){
+    output <- out_of_samp2(i,indep_RMSFE,"rf") %>%
+      mutate(variable=i)
+      
+    combined <- rbind(combined,output)
+    
+  }
+  return(combined)
+}
+
+N <-  combiner_appendice(dep_N)
+H <- combiner_appendice(dep_H)
+
+bsnote_graph <- function(var,lab){
+  ggplot(var, aes(x=as.Date(Date))) + geom_line(aes(y=predicted, color="red")) + geom_line(aes(y=actuals, color="blue"))+ theme_bw() +
+    theme(legend.position="bottom",legend.title = element_blank()) + labs(x="Time horizon", y=paste0(lab)) + 
+    facet_wrap(~variable) + scale_color_manual(labels = c("Actuals", "Predicted"), values = c("blue", "red")) +
+    annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey") +
+    annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")
+}
+
+bsnote_graph(N,"Average quarterly growth rates of GDP h-quarters ahead")
+bsnote_graph(H,"Average quarterly year-on-year growth rates (as in the original paper")
+```
+
