@@ -42,8 +42,9 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE
 ```
 \setcounter{tocdepth}{3}
 \begingroup
-\singlespacing
+\begin{spacing}{0.8}
 \tableofcontents
+\end{spacing}
 \endgroup
 \newpage
 

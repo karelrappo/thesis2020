@@ -74,9 +74,13 @@ We also used the WebPlotDigitzer in our research and as validity test extracted 
 ```{r vsextracted, message=F, warnings=F,echo = F, fig.height=5, fig.cap="Actual vs Extracted GDP growth rate in %"}
 GDP_data <- read_csv("data/actualvsplot.csv")
 
-extracted <- ggplot(GDP_data,aes(x=Date)) + geom_line(aes(y=Actual, color="Actual"), color="red") + geom_line(aes(y=Extracted, color="Extracted"), color="blue") +
+extracted <- ggplot(GDP_data,aes(x=Date)) +
+  geom_line(aes(y=Actual, color="Actual"), color="red") +
+  geom_line(aes(y=Extracted, color="Extracted"), color="blue") +
   theme_bw() +
-  ylab("GDP growth %") 
+  ylab("GDP growth %")+
+  theme(legend.position="bottom",legend.title = element_blank())+
+  theme_bw()
 
 extracted
 
@@ -85,6 +89,11 @@ extracted
 
 \newpage
 # Appendix B
+The following figures illustrate r-squared and coefficients for the YIV-only regression:
+
+\begin{equation}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} +\varepsilon_{t+H}
+\end{equation}
 
 ```{r regfit, message = F, warnings = F, echo = F, fig.height=2.5, fig.width=6, fig.cap="Regressions' R-squared"}
 regr1 <- regrs(indep_vars=c("YIV"),interaction=F)
@@ -122,12 +131,47 @@ regression.coefficients
 
 
 \newpage
-# Appendix C {#S:appendixd}
 
-Notes: The following regressions includes YIV, dummy and controls as independent variables. The specification for the regression is the following:
+# Appendix C {#S:descriptive}
+
+
+```{r, sum-stat,message = F, warnings = F,echo = F, fig.cap="Overview of main variables"}
+summary_table <- colnames(df_summary)
+summary_table <- summary_table %>%
+  as_tibble() %>%
+  rename(Variable=value)
+summary_table$Description <- c("5 - year Treasury Implied Volatility",
+                               "Real gross domestic product",
+                               "Returns of VIX index",
+                               "BAA corporate bond yields",
+                               "AAA corporate bond yields",
+                               "Yield spread between BAA and AAA yields",
+                               "New housing market starts",
+                               "Changes in 3 month treasury yield",
+                               "TRM1003 - 10 year and 3 month treasury yield spread",
+                               "TRM1006 - 10 year and 6 month treasury yield spread",
+                               "TRM1012 - 10 year and 1 year treasury yield spread",
+                               "TRM0503 - 5 year and 3 month treasury yield spread",
+                               "TRM0506 - 5 year and 6 month treasury yield spread",
+                               "Three month corporate bond yield")
+  
+
+summary_table %>%
+  kbl(longtable=T, booktabs=T) %>%
+  kable_styling() 
+
+
+```
+
+
+
+\newpage
+# Appendix D {#S:appendixd}
+
+Notes: The following regressions includes YIV, dummy and controls as independent variables. For the description of the variables in the output, please refer to Appendix \@ref(S:descriptive). The specification for the regression is the following:
 
 \begin{equation}
-\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} +\varepsilon_{t+H}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + Controls + Dummy +\varepsilon_{t+H}
 \end{equation}
 
 
@@ -159,7 +203,7 @@ results5  %>%
 ```
 \newpage
 
-# Appendix D {#S:rmsfegraph}
+# Appendix E {#S:rmsfegraph}
 
 
 ```{r, rmsfeerrors, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE for various estimations"}
@@ -178,14 +222,16 @@ ggplot(data, aes(variable, value, group=factor(rowid))) +
   geom_line(aes(color=factor(rowid))) +
   theme_bw() +
   theme(legend.position = "none") +
-  labs(x="Time horizon", y="RMSFE value", color="Model", caption="Naive refers to regressions with GDP and its lags, TRM - term spreads, CRS - credit spreads") +
+  labs(x="Time horizon", y="RMSFE value", color="Model") +
   facet_wrap( ~rowid)
 #fig.cap"Out-of-sample RMSFE for various estimations
 
 ```
 \newpage
 
-# Appendix E {#S:predictedactuals}
+# Appendix F {#S:predictedactuals}
+
+The following figures display predicted vs actual values for 1) linear model, 2) random forest. For the estimations, the full model described has been used. Do we add the variables here?
 
 ```{r, pred-vs-actual-lm, message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Linear model)"}
 
@@ -204,7 +250,9 @@ pred_vs_actual_graph(rf,"Random forest")
 ```
 
 \newpage
-# Appendix F {#S:rmsfelmsvsrf} 
+# Appendix G {#S:rmsfelmsvsrf} 
+
+The figure below displays RMSFEs for both linear model and Random Forest in 3 different panels: 1) with only expansionary observations, 2) with only recessionary observations as defined by NBER recessions and 3) the full-model.
 
 ```{r, RSMFE-lm-vs-rf, message = F, warnings = F,echo = F, fig.cap="RMSFE-s of linear model and random forest"}
 
@@ -219,38 +267,10 @@ ggplot(lm_rf_results, aes(variable, value, group=factor(Specification))) + geom_
 
 
 \newpage
-# Appendix G
 
-```{r, sum-stat,message = F, warnings = F,echo = F, fig.cap="Overview of main variables"}
-summary_table <- colnames(df_summary)
-summary_table <- summary_table %>%
-  as_tibble() %>%
-  rename(Variable=value)
-
-summary_table$Description <- c("5 - year Treasury Implied Volatility",
-                               "Real gross domestic product",
-                               "Returns of VIX index",
-                               "BAA corporate bond yields",
-                               "AAA corporate bond yields",
-                               "Yield spread between BAA and AAA yields",
-                               "New housing market starts",
-                               "Changes in 3 month treasury yield",
-                               "TRM1003 - 10 year and 3 month treasury yield spread",
-                               "TRM1006 - 10 year and 6 month treasury yield spread",
-                               "TRM1012 - 10 year and 1 year treasury yield spread",
-                               "TRM0503 - 5 year and 3 month treasury yield spread",
-                               "TRM0506 - 5 year and 6 month treasury yield spread",
-                               "Three month corporate bond yield")
-  
-summary_table %>%
-  kbl(longtable=T, booktabs=T) %>%
-  kable_styling() 
-```
-
-\newpage
 
 # Appendix H {#S:squarederrors} 
-
+The figure below includes squarede erros for both models over all of the forecast horizons. Squared errors have been calculated as the squared difference of actual - predicted values.
 
 ```{r, squared-errors, message = F, warnings = F,echo = F, fig.cap="Squared errors"}
 a <- c("OOS_error_lm","OOS_error_rf")
@@ -311,6 +331,9 @@ squared_error_plot(a)
 \newpage
 
 # Appendix J {#S:gdpversions}
+
+Following figures describe the effect of averaging with the alternative variables of GDP discussed. As it can be seen, the variance reduces significantly between the two forecast period H1 and H8, which as well affects the RMSFEs calculated.
+
 
 ```{r, fig.height=4, fig.cap="Average quarterly growth rates of GDP h-quarters ahead"}
 bsnote_graph(N,"GDP Growth (%)")
