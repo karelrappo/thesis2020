@@ -13,8 +13,7 @@ dep <- c("F1", "F2", "F4", "F8")
 #dep <- c("N1", "N2", "N4", "N8")
 
 ####Full model independent variables for different regressions
-indep_replication <- "YIV + dum + log_gdp + TRM0503 + DGS3MO + SRT03M + VIX + AAA + housng"
-indep_replication2 <- c("YIV", "dum", "log_gdp", "TRM0503", "DGS3MO", "SRT03M", "VIX", "AAA", "housng")
+indep <- c("YIV", "dum", "log_gdp", "TRM0503", "DGS3MO", "SRT03M", "VIX", "AAA", "housng")
 indep_RMSFE <- "YIV + dum + log_gdp + TRM1003 + TRM1006 + TRM1012 + TRM0506 + AAA + DBAA + baa_aaa + DGS3MO + SRT03M" 
 
 

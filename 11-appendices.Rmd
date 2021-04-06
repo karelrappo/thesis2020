@@ -178,7 +178,7 @@ Notes: The following regressions includes YIV, dummy and controls as independent
 
 
 ```{r OLS5, message = F, warnings = F,echo = F}
-regr5 <- regrs(indep_vars=indep_replication2,interaction=F)
+regr5 <- regrs(indep_vars=indep,interaction=F)
 results5 <- regr_results(a=regr5) %>%
   round(2) %>%
   significance() %>%
