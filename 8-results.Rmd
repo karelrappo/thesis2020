@@ -61,7 +61,7 @@ Furthermore, it can be seen, YIV’s coefficients are significant throughout the
 \linespread{1.0}\selectfont
 
 \begin{equation}
-\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} +\varepsilon_{t+H}
+\frac{1}{H} \sum_{j=1}^{j=H}log(1+GDP_{i,t+j}) = \alpha_{H}+ \beta_{H} \sigma_{IV,t} +\varepsilon_{t+H}
 \end{equation}
 
 
@@ -82,13 +82,13 @@ results1 %>%
 ```
 \endgroup
 
-Next, we add a dummy variable representing recessionary periods (according to the NBER classification), i.e. the dummy takes a value of 1 during recession and 0 during expansion. As it can be seen from the Table \@ref(tab:OLS2)), the dummy’s coefficient is negative and significant at a 1% confidence level throughout all predicted time spans - nevertheless, the interaction term between YIV and dummy variable is insignificant throughout all forecast horizons. Hence, this means that the recessionary period only influences the intercept, not the slope of the variable. However, adding the dummy improved R-squared significantly - 54% in predicting ahead GDP growth 4 quarters’ rolling averages when compared to 34% of respective YIV-only model. The latter indicates that there is a structural break in data during recessions and that using the full model to predict during recessionary periods could result in worse prediction accuracy.
+Next, we add a dummy variable representing recessionary periods (according to the NBER classification), i.e. the dummy takes a value of 1 during recession and 0 during expansion. As it can be seen from the Table \@ref(tab:OLS2), the dummy’s coefficient is negative and significant at a 1% confidence level throughout all predicted time spans - nevertheless, the interaction term between YIV and dummy variable is insignificant throughout all forecast horizons. Hence, this means that the recessionary period only influences the intercept, not the slope of the variable. However, the inclusion of dummy decreased the significance of YIV while improving R-squared - 54% in predicting ahead GDP growth 4 quarters’ rolling averages when compared to 34% of respective YIV-only model. The latter indicates that there is a structural break in data during recessions and that using the full model to predict during recessionary periods could result in worse prediction accuracy.
 
 \begingroup
 \linespread{1.0}\selectfont
 
 \begin{equation}
-\sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Dummy +\varepsilon_{t+H}
+\sum_{j=1}^{j=H}log(1+GDP_{i,t+j}) = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Dummy +\varepsilon_{t+H}
 \end{equation}
 
 
@@ -110,13 +110,13 @@ results2  %>%
 \endgroup
 
 
-Finally, we combined the previous variables with all of the available control variables in @Cremers2021 into one regression equation (Appendix \@ref(S:appendixd). After including all the relevant control variables, the YIV loses some of its significance and remains significant at 5% in H4 and at 10% in H8. In this model, the regression results implicate that one standard deviation increase in YIV should result in a -0.35 * 1.31% = -0.46 % decrease in GDP growth within the next 4 quarters. Additionally, when predicting 8 quarters ahead, a one standard deviation increase in YIV results in a -0.34* 1.31% * 2 = 0.89% decrease in the next 8 quarters’ average annualized growth rate.
+Finally, we combined the previous variables with all of the available control variables in @Cremers2021 into one regression equation (Appendix \@ref(S:appendixd). After including all the relevant control variables, the YIV remains significant at 5% in H4 and at 10% in H8. In this model, the regression results implicate that one standard deviation increase in YIV should result in a -0.35 * 1.31% = -0.46 % decrease in GDP growth within the next 4 quarters. Additionally, when predicting 8 quarters ahead, a one standard deviation increase in YIV results in a -0.34* 1.31% * 2 = 0.89% decrease in the next 8 quarters’ average annualized growth rate.
 
 
 ## Out of sample forecasting
 ### Full sample
 
-We were not only interested in the in-sample performance of the variable. Hence, we constructed out-of-sample regressions to compute RMSFE-s of full-sample and subsample models. It is important to note that from here on out, we use h-step forward-looking quarterly growth rates as dependent variable (denoted as F1, F2, etc.) instead of the year-on-year averaged growth rates (denoted H1, H2, etc.). For a more detailed explanation on changing the dependent variable, please refer to the methodology section.
+We were not only interested in the in-sample performance of the variable. Hence, we constructed out-of-sample (OOS) regressions to compute RMSFE-s of full-sample and subsample models. It is important to note that from here on out, we use h-step forward-looking quarterly growth rates as a dependent variable (denoted as F1, F2, etc.) instead of the year-on-year averaged growth rates (denoted H1, H2, etc.). For a more detailed explanation on changing the dependent variable, please refer to the methodology section.
 Thus, for the out-of-sample regressions, we use 5-year rolling windows to predict 1-8 quarters ahead. Looking at the full model’s predicted values and actual observations (see Appendix \@ref(S:predictedactuals)), it can be seen that the predicted values tend to differ more as the forecast horizon increases. While forecasting 1 period ahead, the predicted graph is fairly similar to the actual observations. For F4, two big forecast errors can be noticed.
 
 This is consistent with the RMSFEs calculated (see Appendix \@ref(S:rmsfegraph)). It is that the RMSFE’s tend to increase with the forecast horizon, except for F2. In other words, the interpretation of it was that the model's accuracy in predicting GDP growth got worse in predicting further time periods. Comparing the full-model with only YIV or only individual control variable models, it can be seen that the full model yields the highest forecast errors as in addition to the other control variables, the full model includes the following independent variables: dummy variable, housing market, VIX, 1-month treasury yield and changes in short rate.
