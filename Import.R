@@ -59,7 +59,7 @@ vix_qrt <- vix_qrt %>%
   select(-quarter) %>%
   subset(DATE >= start & DATE <= end)
 
-# Import credit rates, add frac=1 for month end. Data ends in 2010??
+# Import credit rates
 moodys.raw <- read_csv("Data/moodys.csv")
 creditspreads<- subset(moodys.raw, DATE >= start & DATE <= end)
 creditspreads$AAA <- as.numeric(creditspreads$AAA)
@@ -90,7 +90,7 @@ DGS.clean <- DGS.clean %>%
 
 DGS.clean<- subset(DGS.clean, DATE >= start & DATE <= end)
 
-#SPY
+#Import SPY
 spy <- read_csv("data/SPY.csv")
 spy <- spy %>%
   select(Date, Close) %>%
@@ -107,14 +107,8 @@ spy <- spy%>%
 #Import NBER recessions and create subsets
 dummy <- read.csv("data/Dummy.csv")
 
-# Make dataset with quarterly gdp
-gdp_qoq <- read_csv("data/GDPC1_qoq.csv")
-gdp_qoq <- gdp_qoq %>%
-  subset(DATE >= start & DATE <= end)
 
-dataset_quarterly <- dataset
-dataset_quarterly$GDP <- unlist(lapply(gdp_qoq$GDPC1_PCH, as.numeric))
-
+#Combine imported variables into a dataset
 dataset <- dataset %>%
   mutate(DGS.clean[-1]) %>% 
   mutate(creditspreads[-1]) %>%
@@ -132,27 +126,27 @@ df_summary <- dataset %>%
   select("YIV", "GDP", "VIX", "DBAA","AAA","baa_aaa", "housng" , "SRT03M", "TRM1003", "TRM1006", "TRM1012", "TRM0503", "TRM0506", "DGS3MO")
 
 
-#standardize only independent + spy(since log) <-- SISESTA SIIA NEED MIDA POLE VAJA STANDARDIZEDA
+#Excluding variables in " " from standardization
 standardizable_var <- setdiff(ls(dataset), c("GDP","spy_logreturn", "dum", "Date","log_gdp"))
 
 dataset <- dataset %>%
   mutate_at(standardizable_var, scale)
 
 
-#Name differences with appendices
-
+#Defining expansionary and recessionary variables
 df.expansionary <- subset(dataset, dum== 0)
 df.recessionary <- subset(dataset, dum== 1)
 
-#Different averages of GDP in excel
+#Importing different variations of dependent variable used in academia from excel
 cleandata <- read_csv("data/RAWDATA.csv") %>%
   select(-1, -2)
-
 df <- cbind(dataset, cleandata)
-#drop unnecessary shit for work proccesses
+
+
+#Drop unnecessary data frames created in the process and leaving only the following
 rm(list=setdiff(ls(), c("df", "df_summary", "df_qoq")))
 
-
+# For summary statistics table
 statistics <- df_summary %>%
   descr(
     transpose = TRUE,
