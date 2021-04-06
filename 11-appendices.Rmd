@@ -65,7 +65,7 @@ bsnote_graph <- function(var,lab){
 
 As researchers typically do not typically post underlying data with their research, various plot digitizers have seen an exponential increase in use. @Drevon2017 researched intercoder reliability, during which over 3500 data points were extracted with WebPlotDigitizer from 36 different graphs. Nevertheless, they controlled the validity of the results and concluded that there was a near perfect correlation (r=0.989 with p-value <0.01) between extracted and actual data. Nevertheless, the limitations mentioned highlight coders previous experience with plot-digitizing tools.
 
-Furthermore, @Burda2017 also highlight that systematic reviewers often tend to have data constraints which is why plot digitizers are of a great help. They estimated data using WebPlotDigitizer and conclude that the extraction done by different coders was consistent; nevertheless, in the case of continuous data (compared to event data), the distribution varied more. Whatsoever, the intreclass coefficient for both types of plots was over 95%.
+Furthermore, @Burda2017 also highlight that systematic reviewers often tend to have data constraints which is why plot digitizers are of a great help. They estimated data using WebPlotDigitizer and conclude that the extraction done by different coders was consistent; nevertheless, in the case of continuous data (compared to event data), the distribution varied more. Whatsoever, the interclass coefficient for both types of plots was over 95%.
 
 We also used the WebPlotDigitzer in our research and as validity test extracted GDP from the same graph as YIV time series & plotted it with actuals - see the graph below.
 
@@ -75,12 +75,11 @@ We also used the WebPlotDigitzer in our research and as validity test extracted 
 GDP_data <- read_csv("data/actualvsplot.csv")
 
 extracted <- ggplot(GDP_data,aes(x=Date)) +
-  geom_line(aes(y=Actual, color="Actual"), color="red") +
-  geom_line(aes(y=Extracted, color="Extracted"), color="blue") +
+  geom_line(aes(y=Actual, color="Actual")) +
+  geom_line(aes(y=Extracted, color="Extracted")) +
   theme_bw() +
   ylab("GDP growth %")+
-  theme(legend.position="bottom",legend.title = element_blank())+
-  theme_bw()
+  theme(legend.position="bottom",legend.title = element_blank())
 
 extracted
 
@@ -92,7 +91,7 @@ extracted
 The following figures illustrate r-squared and coefficients for the YIV-only regression:
 
 \begin{equation}
-\frac{1}{H} \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} +\varepsilon_{t+H}
+\frac{1}{H} \sum_{j=1}^{j=H}log(1+GDP_{i,t+j}) = \alpha_{H}+ \beta_{H} \sigma_{IV,t} +\varepsilon_{t+H}
 \end{equation}
 
 ```{r regfit, message = F, warnings = F, echo = F, fig.height=2.5, fig.width=6, fig.cap="Regressions' R-squared"}
