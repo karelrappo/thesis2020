@@ -105,5 +105,5 @@ knitr::opts_chunk$set(fig.width=10, fig.height=8, fig.path='images/', echo=FALSE
 
 \newpage
 
-\renewcommand{\thefigure}{Appendix~\arabic{section}.\arabic{figure}}
+\renewcommand{\thetable}{\Alph{section}\arabic{table}}
 ```{r child = '11-appendices.Rmd'}
