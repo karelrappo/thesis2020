@@ -215,8 +215,8 @@ ols_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, indep_RMSFE, "
 rf_exp <- as.data.frame(as.data.frame(t(mapply(out_of_samp, dep, indep_RMSFE, "expansionary", "rf"))))%>%
   mutate(Specification="RF",period="Expansionary")
 
-rf_resultsss <- rbind(ols, rf, ols_rec, rf_rec, ols_exp, rf_exp)
-rf_resultsss <- rf_resultsss %>%
+lm_rf_results <- rbind(ols, rf, ols_rec, rf_rec, ols_exp, rf_exp)
+lm_rf_results <- lm_rf_results %>%
   pivot_longer(!c(Specification, period,), names_to = "variable", values_to = "value")
 
 
