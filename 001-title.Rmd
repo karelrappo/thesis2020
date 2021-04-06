@@ -2,34 +2,31 @@
 output: pdf_document
 ---
 
-
-
-
 \graphicspath{ {./images/} }
 \linespread{1.5}\selectfont
-\vspace*{1.75 cm}
+\vspace*{1 cm}
 \begin{center}
 \includegraphics[width=5cm, height=7cm]{SSE_logo}
-
+\normalsize \break
+Bachelor Thesis \break
 \Large
 \textbf{State-dependent evaluation of Random Forest in forecasting real activity}\break
-\vspace{1 cm}
-\normalsize
-Bachelor Thesis \break
+\vspace{0.5 cm}
 \end{center}
 \begin{flushleft}
 Authors:\break
 Karel Räppo\break
 Henry Enno Turu\break
-\vspace{1 cm}
+\vspace{0.5 cm}
 
 Supervisor:\break
 Boriss Siliverstovs\break
 \end{flushleft}
-\vspace{2 cm}
+\vspace{1 cm}
 \begin{center}
-Riga \break
-2021
+\large
+\textbf{April 2021}\break
+\textbf{Riga}
 \end{center}
 \linespread{1.5}\selectfont
 
