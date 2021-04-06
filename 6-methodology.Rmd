@@ -118,8 +118,8 @@ As decision trees are non-parametric, it means that no strong assumptions about 
 
 Decision Trees are not a robust method as the results are extremely dependent on the dataset, even a small change in the initial training data can yield different outcomes. This is the very reason why Random Forest was proposed by @Breiman2001. Random forest itself is an ensemble based supervised learning method. As the name suggests there are two main elements behind it. 
 
-(ref:verikas) look the citation doesn't work [@Verikas2016]
-```{r randomf, echo=F, out.width = "450px", fig.cap="Random forest example from (ref:verikas)", fig.align="center"}
+(ref:verikas)[@Verikas2016]
+```{r randomf, echo=F, out.width = "450px", fig.cap="Random forest. Figure from (ref:verikas)", fig.align="center"}
 knitr::include_graphics("images/randomforest.png")
 ```
 
@@ -139,4 +139,6 @@ To take this process together in algorithmical terms:
 \begin{equation}
 MSE = \frac{1}{n} \sum_{i=1}^{n}(y_{i}-\gamma)^2
 \end{equation}
+
+where $y_{i}$ refers to the prediction made for observation i and $\gamma$ refers to its the actual value
 
