@@ -16,5 +16,5 @@ knitr::opts_chunk$set(
 In this repository, we will be posting everything regarding our thesis. It includes the data, R-code, bibliography up to the final formatted Thesis.
 The import.R includes code for importing the data and initial data manipulation. The functions.R include all of the functions to derive models, figures, tables reported in the final PDF file - note that mostly the functions are built to be directly called from sections of the thesis file. 
 
-The dependent variables (use of H, N, F) can be changed in the beginning of functions.R (vector dep), so the whole output will be calculated with the selected variables. The indep_RMSFE vector however is used to define the full-model that is used for linear model and Random Forest final predictions.
+The dependent variables (use of H, N, F) can be changed in the beginning of functions.R (through selecting a vector dep), so the whole output related to RMSFE-s will be calculated with the selected variable. The indep_RMSFE vector however is used to define the full-model that is used for linear model and Random Forest final predictions.
 
