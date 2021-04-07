@@ -302,7 +302,7 @@ squared_error_plot(a) + theme(legend.title = element_blank())
 
 # Appendix J {#S:gdpversions}
 
-Following figures describe the effect of averaging with the alternative variables of GDP growth. As it can be seen, the variance declines drastically between the two forecast periods H1(N1) and H8(N8), which consequently affects the RMSFEs.
+Following figures describe the effect of averaging with the alternative variables of GDP growth. As it can be seen, the variance declines drastically between the two forecast periods H1 (N1) and H8 (N8), which consequently affects the RMSFEs.
 
 
 ```{r, fig.height=4, fig.cap="Average quarterly growth rates of GDP h-quarters ahead"}
