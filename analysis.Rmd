@@ -13,38 +13,6 @@ knitr::opts_chunk$set(echo = TRUE)
 source("functions.R")
 ```
 
-```{r, message = F, warnings = F,echo = F}
-CSSFED_plot2 <- function(var){
-  
-  cssfed_values <- CSSFED %>%
-    filter(type == var)
-  
-  plot <- ggplot(data = cssfed_values, aes(x=Date,y=values)) + geom_point(colour='red') + 
-    annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
-    annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
-    xlab("Time horizon") +
-    ylab(paste0("CSSFED for ",var)) + theme_bw() + facet_wrap(~Dependent) 
-
-  return(plot)
-}
-
-
-```
-
-
-```{r, message = F, warnings = F,echo = F}
-squared_error_plot2 <- function(var){
-
-  squared_errors <- CSSFED %>%
-    filter(type %in% var)
-
-plot <- ggplot(data = squared_errors, aes(x=Date,y=values)) + geom_line(aes(color=factor(type))) + 
-    annotate("rect", xmin = as.Date("2001-04-01", "%Y-%m-%d"), xmax = as.Date("2001-10-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
-    annotate("rect", xmin = as.Date("2008-01-01", "%Y-%m-%d"), xmax = as.Date("2009-04-01",  "%Y-%m-%d"), ymin = -Inf, ymax = Inf,alpha = 0.4, fill = "grey")+
-    xlab("Time horizon") + ylab(paste0("Squared Errors")) + theme_bw() + facet_wrap(~Dependent)
-  return(plot)
-}
-```
 
 ```{r, message = F, warnings = F,echo = F}
 
@@ -62,7 +30,7 @@ pred_vs_actual_graph(rf,"Random forest") + labs(title="Random forest predicted v
 
 
 ```{r, message = F, warnings = F,echo = F}
-ggplot(rf_resultsss, aes(variable, value, group=factor(Specification))) + geom_line(aes(color=factor(Specification))) +
+ggplot(lm_rf_results, aes(variable, value, group=factor(Specification))) + geom_line(aes(color=factor(Specification))) +
   theme(legend.position="bottom") +
   labs(x="Time horizon", y="RMSFE", color="Model", title="RMSFEs random forest vs linear model") + 
   facet_wrap(~period) +
@@ -74,14 +42,14 @@ ggplot(rf_resultsss, aes(variable, value, group=factor(Specification))) + geom_l
 ```{r, message = F, warnings = F,echo = F}
 a <- c("OOS_error_lm","OOS_error_rf")
 
-squared_error_plot2(a) + labs(title = "Squared Errors")
+squared_error_plot(a) + labs(title = "Squared Errors")
 ```
 
 
 ```{r, message = F, warnings = F,echo = F, label="CSSFED graphs"}
 
 
-CSSFED_plot2("lm_rf") + labs(title = "CSSFED LM_RF", subtitle="CSSFED = Linear model - Random forest")
+CSSFED_plot("lm_rf") + labs(title = "CSSFED LM_RF", subtitle="CSSFED = Linear model - Random forest")
 
 ```
 
