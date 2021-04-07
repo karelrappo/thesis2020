@@ -18,3 +18,5 @@ The import.R includes code for importing the data and initial data manipulation.
 
 The dependent variables (use of H, N, F) can be changed in the beginning of functions.R (through selecting a vector dep), so the whole output related to RMSFE-s will be calculated with the selected variable. The indep_RMSFE vector however is used to define the full-model that is used for linear model and Random Forest final predictions.
 
+Knitting of the Bachelor-Thesis.Rmd takes approximately 10-15 minutes.
+
