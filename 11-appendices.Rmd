@@ -28,6 +28,9 @@ header-includes:
 ```{r, include=F, echo=F}
 source("functions.R")
 
+data <- melt(df_results)
+data$rowid <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", "Naive_Recessionary", "Naive_Expansionary", "TRM", "CRS","Full model", "Full - reccessionary", "Full - expansionary")
+
 dep_H <- c("H1", "H8")
 dep_N <- c("N1", "N8")
 
@@ -114,7 +117,6 @@ regression.fit
 
 
 ```{r regcoefficients, message = F, warnings = F, echo = F, fig.height=3, fig.width=6, fig.cap="Regressions' coefficients"}
-
 regression.coefficients <- ggplot(results1, aes(x=row.names(results1), y=YIV_estimate))+
   geom_bar(stat="identity", fill="steelblue")+
   theme_bw()+
@@ -134,14 +136,11 @@ regression.coefficients
 # Appendix C {#S:descriptive}
 
 
-```{r, sum-stat, message = F, warnings = F,echo = F, fig.cap="Overview of main variables"}
-
+```{r sum-stat, message = F, warnings = F,echo = F}
 summary_table %>%
-  kbl(longtable=T, booktabs=T) %>%
-  kable_styling() 
-
+  kbl(longtable=T, booktabs=T, caption="Overview of main variables") %>%
+  kable_styling(full_width=T) 
 ```
-
 
 
 \newpage
@@ -163,8 +162,6 @@ results5 <- regr_results(a=regr5) %>%
   significance() %>%
     rename(" "=rowname)
 
-
-
 results5  %>%
   kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
    kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
@@ -183,30 +180,26 @@ results5  %>%
 \newpage
 
 # Appendix E {#S:rmsfegraph}
+The following table displays out-of-sample RMSFEs for various estimations. Naive is a panel with only log_gdp, TRM is a panel with all of the term spreads, CRS is a panel with credit spreads and credit yields. Full model includes all of the variables: YIV, dummy, log_gdp, TRM1003, TRM1006, TRM1012, TRM0506, AAA, DBAA, baa_aaa, DGS3MO, SRT0
 
-
-```{r, rmsfeerrors, message = F, warnings = F,echo = F, fig.cap="Out-of-sample RMSFE for various estimations"}
-
+```{r, rmsfeerrors, message = F, warnings = F,echo = F}
 df_results %>%
-  kbl(longtable=T, booktabs=T) %>%
+  kbl(longtable=T, booktabs=T, caption="Out-of-sample RMSFE for various estimations") %>%
   kable_styling(full_width = TRUE) 
-
 ```
 
 
-```{r, rmsfegraphs, message = F, warnings = F,echo = F, fig.height=6}
-data <- melt(df_results)
-data$rowid <- c("YIV", "YIV_Recessionary", "YIV_Expansionary" ,"Naive", "Naive_Recessionary", "Naive_Expansionary", "TRM", "CRS","Full model", "Full - reccessionary", "Full - expansionary")
 
+```{r, rmsfegraphs, message = F, warnings = F,echo = F, fig.height=5}
 ggplot(data, aes(variable, value, group=factor(rowid))) +
   geom_line(aes(color=factor(rowid))) +
   theme_bw() +
   theme(legend.position = "none") +
   labs(x="Time horizon", y="RMSFE value", color="Model") +
   facet_wrap( ~rowid)
-#fig.cap"Out-of-sample RMSFE for various estimations
-
 ```
+
+
 \newpage
 
 # Appendix F {#S:predictedactuals}
@@ -254,11 +247,7 @@ The figure below depicts squared errors for both models across all of the foreca
 
 ```{r, squared-errors, message = F, warnings = F,echo = F, fig.cap="Squared errors"}
 a <- c("OOS_error_lm","OOS_error_rf")
-
-
 squared_error_plot(a) + theme(legend.title = element_blank())
-
-
 ```
 
 
