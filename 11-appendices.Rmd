@@ -64,198 +64,9 @@ bsnote_graph <- function(var,lab){
 \addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
 # (APPENDIX) Appendix {-}
 
-# Appendix A {#S:digitizer} 
-
-As researchers typically do not typically post underlying data with their research, various plot digitizers have seen an exponential increase in use. @Drevon2017 researched intercoder reliability, during which over 3500 data points were extracted with WebPlotDigitizer from 36 different graphs. Nevertheless, they controlled the validity of the results and concluded that there was a near perfect correlation (r=0.989 with p-value <0.01) between extracted and actual data. Nevertheless, the limitations mentioned highlight coders previous experience with plot-digitizing tools.
-
-Furthermore, @Burda2017 also highlight that systematic reviewers often tend to have data constraints which is why plot digitizers are of a great help. They estimated data using WebPlotDigitizer and conclude that the extraction done by different coders was consistent; nevertheless, in the case of continuous data (compared to event data), the distribution varied more. Whatsoever, the interclass coefficient for both types of plots was over 95%.
-
-We also used the WebPlotDigitzer in our research and as validity test extracted GDP from the same graph as YIV time series & plotted it with actuals - see the graph below.
-
-
-
-```{r vsextracted, message=F, warnings=F,echo = F, fig.height=5, fig.cap="Actual vs Extracted GDP growth rate in %"}
-GDP_data <- read_csv("data/actualvsplot.csv")
-
-extracted <- ggplot(GDP_data,aes(x=Date)) +
-  geom_line(aes(y=Actual, color="Actual")) +
-  geom_line(aes(y=Extracted, color="Extracted")) +
-  theme_bw() +
-  ylab("GDP growth %")+
-  theme(legend.position="bottom",legend.title = element_blank())
-
-extracted
-
-```
-
-
-\newpage
-# Appendix B
-The following figures illustrate r-squared and coefficients for the YIV-only regression:
-
-\begin{equation}
-\frac{1}{H} \sum_{j=1}^{j=H}log(1+GDP_{i,t+j}) = \alpha_{H}+ \beta_{H} \sigma_{IV,t} +\varepsilon_{t+H}
-\end{equation}
-
-```{r regfit, message = F, warnings = F, echo = F, fig.height=2.5, fig.width=6, fig.cap="Regressions' R-squared"}
-regr1 <- regrs(indep_vars=c("YIV"),interaction=F)
-results1 <- regr_results(a=regr1)
-results1 <- as.data.frame(t(results1))
-  
-regression.fit <- ggplot(results1, aes(x=row.names(results1),y=r.squared))+
-  geom_bar(stat="identity", fill="steelblue")+
-  theme_bw() +
-  xlab("Quarters") +
-  ylab("R-squared") +
-  labs(title = "GDP R-squared") + 
-  theme(plot.title = element_text(hjust = 0.5)) +
-  scale_x_discrete(limits=c("H1","H2","H4", "H8"))
-
-regression.fit
-```
-
-
-
-```{r regcoefficients, message = F, warnings = F, echo = F, fig.height=3, fig.width=6, fig.cap="Regressions' coefficients"}
-regression.coefficients <- ggplot(results1, aes(x=row.names(results1), y=YIV_estimate))+
-  geom_bar(stat="identity", fill="steelblue")+
-  theme_bw()+
-  xlab("Quarters") +
-  ylab("Coefficients") +
-  labs(title = "GDP coefficients") +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  scale_x_discrete(limits=c("H1","H2","H4","H8"))
-
-regression.coefficients
-
-```
-
-
-\newpage
-
-# Appendix C {#S:descriptive}
-
-
-```{r sum-stat, message = F, warnings = F,echo = F}
-summary_table %>%
-  kbl(longtable=T, booktabs=T, caption="Overview of main variables") %>%
-  kable_styling(full_width=T) 
-```
-
-
-\newpage
-# Appendix D {#S:appendixd}
-
-Notes: The following regressions includes YIV, dummy and controls as independent variables. For the description of the variables in the output, please refer to Appendix \@ref(S:descriptive). The specification for the regression is the following:
-
-\begin{equation}
-\frac{1}{H} \sum_{j=1}^{j=H}log(1+GDP_{i,t+j}) = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + Controls + Dummy +\varepsilon_{t+H}
-\end{equation}
-
-
-
-
-```{r OLS5, message = F, warnings = F,echo = F}
-regr5 <- regrs(indep_vars=indep,interaction=F)
-results5 <- regr_results(a=regr5) %>%
-  round(2) %>%
-  significance() %>%
-    rename(" "=rowname)
-
-results5  %>%
-  kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
-   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
-    column_spec(1:1, width="2in")%>%
-       footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
-
-#model5 <- lm(log_gdp ~ YIV + dum + YIV*dum + lag2 + DGS1 + TRM1012 + SRT03M + baa_aaa + VIX + housng + gz_spr + spy_logreturn, df)
-#ols_vif_tol(model5)
-
-# model6 <- lm(log_gdp ~  YIV + dum + YIV*dum + lag1 + lag2 + DGS1 + TRM1012 + SRT03M + baa_aaa + VIX + housng + gz_spr + spy_logreturn, df)
-# ols_step_forward_p(model6)
-# ols_step_best_subset(model6)
-# ols_step_all_possible(model6)
-
-```
-\newpage
-
-# Appendix E {#S:rmsfegraph}
-The following table displays out-of-sample RMSFEs for various estimations. Naive is a panel with only log_gdp, TRM is a panel with all of the term spreads, CRS is a panel with credit spreads and credit yields. Full model includes all of the variables: YIV, dummy, log_gdp, TRM1003, TRM1006, TRM1012, TRM0506, AAA, DBAA, baa_aaa, DGS3MO, SRT0
-
-```{r, rmsfeerrors, message = F, warnings = F,echo = F}
-df_results %>%
-  kbl(longtable=T, booktabs=T, caption="Out-of-sample RMSFE for various estimations") %>%
-  kable_styling(full_width = TRUE) 
-```
-
-
-
-```{r, rmsfegraphs, message = F, warnings = F,echo = F, fig.height=5}
-ggplot(data, aes(variable, value, group=factor(rowid))) +
-  geom_line(aes(color=factor(rowid))) +
-  theme_bw() +
-  theme(legend.position = "none") +
-  labs(x="Time horizon", y="RMSFE value", color="Model") +
-  facet_wrap( ~rowid)
-```
-
-
-\newpage
-
-# Appendix F {#S:predictedactuals}
-
-The following figures display predicted vs actual values for 1) linear model, 2) Random Forest. For the estimations, the full model has been used, variables: YIV, dummy, log_gdp, TRM1003, TRM1006, TRM1012, TRM0506, AAA, DBAA, baa_aaa, DGS3MO, SRT03M.
-
-```{r, pred-vs-actual-lm, message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Linear model)"}
-
-
-pred_vs_actual_graph(lm,"Linear model") 
-
-```
-
-
-```{r, pred-vs-actual-rf, message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Random Forest)"}
-
-
-pred_vs_actual_graph(rf,"Random Forest")
-
-
-```
-
-\newpage
-# Appendix G {#S:rmsfelmsvsrf} 
-
-The figure below displays RMSFEs for both linear model and Random Forest in 3 different panels: 1) with only expansionary observations, 2) with only recessionary observations as defined by NBER recessions and 3) the full-model.
-
-```{r, RSMFE-lm-vs-rf, message = F, warnings = F,echo = F, fig.cap="RMSFE-s of linear model and Random Forest"}
-
-ggplot(lm_rf_results, aes(variable, value, group=factor(Specification))) + geom_line(aes(color=factor(Specification))) +
-  theme(legend.position="bottom") +
-  labs(x="Time horizon", y="RMSFE", color="Model") + 
-  facet_wrap(~period) +
-  scale_color_manual(values=c("blue", "red")) +
-  theme_bw()
-
-```
-
-
-\newpage
-
-
-# Appendix H {#S:squarederrors} 
-The figure below depicts squared errors for both models across all of the forecast horizons. Squared errors have been calculated as the squared differences of actual and predicted values. The variables are interpreted as follows: OOS_error_lm - Squared errors for linear model; OOS_error_rf - squared errors for Random Forest
-
-```{r, squared-errors, message = F, warnings = F,echo = F, fig.cap="Squared errors"}
-a <- c("OOS_error_lm","OOS_error_rf")
-squared_error_plot(a) + theme(legend.title = element_blank())
-```
-
-
 \linespread{.75}\selectfont
 
-\newpage
-
-# Appendix I {#S:BSnote} 
+# Appendix A {#S:BSnote} 
 
 **Formula for dependent variable as used in the paper where $GDP_{t+j}$ is the GDP year-on-year growth rate in quarter $t+j$.**
 \begin{equation}
@@ -300,7 +111,7 @@ squared_error_plot(a) + theme(legend.title = element_blank())
 \newpage
 \linespread{1}\selectfont
 
-# Appendix J {#S:gdpversions}
+# Appendix B {#S:gdpversions}
 
 Following figures describe the effect of averaging with the alternative variables of GDP growth. As it can be seen, the variance declines drastically between the two forecast periods H1 (N1) and H8 (N8), which consequently affects the RMSFEs.
 
@@ -313,4 +124,197 @@ bsnote_graph(N,"GDP Growth (%)")
 ```{r, fig.height=4, fig.cap="Average quarterly year-on-year growth rates (as in the replicated paper)"}
 bsnote_graph(H,"GDP Growth (%)")
 ```
+
+\newpage
+
+# Appendix C {#S:digitizer} 
+
+As researchers typically do not typically post underlying data with their research, various plot digitizers have seen an exponential increase in use. @Drevon2017 researched intercoder reliability, during which over 3500 data points were extracted with WebPlotDigitizer from 36 different graphs. Nevertheless, they controlled the validity of the results and concluded that there was a near perfect correlation (r=0.989 with p-value <0.01) between extracted and actual data. Nevertheless, the limitations mentioned highlight coders previous experience with plot-digitizing tools.
+
+Furthermore, @Burda2017 also highlight that systematic reviewers often tend to have data constraints which is why plot digitizers are of a great help. They estimated data using WebPlotDigitizer and conclude that the extraction done by different coders was consistent; nevertheless, in the case of continuous data (compared to event data), the distribution varied more. Whatsoever, the interclass coefficient for both types of plots was over 95%.
+
+We also used the WebPlotDigitzer in our research and as validity test extracted GDP from the same graph as YIV time series & plotted it with actuals - see the graph below.
+
+
+
+```{r vsextracted, message=F, warnings=F,echo = F, fig.height=5, fig.cap="Actual vs Extracted GDP growth rate in %"}
+GDP_data <- read_csv("data/actualvsplot.csv")
+
+extracted <- ggplot(GDP_data,aes(x=Date)) +
+  geom_line(aes(y=Actual, color="Actual")) +
+  geom_line(aes(y=Extracted, color="Extracted")) +
+  theme_bw() +
+  ylab("GDP growth %")+
+  theme(legend.position="bottom",legend.title = element_blank())
+
+extracted
+
+```
+
+
+\newpage
+# Appendix D
+The following figures illustrate r-squared and coefficients for the YIV-only regression:
+
+\begin{equation}
+\frac{1}{H} \sum_{j=1}^{j=H}log(1+GDP_{i,t+j}) = \alpha_{H}+ \beta_{H} \sigma_{IV,t} +\varepsilon_{t+H}
+\end{equation}
+
+```{r regfit, message = F, warnings = F, echo = F, fig.height=2.5, fig.width=6, fig.cap="Regressions' R-squared"}
+regr1 <- regrs(indep_vars=c("YIV"),interaction=F)
+results1 <- regr_results(a=regr1)
+results1 <- as.data.frame(t(results1))
+  
+regression.fit <- ggplot(results1, aes(x=row.names(results1),y=r.squared))+
+  geom_bar(stat="identity", fill="steelblue")+
+  theme_bw() +
+  xlab("Quarters") +
+  ylab("R-squared") +
+  labs(title = "GDP R-squared") + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_x_discrete(limits=c("H1","H2","H4", "H8"))
+
+regression.fit
+```
+
+
+
+```{r regcoefficients, message = F, warnings = F, echo = F, fig.height=3, fig.width=6, fig.cap="Regressions' coefficients"}
+regression.coefficients <- ggplot(results1, aes(x=row.names(results1), y=YIV_estimate))+
+  geom_bar(stat="identity", fill="steelblue")+
+  theme_bw()+
+  xlab("Quarters") +
+  ylab("Coefficients") +
+  labs(title = "GDP coefficients") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_x_discrete(limits=c("H1","H2","H4","H8"))
+
+regression.coefficients
+
+```
+
+
+\newpage
+
+# Appendix E {#S:descriptive}
+
+
+```{r sum-stat, message = F, warnings = F,echo = F}
+summary_table %>%
+  kbl(longtable=T, booktabs=T, caption="Overview of main variables") %>%
+  kable_styling(full_width=T) 
+```
+
+
+\newpage
+# Appendix F {#S:appendixd}
+
+Notes: The following regressions includes YIV, dummy and controls as independent variables. For the description of the variables in the output, please refer to Appendix \@ref(S:descriptive). The specification for the regression is the following:
+
+\begin{equation}
+\frac{1}{H} \sum_{j=1}^{j=H}log(1+GDP_{i,t+j}) = \alpha_{H}+ \beta_{H} \sigma_{IV,t}^{INT} + Controls + Dummy +\varepsilon_{t+H}
+\end{equation}
+
+
+
+
+```{r OLS5, message = F, warnings = F,echo = F}
+regr5 <- regrs(indep_vars=indep,interaction=F)
+results5 <- regr_results(a=regr5) %>%
+  round(2) %>%
+  significance() %>%
+    rename(" "=rowname)
+
+results5  %>%
+  kbl(booktabs = T,longtable=T, align="c", digits=2, caption="Regression with state-dependency") %>%
+   kable_styling(latex_options = c("striped"), full_width = TRUE) %>%
+    column_spec(1:1, width="2in")%>%
+       footnote(general = "*** - p<0.01, ** - p<0.05, * - p<0.1. Reported standard error is adjusted for heteroskedasticity")
+
+#model5 <- lm(log_gdp ~ YIV + dum + YIV*dum + lag2 + DGS1 + TRM1012 + SRT03M + baa_aaa + VIX + housng + gz_spr + spy_logreturn, df)
+#ols_vif_tol(model5)
+
+# model6 <- lm(log_gdp ~  YIV + dum + YIV*dum + lag1 + lag2 + DGS1 + TRM1012 + SRT03M + baa_aaa + VIX + housng + gz_spr + spy_logreturn, df)
+# ols_step_forward_p(model6)
+# ols_step_best_subset(model6)
+# ols_step_all_possible(model6)
+
+```
+\newpage
+
+
+# Appendix G {#S:predictedactuals}
+
+The following figures display predicted vs actual values for 1) linear model, 2) Random Forest. For the estimations, the full model has been used, variables: YIV, dummy, log_gdp, TRM1003, TRM1006, TRM1012, TRM0506, AAA, DBAA, baa_aaa, DGS3MO, SRT03M.
+
+```{r, pred-vs-actual-lm, message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Linear model)"}
+
+
+pred_vs_actual_graph(lm,"Linear model") 
+
+```
+
+
+```{r, pred-vs-actual-rf, message = F, warnings = F,echo = F, fig.cap="Predicted vs actual results (Random Forest)"}
+
+
+pred_vs_actual_graph(rf,"Random Forest")
+
+
+```
+
+\newpage
+
+# Appendix H {#S:rmsfegraph}
+The following table displays out-of-sample RMSFEs for various estimations. Naive is a panel with only log_gdp, TRM is a panel with all of the term spreads, CRS is a panel with credit spreads and credit yields. Full model includes all of the variables: YIV, dummy, log_gdp, TRM1003, TRM1006, TRM1012, TRM0506, AAA, DBAA, baa_aaa, DGS3MO, SRT03M.
+
+```{r, rmsfeerrors, message = F, warnings = F,echo = F}
+df_results %>%
+  kbl(longtable=T, booktabs=T, caption="Out-of-sample RMSFE for various estimations") %>%
+  kable_styling(full_width = TRUE) 
+```
+
+
+
+```{r, rmsfegraphs, message = F, warnings = F,echo = F, fig.height=5}
+ggplot(data, aes(variable, value, group=factor(rowid))) +
+  geom_line(aes(color=factor(rowid))) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  labs(x="Time horizon", y="RMSFE value", color="Model") +
+  facet_wrap( ~rowid)
+```
+
+
+
+
+\newpage
+# Appendix I {#S:rmsfelmsvsrf} 
+
+The figure below displays RMSFEs for both linear model and Random Forest in 3 different panels: 1) with only expansionary observations, 2) with only recessionary observations as defined by NBER recessions and 3) the full-model.
+
+```{r, RSMFE-lm-vs-rf, message = F, warnings = F,echo = F, fig.cap="RMSFE-s of linear model and Random Forest"}
+
+ggplot(lm_rf_results, aes(variable, value, group=factor(Specification))) + geom_line(aes(color=factor(Specification))) +
+  theme(legend.position="bottom") +
+  labs(x="Time horizon", y="RMSFE", color="Model") + 
+  facet_wrap(~period) +
+  scale_color_manual(values=c("blue", "red")) +
+  theme_bw()
+
+```
+
+
+\newpage
+
+
+# Appendix J {#S:squarederrors} 
+The figure below depicts squared errors for both models across all of the forecast horizons. Squared errors have been calculated as the squared differences of actual and predicted values. The variables are interpreted as follows: OOS_error_lm - Squared errors for linear model; OOS_error_rf - squared errors for Random Forest.
+
+```{r, squared-errors, message = F, warnings = F,echo = F, fig.cap="Squared errors"}
+a <- c("OOS_error_lm","OOS_error_rf")
+squared_error_plot(a) + theme(legend.title = element_blank())
+```
+
+
 
