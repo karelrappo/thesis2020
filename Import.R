@@ -156,4 +156,23 @@ statistics <- statistics %>%
   mutate(Variable=rownames(statistics)) %>%
   relocate(Variable)
 
+summary_table <- colnames(df_summary)
+summary_table <- summary_table %>%
+  as_tibble() %>%
+  rename(Variable=value)
+summary_table$Description <- c("5 - year Treasury Implied Volatility",
+                               "Real gross domestic product",
+                               "Returns of VIX index",
+                               "BAA corporate bond yields",
+                               "AAA corporate bond yields",
+                               "Yield spread between BAA and AAA yields",
+                               "New housing market starts",
+                               "Changes in 3 month treasury yield",
+                               "TRM1003 - 10 year and 3 month treasury yield spread",
+                               "TRM1006 - 10 year and 6 month treasury yield spread",
+                               "TRM1012 - 10 year and 1 year treasury yield spread",
+                               "TRM0503 - 5 year and 3 month treasury yield spread",
+                               "TRM0506 - 5 year and 6 month treasury yield spread",
+                               "Three month corporate bond yield")
+
 
