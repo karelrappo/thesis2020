@@ -243,7 +243,7 @@ ggplot(lm_rf_results, aes(variable, value, group=factor(Specification))) + geom_
 
 
 # Appendix H {#S:squarederrors} 
-The figure below depicts squared errors for both models across all of the forecast horizons. Squared errors have been calculated as the squared differences of actual and predicted values.
+The figure below depicts squared errors for both models across all of the forecast horizons. Squared errors have been calculated as the squared differences of actual and predicted values. The variables are interpreted as follows: OOS_error_lm - Squared errors for linear model; OOS_error_rf - squared errors for Random Forest
 
 ```{r, squared-errors, message = F, warnings = F,echo = F, fig.cap="Squared errors"}
 a <- c("OOS_error_lm","OOS_error_rf")
