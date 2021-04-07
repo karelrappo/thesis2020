@@ -14,8 +14,10 @@ start <- as.Date("01/03/1990", format="%d/%m/%Y")
 end <- as.Date("01/10/2015", format="%d/%m/%Y")
 
 #Import extracted GDP and YIV
-dataset <- read_csv("data/gdp_yiv.csv")
-dataset$Date <- as.Date(dataset$Date, format="%d.%m.%Y")
+dataset <- read_csv("data/gdp_yiv.csv") %>%
+  rename(dum=Reccession)
+
+dataset$Date <- as.Date(dataset$Date, format="%d.%m.%Y") 
 
   
 #Import Housing data and convert to quarterly
@@ -75,7 +77,7 @@ GZ <- GZ %>%
   select(Date, gz_spr)
 
 # Import term rates
-DGS.clean <- read_csv("Data/feds/DGS_combined.csv")
+DGS.clean <- read_csv("Data/DGS_combined.csv")
 
 DGS.clean$DGS3MO <- as.numeric(DGS.clean$DGS3MO)
 DGS.clean$DGS6MO <- as.numeric(DGS.clean$DGS6MO)
@@ -104,15 +106,11 @@ spy <- spy%>%
   select(-quarter, -Close) %>%
   subset(Date >= start & Date <= end)
 
-#Import NBER recessions and create subsets
-dummy <- read.csv("data/Dummy.csv")
-
 
 #Combine imported variables into a dataset
 dataset <- dataset %>%
   mutate(DGS.clean[-1]) %>% 
   mutate(creditspreads[-1]) %>%
-  mutate(dum=dummy$Reccession) %>%
   mutate(vix_qrt[-2]) %>%
   mutate(housng_qrt[-2]) %>%
   mutate(log_gdp=log(1+GDP/100)*100) %>%
