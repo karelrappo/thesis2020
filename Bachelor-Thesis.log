@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.4.4)  7 APR 2021 12:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.4.4)  7 APR 2021 12:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -980,7 +980,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [20]
-<images/randomforest.png, id=333, 532.99126pt x 322.20375pt>
+<images/randomforest.png, id=332, 532.99126pt x 322.20375pt>
 File: images/randomforest.png Graphic file (type png)
 <use images/randomforest.png>
 Package pdftex.def Info: images/randomforest.png  used on input line 440.
@@ -1041,7 +1041,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [25]
-<images/YIV-gdp-1.pdf, id=386, 722.7pt x 578.16pt>
+<images/YIV-gdp-1.pdf, id=385, 722.7pt x 578.16pt>
 File: images/YIV-gdp-1.pdf Graphic file (type pdf)
 <use images/YIV-gdp-1.pdf>
 Package pdftex.def Info: images/YIV-gdp-1.pdf  used on input line 603.
@@ -1095,7 +1095,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [29]
-<images/CSSFED-lm-rf-1.pdf, id=440, 722.7pt x 289.08pt>
+<images/CSSFED-lm-rf-1.pdf, id=439, 722.7pt x 289.08pt>
 File: images/CSSFED-lm-rf-1.pdf Graphic file (type pdf)
 <use images/CSSFED-lm-rf-1.pdf>
 Package pdftex.def Info: images/CSSFED-lm-rf-1.pdf  used on input line 702.
@@ -1109,7 +1109,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [30]
-<images/var-imp-1.pdf, id=452, 722.7pt x 578.16pt>
+<images/var-imp-1.pdf, id=451, 722.7pt x 578.16pt>
 File: images/var-imp-1.pdf Graphic file (type pdf)
 <use images/var-imp-1.pdf>
 Package pdftex.def Info: images/var-imp-1.pdf  used on input line 710.
@@ -1232,13 +1232,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [41]
-<images/unnamed-chunk-15-1.pdf, id=621, 722.7pt x 289.08pt>
+<images/unnamed-chunk-15-1.pdf, id=620, 722.7pt x 289.08pt>
 File: images/unnamed-chunk-15-1.pdf Graphic file (type pdf)
 <use images/unnamed-chunk-15-1.pdf>
 Package pdftex.def Info: images/unnamed-chunk-15-1.pdf  used on input line 956.
 
 (pdftex.def)             Requested size: 469.76045pt x 187.90417pt.
-<images/unnamed-chunk-16-1.pdf, id=622, 722.7pt x 289.08pt>
+<images/unnamed-chunk-16-1.pdf, id=621, 722.7pt x 289.08pt>
 File: images/unnamed-chunk-16-1.pdf Graphic file (type pdf)
 <use images/unnamed-chunk-16-1.pdf>
 Package pdftex.def Info: images/unnamed-chunk-16-1.pdf  used on input line 962.
@@ -1264,7 +1264,7 @@ l.966 \newpage
 l.966 \newpage
                <./images/unnamed-chunk-15-1.pdf> <./images/unnamed-chunk-16-1.p
 df>]
-<images/vsextracted-1.pdf, id=650, 722.7pt x 361.35pt>
+<images/vsextracted-1.pdf, id=649, 722.7pt x 361.35pt>
 File: images/vsextracted-1.pdf Graphic file (type pdf)
 <use images/vsextracted-1.pdf>
 Package pdftex.def Info: images/vsextracted-1.pdf  used on input line 979.
@@ -1283,12 +1283,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
                                                   
 l.983 \newpage
                <./images/vsextracted-1.pdf>]
-<images/regfit-1.pdf, id=663, 433.62pt x 180.675pt>
+<images/regfit-1.pdf, id=662, 433.62pt x 180.675pt>
 File: images/regfit-1.pdf Graphic file (type pdf)
 <use images/regfit-1.pdf>
 Package pdftex.def Info: images/regfit-1.pdf  used on input line 996.
 (pdftex.def)             Requested size: 433.61894pt x 180.67455pt.
-<images/regcoefficients-1.pdf, id=664, 433.62pt x 216.81pt>
+<images/regcoefficients-1.pdf, id=663, 433.62pt x 216.81pt>
 File: images/regcoefficients-1.pdf Graphic file (type pdf)
 <use images/regcoefficients-1.pdf>
 Package pdftex.def Info: images/regcoefficients-1.pdf  used on input line 1002.
@@ -1335,13 +1335,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [46]
-<images/pred-vs-actual-lm-1.pdf, id=699, 722.7pt x 578.16pt>
+<images/pred-vs-actual-lm-1.pdf, id=698, 722.7pt x 578.16pt>
 File: images/pred-vs-actual-lm-1.pdf Graphic file (type pdf)
 <use images/pred-vs-actual-lm-1.pdf>
 Package pdftex.def Info: images/pred-vs-actual-lm-1.pdf  used on input line 108
 7.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<images/pred-vs-actual-rf-1.pdf, id=700, 722.7pt x 578.16pt>
+<images/pred-vs-actual-rf-1.pdf, id=699, 722.7pt x 578.16pt>
 File: images/pred-vs-actual-rf-1.pdf Graphic file (type pdf)
 <use images/pred-vs-actual-rf-1.pdf>
 Package pdftex.def Info: images/pred-vs-actual-rf-1.pdf  used on input line 109
@@ -1375,7 +1375,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
                                                   
 l.1097 \newpage
                 <./images/pred-vs-actual-rf-1.pdf>]
-<images/rmsfegraphs-1.pdf, id=727, 722.7pt x 361.35pt>
+<images/rmsfegraphs-1.pdf, id=726, 722.7pt x 361.35pt>
 File: images/rmsfegraphs-1.pdf Graphic file (type pdf)
 <use images/rmsfegraphs-1.pdf>
 Package pdftex.def Info: images/rmsfegraphs-1.pdf  used on input line 1125.
@@ -1394,7 +1394,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [49 <./images/rmsfegraphs-1.pdf>]
-<images/RSMFE-lm-vs-rf-1.pdf, id=740, 722.7pt x 578.16pt>
+<images/RSMFE-lm-vs-rf-1.pdf, id=739, 722.7pt x 578.16pt>
 File: images/RSMFE-lm-vs-rf-1.pdf Graphic file (type pdf)
 <use images/RSMFE-lm-vs-rf-1.pdf>
 Package pdftex.def Info: images/RSMFE-lm-vs-rf-1.pdf  used on input line 1136.
@@ -1413,7 +1413,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
                                                   
 l.1140 \newpage
                 <./images/RSMFE-lm-vs-rf-1.pdf>]
-<images/squared-errors-1.pdf, id=752, 722.7pt x 578.16pt>
+<images/squared-errors-1.pdf, id=751, 722.7pt x 578.16pt>
 File: images/squared-errors-1.pdf Graphic file (type pdf)
 <use images/squared-errors-1.pdf>
 Package pdftex.def Info: images/squared-errors-1.pdf  used on input line 1149.
@@ -1436,11 +1436,11 @@ Package rerunfilecheck Info: File `Bachelor-Thesis.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 14394 strings out of 480954
- 217638 string characters out of 5905583
+ 14396 strings out of 480954
+ 217662 string characters out of 5905583
  585689 words of memory out of 5000000
  30891 multiletter control sequences out of 15000+600000
- 475917 words of font info for 164 fonts, out of 8000000 for 9000
+ 476046 words of font info for 165 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  71i,12n,74p,1823b,468s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Hfootnote.3} has been referenced but does not exi
@@ -1474,10 +1474,10 @@ enry/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Us
 ers/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy8.pfb><c
 :/Users/henry/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/sy
 mbols/msbm10.pfb>
-Output written on Bachelor-Thesis.pdf (51 pages, 571927 bytes).
+Output written on Bachelor-Thesis.pdf (51 pages, 571852 bytes).
 PDF statistics:
- 874 PDF objects out of 1000 (max. 8388607)
- 767 compressed objects within 8 object streams
+ 873 PDF objects out of 1000 (max. 8388607)
+ 766 compressed objects within 8 object streams
  233 named destinations out of 1000 (max. 500000)
  38993 words of extra memory for PDF output out of 42996 (max. 10000000)
 
