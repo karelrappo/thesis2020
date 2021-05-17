@@ -29,7 +29,7 @@ header-includes:
 
 # Review of literature
  
-Before digging deeper into the predictive ability of treasury yield implied volatility, it is essential to understand the other variables that can explain the connection between financial markets and the real economy. 
+Before digging deeper into the predictive ability of YIV, it is essential to understand the other variables that can explain the connection between financial markets and the real economy. 
 
 
 ## Historically recognized predictors of GDP
@@ -44,7 +44,7 @@ Similarly to stock prices, option prices reflect future expectations. Taking thi
 
 ## Treasury implied volatility as a predictor of real activity
 
-Building upon the various aforementioned researches, @Cremers2021 have analyzed over 20 years of data to find out whether Treasury yield implied volatility could be used to predict different macroeconomic and financial measures such as growth & volatility of GDP, industrial production, employment. Using daily at-the-money option data from 1990 May until 2016 November for different treasury bonds and bills, they calculated daily (treasury) implied volatilities (YIV) using Black’s model, which in essence is an adjusted model of the famous Black & Scholes model to value options on futures contracts [@Black1976] - see Equation \@ref(eq:black).
+Building upon the various aforementioned researches, @Cremers2021 have analyzed over 20 years of data to find out whether YIV could be used to predict different macroeconomic and financial measures such as growth and volatility of GDP, industrial production, employment. Using daily at-the-money option data from 1990 May until 2016 November for different treasury bonds and bills, they calculated daily YIV series using Black’s model, which in essence is an adjusted model of the famous Black-Scholes model to value options on futures contracts [@Black1976] - see Equation \@ref(eq:black).
 
 
 \begin{equation}\
@@ -57,19 +57,19 @@ where
 d_{1} = \frac{ln (F/K) + 0.5\sigma_{t}^{2}]}{\sqrt{\sigma T}} && d_{2} = d_{1} - \sqrt{\sigma T}
  \end{align}
 
-C refers to the price of a call option, F is the price of the underlying future, T is the time to expiration, sigma the volatility of the underlying asset, r is the interest rate. Using the formula and deriving sigma, one can compute the (treasury) implied volatility.
+C refers to the price of a call option, F is the price of the underlying future, T is the time to expiration, sigma the volatility of the underlying asset, r is the interest rate. Using the formula and deriving sigma, one can compute YIV.
 
 
 The options are chosen on the basis of exercise price being closest to the price of the underlying bond future - i.e. then its closest to at-the-money. This is done because @Ederington1993 & [-@Ederington1996] argue that contracts that are closest to at-the-money possess a strong link between spot and futures markets. Therefore, these options can be treated as they are options on the bond spot market itself. Furthermore, they argue that those options tend to be the most liquid ones.
 
-After obtaining the daily time series of implied volatility, the authors average the time series to obtain monthly data, which is regressed with different macroeconomic & control variables.
+After obtaining the daily time series of implied volatility, the authors average the time series to obtain monthly data, which is regressed with different macroeconomic and control variables.
 
 
 \begin{equation}
 \frac{1}{H} \sum_{j=1}^{j=H} log(1+GDP_{t+j}) = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Controls +\varepsilon_{t+H}
 \end{equation}
 
-where $GDP_{i,t+j}$ refers to forward-looking GDP, $\sigma_{IV,t}$ to treasury implied volatility at time t.
+where $GDP_{i,t+j}$ refers to forward-looking GDP, $\sigma_{IV,t}$ to YIV at time t.
 
 
 So, for example, in the main regression described by the formula above, the authors analyze YIV's effect on the growth rate of GDP. The left-hand-side of the equation depicts the average annualized growth rate obtained by dividing the sum of quarterly growth rates by the number of quarters forecasted H.
@@ -105,8 +105,8 @@ To sum up, our paper builds upon @Cremers2021 while advancing the methodology in
 
 Thus, our hypotheses are the following: 
 
-***Hypothesis 1.*** The treasury bond implied volatility (YIV) is a significant predictor of future macroeconomic real activity.
+***Hypothesis 1.*** YIV is a significant predictor of future macroeconomic real activity.
 
-***Hypothesis 2.*** Due to the business-cycle related asymmetries, the model proposed by Cremers et al. is inefficient in predicting during turbulent time periods.
+***Hypothesis 2.*** Due to the business-cycle related asymmetries, the model proposed by @Cremers2021 is inefficient in predicting during turbulent time periods.
 
 ***Hypothesis 3.*** Using Random Forest, it is possible to significantly reduce the RMFSE of the forecast, mainly thanks to its ability to take into account nonlinearity.
