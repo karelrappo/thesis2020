@@ -57,7 +57,7 @@ where
 d_{1} = \frac{ln (F/K) + 0.5\sigma_{t}^{2}]}{\sqrt{\sigma T}} && d_{2} = d_{1} - \sqrt{\sigma T}
  \end{align}
 
-C refers to the price of a call option, F is the price of the underlying future, T is the time to expiration, sigma the volatility of the underlying asset, r is the interest rate. Using the formula and deriving sigma, one can compute YIV.
+C refers to the price of a call option, F is the price of the underlying future, T is the time to expiration, sigma the volatility of the underlying asset, r is the interest rate, K is the exercise price, N is cumulative standard normal distribution function. Using the formula and deriving sigma, one can obtain the value of YIV.
 
 
 The options are chosen on the basis of exercise price being closest to the price of the underlying bond future - i.e. then its closest to at-the-money. This is done because @Ederington1993 & [-@Ederington1996] argue that contracts that are closest to at-the-money possess a strong link between spot and futures markets. Therefore, these options can be treated as they are options on the bond spot market itself. Furthermore, they argue that those options tend to be the most liquid ones.
