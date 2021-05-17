@@ -51,7 +51,7 @@ Thus, our research question consists of three sub-questions:
 
 1. **Can options on Treasury bond futures (YIV) effectively forecast USA's real activity?**
 2. **If so, is this conclusion robust even after considering different business cycles and control variables?**
-3. **Do machine learning methods such as Random Forest improve the forecast accuracy?**
+3. **Is Random Forest effective in improving the forecast accuracy?**
 
 The research paper is structured as follows. First, we offer context to our work by describing various research already done in the same field. As the next step, we describe the data and the method used for obtaining it. Subsequently, we offer an in-depth overview of the methodology, which is followed by a description of the results. In the discussion part, we elaborate on how our findings fit in with the existing research. Lastly, we list any possible limitations of the paper, suggest ideas for further research, and present our conclusions. 
 
