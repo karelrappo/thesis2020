@@ -76,7 +76,7 @@ So, for example, in the main regression described by the formula above, the auth
 
 To validate YIV's ability to forecast GDP growth, several aforementioned control variables such as term spreads, credit spreads, stock market volatility, housing starts, etc., are included in the model. 
 
-Even though the authors possess the data for different maturities (1,5,10,30 years), the researchers concluded that specifically, a 5-year Treasury note significantly predicts most of the aforementioned elements - even after controlling for many other predictors named before. This is in line with the findings of @Brandt2007, who identify that the price discovery tends to mostly happen in contracts with a maturity of 5-year, both for cash and futures markets.
+Even though @Cremers2021 possess the data for different maturities (1,5,10,30 years), the researchers concluded that specifically, a 5-year Treasury note significantly predicts most of the aforementioned elements - even after controlling for many other predictors named before. This is in line with the findings of @Brandt2007, who identify that the price discovery tends to mostly happen in contracts with a maturity of 5-year, both for cash and futures markets.
 
 ## Forecasting asymmetries
 In the relatively recent wave of research on forecasting, the problems and limitations regarding full-sample forecasting have become more prevalent. More specifically, it has been found that the business cycles have a statistically significant effect on the model’s predictive ability. Furthermore, through accounting for state-dependency, the effects of business cycle asymmetries can be evaluated on the forecasting performance of the model.
