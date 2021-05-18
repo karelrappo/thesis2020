@@ -60,9 +60,6 @@ Furthermore, it can be seen, YIV’s coefficients are significant throughout the
 \begingroup
 \linespread{1.0}\selectfont
 
-\begin{equation}
-\frac{1}{H} \sum_{j=1}^{j=H}log(1+GDP_{i,t+j}) = \alpha_{H}+ \beta_{H} \sigma_{IV,t} +\varepsilon_{t+H}
-\end{equation}
 
 
 ```{r OLS1, message = F, warnings = F,echo = F}
@@ -87,9 +84,6 @@ Next, we add a dummy variable representing recessionary periods (according to th
 \begingroup
 \linespread{1.0}\selectfont
 
-\begin{equation}
-\sum_{j=1}^{j=H}log(1+GDP_{i,t+j}) = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Dummy +\varepsilon_{t+H}
-\end{equation}
 
 
 ```{r OLS2, message = F, warnings = F,echo = F}
