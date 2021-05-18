@@ -200,7 +200,7 @@ results5  %>%
 
 ```
 \newpage
-# Appendix F {#S:appendixd}
+# Appendix F {#S:appendixf}
 
 Notes: The following regressions includes YIV, dummy and controls as independent variables. For the description of the variables in the output, please refer to Appendix \@ref(S:descriptive). The specification for the regression is the following:
 
