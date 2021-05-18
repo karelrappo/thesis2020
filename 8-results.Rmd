@@ -104,7 +104,8 @@ results2  %>%
 \endgroup
 
 
-Finally, we combined the previous variables with all of the available control variables in @Cremers2021 into one regression equation (Appendix \@ref(S:appendixd). After including all the relevant control variables, the YIV remains significant at 5% in H4 and at 10% in H8. In this model, the regression results implicate that one standard deviation increase in YIV should result in a -0.35 * 1.31% = -0.46 % decrease in GDP growth within the next 4 quarters. Additionally, when predicting 8 quarters ahead, a one standard deviation increase in YIV results in a -0.34* 1.31% * 2 = 0.89% decrease in the next 8 quarters’ average annualized growth rate.
+Additionally, we constructed a regression with YIV and control variables as dependent variables - as it can be seen from the Appendix \@ref(S:appendixe) YIV is still highly significant throughout all of the forecasting horizons.
+Finally, we combined the previous variables with all of the available control variables in @Cremers2021 into one regression equation (Appendix \@ref(S:appendixf). After including all the relevant control variables, the YIV remains significant at 5% in H4 and at 10% in H8. In this model, the regression results implicate that one standard deviation increase in YIV should result in a -0.35 * 1.31% = -0.46 % decrease in GDP growth within the next 4 quarters. Additionally, when predicting 8 quarters ahead, a one standard deviation increase in YIV results in a -0.34* 1.31% * 2 = 0.89% decrease in the next 8 quarters’ average annualized growth rate.
 
 
 ## Out of sample forecasting
