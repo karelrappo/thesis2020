@@ -43,14 +43,14 @@ As our paper builds on the initial discoveries of @Cremers2021, the first part o
 
 In the second part of the research, we advanced their paper from two perspectives.
 
-Firstly, to account for the state-dependency of forecast models as shown to be relevant by @Chauvet2013 and @Siliverstovs2020, we test whether business cycles affect YIV's impact on future GDP growth. In addition, we investigate whether out-of-sample forecast performance is dependent on the business cycle - i.e. calculating root mean square forecasting errors (RMSFE) including only recessionary periods or expansionary periods (classification of the US business cycles obtained from NBER^[https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions]).
+Firstly, to account for the state-dependency of forecast models as shown to be relevant by @Chauvet2013 and @Siliverstovs2020, we test whether business cycle phases affect YIV's impact on future GDP growth. In addition, we investigate whether out-of-sample forecast performance is dependent on the business cycle phase - i.e. calculating root mean square forecasting errors (RMSFE) including only recessionary periods or expansionary periods (classification of the US business cycle phases obtained from NBER^[https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions]).
 
 Secondly, we propose using ML models to account for the shortcomings of the simple OLS-based models. More specifically, the inability of simple OLS-based models to account for collinearity, dimensionality, predictor relevance and non-linearity [@Bolhuis2020]. To elaborate, we apply Random Forest (RF) model as it is able to tackle the aforementioned problems [@Coulombe2020]. Thus, the RF model is expected to significantly decrease the RMSFE. While RF's output is difficult to interpret we do not consider it a problem as we are focusing on evaluating the forecasting accuracy of the model (i.e. comparing RMSFE-s).
   
 Thus, our research question consists of three sub-questions:
 
 1. **Can options on Treasury bond futures (YIV) effectively forecast USA's real activity?**
-2. **If so, is this conclusion robust even after considering different business cycles and control variables?**
+2. **If so, is this conclusion robust even after considering different business cycle phases and control variables?**
 3. **Is Random Forest effective in improving the forecast accuracy?**
 
 The research paper is structured as follows. First, we offer context to our work by describing various research already done in the same field. As the next step, we describe the data and the method used for obtaining it. Subsequently, we offer an in-depth overview of the methodology, which is followed by a description of the results. In the discussion part, we elaborate on how our findings fit in with the existing research. Lastly, we list any possible limitations of the paper, suggest ideas for further research, and present our conclusions. 
