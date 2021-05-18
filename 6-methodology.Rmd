@@ -38,7 +38,7 @@ To quantify the predictability of macroeconomic real activity using the treasury
 \end{equation}
 
 
-In the linear models, we compare the predictive ability of YIV within different time periods (H=1,2,3,..,12). We also check whether there exist any asymmetries regarding economic cycles - i.e. if YIV exerts a bigger/smaller effect on GDP when the current state is a recession or an expansion. To do so, we introduce a model with a dummy variable that is equal to 1(0) during a recessionary (expansionary) period. The business cycle dating (i.e. recessionary and expansionary periods) for the US economy is taken from the National Bureau of Economic Research (NBER).
+In the linear models, we compare the predictive ability of YIV within different time periods (H=1,2,3,..,12). We also check whether there exist any asymmetries regarding economic cycle phases - i.e. if YIV exerts a bigger/smaller effect on GDP when the current state is a recession or an expansion. To do so, we introduce a model with a dummy variable that is equal to 1(0) during a recessionary (expansionary) period. The business cycle dating (i.e. recessionary and expansionary periods) for the US economy is taken from the National Bureau of Economic Research (NBER).
 
 \begin{equation}
 \frac{1}{H} \sum_{j=1}^{j=H}log(1+GDP_{i,t+j})/H = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Dummy +\varepsilon_{t+H}
@@ -69,7 +69,7 @@ where $log(1+GDP_{i,t+j)}$ refer to actual values and $\widetilde{log(1+GDP_{i,t
 
 To calculate the full model RMSFE we first have to obtain square forecasting errors (SFE). This is done by constructing a predictive model with a 5-year rolling estimation window. This means that we use the previous 20 quarters to predict the next H quarters (note: here H denotes average quarterly year-on-year growth rates H quarters ahead as in the original paper). The reason behind opting for rolling estimation window is that in this way the predicted datapoint is continuously moving; thus the forecast error is not so much dependent on the selected forecast interval (i.e. there would be big differences if one used 85 datapoints to predict 20 datapoints, or 70 datapoints to predict 35 datapoints). From that regression we obtain the predicted values which together with the actual values can be used to compute the SFE-s (see Equation \@ref(eq:sfe)). Having the SFE-s, we take the mean from the values and then take the square root to obtain RMSFEs..
 
-## Out of sample validation for different economic cycles
+## Out of sample validation for different economic cycle phases
 
 In the second part of our research we build upon the research conducted by @Cremers2021. We test whether the model holds when accounting also for the possible business cycle performance asymmetries as suggested by @Siliverstovs2020. More specifically, we compare the root-mean-square-forecasting-error (RMSFE) of the predictive model during recession and expansion with full sample forecast to find out whether full sample forecast’s RMSFEs are robust during the expansionary and recessionary subsamples. 
 
