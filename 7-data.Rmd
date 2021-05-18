@@ -73,6 +73,7 @@ Furthermore, in addition to the 3-month treasury note, we also construct (SRT03M
 
 For the analysis, we exclude GZ_SPR from the regressions as their dataset is limited (NAs present). Due to the random selection in RF NA's among predictor variables are not allowed; hence, if we want to have comparable results with linear model exclusion is required.
 
+All the variables and the respective descriptions have been brought out in the Appendix \@ref(S:descriptive).
 
 \begingroup
 \linespread{1.0}\selectfont
