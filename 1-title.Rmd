@@ -10,7 +10,7 @@ output: pdf_document
 \normalsize \break
 Bachelor Thesis \break
 \Large
-\textbf{State-dependent evaluation of Random Forest in forecasting real activity}\break
+\textbf{State-dependent evaluation of Random Forest in forecasting the real activity of the US economy using treasury yield implied volatility}\break
 \vspace{0.5 cm}
 \end{center}
 \begin{flushleft}
