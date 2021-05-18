@@ -103,11 +103,11 @@ The resulting figure can be plotted over time to visually identify how each obse
 
 
 ## Machine learning methods
-As machine learning (ML) methods successfully tackle nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty @Coulombe2020a. As our research includes economic crises, we expect to find forecasting gains by utilizing the Random Forest method. In our research, we focus specifically on Random Forest model due to its advantages discussed in the literature review.
+As ML methods successfully tackle nonlinearities that cannot be accounted for in simple linear models, the forecasting gains tend to be the highest during times of high economic uncertainty @Coulombe2020a. As our research includes economic crises, we expect to find forecasting gains by utilizing RF. In our research, we focus specifically on RF model due to its advantages discussed in the literature review.
 
 
 ### Decision Trees
-In order to dig deeper into the methodology of random forest, it is crucial to understand one of its core elements - decision trees. Decision tree is a rather straightforward algorithm that can be used for both regressions and classifications. The name ‘decision tree’ derives from the fact that the algorithm is built in a tree-like structure: it recursively divides (splits) the whole sample into two subsets by user-defined criteria. In our case, trees are used for regressions and as the dependent variable is continuous, the selected criteria for each split is to reduce mean squared error (MSE). Thus, the algorithm takes the whole dataset and picks the variables that possess the biggest influence on the dependent variable, and then splits the dataset further until stopping criteria is met. Consequently, it arrives at the final (leaf) node where the decision is made. The stopping criteria are hyper-parameters defined by the user such as maximum depth, minimum leaf size (no of observations in the leaf node), minimum number of samples, etc [@Zhang2019]. 
+In order to dig deeper into the methodology of RF, it is crucial to understand one of its core elements - decision trees. Decision tree is a rather straightforward algorithm that can be used for both regressions and classifications. The name ‘decision tree’ derives from the fact that the algorithm is built in a tree-like structure: it recursively divides (splits) the whole sample into two subsets by user-defined criteria. In our case, trees are used for regressions and as the dependent variable is continuous, the selected criteria for each split is to reduce mean squared error (MSE). Thus, the algorithm takes the whole dataset and picks the variables that possess the biggest influence on the dependent variable, and then splits the dataset further until stopping criteria is met. Consequently, it arrives at the final (leaf) node where the decision is made. The stopping criteria are hyper-parameters defined by the user such as maximum depth, minimum leaf size (no of observations in the leaf node), minimum number of samples, etc [@Zhang2019]. 
 
 As decision trees are non-parametric, there are no strong assumptions about the underlying data and its form, which in return enables capturing  non-linearities in the data. However, this makes them subject to overfitting - it might be the case that the algorithm might start capturing random movements (noise) instead of actual meaningful patterns. There are three main ways to tackle this: 
 
@@ -117,7 +117,7 @@ As decision trees are non-parametric, there are no strong assumptions about the 
 
 ### Random Forest
 
-Decision Trees are not a robust method as the results are extremely dependent on the dataset, even a small change in the initial training data can yield different outcomes. This is the very reason why Random Forest was proposed by @Breiman2001. Random forest itself is an ensemble based supervised learning method. As the name suggests there are two main elements behind it. 
+Decision Trees are not a robust method as the results are extremely dependent on the dataset, even a small change in the initial training data can yield different outcomes. This is the very reason why RF was proposed by @Breiman2001. RF itself is an ensemble based supervised learning method. As the name suggests there are two main elements behind it. 
 
 (ref:verikas) [@Verikas2016]
 ```{r randomf, echo=F, out.width = "450px", fig.cap="Random forest. Figure from (ref:verikas)", fig.align="center"}
@@ -125,7 +125,7 @@ knitr::include_graphics("images/randomforest.png")
 ```
 
 
-First is the randomness part - random forest uses bootstrap aggregation (bagging) to construct random samples of the initial training dataset. Furthermore, the randomness is also included in variable selection - it randomly selects n number of variables of the total set N used for splitting at each node.
+First is the randomness part - RF uses bootstrap aggregation (bagging) to construct random samples of the initial training dataset. Furthermore, the randomness is also included in variable selection - it randomly selects n number of variables of the total set N used for splitting at each node.
 Secondly, forest, which refers to the aggregation means that the conclusion of the final model is reached by aggregating and averaging the output of individual decision trees. These two elements help to tackle overfitting as RF randomly creates a high number of combinations on the basis of which to create splits, which reduces the correlations betweens samples [@Zhang2019]. Hence, the final outcome is much more robust and less likely to be subject to overfitting.
 
 To take this process together in algorithmical terms: 
