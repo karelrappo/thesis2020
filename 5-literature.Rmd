@@ -62,19 +62,7 @@ c refers to the price of a call option, F is the price of the underlying future,
 
 The options are chosen on the basis of exercise price being closest to the price of the underlying bond future - i.e. then its closest to at-the-money. This is done because @Ederington1993 & [-@Ederington1996] argue that contracts that are closest to at-the-money possess a strong link between spot and futures markets. Therefore, these options can be treated as they are options on the bond spot market itself. Furthermore, they argue that those options tend to be the most liquid ones.
 
-After obtaining the daily time series of implied volatility, the authors average the time series to obtain monthly data, which is regressed with different macroeconomic and control variables.
-
-
-\begin{equation}
-\frac{1}{H} \sum_{j=1}^{j=H} log(1+GDP_{t+j}) = \alpha_{H}+ \beta_{H} \sigma_{IV,t} + Controls +\varepsilon_{t+H}
-\end{equation}
-
-where $GDP_{i,t+j}$ refers to forward-looking GDP, $\sigma_{IV,t}$ to YIV at time t.
-
-
-So, for example, in the main regression described by the formula above, the authors analyze YIV's effect on the growth rate of GDP. The left-hand-side of the equation depicts the average annualized growth rate obtained by dividing the sum of quarterly growth rates by the number of quarters forecasted H.
-
-To validate YIV's ability to forecast GDP growth, several aforementioned control variables such as term spreads, credit spreads, stock market volatility, housing starts, etc., are included in the model. 
+After obtaining the daily time series of implied volatility, the authors average the time series to obtain monthly data, which is regressed with different macroeconomic and control variables - for example, YIV's effect on the growth rate and volatility of GDP is analyzed. To validate YIV's ability to forecast GDP growth, several aforementioned control variables such as term spreads, credit spreads, stock market volatility, housing starts, etc., are included in the model. 
 
 Even though @Cremers2021 possess the data for different maturities (1,5,10,30 years), the researchers concluded that specifically, a 5-year Treasury note significantly predicts most of the aforementioned elements - even after controlling for many other predictors named before. This is in line with the findings of @Brandt2007, who identify that the price discovery tends to mostly happen in contracts with a maturity of 5-year, both for cash and futures markets.
 
