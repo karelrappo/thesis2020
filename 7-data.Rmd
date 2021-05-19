@@ -36,7 +36,7 @@ source("Import.R")
 
 For the regression analysis, we have extracted the following data:
 
-* Quarterly 5-year Treasury Implied Volatility 
+* Quarterly 5-year YIV
 * Quarterly GDP data (used for calculating respective dependent variables for which the equations can be found in the Appendix \@ref(S:BSnote)) 
 * Control Variables:
   - US treasury interest rates to construct term spreads
